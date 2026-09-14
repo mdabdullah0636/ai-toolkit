@@ -1,4 +1,4 @@
-import { Callout } from '@ai-toolkit/ai-docs/components/callout';
+import { Callout } from '@vercel/geistdocs/components/callout';
 import type { ReactNode } from 'react';
 
 export const Note = ({

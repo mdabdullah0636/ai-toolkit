@@ -2,11 +2,11 @@
 
 > Supersede note: this plan originally recommended Track A (consume the
 > published `@vercel/geistdocs` package). The project has since moved to
-> Track B — the runtime is vendored as `@ai-toolkit/ai-docs` in
+> Track B — the runtime is vendored as `@vercel/geistdocs` in
 > `packages/special/ai-docs` (byte-identical to upstream 1.26.1 plus the
 > ai-docs rebrand; see that package's README for the sync policy). The design,
 > layout, and adapter guidance below still applies; read `@vercel/geistdocs`
-> below as `@ai-toolkit/ai-docs` and `Geistdocs*` symbols as `AiDocs*`.
+> below as `@vercel/geistdocs` and `Geistdocs*` symbols as `AiDocs*`.
 
 Source reference: `@vercel/geistdocs@1.26.1` (Apache-2.0,
 `github.com/vercel/geistdocs`, package `packages/geistdocs`). This is the

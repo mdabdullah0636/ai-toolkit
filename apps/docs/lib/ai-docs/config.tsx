@@ -1,4 +1,4 @@
-import { defineConfig } from '@ai-toolkit/ai-docs/config';
+import { defineConfig } from '@vercel/geistdocs/config';
 import {
   agent,
   ai,

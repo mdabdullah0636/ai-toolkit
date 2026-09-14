@@ -1,4 +1,4 @@
-import { Badge } from '@ai-toolkit/ai-docs/components/badge';
+import { Badge } from '@vercel/geistdocs/components/badge';
 import {
   IconApi,
   IconDisplay,
@@ -6,7 +6,7 @@ import {
   IconSandbox,
   IconSparkles,
   IconWrench,
-} from '@ai-toolkit/ai-docs/assets/icons';
+} from '@vercel/geistdocs/assets/icons';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import type { ResolveHref } from '@/components/docs/resolve-href';

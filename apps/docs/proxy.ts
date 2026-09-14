@@ -1,4 +1,4 @@
-import { createProxy } from '@ai-toolkit/ai-docs/proxy';
+import { createProxy } from '@vercel/geistdocs/proxy';
 import { config as aiDocsConfig } from '@/lib/ai-docs/config';
 import { trackMdRequest } from '@/lib/ai-docs/md-tracking';
 

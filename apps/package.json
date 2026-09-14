@@ -20,11 +20,11 @@
     "type-check": "tsc -p www/tsconfig.json --noEmit && tsc -p studio/tsconfig.json --noEmit && tsc -p docs/tsconfig.json --noEmit",
     "clean": "del-cli docs/.next www/.next studio/.next docs/.source",
     "postinstall": "cd docs && fumadocs-mdx",
-    "translate": "cd docs && ai-docs translate"
+    "translate": "cd docs && geistdocs translate"
   },
   "dependencies": {
     "@ai-sdk/react": "^3.0.134",
-    "@ai-toolkit/ai-docs": "workspace:*",
+    "@vercel/geistdocs": "1.26.1",
     "@ai-toolkit/react": "workspace:*",
     "@ai-toolkit/design": "workspace:*",
     "@icons-pack/react-simple-icons": "^13.8.0",

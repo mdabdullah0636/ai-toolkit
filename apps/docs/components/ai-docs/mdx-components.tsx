@@ -1,5 +1,5 @@
-import { createMdxComponents } from '@ai-toolkit/ai-docs/mdx';
-import { LogoIconVercel } from '@ai-toolkit/ai-docs/assets/logos';
+import { createMdxComponents } from '@vercel/geistdocs/mdx';
+import { LogoIconVercel } from '@vercel/geistdocs/assets/logos';
 import type { MDXComponents } from 'mdx/types';
 import type { ComponentProps, ComponentType } from 'react';
 import { ExampleLinks } from '@/components/docs/example-links';

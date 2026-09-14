@@ -1,4 +1,4 @@
-import { getPublicPath } from '@ai-toolkit/ai-docs/config';
+import { getPublicPath } from '@vercel/geistdocs/config';
 import { Feed } from 'feed';
 import { cacheLife } from 'next/cache';
 import type { NextRequest } from 'next/server';

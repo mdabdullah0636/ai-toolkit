@@ -1,4 +1,4 @@
-import { AiDocsDocsLayout as PackageDocsLayout } from '@ai-toolkit/ai-docs/layout';
+import { GeistdocsDocsLayout as PackageDocsLayout } from '@vercel/geistdocs/layout';
 import type { ComponentProps, ReactNode } from 'react';
 import { config } from '@/lib/ai-docs/config';
 

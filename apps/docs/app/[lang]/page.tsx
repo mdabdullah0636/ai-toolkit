@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getPublicPath } from '@ai-toolkit/ai-docs/config';
+import { getPublicPath } from '@vercel/geistdocs/config';
 import { config } from '@/lib/ai-docs/config';
 
 // The site root redirects to the docs index; the navbar wordmark also targets

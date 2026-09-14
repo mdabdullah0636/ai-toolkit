@@ -1,7 +1,7 @@
 import type {
-  AiDocsAgentReadinessConfig,
-  AiDocsAIConfig,
-} from '@ai-toolkit/ai-docs/config';
+  GeistdocsAgentReadinessConfig,
+  GeistdocsAIConfig,
+} from '@vercel/geistdocs/config';
 
 export const Logo = () => (
   <span className="font-semibold text-gray-1000 text-lg leading-none tracking-[-3%]">
@@ -55,7 +55,7 @@ export const ai = {
       </a>
     </div>
   ),
-} satisfies AiDocsAIConfig;
+} satisfies GeistdocsAIConfig;
 
 export const agent = {
   product: {
@@ -77,7 +77,7 @@ export const agent = {
       description: 'Source repository for the AI TOOLKIT SDK',
     },
   ],
-} satisfies AiDocsAgentReadinessConfig;
+} satisfies GeistdocsAgentReadinessConfig;
 
 export const translations = {
   en: {

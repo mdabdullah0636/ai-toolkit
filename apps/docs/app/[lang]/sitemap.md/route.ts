@@ -1,4 +1,4 @@
-import { createSitemapMarkdownRoute } from '@ai-toolkit/ai-docs/routes/sitemap';
+import { createSitemapMarkdownRoute } from '@vercel/geistdocs/routes/sitemap';
 import { config } from '@/lib/ai-docs/config';
 import {
   cookbookSource,

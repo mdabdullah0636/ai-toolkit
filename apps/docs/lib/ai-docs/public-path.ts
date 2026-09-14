@@ -1,5 +1,5 @@
-import { getPublicPath } from '@ai-toolkit/ai-docs/config';
-import { localizeHref } from '@ai-toolkit/ai-docs/localize-href';
+import { getPublicPath } from '@vercel/geistdocs/config';
+import { localizeHref } from '@vercel/geistdocs/localize-href';
 import { config } from './config';
 
 export const getLocalizedPath = (lang: string | undefined, path: string) => {

@@ -1,4 +1,4 @@
-import { createSource } from '@ai-toolkit/ai-docs/source';
+import { createSource } from '@vercel/geistdocs/source';
 import { cookbook, docs, providers } from '@/.source/server';
 import { config } from './config';
 

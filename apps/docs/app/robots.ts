@@ -1,4 +1,4 @@
-import { getPublicPath } from '@ai-toolkit/ai-docs/config';
+import { getPublicPath } from '@vercel/geistdocs/config';
 import type { MetadataRoute } from 'next';
 import { config } from '@/lib/ai-docs/config';
 import { absoluteUrl } from '@/lib/ai-docs/site-url';

@@ -1,9 +1,0 @@
-@import "tailwindcss";
-@import "fumadocs-ui/css/shadcn.css";
-@import "fumadocs-ui/css/preset.css";
-@import "tw-animate-css";
-
-/* The Geist design layer (theme tokens, utilities, base, fumadocs theming).
-   Kept in a separate, import-free file so consuming apps can pull in the same
-   design system without re-bundling Tailwind and the fumadocs presets. */
-@import "./theme.css";

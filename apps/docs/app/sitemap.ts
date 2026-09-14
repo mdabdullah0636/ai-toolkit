@@ -1,5 +1,5 @@
-import { getPublicPath } from '@ai-toolkit/ai-docs/config';
-import { isPageVisibleForSurface } from '@ai-toolkit/ai-docs/page-visibility';
+import { getPublicPath } from '@vercel/geistdocs/config';
+import { isPageVisibleForSurface } from '@vercel/geistdocs/page-visibility';
 import type { MetadataRoute } from 'next';
 import { cacheLife } from 'next/cache';
 import { config } from '@/lib/ai-docs/config';

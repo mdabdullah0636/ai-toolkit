@@ -1,4 +1,4 @@
-import { createSearchRoute } from '@ai-toolkit/ai-docs/routes/search';
+import { createSearchRoute } from '@vercel/geistdocs/routes/search';
 import { config } from '@/lib/ai-docs/config';
 import { sources } from '@/lib/ai-docs/source';
 

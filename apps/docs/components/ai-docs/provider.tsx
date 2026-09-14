@@ -1,7 +1,7 @@
 'use client';
 
 import { Analytics } from '@vercel/analytics/next';
-import { AiDocsProvider as PackageProvider } from '@ai-toolkit/ai-docs/layout';
+import { GeistdocsProvider as PackageProvider } from '@vercel/geistdocs/layout';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { ComponentProps } from 'react';
 import { config } from '@/lib/ai-docs/config';

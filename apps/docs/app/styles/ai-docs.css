@@ -6,7 +6,7 @@
 /* Geist design layer from the package. theme.css already @sources the package
    dist and streamdown, so don't re-@source those here; only @source your own
    files if Tailwind misses them. Keep app-only deltas below. */
-@import "@ai-toolkit/ai-docs/theme.css";
+@import "@vercel/geistdocs/theme.css";
 
 /* App-only override: this template uses the 200 surface as the page
    background (the package defaults to background-100). */

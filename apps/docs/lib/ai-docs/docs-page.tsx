@@ -1,5 +1,5 @@
-import { MobileDocsBar } from '@ai-toolkit/ai-docs/mobile-docs-bar';
-import { createDocsPage } from '@ai-toolkit/ai-docs/pages/docs';
+import { MobileDocsBar } from '@vercel/geistdocs/mobile-docs-bar';
+import { createDocsPage } from '@vercel/geistdocs/pages/docs';
 import { getMDXComponents } from '@/components/ai-docs/mdx-components';
 import { config } from '@/lib/ai-docs/config';
 import type {

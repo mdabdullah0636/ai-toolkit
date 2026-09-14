@@ -1,25 +1,25 @@
 # AiDocs agent instructions
 
-This project uses the packaged AiDocs architecture. The `@ai-toolkit/ai-docs` package owns shared runtime behavior; this app owns local content, configuration, adapters, and site-specific routes.
+This project uses the packaged AiDocs architecture. The `@vercel/geistdocs` package owns shared runtime behavior; this app owns local content, configuration, adapters, and site-specific routes.
 
 Use these instructions when an AI coding agent edits this project.
 
 ## Architecture
 
-- Runtime features come from `@ai-toolkit/ai-docs`, including the docs page renderer, layout helpers, MDX components, search, Ask AI, markdown routes, proxy helpers, and source helpers.
-- Stable AiDocs exposes shared UI primitives through documented `@ai-toolkit/ai-docs/components/*` paths. When explicitly migrating to the Geistcn canary, follow the migration guide before replacing those imports with `@vercel/geistcn` and `@vercel/geistcn-assets`.
-- `@ai-toolkit/ai-docs` owns the Ask AI client, server route behavior, and AI SDK v6 runtime dependencies. Do not fork package internals to fit an older app-level `ai` version.
-- Local files are user-owned adapters. They should stay thin and call public package exports from `@ai-toolkit/ai-docs/*`.
-- Do not copy package internals into the app to make a customization. Prefer configuring an adapter file or upgrading `@ai-toolkit/ai-docs`.
-- Do not deep import from `@ai-toolkit/ai-docs/dist` or edit files in `node_modules/@ai-toolkit/ai-docs`.
+- Runtime features come from `@vercel/geistdocs`, including the docs page renderer, layout helpers, MDX components, search, Ask AI, markdown routes, proxy helpers, and source helpers.
+- Stable AiDocs exposes shared UI primitives through documented `@vercel/geistdocs/components/*` paths. When explicitly migrating to the Geistcn canary, follow the migration guide before replacing those imports with `@vercel/geistcn` and `@vercel/geistcn-assets`.
+- `@vercel/geistdocs` owns the Ask AI client, server route behavior, and AI SDK v6 runtime dependencies. Do not fork package internals to fit an older app-level `ai` version.
+- Local files are user-owned adapters. They should stay thin and call public package exports from `@vercel/geistdocs/*`.
+- Do not copy package internals into the app to make a customization. Prefer configuring an adapter file or upgrading `@vercel/geistdocs`.
+- Do not deep import from `@vercel/geistdocs/dist` or edit files in `node_modules/@vercel/geistdocs`.
 - Do not edit generated directories such as `.source/`, `.next/`, `node_modules/`, or build output.
 
 ## Package Docs For Agents
 
-- When package API behavior is unclear, read the installed package docs in `node_modules/@ai-toolkit/ai-docs/docs` before guessing.
-- Start with `node_modules/@ai-toolkit/ai-docs/docs/agents.md` and `node_modules/@ai-toolkit/ai-docs/docs/sitemap.md` to identify the relevant focused page.
-- Use `node_modules/@ai-toolkit/ai-docs/docs/pages/*.md` for task-specific guidance and `node_modules/@ai-toolkit/ai-docs/docs/llms.txt` only when you need broad package context.
-- These package docs are read-only generated artifacts. Do not edit files under `node_modules/@ai-toolkit/ai-docs`; change local adapter files or update the package instead.
+- When package API behavior is unclear, read the installed package docs in `node_modules/@vercel/geistdocs/docs` before guessing.
+- Start with `node_modules/@vercel/geistdocs/docs/agents.md` and `node_modules/@vercel/geistdocs/docs/sitemap.md` to identify the relevant focused page.
+- Use `node_modules/@vercel/geistdocs/docs/pages/*.md` for task-specific guidance and `node_modules/@vercel/geistdocs/docs/llms.txt` only when you need broad package context.
+- These package docs are read-only generated artifacts. Do not edit files under `node_modules/@vercel/geistdocs`; change local adapter files or update the package instead.
 
 ## Common edit targets
 
@@ -53,14 +53,14 @@ Use these instructions when an AI coding agent edits this project.
 ## Routing and proxy guidelines
 
 - Keep App Router route files as thin adapters around package helpers such as `createDocsPage`, `createChatRoute`, `createLlmsRoute`, and `createProxy`.
-- Keep `createAiDocs` from `@ai-toolkit/ai-docs/next` as the `next.config.ts` wrapper. It composes Fumadocs MDX and generates the app-route manifest used by `createProxy`; do not replace it with `createMDX` directly.
+- Keep `createGeistdocs` from `@vercel/geistdocs/next` as the `next.config.ts` wrapper. It composes Fumadocs MDX and generates the app-route manifest used by `createProxy`; do not replace it with `createMDX` directly.
 - Keep `cacheComponents: true` and `partialPrefetching: true` in `next.config.ts`. Do not export `dynamic`, `revalidate`, or `fetchCache` from App Router pages or route handlers.
 - Read `[lang]` from `next/root-params` in Server Components. Keep route context `params` in Route Handlers and Server Actions.
 - Use `prefetch={true}` for app-owned links to fully static documentation pages so navigation does not stop at the generic route shell.
 - Keep `export const config` in `proxy.ts` as a static object. Next.js must parse proxy matchers at build time.
 - Use proxy matcher exclusions that only match `/api` and `/api/...`, such as `api(?:/|$)`. Do not exclude broad prefixes like `api`, because that also excludes routes such as `/api-reference`.
 - Preserve markdown negotiation unless the task explicitly changes AI-readable output. AiDocs serves `/agents.md`, `/llms.txt`, `/.well-known/mcp.json`, and per-page Markdown for `.md`, `.mdx`, `Accept: text/markdown`, and AI-agent requests.
-- Restart `next dev` after adding, deleting, or renaming an App Router page or route so `createAiDocs` regenerates its route manifest.
+- Restart `next dev` after adding, deleting, or renaming an App Router page or route so `createGeistdocs` regenerates its route manifest.
 - When adding custom proxy behavior, prefer `before`, `after`, and `markdownRoutes` options on `createProxy` instead of replacing the proxy.
 - Use explicit `markdownRoutes` for root-mounted docs or any site where homepage/app routes coexist with docs routes.
 - Keep source URLs, navigation links, `getPageUrl`, and `markdownRoutes` app-local when `config.basePath` is set. AiDocs derives public page-action and Markdown URLs separately.
@@ -72,10 +72,10 @@ Use these instructions when an AI coding agent edits this project.
 - Set `ai.retrieval: "mixedbread"` with a unique `siteId` to use Mixedbread semantic retrieval for Ask AI. The visible search dialog continues to use local Orama search.
 - Provision a Mixedbread Store from the root of this consumer site's repository, where Vercel CLI is linked to this site's Vercel project. Never run `vercel integration add mixedbread` from the AiDocs package repository or another consumer repository.
 - Keep `MXBAI_API_KEY` and `MXBAI_STORE_ID` in environment variables. Never put them in `ai-docs.tsx`, because config is available to client components.
-- Keep `app/api/search/export/route.ts` and the `next build && ai-docs search sync` build script when Mixedbread retrieval is enabled. Production builds incrementally sync chat-visible Markdown; local and preview builds skip remote sync unless `--allow-non-production` is passed.
+- Keep `app/api/search/export/route.ts` and the `next build && geistdocs search sync` build script when Mixedbread retrieval is enabled. Production builds incrementally sync chat-visible Markdown; local and preview builds skip remote sync unless `--allow-non-production` is passed.
 - Mixedbread failures fall back to local Orama retrieval. Keep the local source definitions and `excludeFrom: [chat]` visibility behavior intact.
 - Set `ai.eveAgent: { url }` in `ai-docs.tsx` to answer Ask AI with a hosted eve framework agent instead. The URL flows through the config object; the route file needs no changes. Requests authenticate with a per-request Vercel OIDC bearer token by default; pass server-only headers through the `eveAgent` option on `createChatRoute` for custom auth. Never put auth material in `ai-docs.tsx`. Configuring both `proxy` and an eve agent throws at route creation.
-- AiDocs Ask AI targets AI SDK v6: `ai` v6 and `@ai-sdk/react` v3. Keep those dependencies on the generated package versions unless a `@ai-toolkit/ai-docs` release changes them.
+- AiDocs Ask AI targets AI SDK v6: `ai` v6 and `@ai-sdk/react` v3. Keep those dependencies on the generated package versions unless a `@vercel/geistdocs` release changes them.
 - If the app uses `ai` or `@ai-sdk/react` for product code outside AiDocs, migrate that app code separately or let the package manager install separate versions. Do not downgrade AiDocs Ask AI to match unrelated app code.
 - Set `GEISTDOCS_CHAT_PROXY_URL` only when Ask AI should route through the central Vertex-backed proxy. The value must include the `/vertex` route, such as `https://<ai-docs-platform-deployment>/vertex`.
 - Do not add Vertex credentials to a AiDocs site. The central platform proxy forwards the Vercel OIDC token in `x-vercel-trusted-oidc-idp-token`; the Vertex deployment should trust the platform Vercel project through Deployment Protection Trusted Sources.
@@ -86,24 +86,24 @@ Use these instructions when an AI coding agent edits this project.
 ## Migration guidelines
 
 - When migrating from Fumadocs or a custom Geist docs site, inventory `source.config.ts`, route files, `middleware.ts` or `proxy.ts`, `public/llms.txt`, OG routes, Tailwind CSS setup, and required environment variables before editing.
-- The Geistcn migration is on the `canary` release channel until it is promoted to stable. Pin the tested `@ai-toolkit/ai-docs` canary exactly instead of storing the mutable dist-tag or a semver range.
+- The Geistcn migration is on the `canary` release channel until it is promoted to stable. Pin the tested `@vercel/geistdocs` canary exactly instead of storing the mutable dist-tag or a semver range.
 - The Geistcn canary requires private npm access. Keep `NPM_TOKEN` out of source files; configure it through local npm authentication, Vercel project settings, and GitHub Actions secrets.
 - Declare the `@vercel/geistcn` and `@vercel/geistcn-assets` versions from the matching bundled template as direct dependencies when application files import them.
 - Inventory direct app usage of `ai` and `@ai-sdk/react`. Package-owned Ask AI uses AI SDK v6; migrate local AI SDK code separately from AiDocs route adapters.
-- Import source-config helpers from `@ai-toolkit/ai-docs/source-config` in `source.config.ts`. Do not import runtime component entry points from source config.
+- Import source-config helpers from `@vercel/geistdocs/source-config` in `source.config.ts`. Do not import runtime component entry points from source config.
 - Move existing `middleware.ts` behavior into `createProxy({ before })` or `createProxy({ after })` hooks.
 - Delete `public/llms.txt` when using `createLlmsRoute`; otherwise the static file can mask the App Router route.
 - Set `openGraph.images` in `createDocsPage` only when the app includes the AiDocs OG route, or override metadata to avoid broken `/og/...` URLs.
 - Keep `@vercel/geistcn`, `@vercel/geist-test-utils`, and `@vercel/next-themes` in `transpilePackages`, and keep the Geistcn `modularizeImports` mappings from the bundled template.
 - Apply `geistFontClasses`, `tailwind`, and `tailwind-preflight` to the root `<html>` element.
-- Import the Geistcn Tailwind, base, and marketing typography styles in the template's order, keep `@ai-toolkit/ai-docs/theme.css`, and add only the narrow `@vercel/geistcn/src/components/**/*.{ts,tsx}` source scan.
+- Import the Geistcn Tailwind, base, and marketing typography styles in the template's order, keep `@vercel/geistdocs/theme.css`, and add only the narrow `@vercel/geistcn/src/components/**/*.{ts,tsx}` source scan.
 - Add local fallbacks for production-only environment variables so migration builds do not require production secrets.
 
 ## Package updates
 
-- Use `pnpm exec ai-docs update` to update package-based AiDocs projects.
-- `ai-docs update` updates the `@ai-toolkit/ai-docs` dependency. It does not overwrite local adapter files.
-- On a canary project, `ai-docs update` follows the current `canary` dist-tag. Check and test that version before updating an active migration.
+- Use `pnpm exec geistdocs update` to update package-based AiDocs projects.
+- `geistdocs update` updates the `@vercel/geistdocs` dependency. It does not overwrite local adapter files.
+- On a canary project, `geistdocs update` follows the current `canary` dist-tag. Check and test that version before updating an active migration.
 - Review dependency changes and run the verification commands before committing an update.
 
 ## Commands
@@ -112,9 +112,9 @@ Use these instructions when an AI coding agent edits this project.
 - Build for production: `pnpm build`
 - Start the built app: `pnpm start`
 - Regenerate Fumadocs output after dependency installation: `pnpm postinstall`
-- Update AiDocs: `pnpm exec ai-docs update`
+- Update AiDocs: `pnpm exec geistdocs update`
 - Run translations if configured: `pnpm translate`
-- Sync the Mixedbread Store outside production when explicitly needed: `pnpm exec ai-docs search sync --allow-non-production`
+- Sync the Mixedbread Store outside production when explicitly needed: `pnpm exec geistdocs search sync --allow-non-production`
 
 ## Verification
 

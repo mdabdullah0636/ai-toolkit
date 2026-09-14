@@ -1,7 +1,7 @@
 import '../global.css';
 import '@/lib/ai-docs/site-url-warning';
-import { Footer } from '@ai-toolkit/ai-docs/footer';
-import { Navbar } from '@ai-toolkit/ai-docs/navbar';
+import { Footer } from '@vercel/geistdocs/footer';
+import { Navbar } from '@vercel/geistdocs/navbar';
 import type { Metadata } from 'next';
 import { AiDocsProvider } from '@/components/ai-docs/provider';
 import { config } from '@/lib/ai-docs/config';
