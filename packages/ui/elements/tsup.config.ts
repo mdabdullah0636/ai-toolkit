@@ -55,7 +55,7 @@ export default defineConfig([
         'transcription',
         'voice-selector',
         'web-preview',
-      ].map((name) => `src/${name}.tsx`),
+      ].map(name => `src/${name}.tsx`),
     ],
     outDir: 'dist',
     format: ['cjs', 'esm'],
