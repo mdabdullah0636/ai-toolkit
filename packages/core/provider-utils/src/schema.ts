@@ -192,14 +192,14 @@ export function zod4Schema<OBJECT>(
 }
 
 export function isZod4Schema(
-  zodSchema: z4.core.$ZodType<any, any> | z3.Schema<any, z3.ZodTypeDef, any>,
+  zodSchema: ZodSchema<any>,
 ): zodSchema is z4.core.$ZodType<any, any> {
   // https://zod.dev/library-authors?id=how-to-support-zod-3-and-zod-4-simultaneously
   return '_zod' in zodSchema;
 }
 
 export function zodSchema<OBJECT>(
-  zodSchema: z4.core.$ZodType<OBJECT, any> | z3.Schema<OBJECT, z3.ZodTypeDef, any>,
+  zodSchema: ZodSchema<OBJECT>,
   options?: {
     /**
      * Enables support for references in the schema.
@@ -211,8 +211,8 @@ export function zodSchema<OBJECT>(
   },
 ): Schema<OBJECT> {
   if (isZod4Schema(zodSchema)) {
-    return zod4Schema(zodSchema, options);
+    return zod4Schema(zodSchema as z4.core.$ZodType<OBJECT, any>, options);
   } else {
-    return zod3Schema(zodSchema, options);
+    return zod3Schema(zodSchema as z3.Schema<OBJECT, z3.ZodTypeDef, any>, options);
   }
 }
