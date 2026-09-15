@@ -404,7 +404,10 @@ Use this to verify you have everything:
 - [x] CONTRIBUTOR_ONBOARDING.md — Quick start guide
 - [x] MIGRATION_PLAN.md — Implementation roadmap
 - [x] ARCHITECTURE_QUICK_REFERENCE.md — Daily cheat sheet
-- [x] IMPLEMENTATION_SUMMARY.md — Executive overview
+- [x] ARCHITECTURE_EXECUTIVE_SUMMARY.md — Architectural recommendation and roadmap
+- [x] IMPLEMENTATION_CHECKLIST.md — Phase-by-phase execution checklist
+- [x] PACKAGE_INVENTORY.md — All 63 packages classified by layer
+- [x] DEPENDENCY_RULES.md — Layer dependency rules and enforcement
 - [x] ADR/template.md — Decision record template
 - [x] This file (ARCHITECTURE_INDEX.md) — Navigation guide
 

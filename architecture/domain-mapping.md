@@ -4,13 +4,14 @@ Source of truth for migrating the 48 legacy `packages/*` packages into the domai
 
 ## Core — `packages/core/`
 
-| Legacy dir       | Package name                 |
-| ---------------- | ---------------------------- |
-| `ai`             | `ai`                         |
-| `provider`       | `@ai-toolkit/provider`       |
-| `provider-utils` | `@ai-toolkit/provider-utils` |
+| Legacy dir        | Package name                 |
+| ----------------- | ---------------------------- |
+| `ai`              | `ai-toolkit`                 |
+| `gateway`         | `@ai-toolkit/gateway`        |
+| `provider-utils`  | `@ai-toolkit/provider-utils` |
+| `runtime`         | `@ai-toolkit/runtime`        |
 
-> Existing: `packages/core/runtime` (`@ai-toolkit/runtime`).
+> `@ai-toolkit/gateway` was migrated from `packages/special/gateway/` to `packages/core/gateway/`. Published name unchanged. See `architecture/DEPENDENCY_RULES.md`.
 
 ## Providers — `packages/providers/`
 
@@ -74,16 +75,17 @@ Framework and integration adapters (depend on `ai`):
 
 | Legacy dir   | Package name             |
 | ------------ | ------------------------ |
-| `gateway`    | `@ai-toolkit/gateway`    |
 | `khulnasoft` | `@ai-toolkit/khulnasoft` |
 | `codemod`    | `@ai-toolkit/codemod`    |
 | `devtools`   | `@ai-toolkit/devtools`   |
+| `platform`   | `@ai-toolkit/platform`   |
 
 ## Validation — `packages/validation/`
 
-| Legacy dir | Package name          |
-| ---------- | --------------------- |
-| `valibot`  | `@ai-toolkit/valibot` |
+| Legacy dir   | Package name             |
+| ------------ | ------------------------ |
+| `provider`   | `@ai-toolkit/provider`   |
+| `valibot`    | `@ai-toolkit/valibot`    |
 
 > Existing: `packages/validation/capabilities` (`@ai-toolkit/capabilities`).
 

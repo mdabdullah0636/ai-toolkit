@@ -1,42 +1,29 @@
-import { JSONSchema7, TypeValidationError } from '@ai-toolkit/provider';
-import { StandardSchemaV1, StandardJSONSchemaV1 } from '@standard-schema/spec';
+import {
+  JSONSchema7,
+  TypeValidationError,
+  schemaSymbol,
+  type Schema,
+  type LazySchema,
+  type ZodSchema,
+  type StandardSchema,
+  type FlexibleSchema,
+  type InferSchema,
+  type ValidationResult,
+} from '@ai-toolkit/provider';
 import * as z3 from 'zod/v3';
 import * as z4 from 'zod/v4';
 import { addAdditionalPropertiesToJsonSchema } from './add-additional-properties-to-json-schema';
 import { zod3ToJsonSchema } from './to-json-schema/zod3-to-json-schema';
 
-/**
- * Used to mark schemas so we can support both Zod and custom schemas.
- */
-const schemaSymbol = Symbol.for('vercel.ai.schema');
-
-export type ValidationResult<OBJECT> =
-  | { success: true; value: OBJECT }
-  | { success: false; error: Error };
-
-export type Schema<OBJECT = unknown> = {
-  /**
-   * Used to mark schemas so we can support both Zod and custom schemas.
-   */
-  [schemaSymbol]: true;
-
-  /**
-   * Schema type for inference.
-   */
-  _type: OBJECT;
-
-  /**
-   * Optional. Validates that the structure of a value matches this schema,
-   * and returns a typed version of the value if it does.
-   */
-  readonly validate?: (
-    value: unknown,
-  ) => ValidationResult<OBJECT> | PromiseLike<ValidationResult<OBJECT>>;
-
-  /**
-   * The JSON Schema for the schema. It is passed to the providers.
-   */
-  readonly jsonSchema: JSONSchema7 | PromiseLike<JSONSchema7>;
+export {
+  schemaSymbol,
+  type Schema,
+  type LazySchema,
+  type ZodSchema,
+  type StandardSchema,
+  type FlexibleSchema,
+  type InferSchema,
+  type ValidationResult,
 };
 
 /**
@@ -57,31 +44,6 @@ export function lazySchema<SCHEMA>(createSchema: () => Schema<SCHEMA>): LazySche
     return schema;
   };
 }
-
-export type LazySchema<SCHEMA> = () => Schema<SCHEMA>;
-
-export type ZodSchema<SCHEMA = any> =
-  | z3.Schema<SCHEMA, z3.ZodTypeDef, any>
-  | z4.core.$ZodType<SCHEMA, any>;
-
-export type StandardSchema<SCHEMA = any> = StandardSchemaV1<unknown, SCHEMA> &
-  StandardJSONSchemaV1<unknown, SCHEMA>;
-
-export type FlexibleSchema<SCHEMA = any> =
-  | Schema<SCHEMA>
-  | LazySchema<SCHEMA>
-  | ZodSchema<SCHEMA>
-  | StandardSchema<SCHEMA>;
-
-export type InferSchema<SCHEMA> = SCHEMA extends ZodSchema<infer T>
-  ? T
-  : SCHEMA extends StandardSchema<infer T>
-    ? T
-    : SCHEMA extends LazySchema<infer T>
-      ? T
-      : SCHEMA extends Schema<infer T>
-        ? T
-        : never;
 
 /**
  * Create a schema using a JSON Schema.

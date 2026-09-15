@@ -1,7 +1,4 @@
-import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
-
-const PROVIDERS_ROOT = join(process.cwd(), '../../content/providers');
+import { platformRegistry } from './platform';
 
 export type ProviderCategoryId =
   | 'ai-toolkit'
@@ -74,42 +71,25 @@ export const providerCategories: ProviderCategory[] = [
   },
 ];
 
-function clean(value: string): string {
-  return value.trim().replace(/^['"]|['"]$/g, '');
-}
-
-export function getProviderCategory(
-  categoryId: ProviderCategoryId,
-): ProviderCategory | undefined {
+export function getProviderCategory(categoryId: ProviderCategoryId) {
   return providerCategories.find(category => category.id === categoryId);
 }
 
 export function getProviders(categoryId: ProviderCategoryId): Provider[] {
-  const category = getProviderCategory(categoryId);
-  if (!category) return [];
-
-  const root = join(PROVIDERS_ROOT, category.dir);
-  return readdirSync(root)
-    .filter(file => file.endsWith('.mdx') && file !== 'index.mdx')
-    .sort()
-    .map(file => {
-      const source = readFileSync(join(root, file), 'utf8');
-      const title = source.match(/^title:\s*(.+)$/m)?.[1];
-      const description = source.match(/^description:\s*(.+)$/m)?.[1];
-      const slug = file.replace(/\.mdx$/, '').replace(/^\d+-/, '');
-
-      return {
-        slug,
-        name: title ? clean(title) : slug,
-        description: description ? clean(description) : '',
-        filename: file,
-      };
-    });
+  return platformRegistry.all({ type: 'provider' }).flatMap(record => {
+    if (record.type !== 'provider' || record.category !== categoryId) return [];
+    return [
+      {
+        slug: record.slug,
+        name: record.name,
+        description: record.description,
+        filename: record.source.path.split('/').pop() ?? `${record.slug}.mdx`,
+      },
+    ];
+  });
 }
 
-export function getProviderCategoriesWithCounts(): (ProviderCategory & {
-  count: number;
-})[] {
+export function getProviderCategoriesWithCounts() {
   return providerCategories.map(category => ({
     ...category,
     count: getProviders(category.id).length,

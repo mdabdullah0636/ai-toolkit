@@ -83,6 +83,12 @@ jobs:
       - name: Run structure validation
         run: pnpm run validate-structure
 
+      - name: Run dependency direction validation
+        run: pnpm run arch:deps
+
+      - name: Check capability matrix freshness
+        run: pnpm run arch:capabilities:check
+
   scaffolder:
     name: 'Scaffolder'
     runs-on: ubuntu-latest
@@ -114,6 +120,9 @@ jobs:
 
       - name: Validate scaffolded structure
         run: pnpm run validate-structure
+
+      - name: Run dependency direction validation
+        run: pnpm run arch:deps
 
       - name: Remove probe packages
         run: |
@@ -167,6 +176,9 @@ jobs:
 
       - name: Check inventory freshness
         run: pnpm run inventory:check
+
+      - name: Check capability matrix freshness
+        run: pnpm run arch:capabilities:check
 
   eslint:
     name: 'ESLint'

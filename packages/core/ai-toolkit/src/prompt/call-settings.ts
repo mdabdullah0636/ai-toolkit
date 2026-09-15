@@ -120,6 +120,22 @@ Maximum number of retries. Set to 0 to disable retries.
   maxRetries?: number;
 
   /**
+   * Secret used for signing and verifying tool approval requests.
+   *
+   * When set, tool approval requests are signed with HMAC-SHA256 and
+   * verified before execution. This prevents client-supplied message
+   * history from forging or altering approvals.
+   *
+   * Can also use an environment variable reference with the `env:` prefix
+   * (e.g. `env:TOOL_APPROVAL_SECRET`), which is resolved at call time.
+   *
+   * Experimental (can break in patch releases).
+   *
+   * @default undefined
+   */
+  experimental_toolApprovalSecret?: string | Uint8Array;
+
+  /**
 Abort signal.
    */
   abortSignal?: AbortSignal;

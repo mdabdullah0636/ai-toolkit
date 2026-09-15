@@ -91,7 +91,7 @@ Generate structured data with schema validation:
 ```typescript
 import { generateObject } from 'ai-toolkit';
 import { openai } from '@ai-toolkit/openai';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 const { object } = await generateObject({
   model: openai('gpt-4o'),
@@ -113,7 +113,7 @@ Stream structured data:
 ```typescript
 import { streamObject } from 'ai-toolkit';
 import { openai } from '@ai-toolkit/openai';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 const result = streamObject({
   model: openai('gpt-4o'),
@@ -139,7 +139,7 @@ for await (const partialObject of result.partialObjectStream) {
 
 ```typescript
 import { tool } from 'ai-toolkit';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 const weatherTool = tool({
   description: 'Get the current weather for a location',
@@ -281,7 +281,7 @@ export default function Chat() {
 ## Error Handling
 
 ```typescript
-import { generateText, AIError } from 'ai-toolkit';
+import { generateText, AITOOLKITError } from 'ai-toolkit';
 
 try {
   const { text } = await generateText({
@@ -289,7 +289,7 @@ try {
     prompt: 'Hello!',
   });
 } catch (error) {
-  if (error instanceof AIError) {
+  if (error instanceof AITOOLKITError) {
     console.error('AI Error:', error.message);
     console.error('Cause:', error.cause);
   }

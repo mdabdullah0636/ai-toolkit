@@ -10,6 +10,9 @@
       "path": "packages/core/runtime"
     },
     {
+      "path": "packages/core/gateway"
+    },
+    {
       "path": "packages/providers/amazon-bedrock"
     },
     {
@@ -161,6 +164,9 @@
     },
     {
       "path": "packages/special/gateway"
+    },
+    {
+      "path": "packages/special/platform"
     },
     {
       "path": "packages/special/khulnasoft"

@@ -1,19 +1,28 @@
 import { NextResponse } from 'next/server';
-import { getGatewayRows } from '@/lib/gateways';
+import snapshot from '../../../../../../build/platform-registry.json';
+import {
+  createPlatformApi,
+  PlatformRegistry,
+  type PlatformRegistrySnapshot,
+} from '@ai-toolkit/platform';
 import { getMetricsProvider } from '@/lib/metrics-provider';
-import { getGatewayModels } from '@/lib/models';
-import { getProviders } from '@/lib/providers';
-import { tools } from '@/lib/tools';
+
+const handle = createPlatformApi(
+  new PlatformRegistry(snapshot as PlatformRegistrySnapshot),
+  { getMetrics: counts => getMetricsProvider().overview(counts) },
+);
 
 export const revalidate = 60;
 
-export async function GET() {
-  const counts = {
-    providers: getProviders().length,
-    models: getGatewayModels().length,
-    gateways: getGatewayRows().length,
-    tools: tools.length,
-  };
-  const payload = await getMetricsProvider().overview(counts);
-  return NextResponse.json(payload);
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const response = await handle({
+    pathname: '/api/platform/v1/metrics/overview',
+    searchParams: url.searchParams,
+  });
+  const body = response.body as { metrics?: unknown };
+  return NextResponse.json(body.metrics ?? response.body, {
+    status: response.status,
+    headers: response.headers,
+  });
 }

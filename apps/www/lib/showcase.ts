@@ -9,14 +9,16 @@ export interface ShowcaseItem {
 export const showcaseItems: ShowcaseItem[] = [
   {
     name: 'Dub',
-    description: 'The modern link management platform with AI workflows built on the AI TOOLKIT.',
+    description:
+      'The modern link management platform with AI workflows built on the AI TOOLKIT.',
     tag: 'Platform',
     url: 'https://dub.co',
     featured: true,
   },
   {
     name: 'Cal.com Agent',
-    description: 'Schedule meetings through a conversational interface powered by AI.',
+    description:
+      'Schedule meetings through a conversational interface powered by AI.',
     tag: 'Agent',
     url: 'https://cal.com',
     featured: true,
@@ -39,31 +41,36 @@ export const showcaseItems: ShowcaseItem[] = [
   },
   {
     name: 'Perplexity',
-    description: 'The answer engine that streams grounded, sourced responses in real time.',
+    description:
+      'The answer engine that streams grounded, sourced responses in real time.',
     tag: 'Search',
     url: 'https://perplexity.ai',
   },
   {
     name: 'Synthesia',
-    description: 'Generate studio-quality AI video avatars from plain text scripts.',
+    description:
+      'Generate studio-quality AI video avatars from plain text scripts.',
     tag: 'Video',
     url: 'https://synthesia.io',
   },
   {
     name: 'Mem0',
-    description: 'A memory layer for AI agents that remembers user preferences across sessions.',
+    description:
+      'A memory layer for AI agents that remembers user preferences across sessions.',
     tag: 'Memory',
     url: 'https://mem0.ai',
   },
   {
     name: '11x',
-    description: 'AI voice agents for outbound and inbound sales conversations.',
+    description:
+      'AI voice agents for outbound and inbound sales conversations.',
     tag: 'Voice',
     url: 'https://11x.ai',
   },
   {
     name: 'Langfuse',
-    description: 'Open-source LLM engineering platform for tracing, evals, and prompts.',
+    description:
+      'Open-source LLM engineering platform for tracing, evals, and prompts.',
     tag: 'Observability',
     url: 'https://langfuse.com',
   },
@@ -76,7 +83,8 @@ export const showcaseItems: ShowcaseItem[] = [
   },
   {
     name: 'Chatbot UI',
-    description: 'A popular open-source chat interface that ships a production-ready AI chat UX.',
+    description:
+      'A popular open-source chat interface that ships a production-ready AI chat UX.',
     tag: 'Chat',
     url: 'https://github.com/mckaywrigley/chatbot-ui',
   },

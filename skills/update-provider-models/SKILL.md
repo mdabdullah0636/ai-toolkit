@@ -51,7 +51,7 @@ export type OpenAIChatModelId =
 If the new model has unique capabilities, add new options:
 
 ```typescript
-export const openaiChatLanguageModelOptions = lazySchema(() =>
+export const <provider>ChatLanguageModelOptions = lazySchema(() =>
   zodSchema(
     z.object({
       // Existing options...

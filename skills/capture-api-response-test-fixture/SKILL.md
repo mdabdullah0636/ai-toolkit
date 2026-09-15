@@ -98,6 +98,9 @@ const provider = createOpenAI({
 For SSE streams, capture each chunk:
 
 ```typescript
+import { createOpenAI } from '@ai-toolkit/openai';
+import { writeFileSync } from 'node:fs';
+
 const provider = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
   fetch: async (url, options) => {
@@ -127,7 +130,7 @@ const provider = createOpenAI({
       }
 
       // Write to file
-      require('fs').writeFileSync('fixture.chunks.txt', chunks.join('\n'));
+      writeFileSync('fixture.chunks.txt', chunks.join('\n'));
     }
 
     return response;

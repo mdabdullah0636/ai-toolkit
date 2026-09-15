@@ -28,17 +28,28 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./conformance": {
+      "types": "./src/conformance/index.ts",
+      "import": "./src/conformance/index.ts",
+      "require": "./src/conformance/index.ts"
     }
   },
   "dependencies": {
     "json-schema": "^0.4.0"
   },
+  "peerDependencies": {
+    "@standard-schema/spec": "^1.1.0",
+    "zod": "^3.25.76 || ^4.1.8"
+  },
   "devDependencies": {
+    "@ai-toolkit/test-server": "workspace:*",
     "@types/json-schema": "7.0.15",
     "@types/node": "20.17.24",
     "@khulnasoft/ai-tsconfig": "workspace:*",
     "tsup": "^8",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "vitest": "2.1.4"
   },
   "engines": {
     "node": ">=18"

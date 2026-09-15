@@ -1,0 +1,477 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-15T00:28:11.637Z",
+  "providers": [
+    {
+      "name": "@ai-toolkit/amazon-bedrock",
+      "dir": "providers/amazon-bedrock",
+      "capabilities": [
+        "chat",
+        "embedding",
+        "image",
+        "reranker"
+      ],
+      "source": "packages/providers/amazon-bedrock/src/bedrock-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/anthropic",
+      "dir": "providers/anthropic",
+      "capabilities": [
+        "chat"
+      ],
+      "source": "packages/providers/anthropic/src/anthropic-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/assemblyai",
+      "dir": "providers/assemblyai",
+      "capabilities": [
+        "speech"
+      ],
+      "source": "packages/providers/assemblyai/src/assemblyai-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/azure",
+      "dir": "providers/azure",
+      "capabilities": [
+        "chat",
+        "embedding",
+        "image",
+        "speech"
+      ],
+      "source": "packages/providers/azure/src/azure-openai-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/baseten",
+      "dir": "providers/baseten",
+      "capabilities": [
+        "chat",
+        "embedding"
+      ],
+      "source": "packages/providers/baseten/src/baseten-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/black-forest-labs",
+      "dir": "providers/black-forest-labs",
+      "capabilities": [
+        "image"
+      ],
+      "source": "packages/providers/black-forest-labs/src/black-forest-labs-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/bytedance",
+      "dir": "providers/bytedance",
+      "capabilities": [],
+      "source": "packages/providers/bytedance/src/bytedance-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/cerebras",
+      "dir": "providers/cerebras",
+      "capabilities": [
+        "chat"
+      ],
+      "source": "packages/providers/cerebras/src/cerebras-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/cohere",
+      "dir": "providers/cohere",
+      "capabilities": [
+        "chat",
+        "embedding",
+        "reranker"
+      ],
+      "source": "packages/providers/cohere/src/cohere-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/deepgram",
+      "dir": "providers/deepgram",
+      "capabilities": [
+        "speech"
+      ],
+      "source": "packages/providers/deepgram/src/deepgram-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/deepinfra",
+      "dir": "providers/deepinfra",
+      "capabilities": [
+        "chat",
+        "embedding",
+        "image"
+      ],
+      "source": "packages/providers/deepinfra/src/deepinfra-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/deepseek",
+      "dir": "providers/deepseek",
+      "capabilities": [
+        "chat"
+      ],
+      "source": "packages/providers/deepseek/src/deepseek-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/elevenlabs",
+      "dir": "providers/elevenlabs",
+      "capabilities": [
+        "speech"
+      ],
+      "source": "packages/providers/elevenlabs/src/elevenlabs-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/fal",
+      "dir": "providers/fal",
+      "capabilities": [
+        "image",
+        "speech"
+      ],
+      "source": "packages/providers/fal/src/fal-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/fireworks",
+      "dir": "providers/fireworks",
+      "capabilities": [
+        "chat",
+        "embedding",
+        "image"
+      ],
+      "source": "packages/providers/fireworks/src/fireworks-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/gateway",
+      "dir": "core/gateway",
+      "capabilities": [
+        "chat",
+        "embedding",
+        "image"
+      ],
+      "source": "packages/core/gateway/src/gateway-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/gladia",
+      "dir": "providers/gladia",
+      "capabilities": [
+        "speech"
+      ],
+      "source": "packages/providers/gladia/src/gladia-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/google",
+      "dir": "providers/google",
+      "capabilities": [
+        "chat",
+        "embedding",
+        "image"
+      ],
+      "source": "packages/providers/google/src/google-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/google-vertex",
+      "dir": "providers/google-vertex",
+      "capabilities": [
+        "chat",
+        "image"
+      ],
+      "source": "packages/providers/google-vertex/src/google-vertex-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/groq",
+      "dir": "providers/groq",
+      "capabilities": [
+        "chat",
+        "speech"
+      ],
+      "source": "packages/providers/groq/src/groq-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/harness",
+      "dir": "providers/harness",
+      "capabilities": [],
+      "source": "packages/providers/harness/src/index.ts"
+    },
+    {
+      "name": "@ai-toolkit/harness-acp",
+      "dir": "providers/harness-acp",
+      "capabilities": [],
+      "source": "packages/providers/harness-acp/src/index.ts"
+    },
+    {
+      "name": "@ai-toolkit/harness-claude-code",
+      "dir": "providers/harness-claude-code",
+      "capabilities": [],
+      "source": "packages/providers/harness-claude-code/src/index.ts"
+    },
+    {
+      "name": "@ai-toolkit/harness-cline",
+      "dir": "providers/harness-cline",
+      "capabilities": [],
+      "source": "packages/providers/harness-cline/src/index.ts"
+    },
+    {
+      "name": "@ai-toolkit/harness-codex",
+      "dir": "providers/harness-codex",
+      "capabilities": [],
+      "source": "packages/providers/harness-codex/src/index.ts"
+    },
+    {
+      "name": "@ai-toolkit/harness-cursor",
+      "dir": "providers/harness-cursor",
+      "capabilities": [],
+      "source": "packages/providers/harness-cursor/src/index.ts"
+    },
+    {
+      "name": "@ai-toolkit/harness-grok-build",
+      "dir": "providers/harness-grok-build",
+      "capabilities": [],
+      "source": "packages/providers/harness-grok-build/src/index.ts"
+    },
+    {
+      "name": "@ai-toolkit/harness-opencode",
+      "dir": "providers/harness-opencode",
+      "capabilities": [],
+      "source": "packages/providers/harness-opencode/src/index.ts"
+    },
+    {
+      "name": "@ai-toolkit/harness-pi",
+      "dir": "providers/harness-pi",
+      "capabilities": [],
+      "source": "packages/providers/harness-pi/src/index.ts"
+    },
+    {
+      "name": "@ai-toolkit/huggingface",
+      "dir": "providers/huggingface",
+      "capabilities": [
+        "chat"
+      ],
+      "source": "packages/providers/huggingface/src/huggingface-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/hume",
+      "dir": "providers/hume",
+      "capabilities": [
+        "speech"
+      ],
+      "source": "packages/providers/hume/src/hume-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/khulnasoft",
+      "dir": "special/khulnasoft",
+      "capabilities": [
+        "chat"
+      ],
+      "source": "packages/special/khulnasoft/src/khulnasoft-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/lmnt",
+      "dir": "providers/lmnt",
+      "capabilities": [
+        "speech"
+      ],
+      "source": "packages/providers/lmnt/src/lmnt-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/luma",
+      "dir": "providers/luma",
+      "capabilities": [
+        "image"
+      ],
+      "source": "packages/providers/luma/src/luma-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/mistral",
+      "dir": "providers/mistral",
+      "capabilities": [
+        "chat",
+        "embedding"
+      ],
+      "source": "packages/providers/mistral/src/mistral-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/openai",
+      "dir": "providers/openai",
+      "capabilities": [
+        "chat",
+        "embedding",
+        "image",
+        "speech"
+      ],
+      "source": "packages/providers/openai/src/openai-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/openai-compatible",
+      "dir": "providers/openai-compatible",
+      "capabilities": [
+        "chat",
+        "embedding",
+        "image"
+      ],
+      "source": "packages/providers/openai-compatible/src/openai-compatible-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/perplexity",
+      "dir": "providers/perplexity",
+      "capabilities": [
+        "chat"
+      ],
+      "source": "packages/providers/perplexity/src/perplexity-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/prodia",
+      "dir": "providers/prodia",
+      "capabilities": [
+        "image"
+      ],
+      "source": "packages/providers/prodia/src/prodia-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/replicate",
+      "dir": "providers/replicate",
+      "capabilities": [],
+      "source": "packages/providers/replicate/src/replicate-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/revai",
+      "dir": "providers/revai",
+      "capabilities": [
+        "speech"
+      ],
+      "source": "packages/providers/revai/src/revai-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/togetherai",
+      "dir": "providers/togetherai",
+      "capabilities": [
+        "chat",
+        "embedding",
+        "image",
+        "reranker"
+      ],
+      "source": "packages/providers/togetherai/src/togetherai-provider.ts"
+    },
+    {
+      "name": "@ai-toolkit/xai",
+      "dir": "providers/xai",
+      "capabilities": [
+        "chat",
+        "image"
+      ],
+      "source": "packages/providers/xai/src/xai-provider.ts"
+    }
+  ],
+  "capabilities": {
+    "chat": [
+      "@ai-toolkit/amazon-bedrock",
+      "@ai-toolkit/anthropic",
+      "@ai-toolkit/azure",
+      "@ai-toolkit/baseten",
+      "@ai-toolkit/cerebras",
+      "@ai-toolkit/cohere",
+      "@ai-toolkit/deepinfra",
+      "@ai-toolkit/deepseek",
+      "@ai-toolkit/fireworks",
+      "@ai-toolkit/gateway",
+      "@ai-toolkit/google",
+      "@ai-toolkit/google-vertex",
+      "@ai-toolkit/groq",
+      "@ai-toolkit/huggingface",
+      "@ai-toolkit/khulnasoft",
+      "@ai-toolkit/mistral",
+      "@ai-toolkit/openai",
+      "@ai-toolkit/openai-compatible",
+      "@ai-toolkit/perplexity",
+      "@ai-toolkit/togetherai",
+      "@ai-toolkit/xai"
+    ],
+    "vision": [],
+    "embedding": [
+      "@ai-toolkit/amazon-bedrock",
+      "@ai-toolkit/azure",
+      "@ai-toolkit/baseten",
+      "@ai-toolkit/cohere",
+      "@ai-toolkit/deepinfra",
+      "@ai-toolkit/fireworks",
+      "@ai-toolkit/gateway",
+      "@ai-toolkit/google",
+      "@ai-toolkit/mistral",
+      "@ai-toolkit/openai",
+      "@ai-toolkit/openai-compatible",
+      "@ai-toolkit/togetherai"
+    ],
+    "speech": [
+      "@ai-toolkit/assemblyai",
+      "@ai-toolkit/azure",
+      "@ai-toolkit/deepgram",
+      "@ai-toolkit/elevenlabs",
+      "@ai-toolkit/fal",
+      "@ai-toolkit/gladia",
+      "@ai-toolkit/groq",
+      "@ai-toolkit/hume",
+      "@ai-toolkit/lmnt",
+      "@ai-toolkit/openai",
+      "@ai-toolkit/revai"
+    ],
+    "audio": [],
+    "reasoning": [],
+    "image": [
+      "@ai-toolkit/amazon-bedrock",
+      "@ai-toolkit/azure",
+      "@ai-toolkit/black-forest-labs",
+      "@ai-toolkit/deepinfra",
+      "@ai-toolkit/fal",
+      "@ai-toolkit/fireworks",
+      "@ai-toolkit/gateway",
+      "@ai-toolkit/google",
+      "@ai-toolkit/google-vertex",
+      "@ai-toolkit/luma",
+      "@ai-toolkit/openai",
+      "@ai-toolkit/openai-compatible",
+      "@ai-toolkit/prodia",
+      "@ai-toolkit/togetherai",
+      "@ai-toolkit/xai"
+    ],
+    "video": [],
+    "reranker": [
+      "@ai-toolkit/amazon-bedrock",
+      "@ai-toolkit/cohere",
+      "@ai-toolkit/togetherai"
+    ],
+    "moderation": [],
+    "ocr": [],
+    "translation": []
+  },
+  "gatewayModels": {
+    "total": 187,
+    "byProvider": {
+      "alibaba": 17,
+      "amazon": 5,
+      "anthropic": 12,
+      "arcee-ai": 1,
+      "bytedance": 2,
+      "cohere": 2,
+      "deepseek": 7,
+      "google": 18,
+      "inception": 1,
+      "kwaipilot": 1,
+      "meituan": 2,
+      "meta": 9,
+      "minimax": 3,
+      "mistral": 18,
+      "moonshotai": 5,
+      "morph": 2,
+      "nvidia": 3,
+      "openai": 36,
+      "perplexity": 4,
+      "prime-intellect": 1,
+      "stealth": 2,
+      "vercel": 2,
+      "xai": 11,
+      "xiaomi": 1,
+      "zai": 8,
+      "voyage": 7,
+      "bfl": 5,
+      "recraft": 2
+    },
+    "byModality": {
+      "language": 157,
+      "embedding": 20,
+      "image": 10
+    }
+  }
+}

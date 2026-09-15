@@ -37,10 +37,18 @@
     "health-check": "node tools/scripts/health-check.mjs",
     "inventory": "node tools/scripts/inventory.mjs",
     "inventory:check": "node tools/scripts/inventory.mjs --check",
+    "platform-inventory": "node tools/scripts/platform-inventory.mjs",
+    "platform-inventory:check": "node tools/scripts/platform-inventory.mjs --check",
+    "platform-registry": "pnpm --filter @ai-toolkit/platform generate-registry",
     "baseline": "node tools/scripts/baseline.mjs",
     "generate": "node tools/scripts/generate.mjs",
     "create-provider": "node tools/create-ai-provider/src/index.js",
     "validate-structure": "node tools/scripts/validate-structure.mjs",
+    "arch:deps": "node tools/scripts/check-dependency-direction.mjs",
+    "arch:capabilities": "node tools/scripts/generate-capability-matrix.mjs",
+    "arch:capabilities:check": "node tools/scripts/generate-capability-matrix.mjs --check",
+    "arch:validate": "pnpm arch:deps && pnpm arch:capabilities:check && pnpm validate-structure",
+    "arch:inspect": "node tools/scripts/arch-inspect.mjs",
     "find-package": "node tools/scripts/find-package.mjs"
   },
   "lint-staged": {

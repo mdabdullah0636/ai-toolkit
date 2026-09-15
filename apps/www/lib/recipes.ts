@@ -92,7 +92,8 @@ function parseFrontmatter(source: string): { meta: Frontmatter; body: string } {
   if (title) meta.title = title[1].trim().replace(/^['"]|['"]$/g, '');
 
   const description = raw.match(/^description:\s*(.+)$/m);
-  if (description) meta.description = description[1].trim().replace(/^['"]|['"]$/g, '');
+  if (description)
+    meta.description = description[1].trim().replace(/^['"]|['"]$/g, '');
 
   const tags = raw.match(/^tags:\s*\[([^\]]*)\]/m);
   if (tags)
@@ -111,7 +112,9 @@ function extractCodeBlocks(body: string): {
   const blocks: { language: string; filename?: string; code: string }[] = [];
   const pattern = /```([\w+-]*)([^\n]*)\n([\s\S]*?)```/g;
   const remaining = body.replace(pattern, (_all, language, attrs, code) => {
-    const filenameMatch = attrs.match(/(?:filename|file)=(?:"([^"]+)"|'([^']+)')/);
+    const filenameMatch = attrs.match(
+      /(?:filename|file)=(?:"([^"]+)"|'([^']+)')/,
+    );
     blocks.push({
       language: (language || 'ts').trim(),
       filename: filenameMatch?.[1] ?? filenameMatch?.[2],
@@ -224,23 +227,37 @@ function parseRecipeFile(dir: string, file: string): Recipe {
 export function getRecipesByCategory(categoryId: string): RecipeMeta[] {
   return recipeFiles(categoryId)
     .flatMap(({ dir, files }) => files.map(file => parseRecipeFile(dir, file)))
-    .map(({ slug, category, categoryTitle, title, description, tags, readTime, filename }) => ({
-      slug,
-      category,
-      categoryTitle,
-      title,
-      description,
-      tags,
-      readTime,
-      filename,
-    }));
+    .map(
+      ({
+        slug,
+        category,
+        categoryTitle,
+        title,
+        description,
+        tags,
+        readTime,
+        filename,
+      }) => ({
+        slug,
+        category,
+        categoryTitle,
+        title,
+        description,
+        tags,
+        readTime,
+        filename,
+      }),
+    );
 }
 
 export function getAllRecipes(): RecipeMeta[] {
   return categories.flatMap(category => getRecipesByCategory(category.id));
 }
 
-export function getRecipe(categoryId: string, slug: string): Recipe | undefined {
+export function getRecipe(
+  categoryId: string,
+  slug: string,
+): Recipe | undefined {
   const entries = recipeFiles(categoryId);
   for (const { dir, files } of entries) {
     const file = files.find(f => slugify(f) === slug);
@@ -255,11 +272,16 @@ export function getRecipe(categoryId: string, slug: string): Recipe | undefined 
           const { blocks } = extractCodeBlocks(section.content.join('\n'));
           return {
             heading: section.heading,
-            content: section.content.filter(line => !line.trim().startsWith('```')),
+            content: section.content.filter(
+              line => !line.trim().startsWith('```'),
+            ),
             codeBlocks: blocks,
           };
         })
-        .filter(section => section.codeBlocks.length > 0 || section.content.length > 0);
+        .filter(
+          section =>
+            section.codeBlocks.length > 0 || section.content.length > 0,
+        );
 
       const introBlocks = extractCodeBlocks(intro).blocks;
       const cleanIntro = intro

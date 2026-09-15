@@ -194,6 +194,7 @@ export const toolApprovalRequestSchema: z.ZodType<ToolApprovalRequest> = z.objec
   type: z.literal('tool-approval-request'),
   approvalId: z.string(),
   toolCallId: z.string(),
+  signature: z.string().optional(),
 });
 
 export const toolApprovalResponseSchema: z.ZodType<ToolApprovalResponse> = z.object({

@@ -15,7 +15,7 @@
       "path": "../../infrastructure/test-server"
     },
     {
-      "path": "../../special/gateway"
+      "path": "../gateway"
     },
     {
       "path": "../../validation/provider"

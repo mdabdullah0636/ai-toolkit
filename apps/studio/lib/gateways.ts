@@ -1,10 +1,22 @@
-import { gateways } from '../../../content/gateways-registry/registry';
-import type { Gateway } from '../../../content/gateways-registry/registry';
 import { metricFor } from './metrics';
+import { platformRegistry } from './platform';
 import type { Metric } from './types';
 
-export type { Gateway };
-export { gateways };
+export interface Gateway {
+  slug: string;
+  name: string;
+  developer: string;
+  description: string;
+  packageName: string;
+  tags?: string[];
+  apiKeyEnvName?: string;
+  installCommand: Record<'pnpm' | 'npm' | 'yarn' | 'bun', string>;
+  codeExample: string;
+  docsUrl?: string;
+  apiKeyUrl?: string;
+  websiteUrl?: string;
+  npmUrl?: string;
+}
 
 export type GatewayStatus = 'operational' | 'degraded' | 'quiet';
 
@@ -12,6 +24,32 @@ export interface GatewayRow extends Gateway {
   status: GatewayStatus;
   metrics: Metric;
 }
+
+function getGateways(): Gateway[] {
+  return platformRegistry.all({ type: 'gateway' }).map(record => {
+    if (record.type !== 'gateway') throw new Error('Expected gateway record');
+    const links = Object.fromEntries(
+      record.links.map(link => [link.label, link.href]),
+    );
+    return {
+      slug: record.slug,
+      name: record.name,
+      developer: record.developer,
+      description: record.description,
+      packageName: record.packageName,
+      tags: record.tags,
+      installCommand: record.installCommands,
+      codeExample: record.codeExample,
+      docsUrl: links.docs,
+      apiKeyUrl: links.apiKey,
+      websiteUrl: links.website,
+      npmUrl: links.npm,
+      apiKeyEnvName: undefined,
+    };
+  });
+}
+
+export const gateways = getGateways();
 
 export function statusFromUptime(uptimePct: number): GatewayStatus {
   if (uptimePct >= 99.9) return 'operational';

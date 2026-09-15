@@ -1,0 +1,20 @@
+import { defineConfig } from 'tsup';
+
+export default defineConfig([
+  {
+    entry: ['src/index.ts'],
+    format: ['cjs', 'esm'],
+    dts: true,
+    sourcemap: true,
+    target: 'es2018',
+    platform: 'node',
+  },
+  {
+    entry: ['src/cli.ts'],
+    format: ['cjs', 'esm'],
+    dts: true,
+    sourcemap: true,
+    target: 'es2018',
+    platform: 'node',
+  },
+]);

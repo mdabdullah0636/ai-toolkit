@@ -49,6 +49,7 @@ import { mergeObjects } from '../util/merge-objects';
 import { prepareRetries } from '../util/prepare-retries';
 import { VERSION } from '../version';
 import { collectToolApprovals } from './collect-tool-approvals';
+import { validateApprovedToolApprovals } from './validate-tool-approvals';
 import { ContentPart } from './content-part';
 import { executeToolCall } from './execute-tool-call';
 import { extractTextContent } from './extract-text-content';
@@ -309,8 +310,22 @@ A function that attempts to repair a tool call that failed to parse.
     toolsContext?: InferToolSetContext<TOOLS>;
 
     /**
-     * Internal. For test use only. May change without notice.
+     * Secret used for signing and verifying tool approval requests.
+     *
+     * When set, approved tool requests reconstructed from client-supplied
+     * message history are verified before execution. This prevents
+     * client-supplied history from forging or altering approvals.
+     *
+     * Can also use an environment variable reference with the `env:` prefix
+     * (e.g. `env:TOOL_APPROVAL_SECRET`), which is resolved at call time.
+     *
+     * Experimental (can break in patch releases).
      */
+    experimental_toolApprovalSecret?: string | Uint8Array;
+
+    /**
+      * Internal. For test use only. May change without notice.
+      */
     _internal?: {
       generateId?: IdGenerator;
     };
@@ -385,12 +400,22 @@ A function that attempts to repair a tool call that failed to parse.
             messages: initialMessages,
           });
 
-        const localApprovedToolApprovals = approvedToolApprovals.filter(
+        const validatedToolApprovals = await validateApprovedToolApprovals({
+          approvedToolApprovals,
+          tools,
+          toolApproval: undefined,
+          messages: initialMessages,
+          toolsContext,
+          runtimeContext: experimental_context,
+          toolApprovalSecret: settings.experimental_toolApprovalSecret,
+        });
+
+        const localApprovedToolApprovals = validatedToolApprovals.approvedToolApprovals.filter(
           toolApproval => !toolApproval.toolCall.providerExecuted,
         );
 
         if (
-          deniedToolApprovals.length > 0 ||
+          validatedToolApprovals.deniedToolApprovals.length > 0 ||
           localApprovedToolApprovals.length > 0
         ) {
           const toolOutputs = await executeTools({
@@ -428,7 +453,7 @@ A function that attempts to repair a tool call that failed to parse.
           }
 
           // add execution denied tool results for all denied tool approvals:
-          for (const toolApproval of deniedToolApprovals) {
+          for (const toolApproval of validatedToolApprovals.deniedToolApprovals) {
             toolContent.push({
               type: 'tool-result' as const,
               toolCallId: toolApproval.toolCall.toolCallId,
@@ -456,8 +481,8 @@ A function that attempts to repair a tool call that failed to parse.
 
         // Forward provider-executed approval responses to the provider
         const providerExecutedToolApprovals = [
-          ...approvedToolApprovals,
-          ...deniedToolApprovals,
+          ...validatedToolApprovals.approvedToolApprovals,
+          ...validatedToolApprovals.deniedToolApprovals,
         ].filter(toolApproval => toolApproval.toolCall.providerExecuted);
 
         if (providerExecutedToolApprovals.length > 0) {

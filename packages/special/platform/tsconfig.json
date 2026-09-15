@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tools/tsconfig/ts-library.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "exclude": ["dist", "node_modules", "scripts", "tsup.config.ts"]
+}

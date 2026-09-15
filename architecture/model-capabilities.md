@@ -1,29 +1,31 @@
 # Model Capability Matrix
 
-Capabilities come from `@ai-toolkit/capabilities` (`ModelCapability`). This matrix tracks which provider packages support which capability categories. **current** = a provider package ships the capability; **planned** = targeted but not yet shipped; blank = not claimed.
+Capabilities come from `@ai-toolkit/capabilities` (`ModelCapability`). This matrix is **machine-generated** from provider source code and gateway model settings, not maintained manually. The generated JSON lives at `build/capability-matrix.json` and is validated by `pnpm arch:capabilities:check`.
 
-| Capability  | OpenAI  | Anthropic | Google  | Azure   | Amazon Bedrock | Gateway | Others (long tail) |
-| ----------- | ------- | --------- | ------- | ------- | -------------- | ------- | ------------------ |
-| chat        | current | current   | current | current | current        | current | current            |
-| vision      | current | current   | current | current | current        | current | planned            |
-| embedding   | current | planned   | current | current | current        | current | planned            |
-| speech      | current | planned   | planned | planned | planned        | planned | planned            |
-| audio       | planned | planned   | planned | planned | planned        | planned | planned            |
-| reasoning   | current | current   | current | planned | current        | current | planned            |
-| image       | current | planned   | current | current | current        | current | planned            |
-| video       | planned | planned   | planned | planned | planned        | planned | planned            |
-| reranker    | planned | planned   | planned | planned | planned        | planned | planned            |
-| moderation  | current | planned   | planned | planned | planned        | planned | planned            |
-| ocr         | planned | planned   | planned | planned | planned        | planned | planned            |
-| translation | planned | planned   | planned | planned | planned        | planned | planned            |
+## Capability summary by model type
 
-## Notes
+The matrix detects capabilities by scanning each provider's `-provider.ts` interface for model factory methods and their return types:
 
-- "current" is a **planning assertion** to be reconciled against each provider's `src/index.ts` and its descriptor entries before the provider migration wave (Phase E2); the table is the checklist, not the claim.
-- Per-model detail (context window, pricing, streaming, tool calling, structured output) belongs in `@ai-toolkit/capabilities` descriptors and the generated catalog, not in this coarse matrix.
-- Final matrix will be generated from `build/inventory.json` + provider descriptors so it cannot drift.
+| Model type returned | Capability |
+| ------------------- | ---------- |
+| `LanguageModelV3`   | chat       |
+| `EmbeddingModelV3`  | embedding  |
+| `ImageModelV3`      | image      |
+| `SpeechModelV3`     | speech     |
+| `TranscriptionModelV3` | speech   |
+| `RerankingModelV3`  | reranker   |
+| `VideoModelV3`      | video      |
 
 ## Source of truth
 
 - `packages/validation/capabilities/src/index.ts` — `ModelCapability`, `ModelCapabilityDescriptor`
-- Per-provider `src/index.ts` export surfaces (Phase B reconciliation task)
+- `tools/scripts/generate-capability-matrix.mjs` — generates `build/capability-matrix.json`
+- Per-provider `src/*-provider.ts` export surfaces (Phase B reconciliation)
+- `packages/core/gateway/src/*-model-settings.ts` — gateway model catalog
+
+## How to regenerate
+
+```bash
+pnpm arch:capabilities   # regenerate build/capability-matrix.json
+pnpm arch:capabilities:check  # verify it's up to date (CI)
+```

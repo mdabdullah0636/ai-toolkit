@@ -1,4 +1,4 @@
-import registry from '../../../examples/registry.json';
+import { platformRegistry } from './platform';
 
 export interface Template {
   name: string;
@@ -23,36 +23,67 @@ export interface TemplateCategory {
 
 const GITHUB_ROOT = 'https://github.com/khulnasoft/ai-toolkit/tree/main';
 
-const examples = registry as {
-  categories: {
-    id: string;
-    order: number;
-    title: string;
-    description: string;
-  }[];
-  examples: Array<Omit<Template, 'githubUrl'>>;
+const categoryMetadata: Record<string, Omit<TemplateCategory, 'templates'>> = {
+  '01-foundations': {
+    id: '01-foundations',
+    order: 1,
+    title: 'Foundations',
+    description:
+      'Core SDK concepts and basic server integrations without a specific framework.',
+  },
+  '02-framework-integration': {
+    id: '02-framework-integration',
+    order: 2,
+    title: 'Framework Integration',
+    description:
+      'Framework-specific apps: Next.js, React, Angular, Vue, Nuxt, NestJS, and LangChain.',
+  },
+  '03-integrations': {
+    id: '03-integrations',
+    order: 3,
+    title: 'Integrations',
+    description:
+      'Provider, observability, security, and protocol integrations.',
+  },
+  '04-tools': {
+    id: '04-tools',
+    order: 4,
+    title: 'Tools',
+    description: 'Developer tools and interactive playgrounds.',
+  },
 };
 
 export function getTemplateCategories(): TemplateCategory[] {
-  return examples.categories
-    .slice()
+  const templates = getAllTemplates();
+  return Object.values(categoryMetadata)
     .sort((a, b) => a.order - b.order)
     .map(category => ({
-      id: category.id,
-      order: category.order,
-      title: category.title,
-      description: category.description,
-      templates: examples.examples
-        .filter(example => example.category === category.id)
-        .map(example => ({
-          ...example,
-          githubUrl: `${GITHUB_ROOT}/${example.path}`,
-        })),
+      ...category,
+      templates: templates.filter(
+        template => template.category === category.id,
+      ),
     }));
 }
 
 export function getAllTemplates(): Template[] {
-  return getTemplateCategories().flatMap(category => category.templates);
+  return platformRegistry.all({ type: 'template' }).flatMap(record => {
+    if (record.type !== 'template') return [];
+    return [
+      {
+        name: record.slug,
+        title: record.name,
+        category: record.category,
+        categoryOrder: record.categoryOrder,
+        framework: record.framework,
+        primaryProvider:
+          record.primaryProviderId?.replace(/^provider:/, '') ?? null,
+        description: record.description,
+        tags: record.tags,
+        path: record.sourcePath,
+        githubUrl: `${GITHUB_ROOT}/${record.sourcePath}`,
+      },
+    ];
+  });
 }
 
 export const frameworkLabels: Record<string, string> = {

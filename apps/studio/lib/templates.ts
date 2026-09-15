@@ -1,17 +1,27 @@
-import registry from '../../../examples/registry.json';
+import { platformRegistry } from './platform';
 import type { TemplateEntry } from './types';
 
 const GITHUB_ROOT = 'https://github.com/khulnasoft/ai-toolkit/tree/main';
 
-const examples = registry as {
-  examples: Array<Omit<TemplateEntry, 'githubUrl'>>;
-};
-
 export function getTemplates(): TemplateEntry[] {
-  return examples.examples.map(example => ({
-    ...example,
-    githubUrl: `${GITHUB_ROOT}/${example.path}`,
-  }));
+  return platformRegistry.all({ type: 'template' }).flatMap(record => {
+    if (record.type !== 'template') return [];
+    return [
+      {
+        name: record.slug,
+        title: record.name,
+        category: record.category,
+        categoryOrder: record.categoryOrder,
+        framework: record.framework,
+        primaryProvider:
+          record.primaryProviderId?.replace(/^provider:/, '') ?? null,
+        description: record.description,
+        tags: record.tags,
+        path: record.sourcePath,
+        githubUrl: `${GITHUB_ROOT}/${record.sourcePath}`,
+      },
+    ];
+  });
 }
 
 export const frameworkLabels: Record<string, string> = {

@@ -77,6 +77,9 @@ importers:
       '@ai-toolkit/design':
         specifier: workspace:*
         version: link:../packages/ui/design
+      '@ai-toolkit/platform':
+        specifier: workspace:*
+        version: link:../packages/special/platform
       '@ai-toolkit/react':
         specifier: workspace:*
         version: link:../packages/adapters/react
@@ -281,7 +284,7 @@ importers:
         version: link:../../../packages/providers/fireworks
       '@ai-toolkit/gateway':
         specifier: workspace:*
-        version: link:../../../packages/special/gateway
+        version: link:../../../packages/core/gateway
       '@ai-toolkit/gladia':
         specifier: workspace:*
         version: link:../../../packages/providers/gladia
@@ -2107,7 +2110,7 @@ importers:
     dependencies:
       '@ai-toolkit/gateway':
         specifier: workspace:*
-        version: link:../../special/gateway
+        version: link:../gateway
       '@ai-toolkit/provider':
         specifier: workspace:*
         version: link:../../validation/provider
@@ -2147,6 +2150,40 @@ importers:
         version: 7.2.0(postcss@8.5.26)(ts-node@10.9.2(@types/node@20.17.24)(typescript@5.8.3))(typescript@5.8.3)
       tsx:
         specifier: ^4.19.2
+        version: 4.19.2
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+      zod:
+        specifier: 3.25.76
+        version: 3.25.76
+
+  packages/core/gateway:
+    dependencies:
+      '@ai-toolkit/provider':
+        specifier: workspace:*
+        version: link:../../validation/provider
+      '@ai-toolkit/provider-utils':
+        specifier: workspace:*
+        version: link:../provider-utils
+      '@vercel/oidc':
+        specifier: 3.1.0
+        version: 3.1.0
+    devDependencies:
+      '@ai-toolkit/test-server':
+        specifier: workspace:*
+        version: link:../../infrastructure/test-server
+      '@khulnasoft/ai-tsconfig':
+        specifier: workspace:*
+        version: link:../../../tools/tsconfig
+      '@types/node':
+        specifier: 18.15.11
+        version: 18.15.11
+      tsup:
+        specifier: ^8
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.26)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0)
+      tsx:
+        specifier: 4.19.2
         version: 4.19.2
       typescript:
         specifier: 5.8.3
@@ -3611,40 +3648,6 @@ importers:
         specifier: 3.25.76
         version: 3.25.76
 
-  packages/special/gateway:
-    dependencies:
-      '@ai-toolkit/provider':
-        specifier: workspace:*
-        version: link:../../validation/provider
-      '@ai-toolkit/provider-utils':
-        specifier: workspace:*
-        version: link:../../core/provider-utils
-      '@vercel/oidc':
-        specifier: 3.1.0
-        version: 3.1.0
-    devDependencies:
-      '@ai-toolkit/test-server':
-        specifier: workspace:*
-        version: link:../../infrastructure/test-server
-      '@khulnasoft/ai-tsconfig':
-        specifier: workspace:*
-        version: link:../../../tools/tsconfig
-      '@types/node':
-        specifier: 18.15.11
-        version: 18.15.11
-      tsup:
-        specifier: ^8
-        version: 8.5.1(jiti@2.7.0)(postcss@8.5.26)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0)
-      tsx:
-        specifier: 4.19.2
-        version: 4.19.2
-      typescript:
-        specifier: 5.8.3
-        version: 5.8.3
-      zod:
-        specifier: 3.25.76
-        version: 3.25.76
-
   packages/special/khulnasoft:
     dependencies:
       '@ai-toolkit/openai-compatible':
@@ -3672,6 +3675,27 @@ importers:
       zod:
         specifier: 3.25.76
         version: 3.25.76
+
+  packages/special/platform:
+    devDependencies:
+      '@khulnasoft/ai-tsconfig':
+        specifier: workspace:*
+        version: link:../../../tools/tsconfig
+      '@types/node':
+        specifier: 20.17.24
+        version: 20.17.24
+      del-cli:
+        specifier: ^6.0.0
+        version: 6.0.0
+      tsup:
+        specifier: ^8
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.26)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0)
+      tsx:
+        specifier: 4.19.2
+        version: 4.19.2
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
 
   packages/ui/design:
     dependencies:
@@ -3910,10 +3934,19 @@ importers:
 
   packages/validation/provider:
     dependencies:
+      '@standard-schema/spec':
+        specifier: ^1.1.0
+        version: 1.1.0
       json-schema:
         specifier: ^0.4.0
         version: 0.4.0
+      zod:
+        specifier: ^3.25.76 || ^4.1.8
+        version: 4.1.13
     devDependencies:
+      '@ai-toolkit/test-server':
+        specifier: workspace:*
+        version: link:../../infrastructure/test-server
       '@khulnasoft/ai-tsconfig':
         specifier: workspace:*
         version: link:../../../tools/tsconfig
@@ -3929,6 +3962,9 @@ importers:
       typescript:
         specifier: 5.8.3
         version: 5.8.3
+      vitest:
+        specifier: 2.1.4
+        version: 2.1.4(@edge-runtime/vm@5.0.0)(@types/node@20.17.24)(jsdom@26.1.0)(less@4.4.0)(lightningcss@1.32.0)(msw@2.15.0(@types/node@20.17.24)(typescript@5.8.3))(sass@1.90.0)(terser@5.49.2)
 
   packages/validation/valibot:
     dependencies:
@@ -3999,6 +4035,24 @@ importers:
       typescript:
         specifier: 5.8.3
         version: 5.8.3
+
+  tools/memory-benchmark:
+    devDependencies:
+      '@khulnasoft/ai-tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/node':
+        specifier: 20.17.24
+        version: 20.17.24
+      tsup:
+        specifier: ^8
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.26)(tsx@4.23.13)(typescript@5.8.3)(yaml@2.9.0)
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: 2.1.4
+        version: 2.1.4(@edge-runtime/vm@5.0.0)(@types/node@20.17.24)(jsdom@26.1.0)(less@4.4.0)(lightningcss@1.32.0)(msw@2.15.0(@types/node@20.17.24)(typescript@5.8.3))(sass@1.90.0)(terser@5.49.2)
 
   tools/tsconfig: {}
 
@@ -21412,11 +21466,6 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  tsx@4.23.11:
-    resolution: {integrity: sha512-Ry2oTEUnhBdeEdWIztY8kf3/nBGnPnjMLVGL0YfdRXMORuPER5NlKmayqxtxRxwB1xBN+RivRaJfe7PM1rtiyw==}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
-
   tsx@4.23.13:
     resolution: {integrity: sha512-BL5MGkRln6aDYhb0xbQlEAGw743BaZYWdbWtdJOBriYJboKgUUYCadFp2/FpBBZquBC/ezNBn7wMMPx7FDZUDw==}
     engines: {node: '>=18.0.0'}
@@ -27495,7 +27544,7 @@ snapshots:
       semver: 7.8.5
       stacktrace-parser: 0.1.11
       superjson: 2.2.6
-      tsx: 4.23.11
+      tsx: 4.23.13
       typescript: 5.8.3
       winston: 3.19.0
       winston-console-format: 1.0.8
@@ -46246,18 +46295,11 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  tsx@4.23.11:
-    dependencies:
-      esbuild: 0.28.2
-    optionalDependencies:
-      fsevents: 2.3.3
-
   tsx@4.23.13:
     dependencies:
       esbuild: 0.28.2
     optionalDependencies:
       fsevents: 2.3.3
-    optional: true
 
   tsyringe@4.10.0:
     dependencies:

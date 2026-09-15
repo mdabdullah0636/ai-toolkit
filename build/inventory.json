@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T02:41:46.926Z",
+  "generatedAt": "2026-09-14T23:48:37.331Z",
   "packages": [
     {
       "name": "@ai-toolkit/apps",
@@ -24,12 +24,17 @@
           "kind": "external"
         },
         {
-          "name": "@ai-toolkit/ai-docs",
+          "name": "@vercel/geistdocs",
+          "version": "1.26.1",
+          "kind": "external"
+        },
+        {
+          "name": "@ai-toolkit/react",
           "version": "workspace:*",
           "kind": "workspace"
         },
         {
-          "name": "@ai-toolkit/react",
+          "name": "@ai-toolkit/platform",
           "version": "workspace:*",
           "kind": "workspace"
         },
@@ -245,16 +250,22 @@
           "direction": "external"
         },
         {
-          "name": "@ai-toolkit/ai-docs",
-          "version": "workspace:*",
-          "kind": "workspace",
-          "direction": "to-special"
+          "name": "@vercel/geistdocs",
+          "version": "1.26.1",
+          "kind": "external",
+          "direction": "external"
         },
         {
           "name": "@ai-toolkit/react",
           "version": "workspace:*",
           "kind": "workspace",
           "direction": "to-adapters"
+        },
+        {
+          "name": "@ai-toolkit/platform",
+          "version": "workspace:*",
+          "kind": "workspace",
+          "direction": "to-special"
         },
         {
           "name": "@ai-toolkit/design",
@@ -1198,7 +1209,7 @@
           "name": "@ai-toolkit/gateway",
           "version": "workspace:*",
           "kind": "workspace",
-          "direction": "to-special"
+          "direction": "to-core"
         },
         {
           "name": "@ai-toolkit/provider",
@@ -1215,6 +1226,94 @@
         {
           "name": "@opentelemetry/api",
           "version": "1.9.0",
+          "kind": "external",
+          "direction": "external"
+        },
+        {
+          "name": "zod",
+          "version": "^3.25.76 || ^4.1.8",
+          "kind": "external",
+          "direction": "external"
+        }
+      ]
+    },
+    {
+      "name": "@ai-toolkit/gateway",
+      "dir": "packages/core/gateway",
+      "domain": "core",
+      "workspaceGlobs": [
+        "packages/core/*"
+      ],
+      "version": "2.0.0",
+      "private": false,
+      "source": "./src/index.ts",
+      "main": "./dist/index.js",
+      "module": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "exports": [
+        "./package.json",
+        "."
+      ],
+      "conditions": [
+        "default",
+        "import",
+        "require",
+        "types"
+      ],
+      "publicApi": [
+        "./package.json",
+        "."
+      ],
+      "dependencies": [
+        {
+          "name": "@ai-toolkit/provider",
+          "version": "workspace:*",
+          "kind": "workspace"
+        },
+        {
+          "name": "@ai-toolkit/provider-utils",
+          "version": "workspace:*",
+          "kind": "workspace"
+        },
+        {
+          "name": "@vercel/oidc",
+          "version": "3.1.0",
+          "kind": "external"
+        },
+        {
+          "name": "zod",
+          "version": "^3.25.76 || ^4.1.8",
+          "kind": "external"
+        }
+      ],
+      "runtimeAssumptions": {
+        "nodeBuiltins": [
+          "node:assert",
+          "node:fs",
+          "node:path"
+        ],
+        "usesGlobalFetch": true
+      },
+      "stability": "beta",
+      "owners": [
+        "@khulnasoft/ai-toolkit-core"
+      ],
+      "dependencyEdges": [
+        {
+          "name": "@ai-toolkit/provider",
+          "version": "workspace:*",
+          "kind": "workspace",
+          "direction": "to-validation"
+        },
+        {
+          "name": "@ai-toolkit/provider-utils",
+          "version": "workspace:*",
+          "kind": "workspace",
+          "direction": "to-core"
+        },
+        {
+          "name": "@vercel/oidc",
+          "version": "3.1.0",
           "kind": "external",
           "direction": "external"
         },
@@ -4813,677 +4912,6 @@
       ]
     },
     {
-      "name": "@ai-toolkit/ai-docs",
-      "dir": "packages/special/ai-docs",
-      "domain": "special",
-      "workspaceGlobs": [
-        "packages/special/*"
-      ],
-      "version": "1.26.1",
-      "private": true,
-      "source": null,
-      "main": null,
-      "module": null,
-      "types": null,
-      "exports": [
-        "./config",
-        "./layout",
-        "./localize-href",
-        "./navbar",
-        "./page-visibility",
-        "./footer",
-        "./home-layout",
-        "./mobile-docs-bar",
-        "./controls",
-        "./source",
-        "./sidebar",
-        "./versions",
-        "./pages/docs",
-        "./routes/chat",
-        "./routes/search",
-        "./routes/search-export",
-        "./routes/llms",
-        "./routes/sitemap",
-        "./routes/agents",
-        "./routes/mcp",
-        "./routes/not-found",
-        "./proxy",
-        "./next",
-        "./mdx",
-        "./source-config",
-        "./docs/agents.md",
-        "./docs/llms.txt",
-        "./docs/manifest.json",
-        "./docs/pages/*",
-        "./docs/sitemap.md",
-        "./shiki-theme",
-        "./components/badge",
-        "./components/button",
-        "./components/button-group",
-        "./components/callout",
-        "./components/card",
-        "./components/code-block",
-        "./components/code-block-tabs",
-        "./components/collapsible",
-        "./components/command-prompt",
-        "./components/copy-prompt",
-        "./components/dialog",
-        "./components/drawer",
-        "./components/dropdown-menu",
-        "./components/input",
-        "./components/input-group",
-        "./components/kbd",
-        "./components/theme-aware-image",
-        "./components/mermaid",
-        "./components/navigation-menu",
-        "./components/popover",
-        "./components/scroll-area",
-        "./components/separator",
-        "./components/sheet",
-        "./components/sonner",
-        "./components/spinner",
-        "./components/switch",
-        "./components/theme-switcher",
-        "./components/textarea",
-        "./components/tooltip",
-        "./components/video",
-        "./assets/icons",
-        "./assets/icons/*",
-        "./assets/logos",
-        "./assets/logos/*",
-        "./styles.css",
-        "./theme.css",
-        "./package.json"
-      ],
-      "conditions": [
-        "default",
-        "types"
-      ],
-      "publicApi": [
-        "./config",
-        "./layout",
-        "./localize-href",
-        "./navbar",
-        "./page-visibility",
-        "./footer",
-        "./home-layout",
-        "./mobile-docs-bar",
-        "./controls",
-        "./source",
-        "./sidebar",
-        "./versions",
-        "./pages/docs",
-        "./routes/chat",
-        "./routes/search",
-        "./routes/search-export",
-        "./routes/llms",
-        "./routes/sitemap",
-        "./routes/agents",
-        "./routes/mcp",
-        "./routes/not-found",
-        "./proxy",
-        "./next",
-        "./mdx",
-        "./source-config",
-        "./docs/agents.md",
-        "./docs/llms.txt",
-        "./docs/manifest.json",
-        "./docs/pages/*",
-        "./docs/sitemap.md",
-        "./shiki-theme",
-        "./components/badge",
-        "./components/button",
-        "./components/button-group",
-        "./components/callout",
-        "./components/card",
-        "./components/code-block",
-        "./components/code-block-tabs",
-        "./components/collapsible",
-        "./components/command-prompt",
-        "./components/copy-prompt",
-        "./components/dialog",
-        "./components/drawer",
-        "./components/dropdown-menu",
-        "./components/input",
-        "./components/input-group",
-        "./components/kbd",
-        "./components/theme-aware-image",
-        "./components/mermaid",
-        "./components/navigation-menu",
-        "./components/popover",
-        "./components/scroll-area",
-        "./components/separator",
-        "./components/sheet",
-        "./components/sonner",
-        "./components/spinner",
-        "./components/switch",
-        "./components/theme-switcher",
-        "./components/textarea",
-        "./components/tooltip",
-        "./components/video",
-        "./assets/icons",
-        "./assets/icons/*",
-        "./assets/logos",
-        "./assets/logos/*",
-        "./styles.css",
-        "./theme.css",
-        "./package.json"
-      ],
-      "dependencies": [
-        {
-          "name": "@ai-sdk/react",
-          "version": "^3.0.134",
-          "kind": "external"
-        },
-        {
-          "name": "@clack/prompts",
-          "version": "^0.11.0",
-          "kind": "external"
-        },
-        {
-          "name": "@icons-pack/react-simple-icons",
-          "version": "^13.8.0",
-          "kind": "external"
-        },
-        {
-          "name": "@next/env",
-          "version": "16.3.3",
-          "kind": "external"
-        },
-        {
-          "name": "@orama/tokenizers",
-          "version": "^3.1.16",
-          "kind": "external"
-        },
-        {
-          "name": "@streamdown/cjk",
-          "version": "^1.0.1",
-          "kind": "external"
-        },
-        {
-          "name": "@streamdown/code",
-          "version": "^1.0.1",
-          "kind": "external"
-        },
-        {
-          "name": "@types/mdx",
-          "version": "^2.0.13",
-          "kind": "external"
-        },
-        {
-          "name": "@types/react",
-          "version": "^19.2.7",
-          "kind": "external"
-        },
-        {
-          "name": "@vercel/agent-readability",
-          "version": "^0.7.0",
-          "kind": "external"
-        },
-        {
-          "name": "@vercel/oidc",
-          "version": "^3.4.1",
-          "kind": "external"
-        },
-        {
-          "name": "ai",
-          "version": "^6.0.132",
-          "kind": "external"
-        },
-        {
-          "name": "class-variance-authority",
-          "version": "^0.7.1",
-          "kind": "external"
-        },
-        {
-          "name": "clsx",
-          "version": "^2.1.1",
-          "kind": "external"
-        },
-        {
-          "name": "commander",
-          "version": "^14.0.2",
-          "kind": "external"
-        },
-        {
-          "name": "dexie",
-          "version": "^4.2.1",
-          "kind": "external"
-        },
-        {
-          "name": "dexie-react-hooks",
-          "version": "^4.2.0",
-          "kind": "external"
-        },
-        {
-          "name": "fumadocs-core",
-          "version": "16.2.2",
-          "kind": "external"
-        },
-        {
-          "name": "fumadocs-mdx",
-          "version": "14.0.4",
-          "kind": "external"
-        },
-        {
-          "name": "fumadocs-ui",
-          "version": "16.2.2",
-          "kind": "external"
-        },
-        {
-          "name": "glob",
-          "version": "^11.0.0",
-          "kind": "external"
-        },
-        {
-          "name": "lucide-react",
-          "version": "^0.555.0",
-          "kind": "external"
-        },
-        {
-          "name": "mermaid",
-          "version": "^11.12.2",
-          "kind": "external"
-        },
-        {
-          "name": "motion",
-          "version": "^12.23.25",
-          "kind": "external"
-        },
-        {
-          "name": "next-themes",
-          "version": "^0.4.6",
-          "kind": "external"
-        },
-        {
-          "name": "radix-ui",
-          "version": "1.6.4",
-          "kind": "external"
-        },
-        {
-          "name": "react-player",
-          "version": "^3.4.0",
-          "kind": "external"
-        },
-        {
-          "name": "remark-frontmatter",
-          "version": "^5.0.0",
-          "kind": "external"
-        },
-        {
-          "name": "remark-gfm",
-          "version": "^4.0.1",
-          "kind": "external"
-        },
-        {
-          "name": "remark-mdx",
-          "version": "^3.1.1",
-          "kind": "external"
-        },
-        {
-          "name": "remark-parse",
-          "version": "^11.0.0",
-          "kind": "external"
-        },
-        {
-          "name": "sonner",
-          "version": "^2.0.7",
-          "kind": "external"
-        },
-        {
-          "name": "streamdown",
-          "version": "^2.1.0",
-          "kind": "external"
-        },
-        {
-          "name": "tailwind-merge",
-          "version": "^3.4.0",
-          "kind": "external"
-        },
-        {
-          "name": "ts-morph",
-          "version": "^27.0.2",
-          "kind": "external"
-        },
-        {
-          "name": "tw-animate-css",
-          "version": "^1.4.0",
-          "kind": "external"
-        },
-        {
-          "name": "unified",
-          "version": "^11.0.5",
-          "kind": "external"
-        },
-        {
-          "name": "unist-util-visit",
-          "version": "^5.1.0",
-          "kind": "external"
-        },
-        {
-          "name": "use-stick-to-bottom",
-          "version": "^1.1.1",
-          "kind": "external"
-        },
-        {
-          "name": "vaul",
-          "version": "^1.1.2",
-          "kind": "external"
-        },
-        {
-          "name": "zod",
-          "version": "^4.1.13",
-          "kind": "external"
-        },
-        {
-          "name": "next",
-          "version": "^16.3.3",
-          "kind": "external"
-        },
-        {
-          "name": "react",
-          "version": "^19.2.3",
-          "kind": "external"
-        },
-        {
-          "name": "react-dom",
-          "version": "^19.2.3",
-          "kind": "external"
-        },
-        {
-          "name": "tailwindcss",
-          "version": "^4.1.17",
-          "kind": "external"
-        }
-      ],
-      "runtimeAssumptions": {
-        "nodeBuiltins": [
-          "node:child_process",
-          "node:fs",
-          "node:fs/promises",
-          "node:path",
-          "node:util"
-        ],
-        "usesGlobalFetch": false
-      },
-      "stability": "internal",
-      "owners": [
-        "@khulnasoft/ai-toolkit-core"
-      ],
-      "dependencyEdges": [
-        {
-          "name": "@ai-sdk/react",
-          "version": "^3.0.134",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "@clack/prompts",
-          "version": "^0.11.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "@icons-pack/react-simple-icons",
-          "version": "^13.8.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "@next/env",
-          "version": "16.3.3",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "@orama/tokenizers",
-          "version": "^3.1.16",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "@streamdown/cjk",
-          "version": "^1.0.1",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "@streamdown/code",
-          "version": "^1.0.1",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "@types/mdx",
-          "version": "^2.0.13",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "@types/react",
-          "version": "^19.2.7",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "@vercel/agent-readability",
-          "version": "^0.7.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "@vercel/oidc",
-          "version": "^3.4.1",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "ai",
-          "version": "^6.0.132",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "class-variance-authority",
-          "version": "^0.7.1",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "clsx",
-          "version": "^2.1.1",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "commander",
-          "version": "^14.0.2",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "dexie",
-          "version": "^4.2.1",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "dexie-react-hooks",
-          "version": "^4.2.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "fumadocs-core",
-          "version": "16.2.2",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "fumadocs-mdx",
-          "version": "14.0.4",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "fumadocs-ui",
-          "version": "16.2.2",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "glob",
-          "version": "^11.0.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "lucide-react",
-          "version": "^0.555.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "mermaid",
-          "version": "^11.12.2",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "motion",
-          "version": "^12.23.25",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "next-themes",
-          "version": "^0.4.6",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "radix-ui",
-          "version": "1.6.4",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "react-player",
-          "version": "^3.4.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "remark-frontmatter",
-          "version": "^5.0.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "remark-gfm",
-          "version": "^4.0.1",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "remark-mdx",
-          "version": "^3.1.1",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "remark-parse",
-          "version": "^11.0.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "sonner",
-          "version": "^2.0.7",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "streamdown",
-          "version": "^2.1.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "tailwind-merge",
-          "version": "^3.4.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "ts-morph",
-          "version": "^27.0.2",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "tw-animate-css",
-          "version": "^1.4.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "unified",
-          "version": "^11.0.5",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "unist-util-visit",
-          "version": "^5.1.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "use-stick-to-bottom",
-          "version": "^1.1.1",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "vaul",
-          "version": "^1.1.2",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "zod",
-          "version": "^4.1.13",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "next",
-          "version": "^16.3.3",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "react",
-          "version": "^19.2.3",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "react-dom",
-          "version": "^19.2.3",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "tailwindcss",
-          "version": "^4.1.17",
-          "kind": "external",
-          "direction": "external"
-        }
-      ]
-    },
-    {
       "name": "@ai-toolkit/codemod",
       "dir": "packages/special/codemod",
       "domain": "special",
@@ -5639,94 +5067,6 @@
       ]
     },
     {
-      "name": "@ai-toolkit/gateway",
-      "dir": "packages/special/gateway",
-      "domain": "special",
-      "workspaceGlobs": [
-        "packages/special/*"
-      ],
-      "version": "2.0.0",
-      "private": false,
-      "source": "./src/index.ts",
-      "main": "./dist/index.js",
-      "module": "./dist/index.mjs",
-      "types": "./dist/index.d.ts",
-      "exports": [
-        "./package.json",
-        "."
-      ],
-      "conditions": [
-        "default",
-        "import",
-        "require",
-        "types"
-      ],
-      "publicApi": [
-        "./package.json",
-        "."
-      ],
-      "dependencies": [
-        {
-          "name": "@ai-toolkit/provider",
-          "version": "workspace:*",
-          "kind": "workspace"
-        },
-        {
-          "name": "@ai-toolkit/provider-utils",
-          "version": "workspace:*",
-          "kind": "workspace"
-        },
-        {
-          "name": "@vercel/oidc",
-          "version": "3.1.0",
-          "kind": "external"
-        },
-        {
-          "name": "zod",
-          "version": "^3.25.76 || ^4.1.8",
-          "kind": "external"
-        }
-      ],
-      "runtimeAssumptions": {
-        "nodeBuiltins": [
-          "node:assert",
-          "node:fs",
-          "node:path"
-        ],
-        "usesGlobalFetch": true
-      },
-      "stability": "beta",
-      "owners": [
-        "@khulnasoft/ai-toolkit-core"
-      ],
-      "dependencyEdges": [
-        {
-          "name": "@ai-toolkit/provider",
-          "version": "workspace:*",
-          "kind": "workspace",
-          "direction": "to-validation"
-        },
-        {
-          "name": "@ai-toolkit/provider-utils",
-          "version": "workspace:*",
-          "kind": "workspace",
-          "direction": "to-core"
-        },
-        {
-          "name": "@vercel/oidc",
-          "version": "3.1.0",
-          "kind": "external",
-          "direction": "external"
-        },
-        {
-          "name": "zod",
-          "version": "^3.25.76 || ^4.1.8",
-          "kind": "external",
-          "direction": "external"
-        }
-      ]
-    },
-    {
       "name": "@ai-toolkit/khulnasoft",
       "dir": "packages/special/khulnasoft",
       "domain": "special",
@@ -5809,6 +5149,46 @@
           "direction": "external"
         }
       ]
+    },
+    {
+      "name": "@ai-toolkit/platform",
+      "dir": "packages/special/platform",
+      "domain": "special",
+      "workspaceGlobs": [
+        "packages/special/*"
+      ],
+      "version": "0.0.0",
+      "private": true,
+      "source": "./src/index.ts",
+      "main": "./dist/index.cjs",
+      "module": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "exports": [
+        "."
+      ],
+      "conditions": [
+        "default",
+        "import",
+        "require",
+        "types"
+      ],
+      "publicApi": [
+        "."
+      ],
+      "dependencies": [],
+      "runtimeAssumptions": {
+        "nodeBuiltins": [
+          "node:fs",
+          "node:path",
+          "node:url"
+        ],
+        "usesGlobalFetch": false
+      },
+      "stability": "internal",
+      "owners": [
+        "@khulnasoft/ai-toolkit-core"
+      ],
+      "dependencyEdges": []
     },
     {
       "name": "@ai-toolkit/design",
@@ -6415,7 +5795,8 @@
       "types": "./dist/index.d.ts",
       "exports": [
         "./package.json",
-        "."
+        ".",
+        "./conformance"
       ],
       "conditions": [
         "default",
@@ -6425,7 +5806,8 @@
       ],
       "publicApi": [
         "./package.json",
-        "."
+        ".",
+        "./conformance"
       ],
       "dependencies": [
         {
@@ -6734,6 +6116,46 @@
       },
       "stability": null,
       "owners": null,
+      "dependencyEdges": []
+    },
+    {
+      "name": "@tools/memory-benchmark",
+      "dir": "tools/memory-benchmark",
+      "domain": "tools",
+      "workspaceGlobs": [
+        "tools/*"
+      ],
+      "version": "0.0.0",
+      "private": false,
+      "source": "./src/index.ts",
+      "main": "./dist/index.js",
+      "module": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "exports": [
+        "./package.json",
+        ".",
+        "./cli"
+      ],
+      "conditions": [
+        "default",
+        "import",
+        "require",
+        "types"
+      ],
+      "publicApi": [
+        "./package.json",
+        ".",
+        "./cli"
+      ],
+      "dependencies": [],
+      "runtimeAssumptions": {
+        "nodeBuiltins": [],
+        "usesGlobalFetch": false
+      },
+      "stability": "alpha",
+      "owners": [
+        "@khulnasoft/ai-toolkit-infrastructure"
+      ],
       "dependencyEdges": []
     },
     {
@@ -7161,7 +6583,7 @@
           "name": "@ai-toolkit/gateway",
           "version": "workspace:*",
           "kind": "workspace",
-          "direction": "to-special"
+          "direction": "to-core"
         },
         {
           "name": "@ai-toolkit/gladia",

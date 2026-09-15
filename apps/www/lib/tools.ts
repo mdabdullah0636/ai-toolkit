@@ -1,7 +1,43 @@
-import { tools } from '../../../content/tools-registry/registry';
+import { platformRegistry } from './platform';
 
-export type { Tool } from '../../../content/tools-registry/registry';
-export { tools };
+export interface Tool {
+  slug: string;
+  name: string;
+  description: string;
+  packageName: string;
+  tags?: string[];
+  apiKeyEnvName?: string;
+  installCommand: Record<'pnpm' | 'npm' | 'yarn' | 'bun', string>;
+  codeExample: string;
+  docsUrl?: string;
+  apiKeyUrl?: string;
+  websiteUrl?: string;
+  npmUrl?: string;
+}
+
+export const tools: Tool[] = platformRegistry
+  .all({ type: 'tool' })
+  .flatMap(record => {
+    if (record.type !== 'tool') return [];
+    const links = Object.fromEntries(
+      record.links.map(link => [link.label, link.href]),
+    );
+    return [
+      {
+        slug: record.slug,
+        name: record.name,
+        description: record.description,
+        packageName: record.packageName,
+        tags: record.tags,
+        installCommand: record.installCommands,
+        codeExample: record.codeExample,
+        docsUrl: links.docs,
+        apiKeyUrl: links.apiKey,
+        websiteUrl: links.website,
+        npmUrl: links.npm,
+      },
+    ];
+  });
 
 export interface ToolCategory {
   id: string;
@@ -72,10 +108,8 @@ const categoryByTag: Record<string, string> = {
 };
 
 export function toolCategoryOf(tool: { tags?: string[] }): string {
-  for (const tag of tool.tags ?? []) {
-    const category = categoryByTag[tag];
-    if (category) return category;
-  }
+  for (const tag of tool.tags ?? [])
+    if (categoryByTag[tag]) return categoryByTag[tag];
   return 'search';
 }
 

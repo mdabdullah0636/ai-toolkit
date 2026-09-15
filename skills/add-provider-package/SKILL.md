@@ -41,9 +41,12 @@ packages/<provider-name>/
   "version": "0.0.1",
   "license": "Apache-2.0",
   "sideEffects": false,
+  "stability": "beta",
+  "owners": ["@khulnasoft/ai-toolkit-providers"],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "source": "./src/index.ts",
   "files": ["dist/**/*", "src", "CHANGELOG.md", "README.md"],
   "scripts": {
     "build": "pnpm clean && tsup --tsconfig tsconfig.build.json",
@@ -83,7 +86,16 @@ packages/<provider-name>/
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "homepage": "https://studio.khulnasoft.com/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khulnasoft/ai-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/khulnasoft/ai-toolkit/issues"
+  },
+  "keywords": ["ai", "sdk", "<provider-name>"]
 }
 ```
 
@@ -209,14 +221,24 @@ See existing implementations like `packages/openai/src/chat/openai-chat-language
 ```json
 // tsconfig.json
 {
-  "extends": "@khulnasoft/ai-tsconfig/ts-library.json",
+  "extends": "./node_modules/@khulnasoft/ai-tsconfig/ts-library.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "composite": true
+    "composite": true,
+    "rootDir": "src",
+    "outDir": "dist"
   },
-  "include": ["src/**/*.ts"],
-  "references": [{ "path": "../provider" }, { "path": "../provider-utils" }]
+  "exclude": ["dist", "build", "node_modules", "tsup.config.ts", "internal.d.ts"],
+  "references": [
+    {
+      "path": "../../core/provider-utils"
+    },
+    {
+      "path": "../../validation/provider"
+    },
+    {
+      "path": "../../infrastructure/test-server"
+    }
+  ]
 }
 ```
 

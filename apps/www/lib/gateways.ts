@@ -1,7 +1,46 @@
-import { gateways } from '../../../content/gateways-registry/registry';
+import { platformRegistry } from './platform';
 
-export type { Gateway } from '../../../content/gateways-registry/registry';
-export { gateways };
+export interface Gateway {
+  slug: string;
+  name: string;
+  developer: string;
+  description: string;
+  packageName: string;
+  featured?: boolean;
+  tags?: string[];
+  apiKeyEnvName?: string;
+  installCommand: Record<'pnpm' | 'npm' | 'yarn' | 'bun', string>;
+  codeExample: string;
+  docsUrl?: string;
+  apiKeyUrl?: string;
+  websiteUrl?: string;
+  npmUrl?: string;
+}
+
+export const gateways: Gateway[] = platformRegistry
+  .all({ type: 'gateway' })
+  .flatMap(record => {
+    if (record.type !== 'gateway') return [];
+    const links = Object.fromEntries(
+      record.links.map(link => [link.label, link.href]),
+    );
+    return [
+      {
+        slug: record.slug,
+        name: record.name,
+        developer: record.developer,
+        description: record.description,
+        packageName: record.packageName,
+        tags: record.tags,
+        installCommand: record.installCommands,
+        codeExample: record.codeExample,
+        docsUrl: links.docs,
+        apiKeyUrl: links.apiKey,
+        websiteUrl: links.website,
+        npmUrl: links.npm,
+      },
+    ];
+  });
 
 export interface GatewayCategory {
   id: string;

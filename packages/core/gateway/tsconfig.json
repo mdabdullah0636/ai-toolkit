@@ -1,17 +1,17 @@
 {
-  "extends": "../../../tools/tsconfig/ts-library.json",
+  "extends": "../../tools/tsconfig/ts-library.json",
   "compilerOptions": {
     "composite": true,
     "rootDir": "src",
     "outDir": "dist",
     "paths": {
-      "@ai-toolkit/test-server": ["../test-server/src"]
+      "@ai-toolkit/test-server": ["../../infrastructure/test-server/src"]
     }
   },
   "exclude": ["dist", "build", "node_modules", "scripts", "tsup.config.ts"],
   "references": [
     {
-      "path": "../../core/provider-utils"
+      "path": "../provider-utils"
     },
     {
       "path": "../../infrastructure/test-server"

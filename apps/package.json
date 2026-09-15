@@ -26,6 +26,7 @@
     "@ai-sdk/react": "^3.0.134",
     "@vercel/geistdocs": "1.26.1",
     "@ai-toolkit/react": "workspace:*",
+    "@ai-toolkit/platform": "workspace:*",
     "@ai-toolkit/design": "workspace:*",
     "@icons-pack/react-simple-icons": "^13.8.0",
     "@orama/tokenizers": "^3.1.16",

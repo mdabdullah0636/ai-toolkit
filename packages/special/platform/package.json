@@ -1,0 +1,41 @@
+{
+  "name": "@ai-toolkit/platform",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "source": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "pnpm clean && tsup --config tsup.config.ts",
+    "generate-registry": "tsx scripts/generate-registry.ts",
+    "clean": "del-cli dist *.tsbuildinfo",
+    "lint": "eslint \"./src/**/*.ts\"",
+    "type-check": "tsc --build",
+    "prettier-check": "prettier --check \"./src/**/*.ts\""
+  },
+  "devDependencies": {
+    "@khulnasoft/ai-tsconfig": "workspace:*",
+    "@types/node": "20.17.24",
+    "del-cli": "^6.0.0",
+    "tsup": "^8",
+    "tsx": "4.19.2",
+    "typescript": "5.8.3"
+  },
+  "stability": "internal",
+  "owners": [
+    "@khulnasoft/ai-toolkit-core"
+  ]
+}

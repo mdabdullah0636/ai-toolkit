@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-14T23:31:10.529Z",
+  "sources": [
+    {
+      "id": "gateways",
+      "kind": "registry",
+      "path": "content/gateways-registry/registry.ts",
+      "entity": "Gateway",
+      "count": 8
+    },
+    {
+      "id": "tools",
+      "kind": "registry",
+      "path": "content/tools-registry/registry.ts",
+      "entity": "Tool",
+      "count": 13
+    },
+    {
+      "id": "templates",
+      "kind": "registry",
+      "path": "examples/registry.json",
+      "entity": "Template",
+      "count": 22
+    },
+    {
+      "id": "providers",
+      "kind": "content",
+      "path": "content/providers",
+      "entity": "Provider",
+      "count": 110
+    },
+    {
+      "id": "recipes",
+      "kind": "content",
+      "path": "content/cookbook",
+      "entity": "Recipe",
+      "count": 85
+    },
+    {
+      "id": "models",
+      "kind": "package-source",
+      "path": "packages/core/gateway/src",
+      "entity": "Model",
+      "count": 187
+    }
+  ],
+  "appReaders": []
+}
