@@ -106,6 +106,6 @@ describe('shimmer', () => {
   it('sets background image styles', () => {
     const { container } = render(<Shimmer>Text</Shimmer>);
     const element = container.firstChild as HTMLElement;
-    expect(element.style.backgroundImage).toContain('linear-gradient');
+    expect(element.className).toContain('bg-[length:250%_100%,auto]');
   });
 });

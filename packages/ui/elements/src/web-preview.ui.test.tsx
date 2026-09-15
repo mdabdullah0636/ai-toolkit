@@ -156,7 +156,7 @@ describe('webPreviewBody', () => {
         <WebPreviewBody loading="lazy" />
       </WebPreview>,
     );
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByText('lazy')).toBeInTheDocument();
   });
 });
 

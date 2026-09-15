@@ -34,17 +34,13 @@ vi.mock('@rive-app/react-webgl2', () => ({
     mockUseViewModelInstanceColor(name, instance),
 }));
 
-// Mock requestAnimationFrame to fire synchronously so that
-// useStrictModeSafeInit's deferred init completes within the render cycle.
-// oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-callbacks)
-vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
-  cb(0); // oxlint-disable-line eslint-plugin-promise(prefer-await-to-callbacks)
-  return 0;
-});
-vi.stubGlobal('cancelAnimationFrame', vi.fn());
-
 // Setup function for persona tests
 const setupPersonaTests = () => {
+  vi.spyOn(globalThis, 'requestAnimationFrame').mockImplementation(cb => {
+    cb(0);
+    return 0;
+  });
+  vi.spyOn(globalThis, 'cancelAnimationFrame').mockImplementation(vi.fn());
   vi.spyOn(console, 'warn').mockImplementation(vi.fn());
   vi.spyOn(console, 'error').mockImplementation(vi.fn());
 

@@ -54,16 +54,12 @@ const setupMocks = () => {
   window.ResizeObserver =
     ResizeObserverMock as unknown as typeof ResizeObserver;
 
-  Object.defineProperty(navigator, 'mediaDevices', {
-    configurable: true,
-    value: {
-      addEventListener: vi.fn(),
-      enumerateDevices: mockEnumerateDevices,
-      getUserMedia: mockGetUserMedia,
-      removeEventListener: vi.fn(),
-    },
-    writable: true,
-  });
+  const md = navigator.mediaDevices;
+  (md as unknown as Record<string, unknown>).addEventListener = vi.fn();
+  (md as unknown as Record<string, unknown>).enumerateDevices =
+    mockEnumerateDevices;
+  (md as unknown as Record<string, unknown>).getUserMedia = mockGetUserMedia;
+  (md as unknown as Record<string, unknown>).removeEventListener = vi.fn();
 
   mockEnumerateDevices.mockResolvedValue(mockDevices);
   mockGetUserMedia.mockImplementation(() => {
@@ -266,6 +262,7 @@ describe('useAudioDevices hook', () => {
   });
 
   it('returns devices array', async () => {
+    setupMocks();
     const TestComponent = () => {
       const { devices } = useAudioDevices();
       return (
@@ -521,6 +518,7 @@ describe('micSelector', () => {
   });
 
   it('supports controlled value', async () => {
+    setupMocks();
     const onValueChange = vi.fn();
 
     render(
@@ -578,6 +576,7 @@ describe('micSelector', () => {
   });
 
   it('supports defaultValue', async () => {
+    setupMocks();
     render(
       <MicSelector defaultValue="device-2">
         <MicSelectorTrigger>
@@ -603,6 +602,7 @@ describe('micSelector', () => {
   });
 
   it('selects item and closes popover', async () => {
+    setupMocks();
     const user = userEvent.setup();
     const onValueChange = vi.fn();
 
@@ -787,6 +787,7 @@ describe('micSelectorValue', () => {
   });
 
   it('shows selected device label', async () => {
+    setupMocks();
     render(
       <MicSelector value="device-2">
         <MicSelectorTrigger>

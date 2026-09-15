@@ -1,3 +1,29 @@
+import { vi } from 'vitest';
+
+vi.mock('media-chrome/react', () => {
+  const mockComponent = (name: string) => {
+    const Comp = ({ audio, ...props }: Record<string, unknown>) => {
+      const elementProps: Record<string, unknown> = { ...props };
+      if (audio) elementProps.audio = '';
+      return <div data-testid={name} {...elementProps} />;
+    };
+    Comp.displayName = name;
+    return Comp;
+  };
+  return {
+    MediaController: mockComponent('MediaController'),
+    MediaControlBar: mockComponent('MediaControlBar'),
+    MediaDurationDisplay: mockComponent('MediaDurationDisplay'),
+    MediaMuteButton: mockComponent('MediaMuteButton'),
+    MediaPlayButton: mockComponent('MediaPlayButton'),
+    MediaSeekBackwardButton: mockComponent('MediaSeekBackwardButton'),
+    MediaSeekForwardButton: mockComponent('MediaSeekForwardButton'),
+    MediaTimeDisplay: mockComponent('MediaTimeDisplay'),
+    MediaTimeRange: mockComponent('MediaTimeRange'),
+    MediaVolumeRange: mockComponent('MediaVolumeRange'),
+  };
+});
+
 import { render, screen } from '@testing-library/react';
 
 import {
