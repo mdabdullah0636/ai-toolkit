@@ -59,8 +59,12 @@ run(async () => {
 
   console.log('Response 2:', result2.text.slice(0, 100) + '...');
 
-  console.log('\nWith the fix, both requests will use the same document names:');
+  console.log(
+    '\nWith the fix, both requests will use the same document names:',
+  );
   console.log('- First document: document-01');
   console.log('- Second document: document-02');
-  console.log('This enables effective prompt caching since document names are consistent!');
+  console.log(
+    'This enables effective prompt caching since document names are consistent!',
+  );
 });

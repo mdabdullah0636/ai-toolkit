@@ -5,7 +5,9 @@ import { run } from '../lib/run';
 const moduleName = process.argv[2];
 
 if (!moduleName) {
-  console.error('Please provide a module name as an argument, e.g., "@ai-toolkit/anthropic"');
+  console.error(
+    'Please provide a module name as an argument, e.g., "@ai-toolkit/anthropic"',
+  );
   process.exit(1);
 }
 
@@ -61,7 +63,8 @@ run(async () => {
 
   const sorted = [...times].sort((a, b) => a - b);
   const mid = Math.floor(sorted.length / 2);
-  const median = sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
+  const median =
+    sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
 
   console.log(`Median: ${median.toFixed(1)} ms`);
   console.log(`Average: ${average.toFixed(1)} ms`);
@@ -76,8 +79,13 @@ run(async () => {
     const outputValue = median.toFixed(1);
 
     try {
-      appendFileSync(process.env.GITHUB_OUTPUT, `${outputKey}=${outputValue}\n`);
-      console.log(`\n✅ Written to GitHub Actions output: ${outputKey}=${outputValue}`);
+      appendFileSync(
+        process.env.GITHUB_OUTPUT,
+        `${outputKey}=${outputValue}\n`,
+      );
+      console.log(
+        `\n✅ Written to GitHub Actions output: ${outputKey}=${outputValue}`,
+      );
     } catch (error) {
       console.error('Failed to write to GitHub Actions output:', error);
     }

@@ -4,7 +4,11 @@ import {
   ProviderV3,
   NoSuchModelError,
 } from '@ai-toolkit/provider';
-import { FetchFunction, loadApiKey, withUserAgentSuffix } from '@ai-toolkit/provider-utils';
+import {
+  FetchFunction,
+  loadApiKey,
+  withUserAgentSuffix,
+} from '@ai-toolkit/provider-utils';
 import { DeepgramTranscriptionModel } from './deepgram-transcription-model';
 import { DeepgramTranscriptionModelId } from './deepgram-transcription-options';
 import { DeepgramSpeechModel } from './deepgram-speech-model';
@@ -56,7 +60,9 @@ or to provide a custom fetch implementation for e.g. testing.
 /**
 Create an Deepgram provider instance.
  */
-export function createDeepgram(options: DeepgramProviderSettings = {}): DeepgramProvider {
+export function createDeepgram(
+  options: DeepgramProviderSettings = {},
+): DeepgramProvider {
   const getHeaders = () =>
     withUserAgentSuffix(
       {

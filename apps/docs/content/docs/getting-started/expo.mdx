@@ -3,7 +3,6 @@ title: Expo
 description: Learn how to build your first agent with the AI TOOLKIT and Expo.
 ---
 
-
 In this quickstart tutorial, you'll build a simple agent with a streaming chat user interface with [Expo](https://expo.dev/). Along the way, you'll learn key concepts and techniques that are fundamental to using the SDK in your own projects.
 
 If you are unfamiliar with the concepts of [Prompt Engineering](/docs/advanced/prompt-engineering) and [HTTP Streaming](/docs/advanced/why-streaming), you can optionally read these documents first.
@@ -315,7 +314,12 @@ Let's enhance your chatbot by adding a simple weather tool.
 Modify your `app/api/chat+api.ts` file to include the new weather tool:
 
 ```tsx title="app/api/chat+api.ts" {2,11-25}
-import { streamText, UIMessage, convertToModelMessages, tool } from 'ai-toolkit';
+import {
+  streamText,
+  UIMessage,
+  convertToModelMessages,
+  tool,
+} from 'ai-toolkit';
 __PROVIDER_IMPORT__;
 import { z } from 'zod';
 

@@ -14,7 +14,10 @@ run(async () => {
       process.stdout.write(textPart);
     }
   } catch (error) {
-    if (error instanceof Error && (error.name === 'AbortError' || error.name === 'TimeoutError')) {
+    if (
+      error instanceof Error &&
+      (error.name === 'AbortError' || error.name === 'TimeoutError')
+    ) {
       console.log('\n\nAbortError: The run was aborted.');
     }
   }

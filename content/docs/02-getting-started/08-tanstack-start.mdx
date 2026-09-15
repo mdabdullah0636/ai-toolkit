@@ -255,7 +255,12 @@ Let's enhance your chatbot by adding a simple weather tool.
 Modify your `src/routes/api/chat.ts` file to include the new weather tool:
 
 ```tsx filename="src/routes/api/chat.ts" highlight="2,13-27"
-import { streamText, UIMessage, convertToModelMessages, tool } from 'ai-toolkit';
+import {
+  streamText,
+  UIMessage,
+  convertToModelMessages,
+  tool,
+} from 'ai-toolkit';
 __PROVIDER_IMPORT__;
 import { createFileRoute } from '@tanstack/react-router';
 import { z } from 'zod';

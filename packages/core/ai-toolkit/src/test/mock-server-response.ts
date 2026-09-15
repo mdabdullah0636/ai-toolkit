@@ -63,6 +63,7 @@ class MockServerResponse extends EventEmitter {
   }
 }
 
-export function createMockServerResponse(): ServerResponse & MockServerResponse {
+export function createMockServerResponse(): ServerResponse &
+  MockServerResponse {
   return new MockServerResponse() as ServerResponse & MockServerResponse;
 }

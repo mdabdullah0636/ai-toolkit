@@ -23,20 +23,31 @@ export default defineLazyEventHandler(async () => {
             // Add artificial delay of 2 seconds
             await new Promise(resolve => setTimeout(resolve, 2000));
 
-            const weatherOptions = ['sunny', 'cloudy', 'rainy', 'snowy', 'windy'];
-            return weatherOptions[Math.floor(Math.random() * weatherOptions.length)];
+            const weatherOptions = [
+              'sunny',
+              'cloudy',
+              'rainy',
+              'snowy',
+              'windy',
+            ];
+            return weatherOptions[
+              Math.floor(Math.random() * weatherOptions.length)
+            ];
           },
         },
         // client-side tool that starts user interaction:
         askForConfirmation: {
           description: 'Ask the user for confirmation.',
           inputSchema: z.object({
-            message: z.string().describe('The message to ask for confirmation.'),
+            message: z
+              .string()
+              .describe('The message to ask for confirmation.'),
           }),
         },
         // client-side tool that is automatically executed on the client:
         getLocation: {
-          description: 'Get the user location. Always ask for confirmation before using this tool.',
+          description:
+            'Get the user location. Always ask for confirmation before using this tool.',
           inputSchema: z.object({}),
         },
       },

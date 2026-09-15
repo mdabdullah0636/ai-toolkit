@@ -13,7 +13,10 @@ export type ServerWrappedAction<T = unknown> = (
   aiState: T,
   ...args: unknown[]
 ) => Promise<[Promise<T>, unknown]>;
-export type ServerWrappedActions<T = unknown> = Record<string, ServerWrappedAction<T>>;
+export type ServerWrappedActions<T = unknown> = Record<
+  string,
+  ServerWrappedAction<T>
+>;
 
 export type InternalAIProviderProps<AIState = any, UIState = any> = {
   children: React.ReactNode;
@@ -36,15 +39,12 @@ export type AIProvider<AIState = any, UIState = any, Actions = any> = (
   props: AIProviderProps<AIState, UIState, Actions>,
 ) => Promise<React.ReactElement>;
 
-export type InferAIState<T, Fallback> = T extends AIProvider<infer AIState, any, any>
-  ? AIState
-  : Fallback;
-export type InferUIState<T, Fallback> = T extends AIProvider<any, infer UIState, any>
-  ? UIState
-  : Fallback;
-export type InferActions<T, Fallback> = T extends AIProvider<any, any, infer Actions>
-  ? Actions
-  : Fallback;
+export type InferAIState<T, Fallback> =
+  T extends AIProvider<infer AIState, any, any> ? AIState : Fallback;
+export type InferUIState<T, Fallback> =
+  T extends AIProvider<any, infer UIState, any> ? UIState : Fallback;
+export type InferActions<T, Fallback> =
+  T extends AIProvider<any, any, infer Actions> ? Actions : Fallback;
 
 export type InternalAIStateStorageOptions = {
   onSetAIState?: OnSetAIState<any>;

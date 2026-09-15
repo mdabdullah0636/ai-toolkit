@@ -13,12 +13,17 @@ export interface BedrockConverseInput {
   };
   additionalModelRequestFields?: Record<string, unknown>;
   additionalModelResponseFieldPaths?: string[];
-  guardrailConfig?: BedrockGuardrailConfiguration | BedrockGuardrailStreamConfiguration | undefined;
+  guardrailConfig?:
+    | BedrockGuardrailConfiguration
+    | BedrockGuardrailStreamConfiguration
+    | undefined;
 }
 
 export type BedrockSystemMessages = Array<BedrockSystemContentBlock>;
 
-export type BedrockMessages = Array<BedrockAssistantMessage | BedrockUserMessage>;
+export type BedrockMessages = Array<
+  BedrockAssistantMessage | BedrockUserMessage
+>;
 
 export interface BedrockAssistantMessage {
   role: 'assistant';
@@ -61,7 +66,11 @@ export interface BedrockTool {
 
 export interface BedrockToolConfiguration {
   tools?: Array<BedrockTool | BedrockCachePoint>;
-  toolChoice?: { tool: { name: string } } | { auto: {} } | { any: {} } | undefined;
+  toolChoice?:
+    | { tool: { name: string } }
+    | { auto: {} }
+    | { any: {} }
+    | undefined;
 }
 
 export const BEDROCK_STOP_REASONS = [
@@ -99,7 +108,8 @@ export const BEDROCK_DOCUMENT_MIME_TYPES = {
   'application/pdf': 'pdf',
   'text/csv': 'csv',
   'application/msword': 'doc',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+    'docx',
   'application/vnd.ms-excel': 'xls',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
   'text/html': 'html',
@@ -107,7 +117,8 @@ export const BEDROCK_DOCUMENT_MIME_TYPES = {
   'text/markdown': 'md',
 } as const;
 type BedrockDocumentFormats = typeof BEDROCK_DOCUMENT_MIME_TYPES;
-export type BedrockDocumentFormat = BedrockDocumentFormats[keyof BedrockDocumentFormats];
+export type BedrockDocumentFormat =
+  BedrockDocumentFormats[keyof BedrockDocumentFormats];
 export type BedrockDocumentMimeType = keyof BedrockDocumentFormats;
 
 export interface BedrockDocumentBlock {

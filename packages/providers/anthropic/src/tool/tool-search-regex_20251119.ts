@@ -103,6 +103,8 @@ const factory = createProviderToolFactoryWithOutputSchema<
  *
  * @see https://docs.anthropic.com/en/docs/agents-and-tools/tool-search-tool
  */
-export const toolSearchRegex_20251119 = (args: Parameters<typeof factory>[0] = {}) => {
+export const toolSearchRegex_20251119 = (
+  args: Parameters<typeof factory>[0] = {},
+) => {
   return factory(args);
 };

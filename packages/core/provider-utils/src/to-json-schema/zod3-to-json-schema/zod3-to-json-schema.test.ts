@@ -1,7 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { JSONSchema7 } from '@ai-toolkit/provider';
 import { z } from 'zod/v3';
-import { ignoreOverride, jsonDescription, PostProcessCallback } from './options';
+import {
+  ignoreOverride,
+  jsonDescription,
+  PostProcessCallback,
+} from './options';
 import { zod3ToJsonSchema } from './zod3-to-json-schema';
 
 describe('zod3-to-json-schema', () => {
@@ -165,7 +169,9 @@ describe('zod3-to-json-schema', () => {
   });
 
   it('should return the schema inside a named property in "$defs" if a name and definitionPath is passed in options', () => {
-    expect(zod3ToJsonSchema(z.any(), { name: 'MySchema', definitionPath: '$defs' })).toStrictEqual({
+    expect(
+      zod3ToJsonSchema(z.any(), { name: 'MySchema', definitionPath: '$defs' }),
+    ).toStrictEqual({
       $schema: 'http://json-schema.org/draft-07/schema#',
       $ref: `#/$defs/MySchema`,
       $defs: {
@@ -176,9 +182,12 @@ describe('zod3-to-json-schema', () => {
 
   it("should not scrub 'any'-schemas from unions when strictUnions=false", () => {
     expect(
-      zod3ToJsonSchema(z.union([z.any(), z.instanceof(String), z.string(), z.number()]), {
-        strictUnions: false,
-      }),
+      zod3ToJsonSchema(
+        z.union([z.any(), z.instanceof(String), z.string(), z.number()]),
+        {
+          strictUnions: false,
+        },
+      ),
     ).toStrictEqual({
       $schema: 'http://json-schema.org/draft-07/schema#',
       anyOf: [{}, {}, { type: 'string' }, { type: 'number' }],
@@ -187,9 +196,12 @@ describe('zod3-to-json-schema', () => {
 
   it("should scrub 'any'-schemas from unions when strictUnions=true", () => {
     expect(
-      zod3ToJsonSchema(z.union([z.any(), z.instanceof(String), z.string(), z.number()]), {
-        strictUnions: true,
-      }),
+      zod3ToJsonSchema(
+        z.union([z.any(), z.instanceof(String), z.string(), z.number()]),
+        {
+          strictUnions: true,
+        },
+      ),
     ).toStrictEqual({
       $schema: 'http://json-schema.org/draft-07/schema#',
       anyOf: [{ type: 'string' }, { type: 'number' }],
@@ -200,7 +212,12 @@ describe('zod3-to-json-schema', () => {
     expect(
       zod3ToJsonSchema(
         z.object({
-          field: z.union([z.any(), z.instanceof(String), z.string(), z.number()]),
+          field: z.union([
+            z.any(),
+            z.instanceof(String),
+            z.string(),
+            z.number(),
+          ]),
         }),
         { strictUnions: true },
       ),
@@ -241,7 +258,9 @@ describe('zod3-to-json-schema', () => {
   });
 
   it('should be possible to add name as title instead of as ref', () => {
-    expect(zod3ToJsonSchema(z.string(), { name: 'hello', nameStrategy: 'title' })).toStrictEqual({
+    expect(
+      zod3ToJsonSchema(z.string(), { name: 'hello', nameStrategy: 'title' }),
+    ).toStrictEqual({
       $schema: 'http://json-schema.org/draft-07/schema#',
       type: 'string',
       title: 'hello',
@@ -249,7 +268,9 @@ describe('zod3-to-json-schema', () => {
   });
 
   it('should be possible to use description', () => {
-    const parsedSchema = zod3ToJsonSchema(z.string().describe('My neat string'));
+    const parsedSchema = zod3ToJsonSchema(
+      z.string().describe('My neat string'),
+    );
 
     expect(parsedSchema).toStrictEqual({
       $schema: 'http://json-schema.org/draft-07/schema#',
@@ -464,12 +485,18 @@ describe('zod3-to-json-schema', () => {
         numberGteLte: z.number().gte(1).lte(1),
         numberMultipleOf: z.number().multipleOf(2),
         numberInt: z.number().int(),
-        objectPasstrough: z.object({ foo: z.string(), bar: z.number().optional() }).passthrough(),
+        objectPasstrough: z
+          .object({ foo: z.string(), bar: z.number().optional() })
+          .passthrough(),
         objectCatchall: z
           .object({ foo: z.string(), bar: z.number().optional() })
           .catchall(z.boolean()),
-        objectStrict: z.object({ foo: z.string(), bar: z.number().optional() }).strict(),
-        objectStrip: z.object({ foo: z.string(), bar: z.number().optional() }).strip(),
+        objectStrict: z
+          .object({ foo: z.string(), bar: z.number().optional() })
+          .strict(),
+        objectStrip: z
+          .object({ foo: z.string(), bar: z.number().optional() })
+          .strip(),
         promise: z.promise(z.string()),
         recordStringBoolean: z.record(z.string(), z.boolean()),
         recordUuidBoolean: z.record(z.string().uuid(), z.boolean()),
@@ -486,7 +513,13 @@ describe('zod3-to-json-schema', () => {
         stringCuid: z.string().cuid(),
         tuple: z.tuple([z.string(), z.number(), z.boolean()]),
         undefined: z.undefined(),
-        unionPrimitives: z.union([z.string(), z.number(), z.boolean(), z.bigint(), z.null()]),
+        unionPrimitives: z.union([
+          z.string(),
+          z.number(),
+          z.boolean(),
+          z.bigint(),
+          z.null(),
+        ]),
         unionPrimitiveLiterals: z.union([
           z.literal(123),
           z.literal('abc'),

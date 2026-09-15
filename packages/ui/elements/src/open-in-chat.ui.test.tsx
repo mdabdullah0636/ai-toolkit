@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 
 import {
   OpenIn,
@@ -13,7 +13,7 @@ import {
   OpenInT3,
   OpenInTrigger,
   OpenInv0,
-} from "./open-in-chat";
+} from './open-in-chat';
 
 const CHATGPT_REGEX = /ChatGPT/i;
 const CLAUDE_REGEX = /Claude/i;
@@ -22,194 +22,194 @@ const SCIRA_REGEX = /Scira/i;
 const V0_REGEX = /v0/i;
 const CURSOR_REGEX = /Cursor/i;
 
-describe("openIn", () => {
-  it("renders children", () => {
+describe('openIn', () => {
+  it('renders children', () => {
     render(
       <OpenIn defaultOpen query="test query">
         <OpenInTrigger />
         <OpenInContent>Content</OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("throws error when component used outside provider", () => {
+  it('throws error when component used outside provider', () => {
     // Suppress console.error for this test
-    const spy = vi.spyOn(console, "error").mockImplementation(vi.fn());
+    const spy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
     expect(() => render(<OpenInChatGPT />)).toThrow(
-      "OpenIn components must be used within an OpenIn provider"
+      'OpenIn components must be used within an OpenIn provider',
     );
 
     spy.mockRestore();
   });
 });
 
-describe("openInTrigger", () => {
-  it("renders default trigger", () => {
+describe('openInTrigger', () => {
+  it('renders default trigger', () => {
     render(
       <OpenIn defaultOpen query="test">
         <OpenInTrigger />
         <OpenInContent />
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Open in chat")).toBeInTheDocument();
+    expect(screen.getByText('Open in chat')).toBeInTheDocument();
   });
 
-  it("renders custom children", () => {
+  it('renders custom children', () => {
     render(
       <OpenIn defaultOpen query="test">
         <OpenInTrigger>
           <button type="button">Custom trigger</button>
         </OpenInTrigger>
         <OpenInContent />
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Custom trigger")).toBeInTheDocument();
+    expect(screen.getByText('Custom trigger')).toBeInTheDocument();
   });
 });
 
-describe("openInContent", () => {
-  it("renders content", () => {
+describe('openInContent', () => {
+  it('renders content', () => {
     render(
       <OpenIn defaultOpen query="test">
         <OpenInContent>Menu content</OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Menu content")).toBeInTheDocument();
+    expect(screen.getByText('Menu content')).toBeInTheDocument();
   });
 });
 
-describe("openInItem", () => {
-  it("renders menu item", () => {
+describe('openInItem', () => {
+  it('renders menu item', () => {
     render(
       <OpenIn defaultOpen query="test">
         <OpenInContent>
           <OpenInItem>Item</OpenInItem>
         </OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Item")).toBeInTheDocument();
+    expect(screen.getByText('Item')).toBeInTheDocument();
   });
 });
 
-describe("openInLabel", () => {
-  it("renders label", () => {
+describe('openInLabel', () => {
+  it('renders label', () => {
     render(
       <OpenIn defaultOpen query="test">
         <OpenInContent>
           <OpenInLabel>Label</OpenInLabel>
         </OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Label")).toBeInTheDocument();
+    expect(screen.getByText('Label')).toBeInTheDocument();
   });
 });
 
-describe("openInSeparator", () => {
-  it("renders separator", () => {
+describe('openInSeparator', () => {
+  it('renders separator', () => {
     render(
       <OpenIn defaultOpen query="test">
         <OpenInContent>
           <OpenInSeparator />
         </OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByRole("separator")).toBeInTheDocument();
+    expect(screen.getByRole('separator')).toBeInTheDocument();
   });
 });
 
-describe("openInChatGPT", () => {
-  it("renders ChatGPT link", () => {
+describe('openInChatGPT', () => {
+  it('renders ChatGPT link', () => {
     render(
       <OpenIn defaultOpen query="test query">
         <OpenInContent>
           <OpenInChatGPT />
         </OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Open in ChatGPT")).toBeInTheDocument();
-    const link = screen.getByRole("menuitem", { name: CHATGPT_REGEX });
+    expect(screen.getByText('Open in ChatGPT')).toBeInTheDocument();
+    const link = screen.getByRole('menuitem', { name: CHATGPT_REGEX });
     expect(link).toHaveAttribute(
-      "href",
-      expect.stringContaining("chatgpt.com")
+      'href',
+      expect.stringContaining('chatgpt.com'),
     );
-    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute('target', '_blank');
   });
 });
 
-describe("openInClaude", () => {
-  it("renders Claude link", () => {
+describe('openInClaude', () => {
+  it('renders Claude link', () => {
     render(
       <OpenIn defaultOpen query="test query">
         <OpenInContent>
           <OpenInClaude />
         </OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Open in Claude")).toBeInTheDocument();
-    const link = screen.getByRole("menuitem", { name: CLAUDE_REGEX });
-    expect(link).toHaveAttribute("href", expect.stringContaining("claude.ai"));
+    expect(screen.getByText('Open in Claude')).toBeInTheDocument();
+    const link = screen.getByRole('menuitem', { name: CLAUDE_REGEX });
+    expect(link).toHaveAttribute('href', expect.stringContaining('claude.ai'));
   });
 });
 
-describe("openInT3", () => {
-  it("renders T3 link", () => {
+describe('openInT3', () => {
+  it('renders T3 link', () => {
     render(
       <OpenIn defaultOpen query="test query">
         <OpenInContent>
           <OpenInT3 />
         </OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Open in T3 Chat")).toBeInTheDocument();
-    const link = screen.getByRole("menuitem", { name: T3_REGEX });
-    expect(link).toHaveAttribute("href", expect.stringContaining("t3.chat"));
+    expect(screen.getByText('Open in T3 Chat')).toBeInTheDocument();
+    const link = screen.getByRole('menuitem', { name: T3_REGEX });
+    expect(link).toHaveAttribute('href', expect.stringContaining('t3.chat'));
   });
 });
 
-describe("openInScira", () => {
-  it("renders Scira link", () => {
+describe('openInScira', () => {
+  it('renders Scira link', () => {
     render(
       <OpenIn defaultOpen query="test query">
         <OpenInContent>
           <OpenInScira />
         </OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Open in Scira")).toBeInTheDocument();
-    const link = screen.getByRole("menuitem", { name: SCIRA_REGEX });
-    expect(link).toHaveAttribute("href", expect.stringContaining("scira.ai"));
+    expect(screen.getByText('Open in Scira')).toBeInTheDocument();
+    const link = screen.getByRole('menuitem', { name: SCIRA_REGEX });
+    expect(link).toHaveAttribute('href', expect.stringContaining('scira.ai'));
   });
 });
 
-describe("openInv0", () => {
-  it("renders V0 link", () => {
+describe('openInv0', () => {
+  it('renders V0 link', () => {
     render(
       <OpenIn defaultOpen query="test query">
         <OpenInContent>
           <OpenInv0 />
         </OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Open in v0")).toBeInTheDocument();
-    const link = screen.getByRole("menuitem", { name: V0_REGEX });
-    expect(link).toHaveAttribute("href", expect.stringContaining("v0.app"));
+    expect(screen.getByText('Open in v0')).toBeInTheDocument();
+    const link = screen.getByRole('menuitem', { name: V0_REGEX });
+    expect(link).toHaveAttribute('href', expect.stringContaining('v0.app'));
   });
 });
 
-describe("openInCursor", () => {
-  it("renders Cursor link", () => {
+describe('openInCursor', () => {
+  it('renders Cursor link', () => {
     render(
       <OpenIn defaultOpen query="test query">
         <OpenInContent>
           <OpenInCursor />
         </OpenInContent>
-      </OpenIn>
+      </OpenIn>,
     );
-    expect(screen.getByText("Open in Cursor")).toBeInTheDocument();
-    const link = screen.getByRole("menuitem", { name: CURSOR_REGEX });
-    expect(link).toHaveAttribute("href", expect.stringContaining("cursor.com"));
-    expect(link).toHaveAttribute("target", "_blank");
+    expect(screen.getByText('Open in Cursor')).toBeInTheDocument();
+    const link = screen.getByRole('menuitem', { name: CURSOR_REGEX });
+    expect(link).toHaveAttribute('href', expect.stringContaining('cursor.com'));
+    expect(link).toHaveAttribute('target', '_blank');
   });
 });

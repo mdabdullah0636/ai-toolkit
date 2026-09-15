@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { GATEWAY_AUTH_METHOD_HEADER, parseAuthMethod } from './parse-auth-method';
+import {
+  GATEWAY_AUTH_METHOD_HEADER,
+  parseAuthMethod,
+} from './parse-auth-method';
 
 describe('GATEWAY_AUTH_METHOD_HEADER', () => {
   it('should export the correct header name', () => {

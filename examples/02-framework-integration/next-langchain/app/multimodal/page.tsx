@@ -3,7 +3,14 @@
 import { useChat } from '@ai-toolkit/react';
 import { DefaultChatTransport } from 'ai-toolkit';
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { AlertCircle, ImageIcon, X, Send, Loader2, Sparkles } from 'lucide-react';
+import {
+  AlertCircle,
+  ImageIcon,
+  X,
+  Send,
+  Loader2,
+  Sparkles,
+} from 'lucide-react';
 import { ChatMessage } from '../../components/chat-message';
 import { ThinkingIndicator } from '../../components/thinking-indicator';
 import { type CustomDataMessage } from '../types';
@@ -20,25 +27,29 @@ const transport = new DefaultChatTransport({
 const IMAGE_EXAMPLES = [
   {
     label: 'Analyze Architecture',
-    prompt: 'Describe the architectural style and notable features of this building.',
+    prompt:
+      'Describe the architectural style and notable features of this building.',
     filename: 'empire-state-building.jpg',
     imagePath: '/images/empire-state-building.jpg',
   },
   {
     label: 'Describe Nature Scene',
-    prompt: 'What animals and plants can you identify in this image? Describe the ecosystem.',
+    prompt:
+      'What animals and plants can you identify in this image? Describe the ecosystem.',
     filename: 'macaw-parrot.jpg',
     imagePath: '/images/macaw-parrot.jpg',
   },
   {
     label: 'Read Document',
-    prompt: 'What information can you extract from this document? Summarize the key points.',
+    prompt:
+      'What information can you extract from this document? Summarize the key points.',
     filename: 'constitution.jpg',
     imagePath: '/images/constitution.jpg',
   },
   {
     label: 'Analyze Artwork',
-    prompt: 'Analyze the artistic techniques, style, and historical context of this painting.',
+    prompt:
+      'Analyze the artistic techniques, style, and historical context of this painting.',
     filename: 'mona-lisa.jpg',
     imagePath: '/images/mona-lisa.jpg',
   },
@@ -167,11 +178,14 @@ export default function MultimodalPage() {
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="flex-shrink-0 p-6 border-b border-[var(--border)] rounded-t-xl">
-        <h1 className="text-2xl font-semibold text-[var(--foreground)] mb-2">Multimodal Vision</h1>
+        <h1 className="text-2xl font-semibold text-[var(--foreground)] mb-2">
+          Multimodal Vision
+        </h1>
         <div className="text-sm text-[var(--foreground-secondary)] leading-relaxed">
-          Send images to <strong>GPT-4o</strong> for analysis. This example demonstrates multimodal
-          input using the <code>@ai-toolkit/langchain</code> adapter, which properly converts images
-          and files to LangChain&apos;s multimodal content format.
+          Send images to <strong>GPT-4o</strong> for analysis. This example
+          demonstrates multimodal input using the{' '}
+          <code>@ai-toolkit/langchain</code> adapter, which properly converts
+          images and files to LangChain&apos;s multimodal content format.
         </div>
       </div>
 
@@ -196,8 +210,8 @@ export default function MultimodalPage() {
               Vision-Enabled Chat
             </h2>
             <p className="text-[var(--foreground-secondary)] max-w-lg mb-8">
-              Click on any example below to see GPT-4o analyze the image, or upload your own image
-              using the button below.
+              Click on any example below to see GPT-4o analyze the image, or
+              upload your own image using the button below.
             </p>
 
             {/* Image Examples Grid */}
@@ -284,7 +298,9 @@ export default function MultimodalPage() {
               </button>
             </div>
             <div className="flex-1 text-sm text-[var(--foreground-secondary)]">
-              <p className="font-medium text-[var(--foreground)]">{imageFile?.name}</p>
+              <p className="font-medium text-[var(--foreground)]">
+                {imageFile?.name}
+              </p>
               <p>{(imageFile?.size ?? 0 / 1024).toFixed(1)} KB</p>
             </div>
           </div>
@@ -322,7 +338,9 @@ export default function MultimodalPage() {
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder={
-                selectedImage ? 'Ask about this image...' : 'Type a message or attach an image...'
+                selectedImage
+                  ? 'Ask about this image...'
+                  : 'Type a message or attach an image...'
               }
               disabled={isLoading}
               rows={1}

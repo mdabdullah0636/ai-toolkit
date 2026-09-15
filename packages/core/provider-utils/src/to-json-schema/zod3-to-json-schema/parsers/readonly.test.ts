@@ -6,7 +6,10 @@ import { JSONSchema7 } from '@ai-toolkit/provider';
 
 describe('readonly', () => {
   it('should be possible to use readonly', () => {
-    const parsedSchema = parseReadonlyDef(z.object({}).readonly()._def, getRefs());
+    const parsedSchema = parseReadonlyDef(
+      z.object({}).readonly()._def,
+      getRefs(),
+    );
 
     expect(parsedSchema).toStrictEqual({
       type: 'object',

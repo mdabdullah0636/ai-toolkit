@@ -1,5 +1,10 @@
 import { createOpenAI } from '@ai-toolkit/openai';
-import { ModelMessage, stepCountIs, streamText, ToolApprovalResponse } from 'ai-toolkit';
+import {
+  ModelMessage,
+  stepCountIs,
+  streamText,
+  ToolApprovalResponse,
+} from 'ai-toolkit';
 import * as readline from 'node:readline/promises';
 import { run } from '../lib/run';
 
@@ -67,11 +72,14 @@ run(async () => {
 
     for (const part of content) {
       if (part.type === 'tool-approval-request') {
-        const answer = await terminal.question(`\nApprove MCP tool call? (y/n): `);
+        const answer = await terminal.question(
+          `\nApprove MCP tool call? (y/n): `,
+        );
         approvals.push({
           type: 'tool-approval-response',
           approvalId: part.approvalId,
-          approved: answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes',
+          approved:
+            answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes',
         });
       }
     }

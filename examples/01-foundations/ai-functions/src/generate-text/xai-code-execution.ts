@@ -5,7 +5,8 @@ import { run } from '../lib/run';
 run(async () => {
   const result = await generateText({
     model: xai.responses('grok-4'),
-    prompt: 'Calculate the compound interest for $10,000 at 5% annually for 10 years',
+    prompt:
+      'Calculate the compound interest for $10,000 at 5% annually for 10 years',
     tools: {
       code_execution: xai.tools.codeExecution(),
     },

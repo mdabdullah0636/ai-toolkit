@@ -12,6 +12,8 @@ export function convertImageModelFileToDataUri(file: ImageModelV3File): string {
   if (file.type === 'url') return file.url;
 
   return `data:${file.mediaType};base64,${
-    typeof file.data === 'string' ? file.data : convertUint8ArrayToBase64(file.data)
+    typeof file.data === 'string'
+      ? file.data
+      : convertUint8ArrayToBase64(file.data)
   }`;
 }

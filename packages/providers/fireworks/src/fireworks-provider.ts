@@ -4,7 +4,12 @@ import {
   OpenAICompatibleEmbeddingModel,
   ProviderErrorStructure,
 } from '@ai-toolkit/openai-compatible';
-import { EmbeddingModelV3, ImageModelV3, LanguageModelV3, ProviderV3 } from '@ai-toolkit/provider';
+import {
+  EmbeddingModelV3,
+  ImageModelV3,
+  LanguageModelV3,
+  ProviderV3,
+} from '@ai-toolkit/provider';
 import {
   FetchFunction,
   loadApiKey,
@@ -95,7 +100,9 @@ Creates a model for image generation.
 
 const defaultBaseURL = 'https://api.fireworks.ai/inference/v1';
 
-export function createFireworks(options: FireworksProviderSettings = {}): FireworksProvider {
+export function createFireworks(
+  options: FireworksProviderSettings = {},
+): FireworksProvider {
   const baseURL = withoutTrailingSlash(options.baseURL ?? defaultBaseURL);
   const getHeaders = () =>
     withUserAgentSuffix(

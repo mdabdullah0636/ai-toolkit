@@ -3,7 +3,6 @@ title: Abort breaks resumable streams
 description: Troubleshooting stream resumption failures when using abort functionality
 ---
 
-
 ## Issue
 
 When using `useChat` with `resume: true` for stream resumption, the abort functionality breaks. Closing a tab, refreshing the page, or calling the `stop()` function will trigger an abort signal that interferes with the resumption mechanism, preventing streams from being properly resumed.

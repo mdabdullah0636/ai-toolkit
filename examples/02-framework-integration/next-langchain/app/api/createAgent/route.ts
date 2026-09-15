@@ -52,13 +52,16 @@ const weatherTool = tool(
     const cityLower = city.toLowerCase();
     const data = weatherData[cityLower] || { temp: 70, condition: 'Unknown' };
 
-    const temp = units === 'celsius' ? Math.round(((data.temp - 32) * 5) / 9) : data.temp;
+    const temp =
+      units === 'celsius' ? Math.round(((data.temp - 32) * 5) / 9) : data.temp;
     const unit = units === 'celsius' ? '°C' : '°F';
 
     /**
      * artificial delay to simulate tool execution time
      */
-    await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 1000)));
+    await new Promise(resolve =>
+      setTimeout(resolve, Math.floor(Math.random() * 1000)),
+    );
 
     return `Weather in ${city}: ${temp}${unit}, ${data.condition}`;
   },
@@ -67,7 +70,10 @@ const weatherTool = tool(
     description: 'Get the current weather in a city',
     schema: z.object({
       city: z.string().describe('The city name to get weather for'),
-      units: z.enum(['fahrenheit', 'celsius']).optional().describe('Temperature units'),
+      units: z
+        .enum(['fahrenheit', 'celsius'])
+        .optional()
+        .describe('Temperature units'),
     }),
   },
 );
@@ -102,7 +108,8 @@ const wikiSearchTool = tool(
   },
   {
     name: 'wiki_search',
-    description: 'Search Wikipedia for information on a topic. Returns a brief summary.',
+    description:
+      'Search Wikipedia for information on a topic. Returns a brief summary.',
     schema: z.object({
       query: z.string().describe('The topic to search for on Wikipedia'),
     }),
@@ -129,7 +136,9 @@ const dateTimeTool = tool(
     /**
      * artificial delay to simulate tool execution time
      */
-    await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 1000)));
+    await new Promise(resolve =>
+      setTimeout(resolve, Math.floor(Math.random() * 1000)),
+    );
 
     try {
       const formatted = new Intl.DateTimeFormat('en-US', options).format(now);
@@ -140,12 +149,15 @@ const dateTimeTool = tool(
   },
   {
     name: 'get_datetime',
-    description: 'Get the current date and time, optionally in a specific timezone',
+    description:
+      'Get the current date and time, optionally in a specific timezone',
     schema: z.object({
       timezone: z
         .string()
         .optional()
-        .describe('IANA timezone (e.g., "America/New_York", "Europe/London", "Asia/Tokyo")'),
+        .describe(
+          'IANA timezone (e.g., "America/New_York", "Europe/London", "Asia/Tokyo")',
+        ),
       format: z
         .enum(['full', 'short'])
         .optional()
@@ -211,7 +223,8 @@ export async function POST(req: Request) {
       stream: toUIMessageStream(stream as unknown as ReadableStream),
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'An unknown error occurred';
+    const message =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

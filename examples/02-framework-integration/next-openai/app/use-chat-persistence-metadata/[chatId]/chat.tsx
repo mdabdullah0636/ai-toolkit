@@ -32,7 +32,9 @@ export default function Chat({
         <div key={m.id} className="whitespace-pre-wrap">
           {m.role === 'user' ? 'User: ' : 'AI: '}
           {m.metadata?.createdAt && (
-            <div>Created at: {new Date(m.metadata.createdAt).toLocaleString()}</div>
+            <div>
+              Created at: {new Date(m.metadata.createdAt).toLocaleString()}
+            </div>
           )}
           {m.parts.map((part, index) => {
             if (part.type === 'text') {

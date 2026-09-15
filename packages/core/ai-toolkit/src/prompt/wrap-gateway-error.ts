@@ -5,7 +5,8 @@ export function wrapGatewayError(error: unknown): unknown {
   if (!GatewayAuthenticationError.isInstance(error)) return error;
 
   const isProductionEnv = process?.env.NODE_ENV === 'production';
-  const moreInfoURL = 'https://studio.khulnasoft.com/unauthenticated-ai-gateway';
+  const moreInfoURL =
+    'https://studio.khulnasoft.com/unauthenticated-ai-gateway';
 
   if (isProductionEnv) {
     return new AITOOLKITError({

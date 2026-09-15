@@ -8,7 +8,8 @@ run(async () => {
     tools: {
       code_interpreter: openai.tools.codeInterpreter(),
     },
-    prompt: 'Simulate rolling two dice 10000 times and and return the sum all the results.',
+    prompt:
+      'Simulate rolling two dice 10000 times and and return the sum all the results.',
   });
 
   for await (const chunk of result.fullStream) {

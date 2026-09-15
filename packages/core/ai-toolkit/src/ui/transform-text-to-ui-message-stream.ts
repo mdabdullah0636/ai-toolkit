@@ -1,6 +1,10 @@
 import { UIMessageChunk } from '../ui-message-stream/ui-message-chunks';
 
-export function transformTextToUiMessageStream({ stream }: { stream: ReadableStream<string> }) {
+export function transformTextToUiMessageStream({
+  stream,
+}: {
+  stream: ReadableStream<string>;
+}) {
   return stream.pipeThrough(
     new TransformStream<string, UIMessageChunk>({
       start(controller) {

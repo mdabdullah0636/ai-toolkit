@@ -77,7 +77,9 @@ describe('DeepInfraImageModel', () => {
       });
 
       expect(server.calls[0].requestMethod).toStrictEqual('POST');
-      expect(server.calls[0].requestUrl).toStrictEqual('https://api.example.com/stability-ai/sdxl');
+      expect(server.calls[0].requestUrl).toStrictEqual(
+        'https://api.example.com/stability-ai/sdxl',
+      );
     });
 
     it('should pass headers', async () => {
@@ -175,7 +177,9 @@ describe('DeepInfraImageModel', () => {
 
       controller.abort();
 
-      await expect(generatePromise).rejects.toThrow('This operation was aborted');
+      await expect(generatePromise).rejects.toThrow(
+        'This operation was aborted',
+      );
     });
 
     describe('response metadata', () => {
@@ -259,11 +263,14 @@ describe('DeepInfraImageModel', () => {
     });
 
     // Model with baseURL that will resolve to edit endpoint
-    const editModel = new DeepInfraImageModel('black-forest-labs/FLUX.1-Kontext-dev', {
-      provider: 'deepinfra',
-      baseURL: 'https://edit.example.com/inference',
-      headers: () => ({ 'api-key': 'test-key' }),
-    });
+    const editModel = new DeepInfraImageModel(
+      'black-forest-labs/FLUX.1-Kontext-dev',
+      {
+        provider: 'deepinfra',
+        baseURL: 'https://edit.example.com/inference',
+        headers: () => ({ 'api-key': 'test-key' }),
+      },
+    );
 
     it('should send edit request with files', async () => {
       const imageData = new Uint8Array([137, 80, 78, 71]); // PNG magic bytes
@@ -286,7 +293,9 @@ describe('DeepInfraImageModel', () => {
       });
 
       expect(result.images).toStrictEqual(['edited-image-base64']);
-      expect(editServer.calls[0].requestUrl).toBe('https://edit.example.com/openai/images/edits');
+      expect(editServer.calls[0].requestUrl).toBe(
+        'https://edit.example.com/openai/images/edits',
+      );
     });
 
     it('should send edit request with files and mask', async () => {
@@ -315,7 +324,9 @@ describe('DeepInfraImageModel', () => {
       });
 
       expect(result.images).toStrictEqual(['edited-image-base64']);
-      expect(editServer.calls[0].requestUrl).toBe('https://edit.example.com/openai/images/edits');
+      expect(editServer.calls[0].requestUrl).toBe(
+        'https://edit.example.com/openai/images/edits',
+      );
     });
 
     it('should send edit request with multiple images', async () => {
@@ -349,14 +360,17 @@ describe('DeepInfraImageModel', () => {
 
     it('should include response metadata for edit requests', async () => {
       const testDate = new Date('2024-01-01T00:00:00Z');
-      const modelWithDate = new DeepInfraImageModel('black-forest-labs/FLUX.1-Kontext-dev', {
-        provider: 'deepinfra',
-        baseURL: 'https://edit.example.com/inference',
-        headers: () => ({ 'api-key': 'test-key' }),
-        _internal: {
-          currentDate: () => testDate,
+      const modelWithDate = new DeepInfraImageModel(
+        'black-forest-labs/FLUX.1-Kontext-dev',
+        {
+          provider: 'deepinfra',
+          baseURL: 'https://edit.example.com/inference',
+          headers: () => ({ 'api-key': 'test-key' }),
+          _internal: {
+            currentDate: () => testDate,
+          },
         },
-      });
+      );
 
       const imageData = new Uint8Array([137, 80, 78, 71]);
 
@@ -409,7 +423,9 @@ describe('DeepInfraImageModel', () => {
       });
 
       // The request should have been made to the edit endpoint
-      expect(editServer.calls[0].requestUrl).toBe('https://edit.example.com/openai/images/edits');
+      expect(editServer.calls[0].requestUrl).toBe(
+        'https://edit.example.com/openai/images/edits',
+      );
     });
   });
 });

@@ -2,7 +2,13 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Play, Copy, MessageSquare } from 'lucide-react';
 
 interface ExampleTemplate {
@@ -20,7 +26,8 @@ const exampleTemplates: ExampleTemplate[] = [
     title: 'Creative Story Writing',
     description: 'Generate engaging stories with AI assistance',
     category: 'Creative',
-    prompt: 'Write a short story about a time-traveling detective who solves historical mysteries.',
+    prompt:
+      'Write a short story about a time-traveling detective who solves historical mysteries.',
     icon: <MessageSquare className="h-5 w-5" />,
   },
   {
@@ -55,7 +62,8 @@ const exampleTemplates: ExampleTemplate[] = [
     title: 'Complex Topic Explainer',
     description: 'Break down complex topics into simple explanations',
     category: 'Education',
-    prompt: 'Explain quantum computing in simple terms that a high school student can understand.',
+    prompt:
+      'Explain quantum computing in simple terms that a high school student can understand.',
     icon: <MessageSquare className="h-5 w-5" />,
   },
   {
@@ -76,7 +84,10 @@ interface ExampleTemplatesProps {
 export function ExampleTemplates({ onSelectExample }: ExampleTemplatesProps) {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const categories = ['All', ...Array.from(new Set(exampleTemplates.map(t => t.category)))];
+  const categories = [
+    'All',
+    ...Array.from(new Set(exampleTemplates.map(t => t.category))),
+  ];
 
   const filteredTemplates =
     selectedCategory === 'All'
@@ -107,22 +118,37 @@ export function ExampleTemplates({ onSelectExample }: ExampleTemplatesProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredTemplates.map(template => (
-            <Card key={template.id} className="cursor-pointer hover:shadow-md transition-shadow">
+            <Card
+              key={template.id}
+              className="cursor-pointer hover:shadow-md transition-shadow"
+            >
               <CardHeader className="pb-3">
                 <div className="flex items-center space-x-2">
-                  <div className="p-2 bg-primary/10 rounded-md text-primary">{template.icon}</div>
+                  <div className="p-2 bg-primary/10 rounded-md text-primary">
+                    {template.icon}
+                  </div>
                   <div className="flex-1">
                     <CardTitle className="text-sm">{template.title}</CardTitle>
-                    <CardDescription className="text-xs">{template.category}</CardDescription>
+                    <CardDescription className="text-xs">
+                      {template.category}
+                    </CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
-                <p className="text-sm text-muted-foreground mb-3">{template.description}</p>
+                <p className="text-sm text-muted-foreground mb-3">
+                  {template.description}
+                </p>
                 <div className="bg-muted p-2 rounded-md mb-3">
-                  <p className="text-xs font-mono truncate">{template.prompt}</p>
+                  <p className="text-xs font-mono truncate">
+                    {template.prompt}
+                  </p>
                 </div>
-                <Button size="sm" className="w-full" onClick={() => handleUseExample(template)}>
+                <Button
+                  size="sm"
+                  className="w-full"
+                  onClick={() => handleUseExample(template)}
+                >
                   <Play className="h-3 w-3 mr-2" />
                   Use This Example
                 </Button>

@@ -145,8 +145,12 @@ describe('FalImageModel', () => {
       const warning = result.warnings[0];
       if (warning.type === 'other') {
         expect(warning.message).toContain("'image_url' (use 'imageUrl')");
-        expect(warning.message).toContain("'guidance_scale' (use 'guidanceScale')");
-        expect(warning.message).toContain("'num_inference_steps' (use 'numInferenceSteps')");
+        expect(warning.message).toContain(
+          "'guidance_scale' (use 'guidanceScale')",
+        );
+        expect(warning.message).toContain(
+          "'num_inference_steps' (use 'numInferenceSteps')",
+        );
       }
     });
 
@@ -584,7 +588,10 @@ describe('FalImageModel', () => {
 
       const requestBody = await server.calls[0].requestBodyJson;
       expect(requestBody).toMatchObject({
-        image_urls: ['data:image/png;base64,iVBORw==', 'data:image/png;base64,iVBORw=='],
+        image_urls: [
+          'data:image/png;base64,iVBORw==',
+          'data:image/png;base64,iVBORw==',
+        ],
         num_images: 1,
         prompt: 'Edit these images',
       });
@@ -788,7 +795,8 @@ describe('FalImageModel', () => {
           timings: { inference: 5.875932216644287 },
           seed: 328395684,
           has_nsfw_concepts: [false],
-          prompt: 'A female model holding this book, keeping the book unchanged.',
+          prompt:
+            'A female model holding this book, keeping the book unchanged.',
         },
       };
 

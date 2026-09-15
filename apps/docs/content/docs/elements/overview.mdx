@@ -3,7 +3,6 @@ title: Elements
 description: UI components for AI-native applications
 ---
 
-
 AI TOOLKIT Elements provides 49 ready-to-use UI components for building AI-native application interfaces. Built on top of `@ai-toolkit/shadcn-ui` primitives, these components include conversation containers, message renderers, prompt inputs, canvas diagrams, and more.
 
 These components are unstyled-by-default, building blocks that pair with the hooks in `@ai-toolkit/react` (`useChat`, `useCompletion`) and the types in `ai-toolkit`. Each component exposes `data-slot` attributes for styling with Tailwind CSS.
@@ -13,7 +12,12 @@ These components are unstyled-by-default, building blocks that pair with the hoo
 ```tsx
 import { useChat } from '@ai-toolkit/react';
 import {
-  Conversation, Message, PromptInput, Canvas, AgentTools, AgentTool,
+  Conversation,
+  Message,
+  PromptInput,
+  Canvas,
+  AgentTools,
+  AgentTool,
 } from '@ai-toolkit/elements';
 
 export function Chat() {
@@ -90,4 +94,4 @@ The `registry.json` file at the package root lists all 49+ components with their
 
 ---
 
-*Ported from `vercel/ai-elements` and adapted to the AI TOOLKIT monorepo.*
+_Ported from `vercel/ai-elements` and adapted to the AI TOOLKIT monorepo._

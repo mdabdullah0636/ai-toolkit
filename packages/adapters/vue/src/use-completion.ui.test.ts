@@ -1,4 +1,7 @@
-import { createTestServer, TestResponseController } from '@ai-toolkit/test-server/with-vitest';
+import {
+  createTestServer,
+  TestResponseController,
+} from '@ai-toolkit/test-server/with-vitest';
 import '@testing-library/jest-dom/vitest';
 import userEvent from '@testing-library/user-event';
 import { findByText, screen } from '@testing-library/vue';
@@ -52,7 +55,9 @@ describe('stream data stream', () => {
       expect(screen.getByTestId('loading')).toHaveTextContent('true');
 
       controller.write(formatChunk({ type: 'text-start', id: '0' }));
-      controller.write(formatChunk({ type: 'text-delta', id: '0', delta: 'Hello' }));
+      controller.write(
+        formatChunk({ type: 'text-delta', id: '0', delta: 'Hello' }),
+      );
       controller.write(formatChunk({ type: 'text-end', id: '0' }));
       controller.close();
 

@@ -1,16 +1,25 @@
 import { JSONObject } from '@ai-toolkit/provider';
-import { ProviderOptions, withUserAgentSuffix } from '@ai-toolkit/provider-utils';
+import {
+  ProviderOptions,
+  withUserAgentSuffix,
+} from '@ai-toolkit/provider-utils';
 import { NoSpeechGeneratedError } from '../error/no-speech-generated-error';
 import { logWarnings } from '../logger/log-warnings';
 import { resolveSpeechModel } from '../model/resolve-model';
 import { SpeechModel } from '../types/speech-model';
 import { SpeechModelResponseMetadata } from '../types/speech-model-response-metadata';
 import { Warning } from '../types/warning';
-import { audioMediaTypeSignatures, detectMediaType } from '../util/detect-media-type';
+import {
+  audioMediaTypeSignatures,
+  detectMediaType,
+} from '../util/detect-media-type';
 import { prepareRetries } from '../util/prepare-retries';
 import { VERSION } from '../version';
 import { SpeechResult } from './generate-speech-result';
-import { DefaultGeneratedAudioFile, GeneratedAudioFile } from './generated-audio-file';
+import {
+  DefaultGeneratedAudioFile,
+  GeneratedAudioFile,
+} from './generated-audio-file';
 
 /**
 Generates speech audio using a speech model.
@@ -115,7 +124,10 @@ Only applicable for HTTP-based providers.
     throw new Error('Model could not be resolved');
   }
 
-  const headersWithUserAgent = withUserAgentSuffix(headers ?? {}, `ai/${VERSION}`);
+  const headersWithUserAgent = withUserAgentSuffix(
+    headers ?? {},
+    `ai/${VERSION}`,
+  );
 
   const { retry } = prepareRetries({
     maxRetries: maxRetriesArg,

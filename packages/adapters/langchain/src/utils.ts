@@ -97,7 +97,10 @@ export function convertAssistantContent(content: AssistantContent): AIMessage {
 /**
  * Helper to generate a default filename from mediaType
  */
-function getDefaultFilename(mediaType: string, prefix: string = 'file'): string {
+function getDefaultFilename(
+  mediaType: string,
+  prefix: string = 'file',
+): string {
   const ext = mediaType.split('/')[1] || 'bin';
   return `${prefix}.${ext}`;
 }
@@ -117,7 +120,10 @@ type OpenAIImageBlock = {
 /**
  * Content block type for HumanMessage that supports both text and OpenAI images.
  */
-type HumanMessageContentBlock = { type: 'text'; text: string } | OpenAIImageBlock | ContentBlock;
+type HumanMessageContentBlock =
+  | { type: 'text'; text: string }
+  | OpenAIImageBlock
+  | ContentBlock;
 
 /**
  * Converts UserContent to LangChain HumanMessage
@@ -246,9 +252,14 @@ export function convertUserContent(content: UserContent): HumanMessage {
               },
             });
           }
-        } else if (filePart.data instanceof Uint8Array || filePart.data instanceof ArrayBuffer) {
+        } else if (
+          filePart.data instanceof Uint8Array ||
+          filePart.data instanceof ArrayBuffer
+        ) {
           const bytes =
-            filePart.data instanceof ArrayBuffer ? new Uint8Array(filePart.data) : filePart.data;
+            filePart.data instanceof ArrayBuffer
+              ? new Uint8Array(filePart.data)
+              : filePart.data;
           const base64 = btoa(String.fromCharCode(...bytes));
           contentBlocks.push({
             type: 'image_url',
@@ -257,7 +268,8 @@ export function convertUserContent(content: UserContent): HumanMessage {
         }
       } else {
         // Handle non-image files using LangChain's ContentBlock format
-        const filename = filePart.filename || getDefaultFilename(filePart.mediaType, 'file');
+        const filename =
+          filePart.filename || getDefaultFilename(filePart.mediaType, 'file');
 
         if (filePart.data instanceof URL) {
           contentBlocks.push({
@@ -267,7 +279,10 @@ export function convertUserContent(content: UserContent): HumanMessage {
             filename,
           });
         } else if (typeof filePart.data === 'string') {
-          if (filePart.data.startsWith('http://') || filePart.data.startsWith('https://')) {
+          if (
+            filePart.data.startsWith('http://') ||
+            filePart.data.startsWith('https://')
+          ) {
             contentBlocks.push({
               type: 'file',
               url: filePart.data,
@@ -299,9 +314,14 @@ export function convertUserContent(content: UserContent): HumanMessage {
               filename,
             });
           }
-        } else if (filePart.data instanceof Uint8Array || filePart.data instanceof ArrayBuffer) {
+        } else if (
+          filePart.data instanceof Uint8Array ||
+          filePart.data instanceof ArrayBuffer
+        ) {
           const bytes =
-            filePart.data instanceof ArrayBuffer ? new Uint8Array(filePart.data) : filePart.data;
+            filePart.data instanceof ArrayBuffer
+              ? new Uint8Array(filePart.data)
+              : filePart.data;
           const base64 = btoa(String.fromCharCode(...bytes));
           contentBlocks.push({
             type: 'file',
@@ -319,7 +339,9 @@ export function convertUserContent(content: UserContent): HumanMessage {
    */
   if (contentBlocks.every(block => block.type === 'text')) {
     return new HumanMessage({
-      content: contentBlocks.map(block => (block as unknown as { text: string }).text).join(''),
+      content: contentBlocks
+        .map(block => (block as unknown as { text: string }).text)
+        .join(''),
     });
   }
 
@@ -379,7 +401,9 @@ export function processModelChunk(
    * Handle image generation outputs from additional_kwargs.tool_outputs
    */
   const chunkObj = chunk as unknown as Record<string, unknown>;
-  const additionalKwargs = chunkObj.additional_kwargs as Record<string, unknown> | undefined;
+  const additionalKwargs = chunkObj.additional_kwargs as
+    | Record<string, unknown>
+    | undefined;
   const imageOutputs = extractImageOutputs(additionalKwargs);
 
   for (const imageOutput of imageOutputs) {
@@ -408,7 +432,8 @@ export function processModelChunk(
    * that would cause duplication (unlike LangGraph streams)
    */
   const reasoning =
-    extractReasoningFromContentBlocks(chunk) || extractReasoningFromValuesMessage(chunk);
+    extractReasoningFromContentBlocks(chunk) ||
+    extractReasoningFromValuesMessage(chunk);
   if (reasoning) {
     if (!state.reasoningStarted) {
       // Track the ID used for reasoning-start to ensure subsequent chunks use the same ID
@@ -434,7 +459,10 @@ export function processModelChunk(
         ? chunk.content
             .filter(
               (c): c is { type: 'text'; text: string } =>
-                typeof c === 'object' && c !== null && 'type' in c && c.type === 'text',
+                typeof c === 'object' &&
+                c !== null &&
+                'type' in c &&
+                c.type === 'text',
             )
             .map(c => c.text)
             .join('')
@@ -504,7 +532,11 @@ export function getMessageId(msg: unknown): string | undefined {
   /**
    * For serialized LangChain messages, id is in kwargs
    */
-  if (msgObj.type === 'constructor' && msgObj.kwargs && typeof msgObj.kwargs === 'object') {
+  if (
+    msgObj.type === 'constructor' &&
+    msgObj.kwargs &&
+    typeof msgObj.kwargs === 'object'
+  ) {
     const kwargs = msgObj.kwargs as Record<string, unknown>;
     if (typeof kwargs.id === 'string') {
       return kwargs.id;
@@ -575,7 +607,11 @@ export function isToolMessageType(
     /**
      * Serialized LangChain message format
      */
-    if (obj.type === 'constructor' && Array.isArray(obj.id) && obj.id.includes('ToolMessage')) {
+    if (
+      obj.type === 'constructor' &&
+      Array.isArray(obj.id) &&
+      obj.id.includes('ToolMessage')
+    ) {
       return true;
     }
   }
@@ -599,7 +635,9 @@ export function getMessageText(msg: unknown): string {
 
   // For serialized LangChain messages, content is in kwargs
   const dataSource =
-    msgObj.type === 'constructor' && msgObj.kwargs && typeof msgObj.kwargs === 'object'
+    msgObj.type === 'constructor' &&
+    msgObj.kwargs &&
+    typeof msgObj.kwargs === 'object'
       ? (msgObj.kwargs as Record<string, unknown>)
       : msgObj;
 
@@ -637,7 +675,9 @@ export function getMessageText(msg: unknown): string {
  * @param obj - The object to check.
  * @returns True if the object is a reasoning content block, false otherwise.
  */
-export function isReasoningContentBlock(obj: unknown): obj is ReasoningContentBlock {
+export function isReasoningContentBlock(
+  obj: unknown,
+): obj is ReasoningContentBlock {
   return (
     obj != null &&
     typeof obj === 'object' &&
@@ -654,7 +694,9 @@ export function isReasoningContentBlock(obj: unknown): obj is ReasoningContentBl
  * @param obj - The object to check.
  * @returns True if the object is a thinking content block, false otherwise.
  */
-export function isThinkingContentBlock(obj: unknown): obj is ThinkingContentBlock {
+export function isThinkingContentBlock(
+  obj: unknown,
+): obj is ThinkingContentBlock {
   return (
     obj != null &&
     typeof obj === 'object' &&
@@ -698,15 +740,17 @@ export function extractReasoningId(msg: unknown): string | undefined {
       : msgObj;
 
   // Check additional_kwargs.reasoning.id (GPT-5 streaming format)
-  const additionalKwargs = (kwargs as { additional_kwargs?: { reasoning?: { id?: string } } })
-    .additional_kwargs;
+  const additionalKwargs = (
+    kwargs as { additional_kwargs?: { reasoning?: { id?: string } } }
+  ).additional_kwargs;
   if (additionalKwargs?.reasoning?.id) {
     return additionalKwargs.reasoning.id;
   }
 
   // Check response_metadata.output for reasoning block ID (GPT-5 final format)
-  const responseMetadata = (kwargs as { response_metadata?: { output?: unknown[] } })
-    .response_metadata;
+  const responseMetadata = (
+    kwargs as { response_metadata?: { output?: unknown[] } }
+  ).response_metadata;
   if (responseMetadata && Array.isArray(responseMetadata.output)) {
     for (const item of responseMetadata.output) {
       if (isGPT5ReasoningOutput(item)) {
@@ -732,7 +776,9 @@ export function extractReasoningId(msg: unknown): string | undefined {
  * @param msg - The message to extract reasoning from.
  * @returns The reasoning text if found, undefined otherwise.
  */
-export function extractReasoningFromContentBlocks(msg: unknown): string | undefined {
+export function extractReasoningFromContentBlocks(
+  msg: unknown,
+): string | undefined {
   if (msg == null || typeof msg !== 'object') return undefined;
 
   // For serialized LangChain messages, the data is in kwargs
@@ -764,7 +810,10 @@ export function extractReasoningFromContentBlocks(msg: unknown): string | undefi
   const additionalKwargs = (
     kwargs as { additional_kwargs?: { reasoning?: { summary?: unknown[] } } }
   ).additional_kwargs;
-  if (additionalKwargs?.reasoning && Array.isArray(additionalKwargs.reasoning.summary)) {
+  if (
+    additionalKwargs?.reasoning &&
+    Array.isArray(additionalKwargs.reasoning.summary)
+  ) {
     const reasoningParts: string[] = [];
     for (const summaryItem of additionalKwargs.reasoning.summary) {
       if (
@@ -791,7 +840,9 @@ export function extractReasoningFromContentBlocks(msg: unknown): string | undefi
  * @param msg - The message to extract reasoning from.
  * @returns The reasoning text if found, undefined otherwise.
  */
-export function extractReasoningFromValuesMessage(msg: unknown): string | undefined {
+export function extractReasoningFromValuesMessage(
+  msg: unknown,
+): string | undefined {
   if (msg == null || typeof msg !== 'object') return undefined;
 
   // For serialized LangChain messages, the data is in kwargs
@@ -802,8 +853,9 @@ export function extractReasoningFromValuesMessage(msg: unknown): string | undefi
       : msgObj;
 
   // Check response_metadata.output (GPT-5 final style) - for values events
-  const responseMetadata = (kwargs as { response_metadata?: { output?: unknown[] } })
-    .response_metadata;
+  const responseMetadata = (
+    kwargs as { response_metadata?: { output?: unknown[] } }
+  ).response_metadata;
   if (responseMetadata && Array.isArray(responseMetadata.output)) {
     const reasoningParts: string[] = [];
     for (const item of responseMetadata.output) {
@@ -828,7 +880,10 @@ export function extractReasoningFromValuesMessage(msg: unknown): string | undefi
   const additionalKwargs = (
     kwargs as { additional_kwargs?: { reasoning?: { summary?: unknown[] } } }
   ).additional_kwargs;
-  if (additionalKwargs?.reasoning && Array.isArray(additionalKwargs.reasoning.summary)) {
+  if (
+    additionalKwargs?.reasoning &&
+    Array.isArray(additionalKwargs.reasoning.summary)
+  ) {
     const reasoningParts: string[] = [];
     for (const summaryItem of additionalKwargs.reasoning.summary) {
       if (
@@ -854,7 +909,9 @@ export function extractReasoningFromValuesMessage(msg: unknown): string | undefi
  * @param obj - The object to check.
  * @returns True if the object is an image generation output, false otherwise.
  */
-export function isImageGenerationOutput(obj: unknown): obj is ImageGenerationOutput {
+export function isImageGenerationOutput(
+  obj: unknown,
+): obj is ImageGenerationOutput {
   return (
     obj != null &&
     typeof obj === 'object' &&
@@ -954,7 +1011,9 @@ export function processLangGraphEvent(
        * Track LangGraph step changes and emit start-step/finish-step events
        */
       const langgraphStep =
-        typeof metadata?.langgraph_step === 'number' ? metadata.langgraph_step : null;
+        typeof metadata?.langgraph_step === 'number'
+          ? metadata.langgraph_step
+          : null;
       if (langgraphStep !== null && langgraphStep !== state.currentStep) {
         if (state.currentStep !== null) {
           controller.enqueue({ type: 'finish-step' });
@@ -969,7 +1028,9 @@ export function processLangGraphEvent(
        */
       if (AIMessageChunk.isInstance(msg)) {
         if (messageConcat[msgId]) {
-          messageConcat[msgId] = messageConcat[msgId].concat(msg) as AIMessageChunk;
+          messageConcat[msgId] = messageConcat[msgId].concat(
+            msg,
+          ) as AIMessageChunk;
         } else {
           messageConcat[msgId] = msg;
         }
@@ -984,7 +1045,9 @@ export function processLangGraphEvent(
          */
         const msgObj = msg as unknown as Record<string, unknown>;
         const dataSource =
-          msgObj.type === 'constructor' && msgObj.kwargs && typeof msgObj.kwargs === 'object'
+          msgObj.type === 'constructor' &&
+          msgObj.kwargs &&
+          typeof msgObj.kwargs === 'object'
             ? (msgObj.kwargs as Record<string, unknown>)
             : msgObj;
         const additionalKwargs = dataSource.additional_kwargs as
@@ -1022,7 +1085,9 @@ export function processLangGraphEvent(
          * We store tool call info by index when we first see it, then look it up
          * for subsequent chunks that don't include the id.
          */
-        const toolCallChunks = dataSource.tool_call_chunks as ToolCallChunk[] | undefined;
+        const toolCallChunks = dataSource.tool_call_chunks as
+          | ToolCallChunk[]
+          | undefined;
         if (toolCallChunks?.length) {
           for (const toolCallChunk of toolCallChunks) {
             const idx = toolCallChunk.index ?? 0;
@@ -1034,7 +1099,10 @@ export function processLangGraphEvent(
               toolCallInfoByIndex[msgId] ??= {};
               toolCallInfoByIndex[msgId][idx] = {
                 id: toolCallChunk.id,
-                name: toolCallChunk.name || concatChunk?.tool_call_chunks?.[idx]?.name || 'unknown',
+                name:
+                  toolCallChunk.name ||
+                  concatChunk?.tool_call_chunks?.[idx]?.name ||
+                  'unknown',
               };
             }
 
@@ -1117,7 +1185,8 @@ export function processLangGraphEvent(
         const reasoning = extractReasoningFromContentBlocks(msg);
         if (reasoning) {
           // Use stored reasoning ID, or current chunk's ID, or fall back to message ID
-          const reasoningId = messageReasoningIds[msgId] ?? chunkReasoningId ?? msgId;
+          const reasoningId =
+            messageReasoningIds[msgId] ?? chunkReasoningId ?? msgId;
 
           if (!messageSeen[msgId]?.reasoning) {
             controller.enqueue({ type: 'reasoning-start', id: msgId });
@@ -1156,7 +1225,9 @@ export function processLangGraphEvent(
         // Handle both direct properties and serialized messages (kwargs)
         const msgObj = msg as unknown as Record<string, unknown>;
         const dataSource =
-          msgObj.type === 'constructor' && msgObj.kwargs && typeof msgObj.kwargs === 'object'
+          msgObj.type === 'constructor' &&
+          msgObj.kwargs &&
+          typeof msgObj.kwargs === 'object'
             ? (msgObj.kwargs as Record<string, unknown>)
             : msgObj;
 
@@ -1197,7 +1268,9 @@ export function processLangGraphEvent(
         if (seen.tool) {
           for (const [toolCallId, toolCallSeen] of Object.entries(seen.tool)) {
             const concatMsg = messageConcat[id];
-            const toolCall = concatMsg?.tool_calls?.find(call => call.id === toolCallId);
+            const toolCall = concatMsg?.tool_calls?.find(
+              call => call.id === toolCallId,
+            );
 
             if (toolCallSeen && toolCall) {
               emittedToolCalls.add(toolCallId);
@@ -1243,7 +1316,9 @@ export function processLangGraphEvent(
               // Handle both direct properties and serialized messages (kwargs)
               const msgObj = msg as unknown as Record<string, unknown>;
               const dataSource =
-                msgObj.type === 'constructor' && msgObj.kwargs && typeof msgObj.kwargs === 'object'
+                msgObj.type === 'constructor' &&
+                msgObj.kwargs &&
+                typeof msgObj.kwargs === 'object'
                   ? (msgObj.kwargs as Record<string, unknown>)
                   : msgObj;
 
@@ -1289,7 +1364,9 @@ export function processLangGraphEvent(
                 Array.isArray(obj.id) &&
                 ((obj.id as string[]).includes('AIMessageChunk') ||
                   (obj.id as string[]).includes('AIMessage'));
-              const dataSource = isSerializedFormat ? (obj.kwargs as Record<string, unknown>) : obj;
+              const dataSource = isSerializedFormat
+                ? (obj.kwargs as Record<string, unknown>)
+                : obj;
 
               if (obj.type === 'ai-toolkit' || isSerializedFormat) {
                 /**
@@ -1304,7 +1381,8 @@ export function processLangGraphEvent(
                   dataSource?.additional_kwargs &&
                   typeof dataSource.additional_kwargs === 'object'
                 ) {
-                  const additionalKwargs = dataSource.additional_kwargs as Record<string, unknown>;
+                  const additionalKwargs =
+                    dataSource.additional_kwargs as Record<string, unknown>;
                   if (Array.isArray(additionalKwargs.tool_calls)) {
                     /**
                      * Convert OpenAI format to normalized format
@@ -1318,7 +1396,9 @@ export function processLangGraphEvent(
                       const functionData = tc.function;
                       let args: unknown;
                       try {
-                        args = functionData?.arguments ? JSON.parse(functionData.arguments) : {};
+                        args = functionData?.arguments
+                          ? JSON.parse(functionData.arguments)
+                          : {};
                       } catch {
                         args = {};
                       }
@@ -1429,9 +1509,8 @@ export function processLangGraphEvent(
         const interrupt = (data as Record<string, unknown>).__interrupt__;
         if (Array.isArray(interrupt) && interrupt.length > 0) {
           for (const interruptItem of interrupt) {
-            const interruptValue = (interruptItem as { value?: unknown })?.value as
-              | Record<string, unknown>
-              | undefined;
+            const interruptValue = (interruptItem as { value?: unknown })
+              ?.value as Record<string, unknown> | undefined;
 
             if (!interruptValue) continue;
 

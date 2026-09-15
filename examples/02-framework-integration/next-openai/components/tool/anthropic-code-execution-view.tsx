@@ -6,7 +6,9 @@ export default function AnthropicCodeExecutionView({
   invocation,
   provider = 'anthropic',
 }: {
-  invocation: UIToolInvocation<ReturnType<typeof anthropic.tools.codeExecution_20250825>>;
+  invocation: UIToolInvocation<
+    ReturnType<typeof anthropic.tools.codeExecution_20250825>
+  >;
   provider?: 'anthropic' | 'anthropic-microsoft';
 }) {
   switch (invocation.state) {
@@ -112,15 +114,18 @@ export default function AnthropicCodeExecutionView({
                   )}
                 </>
               )}
-              {invocation.output.type === 'bash_code_execution_tool_result_error' && (
+              {invocation.output.type ===
+                'bash_code_execution_tool_result_error' && (
                 <>
                   <span className="font-semibold">Bash Tool Result Error</span>
                   <br />
-                  <span className="font-semibold">Error Code:</span> {invocation.output.error_code}
+                  <span className="font-semibold">Error Code:</span>{' '}
+                  {invocation.output.error_code}
                   <br />
                 </>
               )}
-              {invocation.output.type === 'text_editor_code_execution_create_result' && (
+              {invocation.output.type ===
+                'text_editor_code_execution_create_result' && (
                 <>
                   <span className="font-semibold">File Create Result</span>
                   <br />
@@ -129,11 +134,13 @@ export default function AnthropicCodeExecutionView({
                   <br />
                 </>
               )}
-              {invocation.output.type === 'text_editor_code_execution_view_result' && (
+              {invocation.output.type ===
+                'text_editor_code_execution_view_result' && (
                 <>
                   <span className="font-semibold">File View Result</span>
                   <br />
-                  <span className="font-semibold">File Type:</span> {invocation.output.file_type}
+                  <span className="font-semibold">File Type:</span>{' '}
+                  {invocation.output.file_type}
                   <br />
                   <span className="font-semibold">Content:</span>
                   <br />
@@ -141,17 +148,22 @@ export default function AnthropicCodeExecutionView({
                   <br />
                 </>
               )}
-              {invocation.output.type === 'text_editor_code_execution_str_replace_result' && (
+              {invocation.output.type ===
+                'text_editor_code_execution_str_replace_result' && (
                 <>
                   <span className="font-semibold">File Str Replace Result</span>
                   <br />
-                  <span className="font-semibold">New Start:</span> {invocation.output.new_start}
+                  <span className="font-semibold">New Start:</span>{' '}
+                  {invocation.output.new_start}
                   <br />
-                  <span className="font-semibold">New Lines:</span> {invocation.output.new_lines}
+                  <span className="font-semibold">New Lines:</span>{' '}
+                  {invocation.output.new_lines}
                   <br />
-                  <span className="font-semibold">Old Start:</span> {invocation.output.old_start}
+                  <span className="font-semibold">Old Start:</span>{' '}
+                  {invocation.output.old_start}
                   <br />
-                  <span className="font-semibold">Old Lines:</span> {invocation.output.old_lines}
+                  <span className="font-semibold">Old Lines:</span>{' '}
+                  {invocation.output.old_lines}
                   <br />
                   <span className="font-semibold">Lines:</span>
                   <br />
@@ -159,11 +171,15 @@ export default function AnthropicCodeExecutionView({
                   <br />
                 </>
               )}
-              {invocation.output.type === 'text_editor_code_execution_tool_result_error' && (
+              {invocation.output.type ===
+                'text_editor_code_execution_tool_result_error' && (
                 <>
-                  <span className="font-semibold">Text Editor Tool Result Error</span>
+                  <span className="font-semibold">
+                    Text Editor Tool Result Error
+                  </span>
                   <br />
-                  <span className="font-semibold">Error Code:</span> {invocation.output.error_code}
+                  <span className="font-semibold">Error Code:</span>{' '}
+                  {invocation.output.error_code}
                   <br />
                 </>
               )}
@@ -177,7 +193,9 @@ export default function AnthropicCodeExecutionView({
 function InputView({
   input,
 }: {
-  input: UIToolInvocation<ReturnType<typeof anthropic.tools.codeExecution_20250825>>['input'];
+  input: UIToolInvocation<
+    ReturnType<typeof anthropic.tools.codeExecution_20250825>
+  >['input'];
 }) {
   if (!input) {
     return null;
@@ -209,7 +227,8 @@ function InputView({
                 <br />
                 {input.path && (
                   <>
-                    <span className="font-semibold">File Path:</span> {input.path}
+                    <span className="font-semibold">File Path:</span>{' '}
+                    {input.path}
                     <br />
                   </>
                 )}
@@ -225,13 +244,15 @@ function InputView({
                 <br />
                 {input.path && (
                   <>
-                    <span className="font-semibold">File Path:</span> {input.path}
+                    <span className="font-semibold">File Path:</span>{' '}
+                    {input.path}
                     <br />
                   </>
                 )}
                 {input.file_text && (
                   <>
-                    <span className="font-semibold">File Text:</span> {input.file_text}
+                    <span className="font-semibold">File Text:</span>{' '}
+                    {input.file_text}
                     <br />
                   </>
                 )}
@@ -247,7 +268,8 @@ function InputView({
                 <br />
                 {input.path && (
                   <>
-                    <span className="font-semibold">File Path:</span> {input.path}
+                    <span className="font-semibold">File Path:</span>{' '}
+                    {input.path}
                     <br />
                   </>
                 )}

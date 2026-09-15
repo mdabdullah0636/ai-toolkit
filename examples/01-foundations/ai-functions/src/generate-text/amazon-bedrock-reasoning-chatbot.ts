@@ -41,7 +41,10 @@ run(async () => {
 
       if (step.toolCalls) {
         for (const toolCall of step.toolCalls) {
-          console.log(`\x1b[33m${toolCall.toolName}\x1b[0m` + JSON.stringify(toolCall.input));
+          console.log(
+            `\x1b[33m${toolCall.toolName}\x1b[0m` +
+              JSON.stringify(toolCall.input),
+          );
         }
       }
     }

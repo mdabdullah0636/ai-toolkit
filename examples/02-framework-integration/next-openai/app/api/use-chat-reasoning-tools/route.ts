@@ -1,5 +1,11 @@
 import { openai, OpenAIResponsesProviderOptions } from '@ai-toolkit/openai';
-import { convertToModelMessages, InferUITools, streamText, UIDataTypes, UIMessage } from 'ai-toolkit';
+import {
+  convertToModelMessages,
+  InferUITools,
+  streamText,
+  UIDataTypes,
+  UIMessage,
+} from 'ai-toolkit';
 
 const tools = {
   web_search: openai.tools.webSearch({

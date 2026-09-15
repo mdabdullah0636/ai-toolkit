@@ -11,7 +11,9 @@ import { VERSION } from './version';
  * @param customHeaders - The headers to inject.
  * @returns A fetch function that injects the custom headers.
  */
-export function injectFetchHeaders(customHeaders: Record<string, string>): FetchFunction {
+export function injectFetchHeaders(
+  customHeaders: Record<string, string>,
+): FetchFunction {
   return async (input, init = {}) => {
     const headers = withUserAgentSuffix(
       {

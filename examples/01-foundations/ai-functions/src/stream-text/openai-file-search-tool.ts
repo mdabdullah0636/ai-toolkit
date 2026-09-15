@@ -26,12 +26,16 @@ run(async () => {
       }
 
       case 'tool-call': {
-        console.log(`\x1b[32m\x1b[1mTool call:\x1b[22m ${JSON.stringify(chunk, null, 2)}\x1b[0m`);
+        console.log(
+          `\x1b[32m\x1b[1mTool call:\x1b[22m ${JSON.stringify(chunk, null, 2)}\x1b[0m`,
+        );
         break;
       }
 
       case 'tool-result': {
-        console.log(`\x1b[32m\x1b[1mTool result:\x1b[22m ${JSON.stringify(chunk, null, 2)}\x1b[0m`);
+        console.log(
+          `\x1b[32m\x1b[1mTool result:\x1b[22m ${JSON.stringify(chunk, null, 2)}\x1b[0m`,
+        );
         break;
       }
 

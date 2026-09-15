@@ -1,4 +1,8 @@
-import { LanguageModelV3, NoSuchModelError, ProviderV3 } from '@ai-toolkit/provider';
+import {
+  LanguageModelV3,
+  NoSuchModelError,
+  ProviderV3,
+} from '@ai-toolkit/provider';
 import {
   FetchFunction,
   generateId,
@@ -74,7 +78,9 @@ or to provide a custom fetch implementation for e.g. testing.
 /**
 Create an Anthropic provider instance.
  */
-export function createAnthropic(options: AnthropicProviderSettings = {}): AnthropicProvider {
+export function createAnthropic(
+  options: AnthropicProviderSettings = {},
+): AnthropicProvider {
   const baseURL =
     withoutTrailingSlash(
       loadOptionalSetting({
@@ -114,7 +120,9 @@ export function createAnthropic(options: AnthropicProviderSettings = {}): Anthro
 
   const provider = function (modelId: AnthropicMessagesModelId) {
     if (new.target) {
-      throw new Error('The Anthropic model function cannot be called with the new keyword.');
+      throw new Error(
+        'The Anthropic model function cannot be called with the new keyword.',
+      );
     }
 
     return createChatModel(modelId);

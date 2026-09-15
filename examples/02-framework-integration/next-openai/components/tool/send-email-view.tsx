@@ -1,6 +1,10 @@
 import { SendEmailUIToolInvocation } from '@/agent/anthropic-tool-search-agent';
 
-export default function SendEmailView({ invocation }: { invocation: SendEmailUIToolInvocation }) {
+export default function SendEmailView({
+  invocation,
+}: {
+  invocation: SendEmailUIToolInvocation;
+}) {
   switch (invocation.state) {
     case 'input-available': {
       return (
@@ -62,7 +66,9 @@ export default function SendEmailView({ invocation }: { invocation: SendEmailUIT
             </span>
             Error
           </div>
-          <div className="pl-5 text-sm text-red-600">{invocation.errorText}</div>
+          <div className="pl-5 text-sm text-red-600">
+            {invocation.errorText}
+          </div>
         </div>
       );
   }

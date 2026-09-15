@@ -22,7 +22,9 @@ describe('createTextStreamResponse', () => {
     expect(response.statusText).toBe('OK');
 
     // Verify headers
-    expect(response.headers.get('Content-Type')).toBe('text/plain; charset=utf-8');
+    expect(response.headers.get('Content-Type')).toBe(
+      'text/plain; charset=utf-8',
+    );
     expect(response.headers.get('Custom-Header')).toBe('test');
 
     // Verify encoded stream content

@@ -1,4 +1,9 @@
-import { AbstractChat, ChatInit, type CreateUIMessage, type UIMessage } from 'ai-toolkit';
+import {
+  AbstractChat,
+  ChatInit,
+  type CreateUIMessage,
+  type UIMessage,
+} from 'ai-toolkit';
 import { useCallback, useEffect, useRef, useSyncExternalStore } from 'react';
 import { Chat } from './chat.react';
 
@@ -15,7 +20,9 @@ export type UseChatHelpers<UI_MESSAGE extends UIMessage> = {
    * edit the messages on the client, and then trigger the `reload` method
    * manually to regenerate the AI response.
    */
-  setMessages: (messages: UI_MESSAGE[] | ((messages: UI_MESSAGE[]) => UI_MESSAGE[])) => void;
+  setMessages: (
+    messages: UI_MESSAGE[] | ((messages: UI_MESSAGE[]) => UI_MESSAGE[]),
+  ) => void;
 
   error: Error | undefined;
 } & Pick<
@@ -84,7 +91,8 @@ export function useChat<UI_MESSAGE extends UIMessage = UIMessage>({
     onData: arg => callbacksRef.current.onData?.(arg),
     onFinish: arg => callbacksRef.current.onFinish?.(arg),
     onError: arg => callbacksRef.current.onError?.(arg),
-    sendAutomaticallyWhen: arg => callbacksRef.current.sendAutomaticallyWhen?.(arg) ?? false,
+    sendAutomaticallyWhen: arg =>
+      callbacksRef.current.sendAutomaticallyWhen?.(arg) ?? false,
   };
 
   const chatRef = useRef<Chat<UI_MESSAGE>>(
@@ -96,11 +104,13 @@ export function useChat<UI_MESSAGE extends UIMessage = UIMessage>({
     ('id' in options && chatRef.current.id !== options.id);
 
   if (shouldRecreateChat) {
-    chatRef.current = 'chat' in options ? options.chat : new Chat(optionsWithCallbacks);
+    chatRef.current =
+      'chat' in options ? options.chat : new Chat(optionsWithCallbacks);
   }
 
   const subscribeToMessages = useCallback(
-    (update: () => void) => chatRef.current['~registerMessagesCallback'](update, throttleWaitMs),
+    (update: () => void) =>
+      chatRef.current['~registerMessagesCallback'](update, throttleWaitMs),
     // `chatRef.current.id` is required to trigger re-subscription when the chat ID changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [throttleWaitMs, chatRef.current.id],
@@ -125,7 +135,9 @@ export function useChat<UI_MESSAGE extends UIMessage = UIMessage>({
   );
 
   const setMessages = useCallback(
-    (messagesParam: UI_MESSAGE[] | ((messages: UI_MESSAGE[]) => UI_MESSAGE[])) => {
+    (
+      messagesParam: UI_MESSAGE[] | ((messages: UI_MESSAGE[]) => UI_MESSAGE[]),
+    ) => {
       if (typeof messagesParam === 'function') {
         messagesParam = messagesParam(chatRef.current.messages);
       }

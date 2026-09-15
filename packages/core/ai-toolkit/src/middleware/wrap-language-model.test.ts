@@ -170,7 +170,9 @@ describe('wrapLanguageModel', () => {
     const mockModel = new MockLanguageModelV3({
       doGenerate: vi.fn().mockResolvedValue('mock result'),
     });
-    const wrapGenerate = vi.fn().mockImplementation(({ doGenerate }) => doGenerate());
+    const wrapGenerate = vi
+      .fn()
+      .mockImplementation(({ doGenerate }) => doGenerate());
 
     const wrappedModel = wrapLanguageModel({
       model: mockModel,
@@ -402,14 +404,18 @@ describe('wrapLanguageModel', () => {
         doGenerate: vi.fn().mockResolvedValue('final generate result'),
       });
 
-      const wrapGenerate1 = vi.fn().mockImplementation(async ({ doGenerate, params, model }) => {
-        const result = await doGenerate();
-        return `wrapGenerate1(${result})`;
-      });
-      const wrapGenerate2 = vi.fn().mockImplementation(async ({ doGenerate, params, model }) => {
-        const result = await doGenerate();
-        return `wrapGenerate2(${result})`;
-      });
+      const wrapGenerate1 = vi
+        .fn()
+        .mockImplementation(async ({ doGenerate, params, model }) => {
+          const result = await doGenerate();
+          return `wrapGenerate1(${result})`;
+        });
+      const wrapGenerate2 = vi
+        .fn()
+        .mockImplementation(async ({ doGenerate, params, model }) => {
+          const result = await doGenerate();
+          return `wrapGenerate2(${result})`;
+        });
 
       const wrappedModel = wrapLanguageModel({
         model: mockModel,
@@ -432,7 +438,9 @@ describe('wrapLanguageModel', () => {
       const result = await wrappedModel.doGenerate(params);
 
       // The middlewares should wrap in order, applying wrapGenerate2 last
-      expect(result).toBe('wrapGenerate1(wrapGenerate2(final generate result))');
+      expect(result).toBe(
+        'wrapGenerate1(wrapGenerate2(final generate result))',
+      );
       expect(wrapGenerate1).toHaveBeenCalled();
       expect(wrapGenerate2).toHaveBeenCalled();
     });
@@ -442,14 +450,18 @@ describe('wrapLanguageModel', () => {
         doStream: vi.fn().mockResolvedValue('final stream result'),
       });
 
-      const wrapStream1 = vi.fn().mockImplementation(async ({ doStream, params, model }) => {
-        const result = await doStream();
-        return `wrapStream1(${result})`;
-      });
-      const wrapStream2 = vi.fn().mockImplementation(async ({ doStream, params, model }) => {
-        const result = await doStream();
-        return `wrapStream2(${result})`;
-      });
+      const wrapStream1 = vi
+        .fn()
+        .mockImplementation(async ({ doStream, params, model }) => {
+          const result = await doStream();
+          return `wrapStream1(${result})`;
+        });
+      const wrapStream2 = vi
+        .fn()
+        .mockImplementation(async ({ doStream, params, model }) => {
+          const result = await doStream();
+          return `wrapStream2(${result})`;
+        });
 
       const wrappedModel = wrapLanguageModel({
         model: mockModel,
@@ -488,7 +500,10 @@ describe('wrapLanguageModel', () => {
         wrapStream: vi.fn(),
       };
 
-      const middlewares = [middleware1, middleware2] as LanguageModelV3Middleware[];
+      const middlewares = [
+        middleware1,
+        middleware2,
+      ] as LanguageModelV3Middleware[];
 
       wrapLanguageModel({
         model: new MockLanguageModelV3(),

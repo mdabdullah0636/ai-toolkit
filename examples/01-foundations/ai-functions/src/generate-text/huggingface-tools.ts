@@ -11,7 +11,9 @@ run(async () => {
       getWeather: tool({
         description: 'Get the current weather for a specific location',
         inputSchema: z.object({
-          location: z.string().describe('The city name, e.g., New York, London, Tokyo'),
+          location: z
+            .string()
+            .describe('The city name, e.g., New York, London, Tokyo'),
         }),
         execute: async ({ location }) => {
           // Simulate weather API call
@@ -22,14 +24,16 @@ run(async () => {
           return {
             location,
             temperature: `${temperature}°F`,
-            condition: conditions[Math.floor(Math.random() * conditions.length)],
+            condition:
+              conditions[Math.floor(Math.random() * conditions.length)],
             humidity: `${humidity}%`,
             wind: `${Math.floor(Math.random() * 20) + 5} mph`,
           };
         },
       }),
     },
-    prompt: 'What is the weather in New York? Use the getWeather tool and tell me the results.',
+    prompt:
+      'What is the weather in New York? Use the getWeather tool and tell me the results.',
 
     onStepFinish: step => {
       console.log('\n=== Step Completed ===');

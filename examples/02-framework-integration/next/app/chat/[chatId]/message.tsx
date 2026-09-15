@@ -10,7 +10,13 @@ export default function Message({
   status: ChatStatus;
   message: MyUIMessage;
   regenerate: ({ messageId }: { messageId: string }) => void;
-  sendMessage: ({ text, messageId }: { text: string; messageId?: string }) => void;
+  sendMessage: ({
+    text,
+    messageId,
+  }: {
+    text: string;
+    messageId?: string;
+  }) => void;
 }) {
   const date = message.metadata?.createdAt
     ? new Date(message.metadata.createdAt).toLocaleString()
@@ -24,7 +30,11 @@ export default function Message({
     >
       <div className="mb-1 text-xs text-gray-500">{date}</div>
       <div className="font-semibold">{isUser ? 'User:' : 'AI:'}</div>
-      <div>{message.parts.map(part => (part.type === 'text' ? part.text : '')).join('')}</div>
+      <div>
+        {message.parts
+          .map(part => (part.type === 'text' ? part.text : ''))
+          .join('')}
+      </div>
       {message.role === 'user' && (
         <>
           <button
@@ -35,7 +45,9 @@ export default function Message({
             Regenerate
           </button>
           <button
-            onClick={() => sendMessage({ text: 'Hello', messageId: message.id })}
+            onClick={() =>
+              sendMessage({ text: 'Hello', messageId: message.id })
+            }
             className="px-3 py-1 mt-2 text-sm transition-colors bg-gray-200 rounded-md hover:bg-gray-300"
             disabled={status !== 'ready'}
           >

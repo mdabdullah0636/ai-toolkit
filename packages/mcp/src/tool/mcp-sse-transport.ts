@@ -7,7 +7,12 @@ import { MCPClientError } from '../error/mcp-client-error';
 import { JSONRPCMessage, JSONRPCMessageSchema } from './json-rpc-message';
 import { MCPTransport } from './mcp-transport';
 import { VERSION } from '../version';
-import { OAuthClientProvider, extractResourceMetadataUrl, UnauthorizedError, auth } from './oauth';
+import {
+  OAuthClientProvider,
+  extractResourceMetadataUrl,
+  UnauthorizedError,
+  auth,
+} from './oauth';
 import { LATEST_PROTOCOL_VERSION } from './types';
 
 export class SseMCPTransport implements MCPTransport {
@@ -40,7 +45,9 @@ export class SseMCPTransport implements MCPTransport {
     this.authProvider = authProvider;
   }
 
-  private async commonHeaders(base: Record<string, string>): Promise<Record<string, string>> {
+  private async commonHeaders(
+    base: Record<string, string>,
+  ): Promise<Record<string, string>> {
     const headers: Record<string, string> = {
       ...this.headers,
       ...base,
@@ -54,7 +61,11 @@ export class SseMCPTransport implements MCPTransport {
       }
     }
 
-    return withUserAgentSuffix(headers, `ai-toolkit/${VERSION}`, getRuntimeEnvironmentUserAgent());
+    return withUserAgentSuffix(
+      headers,
+      `ai-toolkit/${VERSION}`,
+      getRuntimeEnvironmentUserAgent(),
+    );
   }
 
   async start(): Promise<void> {
@@ -124,7 +135,8 @@ export class SseMCPTransport implements MCPTransport {
                   if (this.connected) {
                     this.connected = false;
                     throw new MCPClientError({
-                      message: 'MCP SSE Transport Error: Connection closed unexpectedly',
+                      message:
+                        'MCP SSE Transport Error: Connection closed unexpectedly',
                     });
                   }
                   return;
@@ -145,11 +157,14 @@ export class SseMCPTransport implements MCPTransport {
                   resolve();
                 } else if (event === 'message') {
                   try {
-                    const message = JSONRPCMessageSchema.parse(JSON.parse(data));
+                    const message = JSONRPCMessageSchema.parse(
+                      JSON.parse(data),
+                    );
                     this.onmessage?.(message);
                   } catch (error) {
                     const e = new MCPClientError({
-                      message: 'MCP SSE Transport Error: Failed to parse message',
+                      message:
+                        'MCP SSE Transport Error: Failed to parse message',
                       cause: error,
                     });
                     this.onerror?.(e);

@@ -7,7 +7,9 @@ run(async () => {
 
   // Example 1: Using API key via environment variable (AWS_BEARER_TOKEN_BEDROCK)
   // This is the recommended approach for production applications
-  console.log('Example 1: Using API key from environment variable (AWS_BEARER_TOKEN_BEDROCK)');
+  console.log(
+    'Example 1: Using API key from environment variable (AWS_BEARER_TOKEN_BEDROCK)',
+  );
   try {
     const result1 = await generateText({
       model: bedrock('anthropic.claude-3-haiku-20240307-v1:0'),
@@ -19,7 +21,10 @@ run(async () => {
     console.log('Token usage:', result1.usage);
     console.log('Finish reason:', result1.finishReason);
   } catch (error) {
-    console.log('Error (expected if AWS_BEARER_TOKEN_BEDROCK not set):', (error as Error).message);
+    console.log(
+      'Error (expected if AWS_BEARER_TOKEN_BEDROCK not set):',
+      (error as Error).message,
+    );
   }
 
   console.log('\n' + '='.repeat(60) + '\n');
@@ -29,7 +34,8 @@ run(async () => {
   console.log('Example 2: Using API key directly in provider configuration');
 
   // For demonstration purposes - in real applications, load from secure environment
-  const exampleApiKey = process.env.AWS_BEARER_TOKEN_BEDROCK || 'your-api-key-here';
+  const exampleApiKey =
+    process.env.AWS_BEARER_TOKEN_BEDROCK || 'your-api-key-here';
 
   try {
     // Create provider with explicit API key
@@ -47,7 +53,10 @@ run(async () => {
     console.log('Generated explanation:', result2.text);
     console.log('Token usage:', result2.usage);
   } catch (error) {
-    console.log('Error (expected if API key not valid):', (error as Error).message);
+    console.log(
+      'Error (expected if API key not valid):',
+      (error as Error).message,
+    );
   }
 
   console.log('\n' + '='.repeat(60) + '\n');
@@ -87,9 +96,13 @@ API Key authentication is ideal for:
     });
 
     console.log('Generated poem:', result4.text);
-    console.log('Authentication method used: API Key or SigV4 (automatic fallback)');
+    console.log(
+      'Authentication method used: API Key or SigV4 (automatic fallback)',
+    );
   } catch (error) {
     console.log('Error:', (error as Error).message);
-    console.log('Make sure either AWS_BEARER_TOKEN_BEDROCK or AWS credentials are configured');
+    console.log(
+      'Make sure either AWS_BEARER_TOKEN_BEDROCK or AWS credentials are configured',
+    );
   }
 });

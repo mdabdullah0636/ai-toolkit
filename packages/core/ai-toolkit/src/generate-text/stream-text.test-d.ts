@@ -34,7 +34,9 @@ describe('streamText types', () => {
         output: Output.object({ schema: z.object({ value: z.string() }) }),
       });
 
-      expectTypeOf<typeof result.output>().toEqualTypeOf<PromiseLike<{ value: string }>>();
+      expectTypeOf<typeof result.output>().toEqualTypeOf<
+        PromiseLike<{ value: string }>
+      >();
     });
 
     it('should infer array output type', async () => {
@@ -44,7 +46,9 @@ describe('streamText types', () => {
         output: Output.array({ element: z.string() }),
       });
 
-      expectTypeOf<typeof result.output>().toEqualTypeOf<PromiseLike<string[]>>();
+      expectTypeOf<typeof result.output>().toEqualTypeOf<
+        PromiseLike<string[]>
+      >();
     });
 
     it('should infer choice output type', async () => {
@@ -54,7 +58,9 @@ describe('streamText types', () => {
         output: Output.choice({ options: ['a', 'b', 'c'] as const }),
       });
 
-      expectTypeOf<typeof result.output>().toEqualTypeOf<PromiseLike<'a' | 'b' | 'c'>>();
+      expectTypeOf<typeof result.output>().toEqualTypeOf<
+        PromiseLike<'a' | 'b' | 'c'>
+      >();
     });
 
     it('should infer json output type', async () => {
@@ -64,7 +70,9 @@ describe('streamText types', () => {
         output: Output.json(),
       });
 
-      expectTypeOf<typeof result.output>().toEqualTypeOf<PromiseLike<JSONValue>>();
+      expectTypeOf<typeof result.output>().toEqualTypeOf<
+        PromiseLike<JSONValue>
+      >();
     });
   });
 
@@ -161,7 +169,9 @@ describe('streamText types', () => {
         output: Output.text(),
       });
 
-      expectTypeOf<typeof result.elementStream>().toEqualTypeOf<AsyncIterableStream<never>>();
+      expectTypeOf<typeof result.elementStream>().toEqualTypeOf<
+        AsyncIterableStream<never>
+      >();
     });
 
     it('should infer never for object output', async () => {
@@ -171,7 +181,9 @@ describe('streamText types', () => {
         output: Output.object({ schema: z.object({ value: z.string() }) }),
       });
 
-      expectTypeOf<typeof result.elementStream>().toEqualTypeOf<AsyncIterableStream<never>>();
+      expectTypeOf<typeof result.elementStream>().toEqualTypeOf<
+        AsyncIterableStream<never>
+      >();
     });
 
     it('should infer never for default output', async () => {
@@ -180,7 +192,9 @@ describe('streamText types', () => {
         prompt: 'Hello, world!',
       });
 
-      expectTypeOf<typeof result.elementStream>().toEqualTypeOf<AsyncIterableStream<never>>();
+      expectTypeOf<typeof result.elementStream>().toEqualTypeOf<
+        AsyncIterableStream<never>
+      >();
     });
   });
 });

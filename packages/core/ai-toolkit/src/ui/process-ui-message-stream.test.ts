@@ -181,7 +181,9 @@ describe('processUIMessageStream', () => {
     beforeEach(async () => {
       errors = [];
 
-      const stream = createUIMessageStream([{ type: 'error', errorText: 'test error' }]);
+      const stream = createUIMessageStream([
+        { type: 'error', errorText: 'test error' },
+      ]);
 
       state = createStreamingUIMessageState({
         messageId: 'msg-123',
@@ -414,7 +416,9 @@ describe('processUIMessageStream', () => {
       }
 
       expect(UIMessageStreamError.isInstance(caughtError)).toBe(true);
-      expect((caughtError as UIMessageStreamError).chunkType).toBe('text-delta');
+      expect((caughtError as UIMessageStreamError).chunkType).toBe(
+        'text-delta',
+      );
       expect((caughtError as UIMessageStreamError).chunkId).toBe('missing-id');
     });
 
@@ -453,8 +457,12 @@ describe('processUIMessageStream', () => {
       }
 
       expect(UIMessageStreamError.isInstance(caughtError)).toBe(true);
-      expect((caughtError as UIMessageStreamError).chunkType).toBe('tool-input-delta');
-      expect((caughtError as UIMessageStreamError).chunkId).toBe('missing-tool-id');
+      expect((caughtError as UIMessageStreamError).chunkType).toBe(
+        'tool-input-delta',
+      );
+      expect((caughtError as UIMessageStreamError).chunkId).toBe(
+        'missing-tool-id',
+      );
     });
   });
 
@@ -6214,7 +6222,8 @@ describe('processUIMessageStream', () => {
       // Find the first update after tool-input-start (when state is input-streaming)
       const inputStreamingUpdate = writeCalls.find(call =>
         call.message.parts.some(
-          (p: any) => p.toolCallId === 'tool-call-id' && p.state === 'input-streaming',
+          (p: any) =>
+            p.toolCallId === 'tool-call-id' && p.state === 'input-streaming',
         ),
       );
 
@@ -6694,7 +6703,9 @@ describe('processUIMessageStream', () => {
       });
 
       it('should include title in tool invocation parts', () => {
-        const toolPart = state!.message.parts.find(part => part.type === 'tool-weatherTool');
+        const toolPart = state!.message.parts.find(
+          part => part.type === 'tool-weatherTool',
+        );
 
         expect(toolPart).toBeDefined();
         expect((toolPart as any).title).toBe('Weather Information');
@@ -6703,27 +6714,39 @@ describe('processUIMessageStream', () => {
       it('should preserve title through all states', () => {
         const inputStreamingWrite = writeCalls.find(call =>
           call.message.parts.some(
-            part => part.type === 'tool-weatherTool' && (part as any).state === 'input-streaming',
+            part =>
+              part.type === 'tool-weatherTool' &&
+              (part as any).state === 'input-streaming',
           ),
         );
         expect(
-          (inputStreamingWrite!.message.parts.find(part => part.type === 'tool-weatherTool') as any)
-            .title,
+          (
+            inputStreamingWrite!.message.parts.find(
+              part => part.type === 'tool-weatherTool',
+            ) as any
+          ).title,
         ).toBe('Weather Information');
 
         const inputAvailableWrite = writeCalls.find(call =>
           call.message.parts.some(
-            part => part.type === 'tool-weatherTool' && (part as any).state === 'input-available',
+            part =>
+              part.type === 'tool-weatherTool' &&
+              (part as any).state === 'input-available',
           ),
         );
         expect(
-          (inputAvailableWrite!.message.parts.find(part => part.type === 'tool-weatherTool') as any)
-            .title,
+          (
+            inputAvailableWrite!.message.parts.find(
+              part => part.type === 'tool-weatherTool',
+            ) as any
+          ).title,
         ).toBe('Weather Information');
 
         const outputAvailableWrite = writeCalls.find(call =>
           call.message.parts.some(
-            part => part.type === 'tool-weatherTool' && (part as any).state === 'output-available',
+            part =>
+              part.type === 'tool-weatherTool' &&
+              (part as any).state === 'output-available',
           ),
         );
         expect(
@@ -6788,7 +6811,9 @@ describe('processUIMessageStream', () => {
       });
 
       it('should include title in dynamic tool invocation', () => {
-        const toolPart = state!.message.parts.find(part => part.type === 'dynamic-tool');
+        const toolPart = state!.message.parts.find(
+          part => part.type === 'dynamic-tool',
+        );
 
         expect(toolPart).toBeDefined();
         expect((toolPart as any).title).toBe('Calculator');
@@ -6851,7 +6876,9 @@ describe('processUIMessageStream', () => {
       });
 
       it('should preserve title even in error state', () => {
-        const toolPart = state!.message.parts.find(part => part.type === 'tool-errorTool');
+        const toolPart = state!.message.parts.find(
+          part => part.type === 'tool-errorTool',
+        );
 
         expect(toolPart).toBeDefined();
         expect((toolPart as any).title).toBe('Error Tool');

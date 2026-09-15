@@ -4,13 +4,21 @@ import { MobileNav } from '../components/mobile-nav';
 
 export const metadata = {
   title: 'AI TOOLKIT + LangChain Examples',
-  description: 'Example applications showcasing AI TOOLKIT with LangChain integration',
+  description:
+    'Example applications showcasing AI TOOLKIT with LangChain integration',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body className="flex flex-col lg:flex-row h-screen overflow-hidden" suppressHydrationWarning>
+      <body
+        className="flex flex-col lg:flex-row h-screen overflow-hidden"
+        suppressHydrationWarning
+      >
         <Sidebar />
         <div className="flex-1 flex flex-col overflow-hidden bg-[var(--background)] relative">
           <MobileNav />

@@ -16,7 +16,9 @@ describe('pipe', () => {
   it('Should parse the input schema if that strategy is selected', () => {
     const schema = z.number().pipe(z.number().int());
 
-    expect(parsePipelineDef(schema._def, getRefs({ pipeStrategy: 'input' }))).toStrictEqual({
+    expect(
+      parsePipelineDef(schema._def, getRefs({ pipeStrategy: 'input' })),
+    ).toStrictEqual({
       type: 'number',
     } satisfies JSONSchema7);
   });
@@ -24,7 +26,9 @@ describe('pipe', () => {
   it('Should parse the output schema (last schema in pipe) if that strategy is selected', () => {
     const schema = z.string().pipe(z.date()).pipe(z.number().int());
 
-    expect(parsePipelineDef(schema._def, getRefs({ pipeStrategy: 'output' }))).toStrictEqual({
+    expect(
+      parsePipelineDef(schema._def, getRefs({ pipeStrategy: 'output' })),
+    ).toStrictEqual({
       type: 'integer',
     } satisfies JSONSchema7);
   });

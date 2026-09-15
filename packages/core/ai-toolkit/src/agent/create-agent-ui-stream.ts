@@ -40,9 +40,15 @@ export async function createAgentUIStream<
   abortSignal?: AbortSignal;
   timeout?: TimeoutConfiguration;
   options?: CALL_OPTIONS;
-  experimental_transform?: StreamTextTransform<TOOLS> | Array<StreamTextTransform<TOOLS>>;
-} & UIMessageStreamOptions<UIMessage<MESSAGE_METADATA, never, InferUITools<TOOLS>>>): Promise<
-  AsyncIterableStream<InferUIMessageChunk<UIMessage<MESSAGE_METADATA, never, InferUITools<TOOLS>>>>
+  experimental_transform?:
+    | StreamTextTransform<TOOLS>
+    | Array<StreamTextTransform<TOOLS>>;
+} & UIMessageStreamOptions<
+  UIMessage<MESSAGE_METADATA, never, InferUITools<TOOLS>>
+>): Promise<
+  AsyncIterableStream<
+    InferUIMessageChunk<UIMessage<MESSAGE_METADATA, never, InferUITools<TOOLS>>>
+  >
 > {
   const validatedMessages = await validateUIMessages<
     UIMessage<MESSAGE_METADATA, never, InferUITools<TOOLS>>

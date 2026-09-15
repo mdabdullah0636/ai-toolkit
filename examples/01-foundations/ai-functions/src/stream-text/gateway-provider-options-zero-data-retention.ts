@@ -20,5 +20,8 @@ run(async () => {
   console.log();
   console.log('Token usage:', await result.usage);
   console.log('Finish reason:', await result.finishReason);
-  console.log('Provider metadata:', JSON.stringify(await result.providerMetadata, null, 2));
+  console.log(
+    'Provider metadata:',
+    JSON.stringify(await result.providerMetadata, null, 2),
+  );
 });

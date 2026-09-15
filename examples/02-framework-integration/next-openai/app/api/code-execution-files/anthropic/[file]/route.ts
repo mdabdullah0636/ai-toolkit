@@ -40,14 +40,21 @@ const execute = async (
     },
   });
 
-  const [infoResponse, downloadResponse] = await Promise.all([infoPromise, downloadPromise]);
+  const [infoResponse, downloadResponse] = await Promise.all([
+    infoPromise,
+    downloadPromise,
+  ]);
 
   if (!infoResponse.ok) {
-    throw new Error(`HTTP Error: ${infoResponse.status} ${infoResponse.statusText}`);
+    throw new Error(
+      `HTTP Error: ${infoResponse.status} ${infoResponse.statusText}`,
+    );
   }
 
   if (!downloadResponse.ok) {
-    throw new Error(`HTTP Error: ${downloadResponse.status} ${downloadResponse.statusText}`);
+    throw new Error(
+      `HTTP Error: ${downloadResponse.status} ${downloadResponse.statusText}`,
+    );
   }
 
   // https://github.com/anthropics/anthropic-sdk-typescript/blob/main/src/resources/beta/files.ts

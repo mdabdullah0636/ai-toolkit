@@ -4,7 +4,11 @@ import { fixJson } from './fix-json';
 
 export async function parsePartialJson(jsonText: string | undefined): Promise<{
   value: JSONValue | undefined;
-  state: 'undefined-input' | 'successful-parse' | 'repaired-parse' | 'failed-parse';
+  state:
+    | 'undefined-input'
+    | 'successful-parse'
+    | 'repaired-parse'
+    | 'failed-parse';
 }> {
   if (jsonText === undefined) {
     return { value: undefined, state: 'undefined-input' };

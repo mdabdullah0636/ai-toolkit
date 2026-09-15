@@ -2,7 +2,9 @@ import { UIMessage } from '../ui';
 import { ErrorHandler } from '../util/error-handler';
 import { InferUIMessageChunk } from './ui-message-chunks';
 
-export interface UIMessageStreamWriter<UI_MESSAGE extends UIMessage = UIMessage> {
+export interface UIMessageStreamWriter<
+  UI_MESSAGE extends UIMessage = UIMessage,
+> {
   /**
    * Appends a data stream part to the stream.
    */

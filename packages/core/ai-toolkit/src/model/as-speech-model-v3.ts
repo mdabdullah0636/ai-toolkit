@@ -1,7 +1,9 @@
 import { SpeechModelV2, SpeechModelV3 } from '@ai-toolkit/provider';
 import { logV2CompatibilityWarning } from '../util/log-v2-compatibility-warning';
 
-export function asSpeechModelV3(model: SpeechModelV3 | SpeechModelV2): SpeechModelV3 {
+export function asSpeechModelV3(
+  model: SpeechModelV3 | SpeechModelV2,
+): SpeechModelV3 {
   if (model.specificationVersion === 'v3') {
     return model;
   }

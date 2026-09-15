@@ -22,18 +22,19 @@ turning it into an SPA.
 
 ## Gap analysis (current www)
 
-| ai-sdk.dev                                    | apps/www today                                              |
-| --------------------------------------------- | ----------------------------------------------------------- |
-| `background-100` / `background-200` surfaces  | flat `--background` + `--card` (indistinguishable)          |
-| RGBA alpha borders                            | single opaque `--border: 0 0% 18%`                          |
-| h-16 sticky chrome with backdrop blur         | h-14 nav, no blur                                          |
-| icon rail + drawer app shell                  | static compare card, no shell                               |
-| `rounded-md` controls, tooltip icon buttons   | `rounded-lg` buttons, no tooltips                           |
-| numbered code-line blocks                     | wrapped `<p>` text, no line numbers                         |
+| ai-sdk.dev                                   | apps/www today                                     |
+| -------------------------------------------- | -------------------------------------------------- |
+| `background-100` / `background-200` surfaces | flat `--background` + `--card` (indistinguishable) |
+| RGBA alpha borders                           | single opaque `--border: 0 0% 18%`                 |
+| h-16 sticky chrome with backdrop blur        | h-14 nav, no blur                                  |
+| icon rail + drawer app shell                 | static compare card, no shell                      |
+| `rounded-md` controls, tooltip icon buttons  | `rounded-lg` buttons, no tooltips                  |
+| numbered code-line blocks                    | wrapped `<p>` text, no line numbers                |
 
 ## Phases
 
 ### Phase 0 — Token layer (foundation)
+
 - `app/globals.css`: add surface tokens while keeping existing vars:
   - `--background-100: 0 0% 8%` (content surfaces), `--background-200: 0 0% 11%`
     (chrome), `--background-300: 0 0% 14%` (hover).
@@ -48,12 +49,14 @@ turning it into an SPA.
     cards.
 
 ### Phase 1 — Chrome (nav + footer)
+
 - `components/nav.tsx`: `h-14` → `h-16`, `bg-surface-200/80 backdrop-blur`,
   `border-b border-alpha-border-strong`.
 - `components/footer.tsx`: top divider to `border-alpha-border`,
   tertiary links → `text-gray-500`-style muted (closer to drawer footer).
 
 ### Phase 2 — Rebuild `PlaygroundCompare` as an app-shell mock
+
 - Right sidebar of `/playground` is the top-visual page asset; give it the real
   playground's shell anatomy:
   - Outer `rounded-xl border border-alpha-border-strong bg-surface-100`.
@@ -67,6 +70,7 @@ turning it into an SPA.
 - Reuse existing `comparisons` data; no new data.
 
 ### Phase 3 — Reusable primitives
+
 - `components/code-block.tsx`: numbered mono lines
   (`data-geist-code-block-line`-style) with copy button, alpha border.
 - `components/icon-button.tsx`: `aria-label` tooltip button primitive
@@ -75,6 +79,7 @@ turning it into an SPA.
   `'use client'` or progressive enhancement).
 
 ### Phase 4 — Playground landing page restyle
+
 - `app/playground/page.tsx` + `lib/playground.ts`/`components/playground-compare.tsx`:
   - Feature / provider / sample-prompt cards: `bg-card` → `bg-surface-100`,
     `border-border` → `border-alpha-border`, hover → `bg-surface-200`.
@@ -84,11 +89,13 @@ turning it into an SPA.
   - Keep eyebrows and display-scale section titles from the existing pass.
 
 ### Phase 5 — (optional) global sweep of catalogs
+
 - Apply the surface system across `resources`, `providers`, `gateways` hubs,
   browsers, and `hero-example`: `bg-card` → `bg-surface-100`, alpha borders,
   `code-block` numbering in hero example. Skip unless Phase 2–4 land clean.
 
 ## Non-goals / risks
+
 - **No theme toggle** — www stays dark-only; tokens are dark-tuned.
 - **No new font deps** — keep the Geist-first sans stack; don't add
   self-hosted Geist without upstream fonts present.
@@ -99,7 +106,9 @@ turning it into an SPA.
   this layers the surface system on top.
 
 ## Verification
+
 From `apps/www`:
+
 1. `pnpm type-check`
 2. `pnpm lint`
 3. `pnpm build`

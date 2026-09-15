@@ -31,7 +31,8 @@ export const documents = [
     from: 'Generic SaaS Company<marketing@generic_saas_email.com>',
     to: ['Steve <steve@me.com>'],
     date: '2024-01-26',
-    subject: 'How to build generative AI applications using Generic Company Name',
+    subject:
+      'How to build generative AI applications using Generic Company Name',
     text: 'Hey Steve! Generative AI is growing so quickly and we know you want to build fast!',
   },
   {

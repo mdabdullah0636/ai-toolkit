@@ -1,16 +1,16 @@
 // oxlint-disable eslint-plugin-jest(max-expects), eslint-plugin-react-perf(jsx-no-new-function-as-prop)
-import { act, render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
-import React from "react";
+import { act, render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
-import type { AttachmentData } from "./attachments";
+import type { AttachmentData } from './attachments';
 import {
   Attachment,
   AttachmentInfo,
   AttachmentPreview,
   AttachmentRemove,
   Attachments,
-} from "./attachments";
+} from './attachments';
 import {
   PromptInput,
   PromptInputActionAddAttachments,
@@ -31,7 +31,7 @@ import {
   PromptInputTools,
   usePromptInputAttachments,
   usePromptInputReferencedSources,
-} from "./prompt-input";
+} from './prompt-input';
 
 const DATA_PREFIX_REGEX = /^data:/;
 const BLOB_PREFIX_REGEX = /^blob:/;
@@ -57,7 +57,7 @@ const PromptInputAttachments = ({
 }: {
   children: (
     attachment: AttachmentData,
-    onRemove: () => void
+    onRemove: () => void,
   ) => React.ReactNode;
 }) => {
   const attachments = usePromptInputAttachments();
@@ -66,7 +66,7 @@ const PromptInputAttachments = ({
   }
   return (
     <Attachments variant="inline">
-      {attachments.files.map((file) => (
+      {attachments.files.map(file => (
         <React.Fragment key={file.id}>
           {children(file, () => attachments.remove(file.id))}
         </React.Fragment>
@@ -100,7 +100,7 @@ const PromptInputReferencedSources = ({
   }
   return (
     <Attachments variant="inline">
-      {referencedSources.sources.map((source) => (
+      {referencedSources.sources.map(source => (
         <React.Fragment key={source.id}>
           {children(source, () => referencedSources.remove(source.id))}
         </React.Fragment>
@@ -111,16 +111,16 @@ const PromptInputReferencedSources = ({
 
 // Setup function for prompt input tests
 const setupPromptInputTests = () => {
-  vi.spyOn(window.URL, "createObjectURL").mockImplementation(
-    (_blob) => `blob:mock-url-${Math.random()}`
+  vi.spyOn(window.URL, 'createObjectURL').mockImplementation(
+    _blob => `blob:mock-url-${Math.random()}`,
   );
-  vi.spyOn(window.URL, "revokeObjectURL").mockImplementation(vi.fn());
+  vi.spyOn(window.URL, 'revokeObjectURL').mockImplementation(vi.fn());
 
   // Mock fetch for blob URL conversion - Promise.resolve/reject required for mock return values
   // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-then)
-  vi.spyOn(window, "fetch").mockImplementation((url) => {
-    if (typeof url === "string" && url.startsWith("blob:")) {
-      const blob = new Blob(["test content"], { type: "text/plain" });
+  vi.spyOn(window, 'fetch').mockImplementation(url => {
+    if (typeof url === 'string' && url.startsWith('blob:')) {
+      const blob = new Blob(['test content'], { type: 'text/plain' });
       // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-then)
       return Promise.resolve({
         // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-then)
@@ -128,7 +128,7 @@ const setupPromptInputTests = () => {
       } as Response);
     }
     // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-then)
-    return Promise.reject(new Error("Not a blob URL"));
+    return Promise.reject(new Error('Not a blob URL'));
   });
 
   // Mock FileReader
@@ -137,25 +137,25 @@ const setupPromptInputTests = () => {
     // oxlint-disable-next-line eslint-plugin-react(no-this-in-sfc), eslint-plugin-jest(prefer-spy-on)
     this.readAsDataURL = vi.fn(function readAsDataURL(
       this: FileReader,
-      _blob: Blob
+      _blob: Blob,
     ) {
       // Simulate async file reading
       setTimeout(() => {
-        Object.defineProperty(this, "result", {
-          value: "data:text/plain;base64,dGVzdCBjb250ZW50",
+        Object.defineProperty(this, 'result', {
+          value: 'data:text/plain;base64,dGVzdCBjb250ZW50',
           configurable: true,
           writable: true,
         });
         // oxlint-disable-next-line eslint-plugin-react(no-this-in-sfc)
         this.onloadend?.(
-          new ProgressEvent("loadend") as unknown as Parameters<
-            NonNullable<FileReader["onloadend"]>
-          >[0]
+          new ProgressEvent('loadend') as unknown as Parameters<
+            NonNullable<FileReader['onloadend']>
+          >[0],
         );
       }, 0);
     });
     // oxlint-disable-next-line eslint-plugin-react(no-this-in-sfc)
-    Object.defineProperty(this, "result", {
+    Object.defineProperty(this, 'result', {
       value: null,
       configurable: true,
       writable: true,
@@ -171,15 +171,15 @@ const setupPromptInputTests = () => {
 
 const setupScreenshotCaptureMock = () => {
   if (!navigator.mediaDevices) {
-    Object.defineProperty(navigator, "mediaDevices", {
+    Object.defineProperty(navigator, 'mediaDevices', {
       configurable: true,
       value: {},
       writable: true,
     });
   }
 
-  if (!("getDisplayMedia" in navigator.mediaDevices)) {
-    Object.defineProperty(navigator.mediaDevices, "getDisplayMedia", {
+  if (!('getDisplayMedia' in navigator.mediaDevices)) {
+    Object.defineProperty(navigator.mediaDevices, 'getDisplayMedia', {
       configurable: true,
       value: vi.fn(),
       writable: true,
@@ -192,53 +192,53 @@ const setupScreenshotCaptureMock = () => {
   } as unknown as MediaStream;
 
   const getDisplayMedia = vi
-    .spyOn(navigator.mediaDevices, "getDisplayMedia")
+    .spyOn(navigator.mediaDevices, 'getDisplayMedia')
     .mockResolvedValue(stream);
 
   const originalCreateElement = document.createElement.bind(document);
-  const video = originalCreateElement("video");
-  const canvas = originalCreateElement("canvas");
+  const video = originalCreateElement('video');
+  const canvas = originalCreateElement('canvas');
   const drawImage = vi.fn();
-  const play = vi.spyOn(video, "play").mockResolvedValue();
-  const pause = vi.spyOn(video, "pause").mockImplementation(vi.fn());
+  const play = vi.spyOn(video, 'play').mockResolvedValue();
+  const pause = vi.spyOn(video, 'pause').mockImplementation(vi.fn());
 
-  Object.defineProperty(video, "videoWidth", {
+  Object.defineProperty(video, 'videoWidth', {
     configurable: true,
     value: 1280,
   });
-  Object.defineProperty(video, "videoHeight", {
+  Object.defineProperty(video, 'videoHeight', {
     configurable: true,
     value: 720,
   });
 
   let srcObject: unknown = null;
-  Object.defineProperty(video, "srcObject", {
+  Object.defineProperty(video, 'srcObject', {
     configurable: true,
     get: () => srcObject,
-    set: (value) => {
+    set: value => {
       srcObject = value;
       if (value) {
         setTimeout(() => {
-          video.onloadedmetadata?.(new Event("loadedmetadata"));
+          video.onloadedmetadata?.(new Event('loadedmetadata'));
         }, 0);
       }
     },
   });
 
-  vi.spyOn(canvas, "getContext").mockReturnValue({
+  vi.spyOn(canvas, 'getContext').mockReturnValue({
     drawImage,
   } as unknown as CanvasRenderingContext2D);
   // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-callbacks)
-  const toBlob = vi.spyOn(canvas, "toBlob").mockImplementation((callback) => {
+  const toBlob = vi.spyOn(canvas, 'toBlob').mockImplementation(callback => {
     // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-callbacks)
-    callback?.(new Blob(["mock-screenshot"], { type: "image/png" }));
+    callback?.(new Blob(['mock-screenshot'], { type: 'image/png' }));
   });
 
-  vi.spyOn(document, "createElement").mockImplementation(((tagName: string) => {
-    if (tagName === "video") {
+  vi.spyOn(document, 'createElement').mockImplementation(((tagName: string) => {
+    if (tagName === 'video') {
       return video;
     }
-    if (tagName === "canvas") {
+    if (tagName === 'canvas') {
       return canvas;
     }
     return originalCreateElement(tagName as keyof HTMLElementTagNameMap);
@@ -247,8 +247,8 @@ const setupScreenshotCaptureMock = () => {
   return { getDisplayMedia, pause, play, stopTrack, toBlob };
 };
 
-describe("promptInput", () => {
-  it("renders form", () => {
+describe('promptInput', () => {
+  it('renders form', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const { container } = render(
@@ -256,12 +256,12 @@ describe("promptInput", () => {
         <PromptInputBody>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
-    expect(container.querySelector("form")).toBeInTheDocument();
+    expect(container.querySelector('form')).toBeInTheDocument();
   });
 
-  it("calls onSubmit with message", async () => {
+  it('calls onSubmit with message', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -272,26 +272,26 @@ describe("promptInput", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
-    await user.type(textarea, "Hello");
+    await user.type(textarea, 'Hello');
 
     // Ensure textarea has the value before submitting
-    expect(textarea.value).toBe("Hello");
+    expect(textarea.value).toBe('Hello');
 
-    await user.keyboard("{Enter}");
+    await user.keyboard('{Enter}');
 
     expect(onSubmit).toHaveBeenCalledOnce();
     const [[message]] = onSubmit.mock.calls;
-    expect(message).toHaveProperty("text", "Hello");
-    expect(message).toHaveProperty("files");
+    expect(message).toHaveProperty('text', 'Hello');
+    expect(message).toHaveProperty('files');
   });
 
-  it("clears textarea after form submission - #125", async () => {
+  it('clears textarea after form submission - #125', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -302,19 +302,19 @@ describe("promptInput", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
-    await user.type(textarea, "Hello");
+    await user.type(textarea, 'Hello');
 
     // Verify textarea has value before submit
-    expect(textarea.value).toBe("Hello");
+    expect(textarea.value).toBe('Hello');
 
     // Submit the form
-    await user.keyboard("{Enter}");
+    await user.keyboard('{Enter}');
 
     // Wait for async submission
     await vi.waitFor(() => {
@@ -322,10 +322,10 @@ describe("promptInput", () => {
     });
 
     // Verify textarea is cleared after submission
-    expect(textarea.value).toBe("");
+    expect(textarea.value).toBe('');
   });
 
-  it("does not lose user input typed immediately after submission - #125", async () => {
+  it('does not lose user input typed immediately after submission - #125', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -336,28 +336,28 @@ describe("promptInput", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
 
     // Type and submit first message
     await user.clear(textarea);
-    await user.type(textarea, "First message");
-    await user.keyboard("{Enter}");
+    await user.type(textarea, 'First message');
+    await user.keyboard('{Enter}');
 
     // Textarea should be cleared immediately after Enter (before async completes)
-    expect(textarea.value).toBe("");
+    expect(textarea.value).toBe('');
 
     // Immediately type a second message (without waiting for async completion)
     // Explicitly clear before typing
     await user.clear(textarea);
-    await user.type(textarea, "Second message");
+    await user.type(textarea, 'Second message');
 
     // Verify the second message is still there (not cleared by race condition)
-    expect(textarea.value).toBe("Second message");
+    expect(textarea.value).toBe('Second message');
 
     // Wait for async submission to complete
     await vi.waitFor(() => {
@@ -365,18 +365,18 @@ describe("promptInput", () => {
     });
 
     // Second message should still be there after async completion
-    expect(textarea.value).toBe("Second message");
+    expect(textarea.value).toBe('Second message');
   });
 
-  it("converts blob URLs to data URLs on submit - #113", async () => {
+  it('converts blob URLs to data URLs on submit - #113', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
 
     // Create a mock file
-    const fileContent = "test file content";
-    const blob = new Blob([fileContent], { type: "text/plain" });
-    const file = new File([blob], "test.txt", { type: "text/plain" });
+    const fileContent = 'test file content';
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const file = new File([blob], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -388,9 +388,7 @@ describe("promptInput", () => {
             type="button"
           />
           <PromptInputAttachments>
-            {(attachment) => (
-              <div key={attachment.id}>{attachment.filename}</div>
-            )}
+            {attachment => <div key={attachment.id}>{attachment.filename}</div>}
           </PromptInputAttachments>
         </>
       );
@@ -403,22 +401,22 @@ describe("promptInput", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     // Add a file (which creates a blob URL)
-    const addFileBtn = screen.getByTestId("add-file-btn");
+    const addFileBtn = screen.getByTestId('add-file-btn');
     await user.click(addFileBtn);
 
     // Verify file was added with blob URL
-    expect(screen.getByText("test.txt")).toBeInTheDocument();
+    expect(screen.getByText('test.txt')).toBeInTheDocument();
 
     // Type a message and submit
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
-    await user.type(textarea, "describe file");
-    await user.keyboard("{Enter}");
+    await user.type(textarea, 'describe file');
+    await user.keyboard('{Enter}');
 
     // Wait for async submission to complete
     await vi.waitFor(() => {
@@ -430,20 +428,20 @@ describe("promptInput", () => {
     expect(message.files).toHaveLength(1);
     expect(message.files[0].url).toMatch(DATA_PREFIX_REGEX);
     expect(message.files[0].url).not.toMatch(BLOB_PREFIX_REGEX);
-    expect(message.files[0].filename).toBe("test.txt");
+    expect(message.files[0].filename).toBe('test.txt');
   });
 
-  it("does not clear attachments when onSubmit throws an error - #126", async () => {
+  it('does not clear attachments when onSubmit throws an error - #126', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn(() => {
-      throw new Error("Submission failed");
+      throw new Error('Submission failed');
     });
     const user = userEvent.setup();
 
     // Create a mock file
-    const fileContent = "test file content";
-    const blob = new Blob([fileContent], { type: "text/plain" });
-    const file = new File([blob], "test.txt", { type: "text/plain" });
+    const fileContent = 'test file content';
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const file = new File([blob], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -455,9 +453,7 @@ describe("promptInput", () => {
             type="button"
           />
           <PromptInputAttachments>
-            {(attachment) => (
-              <div key={attachment.id}>{attachment.filename}</div>
-            )}
+            {attachment => <div key={attachment.id}>{attachment.filename}</div>}
           </PromptInputAttachments>
         </>
       );
@@ -470,22 +466,22 @@ describe("promptInput", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     // Add a file
-    const addFileBtn = screen.getByTestId("add-file-btn");
+    const addFileBtn = screen.getByTestId('add-file-btn');
     await user.click(addFileBtn);
 
     // Verify file was added
-    expect(screen.getByText("test.txt")).toBeInTheDocument();
+    expect(screen.getByText('test.txt')).toBeInTheDocument();
 
     // Type a message and submit
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
-    await user.type(textarea, "test message");
-    await user.keyboard("{Enter}");
+    await user.type(textarea, 'test message');
+    await user.keyboard('{Enter}');
 
     // Wait for async submission to complete
     await vi.waitFor(() => {
@@ -493,22 +489,22 @@ describe("promptInput", () => {
     });
 
     // Verify that the attachment is still there (not cleared due to error)
-    expect(screen.getByText("test.txt")).toBeInTheDocument();
+    expect(screen.getByText('test.txt')).toBeInTheDocument();
   });
 
-  it("does not clear attachments when async onSubmit rejects - #126", async () => {
+  it('does not clear attachments when async onSubmit rejects - #126', async () => {
     setupPromptInputTests();
     // Mock needs to return rejected promise to simulate async failure
     const onSubmit = vi.fn(
       // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-then)
-      () => Promise.reject(new Error("Async submission failed"))
+      () => Promise.reject(new Error('Async submission failed')),
     );
     const user = userEvent.setup();
 
     // Create a mock file
-    const fileContent = "test file content";
-    const blob = new Blob([fileContent], { type: "text/plain" });
-    const file = new File([blob], "test.txt", { type: "text/plain" });
+    const fileContent = 'test file content';
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const file = new File([blob], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -520,9 +516,7 @@ describe("promptInput", () => {
             type="button"
           />
           <PromptInputAttachments>
-            {(attachment) => (
-              <div key={attachment.id}>{attachment.filename}</div>
-            )}
+            {attachment => <div key={attachment.id}>{attachment.filename}</div>}
           </PromptInputAttachments>
         </>
       );
@@ -535,22 +529,22 @@ describe("promptInput", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     // Add a file
-    const addFileBtn = screen.getByTestId("add-file-btn");
+    const addFileBtn = screen.getByTestId('add-file-btn');
     await user.click(addFileBtn);
 
     // Verify file was added
-    expect(screen.getByText("test.txt")).toBeInTheDocument();
+    expect(screen.getByText('test.txt')).toBeInTheDocument();
 
     // Type a message and submit
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
-    await user.type(textarea, "test message");
-    await user.keyboard("{Enter}");
+    await user.type(textarea, 'test message');
+    await user.keyboard('{Enter}');
 
     // Wait for async submission to be attempted
     await vi.waitFor(() => {
@@ -559,24 +553,24 @@ describe("promptInput", () => {
 
     // Give some time for the promise rejection to be handled
     // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, 100);
     });
 
     // Verify that the attachment is still there (not cleared due to rejection)
-    expect(screen.getByText("test.txt")).toBeInTheDocument();
+    expect(screen.getByText('test.txt')).toBeInTheDocument();
   });
 
-  it("clears attachments when async onSubmit resolves successfully - #126", async () => {
+  it('clears attachments when async onSubmit resolves successfully - #126', async () => {
     setupPromptInputTests();
     // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-then)
     const onSubmit = vi.fn(() => Promise.resolve());
     const user = userEvent.setup();
 
     // Create a mock file
-    const fileContent = "test file content";
-    const blob = new Blob([fileContent], { type: "text/plain" });
-    const file = new File([blob], "test.txt", { type: "text/plain" });
+    const fileContent = 'test file content';
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const file = new File([blob], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -588,9 +582,7 @@ describe("promptInput", () => {
             type="button"
           />
           <PromptInputAttachments>
-            {(attachment) => (
-              <div key={attachment.id}>{attachment.filename}</div>
-            )}
+            {attachment => <div key={attachment.id}>{attachment.filename}</div>}
           </PromptInputAttachments>
         </>
       );
@@ -603,22 +595,22 @@ describe("promptInput", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     // Add a file
-    const addFileBtn = screen.getByTestId("add-file-btn");
+    const addFileBtn = screen.getByTestId('add-file-btn');
     await user.click(addFileBtn);
 
     // Verify file was added
-    expect(screen.getByText("test.txt")).toBeInTheDocument();
+    expect(screen.getByText('test.txt')).toBeInTheDocument();
 
     // Type a message and submit
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
-    await user.type(textarea, "test message");
-    await user.keyboard("{Enter}");
+    await user.type(textarea, 'test message');
+    await user.keyboard('{Enter}');
 
     // Wait for async submission to complete successfully
     await vi.waitFor(() => {
@@ -627,30 +619,30 @@ describe("promptInput", () => {
 
     // Give some time for the promise resolution to be handled
     // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, 100);
     });
 
     // Verify that the attachment was cleared after successful async submission
-    expect(screen.queryByText("test.txt")).not.toBeInTheDocument();
+    expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
   });
 });
 
-describe("promptInputBody", () => {
-  it("renders body content", () => {
+describe('promptInputBody', () => {
+  it('renders body content', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     render(
       <PromptInput onSubmit={onSubmit}>
         <PromptInputBody>Content</PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 });
 
-describe("promptInputTextarea", () => {
-  it("renders textarea", () => {
+describe('promptInputTextarea', () => {
+  it('renders textarea', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     render(
@@ -658,14 +650,14 @@ describe("promptInputTextarea", () => {
         <PromptInputBody>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
     expect(
-      screen.getByPlaceholderText("What would you like to know?")
+      screen.getByPlaceholderText('What would you like to know?'),
     ).toBeInTheDocument();
   });
 
-  it("submits on Enter key", async () => {
+  it('submits on Enter key', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -676,22 +668,22 @@ describe("promptInputTextarea", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     );
-    await user.type(textarea, "Test");
-    await user.keyboard("{Enter}");
+    await user.type(textarea, 'Test');
+    await user.keyboard('{Enter}');
 
     expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ text: "Test" }),
-      expect.anything()
+      expect.objectContaining({ text: 'Test' }),
+      expect.anything(),
     );
   });
 
-  it("does not submit on Shift+Enter", async () => {
+  it('does not submit on Shift+Enter', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -702,20 +694,20 @@ describe("promptInputTextarea", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     );
-    await user.type(textarea, "Line 1");
-    await user.keyboard("{Shift>}{Enter}{/Shift}");
-    await user.type(textarea, "Line 2");
+    await user.type(textarea, 'Line 1');
+    await user.keyboard('{Shift>}{Enter}{/Shift}');
+    await user.type(textarea, 'Line 2');
 
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
-  it("does not submit on Enter during IME composition - #21", () => {
+  it('does not submit on Enter during IME composition - #21', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
 
@@ -725,25 +717,25 @@ describe("promptInputTextarea", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
 
     // Simulate IME composition (e.g., typing Japanese)
     textarea.focus();
 
     // Create a KeyboardEvent with isComposing = true
-    const enterKeyDuringComposition = new KeyboardEvent("keydown", {
+    const enterKeyDuringComposition = new KeyboardEvent('keydown', {
       bubbles: true,
       cancelable: true,
-      key: "Enter",
+      key: 'Enter',
     });
 
     // Mock isComposing to true (simulates IME composition in progress)
-    Object.defineProperty(enterKeyDuringComposition, "isComposing", {
+    Object.defineProperty(enterKeyDuringComposition, 'isComposing', {
       value: true,
       writable: false,
     });
@@ -754,7 +746,7 @@ describe("promptInputTextarea", () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
-  it("uses custom placeholder", () => {
+  it('uses custom placeholder', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     render(
@@ -762,16 +754,16 @@ describe("promptInputTextarea", () => {
         <PromptInputBody>
           <PromptInputTextarea placeholder="Custom placeholder" />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
     expect(
-      screen.getByPlaceholderText("Custom placeholder")
+      screen.getByPlaceholderText('Custom placeholder'),
     ).toBeInTheDocument();
   });
 });
 
-describe("promptInputTools", () => {
-  it("renders tools", () => {
+describe('promptInputTools', () => {
+  it('renders tools', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     render(
@@ -779,14 +771,14 @@ describe("promptInputTools", () => {
         <PromptInputBody>
           <PromptInputTools>Tools</PromptInputTools>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
-    expect(screen.getByText("Tools")).toBeInTheDocument();
+    expect(screen.getByText('Tools')).toBeInTheDocument();
   });
 });
 
-describe("promptInputButton", () => {
-  it("renders button", () => {
+describe('promptInputButton', () => {
+  it('renders button', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     render(
@@ -794,12 +786,12 @@ describe("promptInputButton", () => {
         <PromptInputBody>
           <PromptInputButton>Action</PromptInputButton>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
-    expect(screen.getByRole("button", { name: "Action" })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Action' })).toBeInTheDocument();
   });
 
-  it("renders button with string tooltip", async () => {
+  it('renders button with string tooltip', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -809,10 +801,10 @@ describe("promptInputButton", () => {
         <PromptInputBody>
           <PromptInputButton tooltip="Search the web">Search</PromptInputButton>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    const button = screen.getByRole("button", { name: "Search" });
+    const button = screen.getByRole('button', { name: 'Search' });
     expect(button).toBeInTheDocument();
 
     await user.hover(button);
@@ -820,14 +812,14 @@ describe("promptInputButton", () => {
     await vi.waitFor(() => {
       // Check tooltip content element (not the hidden screen reader span)
       const tooltipContent = document.querySelector(
-        '[data-slot="tooltip-content"]'
+        '[data-slot="tooltip-content"]',
       );
       expect(tooltipContent).toBeTruthy();
-      expect(tooltipContent?.textContent).toContain("Search the web");
+      expect(tooltipContent?.textContent).toContain('Search the web');
     });
   });
 
-  it("renders button with object tooltip containing shortcut", async () => {
+  it('renders button with object tooltip containing shortcut', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -836,29 +828,29 @@ describe("promptInputButton", () => {
       <PromptInput onSubmit={onSubmit}>
         <PromptInputBody>
           <PromptInputButton
-            tooltip={{ content: "Open Search", shortcut: "⌘K", side: "bottom" }}
+            tooltip={{ content: 'Open Search', shortcut: '⌘K', side: 'bottom' }}
           >
             Search
           </PromptInputButton>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    const button = screen.getByRole("button", { name: "Search" });
+    const button = screen.getByRole('button', { name: 'Search' });
     await user.hover(button);
 
     await vi.waitFor(() => {
       // Check tooltip content element (not the hidden screen reader span)
       const tooltipContent = document.querySelector(
-        '[data-slot="tooltip-content"]'
+        '[data-slot="tooltip-content"]',
       );
       expect(tooltipContent).toBeTruthy();
-      expect(tooltipContent?.textContent).toContain("Open Search");
-      expect(tooltipContent?.textContent).toContain("⌘K");
+      expect(tooltipContent?.textContent).toContain('Open Search');
+      expect(tooltipContent?.textContent).toContain('⌘K');
     });
   });
 
-  it("does not render tooltip when prop is not provided", () => {
+  it('does not render tooltip when prop is not provided', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
 
@@ -867,15 +859,15 @@ describe("promptInputButton", () => {
         <PromptInputBody>
           <PromptInputButton>Action</PromptInputButton>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
   });
 });
 
-describe("promptInputSubmit", () => {
-  it("renders submit button", () => {
+describe('promptInputSubmit', () => {
+  it('renders submit button', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     render(
@@ -883,13 +875,13 @@ describe("promptInputSubmit", () => {
         <PromptInputBody>
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
-    const button = screen.getByRole("button", { name: SUBMIT_REGEX });
-    expect(button).toHaveAttribute("type", "submit");
+    const button = screen.getByRole('button', { name: SUBMIT_REGEX });
+    expect(button).toHaveAttribute('type', 'submit');
   });
 
-  it("shows loading icon when submitted", () => {
+  it('shows loading icon when submitted', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const { container } = render(
@@ -897,12 +889,12 @@ describe("promptInputSubmit", () => {
         <PromptInputBody>
           <PromptInputSubmit status="submitted" />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
-    expect(container.querySelector(".animate-spin")).toBeInTheDocument();
+    expect(container.querySelector('.animate-spin')).toBeInTheDocument();
   });
 
-  it("shows stop icon when streaming", () => {
+  it('shows stop icon when streaming', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     render(
@@ -910,14 +902,14 @@ describe("promptInputSubmit", () => {
         <PromptInputBody>
           <PromptInputSubmit status="streaming" />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
-    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 });
 
-describe("promptInputActionMenu", () => {
-  it("renders action menu", () => {
+describe('promptInputActionMenu', () => {
+  it('renders action menu', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     render(
@@ -930,14 +922,14 @@ describe("promptInputActionMenu", () => {
             </PromptInputActionMenuContent>
           </PromptInputActionMenu>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
-    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 });
 
-describe("promptInputSelect", () => {
-  it("renders model select", () => {
+describe('promptInputSelect', () => {
+  it('renders model select', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     render(
@@ -952,18 +944,19 @@ describe("promptInputSelect", () => {
             </PromptInputSelectContent>
           </PromptInputSelect>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
-    expect(screen.getByText("Select model")).toBeInTheDocument();
+    expect(screen.getByText('Select model')).toBeInTheDocument();
   });
 });
 
-describe("promptInputProvider", () => {
-  it("provides context to children", async () => {
+describe('promptInputProvider', () => {
+  it('provides context to children', async () => {
     setupPromptInputTests();
     const _onSubmit = vi.fn();
-    const { PromptInputProvider, usePromptInputController } =
-      await import("./prompt-input");
+    const { PromptInputProvider, usePromptInputController } = await import(
+      './prompt-input'
+    );
 
     const TestComponent = () => {
       const controller = usePromptInputController();
@@ -971,7 +964,7 @@ describe("promptInputProvider", () => {
         <div>
           <span data-testid="input-value">{controller.textInput.value}</span>
           <button
-            onClick={() => controller.textInput.setInput("test")}
+            onClick={() => controller.textInput.setInput('test')}
             type="button"
           >
             Set Input
@@ -983,15 +976,15 @@ describe("promptInputProvider", () => {
     render(
       <PromptInputProvider>
         <TestComponent />
-      </PromptInputProvider>
+      </PromptInputProvider>,
     );
 
-    expect(screen.getByTestId("input-value")).toHaveTextContent("");
+    expect(screen.getByTestId('input-value')).toHaveTextContent('');
   });
 
-  it("throws error when usePromptInputController used outside provider", async () => {
+  it('throws error when usePromptInputController used outside provider', async () => {
     setupPromptInputTests();
-    const { usePromptInputController } = await import("./prompt-input");
+    const { usePromptInputController } = await import('./prompt-input');
 
     const TestComponent = () => {
       usePromptInputController();
@@ -999,19 +992,20 @@ describe("promptInputProvider", () => {
     };
 
     // Suppress console.error for this test
-    const spy = vi.spyOn(console, "error").mockImplementation(vi.fn());
+    const spy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
     expect(() => render(<TestComponent />)).toThrow(
-      "Wrap your component inside <PromptInputProvider> to use usePromptInputController()."
+      'Wrap your component inside <PromptInputProvider> to use usePromptInputController().',
     );
 
     spy.mockRestore();
   });
 
-  it("provides initial input value", async () => {
+  it('provides initial input value', async () => {
     setupPromptInputTests();
-    const { PromptInputProvider, usePromptInputController } =
-      await import("./prompt-input");
+    const { PromptInputProvider, usePromptInputController } = await import(
+      './prompt-input'
+    );
     const onSubmit = vi.fn();
 
     const TestComponent = () => {
@@ -1027,18 +1021,19 @@ describe("promptInputProvider", () => {
             <PromptInputTextarea />
           </PromptInputBody>
         </PromptInput>
-      </PromptInputProvider>
+      </PromptInputProvider>,
     );
 
-    expect(screen.getByTestId("value")).toHaveTextContent("Hello world");
+    expect(screen.getByTestId('value')).toHaveTextContent('Hello world');
   });
 
-  it("manages attachments globally", async () => {
+  it('manages attachments globally', async () => {
     setupPromptInputTests();
-    const { PromptInputProvider, useProviderAttachments } =
-      await import("./prompt-input");
+    const { PromptInputProvider, useProviderAttachments } = await import(
+      './prompt-input'
+    );
 
-    const file = new File(["test"], "test.txt", { type: "text/plain" });
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
 
     const TestComponent = () => {
       const attachments = useProviderAttachments();
@@ -1056,27 +1051,27 @@ describe("promptInputProvider", () => {
     render(
       <PromptInputProvider>
         <TestComponent />
-      </PromptInputProvider>
+      </PromptInputProvider>,
     );
 
-    expect(screen.getByTestId("count")).toHaveTextContent("0");
+    expect(screen.getByTestId('count')).toHaveTextContent('0');
 
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole('button'));
 
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
   });
 });
 
-describe("file validation", () => {
-  it("enforces maxFiles limit", async () => {
+describe('file validation', () => {
+  it('enforces maxFiles limit', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const file1 = new File(["test1"], "test1.txt", { type: "text/plain" });
-    const file2 = new File(["test2"], "test2.txt", { type: "text/plain" });
-    const file3 = new File(["test3"], "test3.txt", { type: "text/plain" });
+    const file1 = new File(['test1'], 'test1.txt', { type: 'text/plain' });
+    const file2 = new File(['test2'], 'test2.txt', { type: 'text/plain' });
+    const file3 = new File(['test3'], 'test3.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1100,30 +1095,30 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-files"));
+    await user.click(screen.getByTestId('add-files'));
 
     // Only 2 files should be added
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
     expect(onError).toHaveBeenCalledWith({
-      code: "max_files",
+      code: 'max_files',
       message: expect.any(String),
     });
   });
 
-  it("enforces maxFileSize limit", async () => {
+  it('enforces maxFileSize limit', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
     // Create a large file (mocked with size property)
-    const largeFile = new File(["x".repeat(2000)], "large.txt", {
-      type: "text/plain",
+    const largeFile = new File(['x'.repeat(2000)], 'large.txt', {
+      type: 'text/plain',
     });
-    Object.defineProperty(largeFile, "size", { value: 2000 });
+    Object.defineProperty(largeFile, 'size', { value: 2000 });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1147,25 +1142,25 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-file"));
+    await user.click(screen.getByTestId('add-file'));
 
-    expect(screen.getByTestId("count")).toHaveTextContent("0");
+    expect(screen.getByTestId('count')).toHaveTextContent('0');
     expect(onError).toHaveBeenCalledWith({
-      code: "max_file_size",
+      code: 'max_file_size',
       message: expect.any(String),
     });
   });
 
-  it("enforces accept image filter", async () => {
+  it('enforces accept image filter', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const textFile = new File(["test"], "test.txt", { type: "text/plain" });
+    const textFile = new File(['test'], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1189,24 +1184,24 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-file"));
+    await user.click(screen.getByTestId('add-file'));
 
-    expect(screen.getByTestId("count")).toHaveTextContent("0");
+    expect(screen.getByTestId('count')).toHaveTextContent('0');
     expect(onError).toHaveBeenCalledWith({
-      code: "accept",
+      code: 'accept',
       message: expect.any(String),
     });
   });
 
-  it("allows image files when accept is image/*", async () => {
+  it('allows image files when accept is image/*', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
 
-    const imageFile = new File(["image"], "test.png", { type: "image/png" });
+    const imageFile = new File(['image'], 'test.png', { type: 'image/png' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1230,22 +1225,22 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-file"));
+    await user.click(screen.getByTestId('add-file'));
 
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
   });
 
-  it("enforces accept video/* filter", async () => {
+  it('enforces accept video/* filter', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const textFile = new File(["test"], "test.txt", { type: "text/plain" });
-    const videoFile = new File(["video"], "test.mp4", { type: "video/mp4" });
+    const textFile = new File(['test'], 'test.txt', { type: 'text/plain' });
+    const videoFile = new File(['video'], 'test.mp4', { type: 'video/mp4' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1276,28 +1271,28 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-text"));
-    expect(screen.getByTestId("count")).toHaveTextContent("0");
+    await user.click(screen.getByTestId('add-text'));
+    expect(screen.getByTestId('count')).toHaveTextContent('0');
     expect(onError).toHaveBeenCalledWith({
-      code: "accept",
+      code: 'accept',
       message: expect.any(String),
     });
 
-    await user.click(screen.getByTestId("add-video"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-video'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
   });
 
-  it("enforces accept audio/* filter", async () => {
+  it('enforces accept audio/* filter', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const imageFile = new File(["image"], "test.png", { type: "image/png" });
-    const audioFile = new File(["audio"], "test.mp3", { type: "audio/mpeg" });
+    const imageFile = new File(['image'], 'test.png', { type: 'image/png' });
+    const audioFile = new File(['audio'], 'test.mp3', { type: 'audio/mpeg' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1328,28 +1323,28 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-image"));
-    expect(screen.getByTestId("count")).toHaveTextContent("0");
+    await user.click(screen.getByTestId('add-image'));
+    expect(screen.getByTestId('count')).toHaveTextContent('0');
     expect(onError).toHaveBeenCalledWith({
-      code: "accept",
+      code: 'accept',
       message: expect.any(String),
     });
 
-    await user.click(screen.getByTestId("add-audio"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-audio'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
   });
 
-  it("enforces accept with exact MIME type", async () => {
+  it('enforces accept with exact MIME type', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const pngFile = new File(["image"], "test.png", { type: "image/png" });
-    const jpegFile = new File(["image"], "test.jpg", { type: "image/jpeg" });
+    const pngFile = new File(['image'], 'test.png', { type: 'image/png' });
+    const jpegFile = new File(['image'], 'test.jpg', { type: 'image/jpeg' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1380,30 +1375,30 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-png"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-png'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    await user.click(screen.getByTestId("add-jpeg"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-jpeg'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
     expect(onError).toHaveBeenCalledWith({
-      code: "accept",
+      code: 'accept',
       message: expect.any(String),
     });
   });
 
-  it("allows exact MIME type match for application/pdf", async () => {
+  it('allows exact MIME type match for application/pdf', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const pdfFile = new File(["pdf"], "doc.pdf", {
-      type: "application/pdf",
+    const pdfFile = new File(['pdf'], 'doc.pdf', {
+      type: 'application/pdf',
     });
-    const textFile = new File(["text"], "doc.txt", { type: "text/plain" });
+    const textFile = new File(['text'], 'doc.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1438,31 +1433,31 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-pdf"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-pdf'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    await user.click(screen.getByTestId("add-text"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-text'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
     expect(onError).toHaveBeenCalledWith({
-      code: "accept",
+      code: 'accept',
       message: expect.any(String),
     });
   });
 
   // oxlint-disable-next-line eslint-plugin-jest(max-expects)
-  it("accepts multiple comma-separated patterns with wildcards", async () => {
+  it('accepts multiple comma-separated patterns with wildcards', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const imageFile = new File(["image"], "test.png", { type: "image/png" });
-    const videoFile = new File(["video"], "test.mp4", { type: "video/mp4" });
-    const audioFile = new File(["audio"], "test.mp3", { type: "audio/mpeg" });
-    const textFile = new File(["text"], "test.txt", { type: "text/plain" });
+    const imageFile = new File(['image'], 'test.png', { type: 'image/png' });
+    const videoFile = new File(['video'], 'test.mp4', { type: 'video/mp4' });
+    const audioFile = new File(['audio'], 'test.mp3', { type: 'audio/mpeg' });
+    const textFile = new File(['text'], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1511,40 +1506,40 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-image"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-image'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    await user.click(screen.getByTestId("add-video"));
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    await user.click(screen.getByTestId('add-video'));
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
 
-    await user.click(screen.getByTestId("add-audio"));
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    await user.click(screen.getByTestId('add-audio'));
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
     expect(onError).toHaveBeenCalledWith({
-      code: "accept",
+      code: 'accept',
       message: expect.any(String),
     });
 
-    await user.click(screen.getByTestId("add-text"));
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    await user.click(screen.getByTestId('add-text'));
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
     expect(onError).toHaveBeenCalledTimes(2);
   });
 
   // oxlint-disable-next-line eslint-plugin-jest(max-expects)
-  it("accepts multiple comma-separated exact MIME types", async () => {
+  it('accepts multiple comma-separated exact MIME types', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const pngFile = new File(["image"], "test.png", { type: "image/png" });
-    const jpegFile = new File(["image"], "test.jpg", { type: "image/jpeg" });
-    const pdfFile = new File(["pdf"], "doc.pdf", {
-      type: "application/pdf",
+    const pngFile = new File(['image'], 'test.png', { type: 'image/png' });
+    const jpegFile = new File(['image'], 'test.jpg', { type: 'image/jpeg' });
+    const pdfFile = new File(['pdf'], 'doc.pdf', {
+      type: 'application/pdf',
     });
-    const textFile = new File(["text"], "doc.txt", { type: "text/plain" });
+    const textFile = new File(['text'], 'doc.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1593,40 +1588,40 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-png"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-png'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    await user.click(screen.getByTestId("add-pdf"));
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    await user.click(screen.getByTestId('add-pdf'));
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
 
-    await user.click(screen.getByTestId("add-jpeg"));
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    await user.click(screen.getByTestId('add-jpeg'));
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
     expect(onError).toHaveBeenCalledWith({
-      code: "accept",
+      code: 'accept',
       message: expect.any(String),
     });
 
-    await user.click(screen.getByTestId("add-text"));
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    await user.click(screen.getByTestId('add-text'));
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
     expect(onError).toHaveBeenCalledTimes(2);
   });
 
-  it("accepts mixed wildcard and exact MIME type patterns", async () => {
+  it('accepts mixed wildcard and exact MIME type patterns', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const pngFile = new File(["image"], "test.png", { type: "image/png" });
-    const jpegFile = new File(["image"], "test.jpg", { type: "image/jpeg" });
-    const pdfFile = new File(["pdf"], "doc.pdf", {
-      type: "application/pdf",
+    const pngFile = new File(['image'], 'test.png', { type: 'image/png' });
+    const jpegFile = new File(['image'], 'test.jpg', { type: 'image/jpeg' });
+    const pdfFile = new File(['pdf'], 'doc.pdf', {
+      type: 'application/pdf',
     });
-    const docxFile = new File(["docx"], "doc.docx", {
-      type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    const docxFile = new File(['docx'], 'doc.docx', {
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     });
 
     const AttachmentConsumer = () => {
@@ -1676,34 +1671,34 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-png"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-png'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    await user.click(screen.getByTestId("add-jpeg"));
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    await user.click(screen.getByTestId('add-jpeg'));
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
 
-    await user.click(screen.getByTestId("add-pdf"));
-    expect(screen.getByTestId("count")).toHaveTextContent("3");
+    await user.click(screen.getByTestId('add-pdf'));
+    expect(screen.getByTestId('count')).toHaveTextContent('3');
 
-    await user.click(screen.getByTestId("add-docx"));
-    expect(screen.getByTestId("count")).toHaveTextContent("3");
+    await user.click(screen.getByTestId('add-docx'));
+    expect(screen.getByTestId('count')).toHaveTextContent('3');
     expect(onError).toHaveBeenCalledWith({
-      code: "accept",
+      code: 'accept',
       message: expect.any(String),
     });
   });
 
-  it("handles accept with extra whitespace in patterns", async () => {
+  it('handles accept with extra whitespace in patterns', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
 
-    const imageFile = new File(["image"], "test.png", { type: "image/png" });
-    const pdfFile = new File(["pdf"], "doc.pdf", {
-      type: "application/pdf",
+    const imageFile = new File(['image'], 'test.png', { type: 'image/png' });
+    const pdfFile = new File(['pdf'], 'doc.pdf', {
+      type: 'application/pdf',
     });
 
     const AttachmentConsumer = () => {
@@ -1735,23 +1730,23 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-image"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-image'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    await user.click(screen.getByTestId("add-pdf"));
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    await user.click(screen.getByTestId('add-pdf'));
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
   });
 
-  it("accepts all files when accept is empty string", async () => {
+  it('accepts all files when accept is empty string', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
 
-    const imageFile = new File(["image"], "test.png", { type: "image/png" });
-    const textFile = new File(["text"], "test.txt", { type: "text/plain" });
+    const imageFile = new File(['image'], 'test.png', { type: 'image/png' });
+    const textFile = new File(['text'], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1782,23 +1777,23 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-image"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-image'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    await user.click(screen.getByTestId("add-text"));
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    await user.click(screen.getByTestId('add-text'));
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
   });
 
-  it("accepts all files when accept is only whitespace", async () => {
+  it('accepts all files when accept is only whitespace', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
 
-    const imageFile = new File(["image"], "test.png", { type: "image/png" });
-    const textFile = new File(["text"], "test.txt", { type: "text/plain" });
+    const imageFile = new File(['image'], 'test.png', { type: 'image/png' });
+    const textFile = new File(['text'], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1829,24 +1824,24 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-image"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-image'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    await user.click(screen.getByTestId("add-text"));
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    await user.click(screen.getByTestId('add-text'));
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
   });
 
-  it("filters out empty patterns from comma-separated list", async () => {
+  it('filters out empty patterns from comma-separated list', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const imageFile = new File(["image"], "test.png", { type: "image/png" });
-    const textFile = new File(["text"], "test.txt", { type: "text/plain" });
+    const imageFile = new File(['image'], 'test.png', { type: 'image/png' });
+    const textFile = new File(['text'], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1877,31 +1872,31 @@ describe("file validation", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-image"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-image'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    await user.click(screen.getByTestId("add-text"));
-    expect(screen.getByTestId("count")).toHaveTextContent("1");
+    await user.click(screen.getByTestId('add-text'));
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
     expect(onError).toHaveBeenCalledWith({
-      code: "accept",
+      code: 'accept',
       message: expect.any(String),
     });
   });
 
-  it("enforces maxFiles limit when using PromptInputProvider", async () => {
+  it('enforces maxFiles limit when using PromptInputProvider', async () => {
     setupPromptInputTests();
-    const { PromptInputProvider } = await import("./prompt-input");
+    const { PromptInputProvider } = await import('./prompt-input');
 
     const onSubmit = vi.fn();
     const onError = vi.fn();
     const user = userEvent.setup();
 
-    const file1 = new File(["test1"], "test1.txt", { type: "text/plain" });
-    const file2 = new File(["test2"], "test2.txt", { type: "text/plain" });
-    const file3 = new File(["test3"], "test3.txt", { type: "text/plain" });
+    const file1 = new File(['test1'], 'test1.txt', { type: 'text/plain' });
+    const file2 = new File(['test2'], 'test2.txt', { type: 'text/plain' });
+    const file3 = new File(['test3'], 'test3.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -1927,22 +1922,22 @@ describe("file validation", () => {
             <PromptInputTextarea />
           </PromptInputBody>
         </PromptInput>
-      </PromptInputProvider>
+      </PromptInputProvider>,
     );
 
-    await user.click(screen.getByTestId("add-files"));
+    await user.click(screen.getByTestId('add-files'));
 
     // Only 2 files should be added even when using provider
-    expect(screen.getByTestId("count")).toHaveTextContent("2");
+    expect(screen.getByTestId('count')).toHaveTextContent('2');
     expect(onError).toHaveBeenCalledWith({
-      code: "max_files",
+      code: 'max_files',
       message: expect.any(String),
     });
   });
 });
 
-describe("drag and drop", () => {
-  it("renders with globalDrop prop", () => {
+describe('drag and drop', () => {
+  it('renders with globalDrop prop', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
 
@@ -1951,13 +1946,13 @@ describe("drag and drop", () => {
         <PromptInputBody>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(container.querySelector("form")).toBeInTheDocument();
+    expect(container.querySelector('form')).toBeInTheDocument();
   });
 
-  it("renders without globalDrop prop", () => {
+  it('renders without globalDrop prop', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
 
@@ -1966,15 +1961,15 @@ describe("drag and drop", () => {
         <PromptInputBody>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(container.querySelector("form")).toBeInTheDocument();
+    expect(container.querySelector('form')).toBeInTheDocument();
   });
 });
 
-describe("paste functionality", () => {
-  it("adds files from clipboard", async () => {
+describe('paste functionality', () => {
+  it('adds files from clipboard', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
 
@@ -1989,18 +1984,18 @@ describe("paste functionality", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     );
     textarea.focus();
 
-    const file = new File(["image"], "test.png", { type: "image/png" });
+    const file = new File(['image'], 'test.png', { type: 'image/png' });
 
     // Create a mock paste event
-    const pasteEvent = new Event("paste", {
+    const pasteEvent = new Event('paste', {
       bubbles: true,
       cancelable: true,
       // oxlint-disable-next-line typescript-eslint(no-explicit-any)
@@ -2011,7 +2006,7 @@ describe("paste functionality", () => {
       items: [
         {
           getAsFile: () => file,
-          kind: "file",
+          kind: 'file',
         },
       ],
     };
@@ -2021,11 +2016,11 @@ describe("paste functionality", () => {
     });
 
     await vi.waitFor(() => {
-      expect(screen.getByTestId("count")).toHaveTextContent("1");
+      expect(screen.getByTestId('count')).toHaveTextContent('1');
     });
   });
 
-  it("handles paste with no files", () => {
+  it('handles paste with no files', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
 
@@ -2034,15 +2029,15 @@ describe("paste functionality", () => {
         <PromptInputBody>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     );
     textarea.focus();
 
-    const pasteEvent = new Event("paste", {
+    const pasteEvent = new Event('paste', {
       bubbles: true,
       cancelable: true,
       // oxlint-disable-next-line typescript-eslint(no-explicit-any)
@@ -2054,16 +2049,16 @@ describe("paste functionality", () => {
   });
 });
 
-describe("promptInputAttachment", () => {
-  it("renders file attachment with icon", () => {
+describe('promptInputAttachment', () => {
+  it('renders file attachment with icon', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const file = {
-      filename: "document.pdf",
-      id: "1",
-      mediaType: "application/pdf",
-      type: "file" as const,
-      url: "blob:test",
+      filename: 'document.pdf',
+      id: '1',
+      mediaType: 'application/pdf',
+      type: 'file' as const,
+      url: 'blob:test',
     };
 
     render(
@@ -2073,21 +2068,21 @@ describe("promptInputAttachment", () => {
             <PromptInputAttachment data={file} />
           </Attachments>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByText("document.pdf")).toBeInTheDocument();
+    expect(screen.getByText('document.pdf')).toBeInTheDocument();
   });
 
-  it("renders image attachment", () => {
+  it('renders image attachment', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const file = {
-      filename: "image.png",
-      id: "1",
-      mediaType: "image/png",
-      type: "file" as const,
-      url: "blob:test",
+      filename: 'image.png',
+      id: '1',
+      mediaType: 'image/png',
+      type: 'file' as const,
+      url: 'blob:test',
     };
 
     render(
@@ -2095,19 +2090,19 @@ describe("promptInputAttachment", () => {
         <PromptInputBody>
           <PromptInputAttachment data={file} />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    const img = screen.getByAltText("image.png");
+    const img = screen.getByAltText('image.png');
     expect(img).toBeInTheDocument();
   });
 
-  it("removes attachment when remove button clicked", async () => {
+  it('removes attachment when remove button clicked', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
 
-    const file = new File(["test"], "test.txt", { type: "text/plain" });
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -2139,27 +2134,27 @@ describe("promptInputAttachment", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-file"));
-    expect(screen.getByText("test.txt")).toBeInTheDocument();
+    await user.click(screen.getByTestId('add-file'));
+    expect(screen.getByText('test.txt')).toBeInTheDocument();
 
-    const removeButton = screen.getByLabelText("Remove attachment");
+    const removeButton = screen.getByLabelText('Remove attachment');
     await user.click(removeButton);
 
-    expect(screen.queryByText("test.txt")).not.toBeInTheDocument();
+    expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
   });
 
   // oxlint-disable-next-line eslint-plugin-jest(max-expects)
-  it("removes attachment if backspace key is pressed and textarea is empty", async () => {
+  it('removes attachment if backspace key is pressed and textarea is empty', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
 
-    const file1 = new File(["test1"], "first.txt", { type: "text/plain" });
-    const file2 = new File(["test2"], "second.txt", { type: "text/plain" });
-    const file3 = new File(["test3"], "third.txt", { type: "text/plain" });
+    const file1 = new File(['test1'], 'first.txt', { type: 'text/plain' });
+    const file2 = new File(['test2'], 'second.txt', { type: 'text/plain' });
+    const file3 = new File(['test3'], 'third.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -2172,9 +2167,7 @@ describe("promptInputAttachment", () => {
             Add Files
           </button>
           <PromptInputAttachments>
-            {(attachment) => (
-              <div key={attachment.id}>{attachment.filename}</div>
-            )}
+            {attachment => <div key={attachment.id}>{attachment.filename}</div>}
           </PromptInputAttachments>
         </>
       );
@@ -2186,44 +2179,44 @@ describe("promptInputAttachment", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
 
-    await user.click(screen.getByRole("button", { name: "Add Files" }));
+    await user.click(screen.getByRole('button', { name: 'Add Files' }));
 
-    expect(screen.getByText("first.txt")).toBeInTheDocument();
-    expect(screen.getByText("second.txt")).toBeInTheDocument();
-    expect(screen.getByText("third.txt")).toBeInTheDocument();
+    expect(screen.getByText('first.txt')).toBeInTheDocument();
+    expect(screen.getByText('second.txt')).toBeInTheDocument();
+    expect(screen.getByText('third.txt')).toBeInTheDocument();
 
     textarea.focus();
-    expect(textarea.value).toBe("");
+    expect(textarea.value).toBe('');
 
-    await user.keyboard("{Backspace}");
+    await user.keyboard('{Backspace}');
 
-    expect(screen.getByText("first.txt")).toBeInTheDocument();
-    expect(screen.getByText("second.txt")).toBeInTheDocument();
-    expect(screen.queryByText("third.txt")).not.toBeInTheDocument();
+    expect(screen.getByText('first.txt')).toBeInTheDocument();
+    expect(screen.getByText('second.txt')).toBeInTheDocument();
+    expect(screen.queryByText('third.txt')).not.toBeInTheDocument();
 
-    await user.keyboard("{Backspace}");
+    await user.keyboard('{Backspace}');
 
-    expect(screen.getByText("first.txt")).toBeInTheDocument();
-    expect(screen.queryByText("second.txt")).not.toBeInTheDocument();
+    expect(screen.getByText('first.txt')).toBeInTheDocument();
+    expect(screen.queryByText('second.txt')).not.toBeInTheDocument();
 
-    await user.keyboard("{Backspace}");
+    await user.keyboard('{Backspace}');
 
-    expect(screen.queryByText("first.txt")).not.toBeInTheDocument();
+    expect(screen.queryByText('first.txt')).not.toBeInTheDocument();
   });
 
-  it("does not remove attachment when backspace key is pressed and textarea has content", async () => {
+  it('does not remove attachment when backspace key is pressed and textarea has content', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
 
-    const file = new File(["test"], "test.txt", { type: "text/plain" });
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
 
     const AttachmentConsumer = () => {
       const attachments = usePromptInputAttachments();
@@ -2233,9 +2226,7 @@ describe("promptInputAttachment", () => {
             Add File
           </button>
           <PromptInputAttachments>
-            {(attachment) => (
-              <div key={attachment.id}>{attachment.filename}</div>
-            )}
+            {attachment => <div key={attachment.id}>{attachment.filename}</div>}
           </PromptInputAttachments>
         </>
       );
@@ -2247,37 +2238,37 @@ describe("promptInputAttachment", () => {
           <AttachmentConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
 
-    await user.click(screen.getByRole("button", { name: "Add File" }));
-    expect(screen.getByText("test.txt")).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Add File' }));
+    expect(screen.getByText('test.txt')).toBeInTheDocument();
 
-    await user.type(textarea, "Some text");
-    expect(textarea.value).toBe("Some text");
+    await user.type(textarea, 'Some text');
+    expect(textarea.value).toBe('Some text');
 
-    await user.keyboard("{Backspace}");
+    await user.keyboard('{Backspace}');
 
-    expect(screen.getByText("test.txt")).toBeInTheDocument();
-    expect(textarea.value).toBe("Some tex");
+    expect(screen.getByText('test.txt')).toBeInTheDocument();
+    expect(textarea.value).toBe('Some tex');
   });
 });
 
-describe("promptInputReferencedSource", () => {
-  it("renders referenced source with globe icon", () => {
+describe('promptInputReferencedSource', () => {
+  it('renders referenced source with globe icon', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const source = {
-      filename: "doc.pdf",
-      id: "1",
-      mediaType: "application/pdf",
-      sourceId: "source-1",
-      title: "Test Document",
-      type: "source-document" as const,
+      filename: 'doc.pdf',
+      id: '1',
+      mediaType: 'application/pdf',
+      sourceId: 'source-1',
+      title: 'Test Document',
+      type: 'source-document' as const,
     };
 
     render(
@@ -2287,22 +2278,22 @@ describe("promptInputReferencedSource", () => {
             <PromptInputReferencedSource data={source} />
           </Attachments>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByText("Test Document")).toBeInTheDocument();
+    expect(screen.getByText('Test Document')).toBeInTheDocument();
   });
 
-  it("falls back to filename when title is not provided", () => {
+  it('falls back to filename when title is not provided', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const source = {
-      filename: "document.pdf",
-      id: "1",
-      mediaType: "application/pdf",
-      sourceId: "source-1",
-      title: "",
-      type: "source-document" as const,
+      filename: 'document.pdf',
+      id: '1',
+      mediaType: 'application/pdf',
+      sourceId: 'source-1',
+      title: '',
+      type: 'source-document' as const,
     };
 
     render(
@@ -2312,13 +2303,13 @@ describe("promptInputReferencedSource", () => {
             <PromptInputReferencedSource data={source} />
           </Attachments>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByText("document.pdf")).toBeInTheDocument();
+    expect(screen.getByText('document.pdf')).toBeInTheDocument();
   });
 
-  it("removes referenced source when remove button clicked", async () => {
+  it('removes referenced source when remove button clicked', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -2331,10 +2322,10 @@ describe("promptInputReferencedSource", () => {
             data-testid="add-source"
             onClick={() =>
               refs.add({
-                mediaType: "text/plain",
-                sourceId: "source-1",
-                title: "Test Source",
-                type: "source-document",
+                mediaType: 'text/plain',
+                sourceId: 'source-1',
+                title: 'Test Source',
+                type: 'source-document',
               })
             }
             type="button"
@@ -2360,21 +2351,21 @@ describe("promptInputReferencedSource", () => {
           <ReferencedSourceConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-source"));
-    expect(screen.getByText("Test Source")).toBeInTheDocument();
+    await user.click(screen.getByTestId('add-source'));
+    expect(screen.getByText('Test Source')).toBeInTheDocument();
 
-    const removeButton = screen.getByLabelText("Remove referenced source");
+    const removeButton = screen.getByLabelText('Remove referenced source');
     await user.click(removeButton);
 
-    expect(screen.queryByText("Test Source")).not.toBeInTheDocument();
+    expect(screen.queryByText('Test Source')).not.toBeInTheDocument();
   });
 });
 
-describe("promptInputReferencedSources", () => {
-  it("renders multiple referenced sources", async () => {
+describe('promptInputReferencedSources', () => {
+  it('renders multiple referenced sources', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -2388,16 +2379,16 @@ describe("promptInputReferencedSources", () => {
             onClick={() =>
               refs.add([
                 {
-                  mediaType: "text/plain",
-                  sourceId: "s1",
-                  title: "Source 1",
-                  type: "source-document",
+                  mediaType: 'text/plain',
+                  sourceId: 's1',
+                  title: 'Source 1',
+                  type: 'source-document',
                 },
                 {
-                  mediaType: "text/plain",
-                  sourceId: "s2",
-                  title: "Source 2",
-                  type: "source-document",
+                  mediaType: 'text/plain',
+                  sourceId: 's2',
+                  title: 'Source 2',
+                  type: 'source-document',
                 },
               ])
             }
@@ -2406,7 +2397,7 @@ describe("promptInputReferencedSources", () => {
             Add Sources
           </button>
           <PromptInputReferencedSources>
-            {(source) => <div key={source.id}>{(source as any).title}</div>}
+            {source => <div key={source.id}>{(source as any).title}</div>}
           </PromptInputReferencedSources>
         </>
       );
@@ -2418,16 +2409,16 @@ describe("promptInputReferencedSources", () => {
           <ReferencedSourceConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByTestId("add-sources"));
+    await user.click(screen.getByTestId('add-sources'));
 
-    expect(screen.getByText("Source 1")).toBeInTheDocument();
-    expect(screen.getByText("Source 2")).toBeInTheDocument();
+    expect(screen.getByText('Source 1')).toBeInTheDocument();
+    expect(screen.getByText('Source 2')).toBeInTheDocument();
   });
 
-  it("does not render when no sources exist", () => {
+  it('does not render when no sources exist', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
 
@@ -2435,7 +2426,7 @@ describe("promptInputReferencedSources", () => {
       const _refs = usePromptInputReferencedSources();
       return (
         <PromptInputReferencedSources data-testid="sources-container">
-          {(source) => <div key={source.id}>{(source as any).title}</div>}
+          {source => <div key={source.id}>{(source as any).title}</div>}
         </PromptInputReferencedSources>
       );
     };
@@ -2446,13 +2437,13 @@ describe("promptInputReferencedSources", () => {
           <ReferencedSourceConsumer />
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.queryByTestId("sources-container")).not.toBeInTheDocument();
+    expect(screen.queryByTestId('sources-container')).not.toBeInTheDocument();
   });
 
-  it("clears referenced sources after successful form submission", async () => {
+  it('clears referenced sources after successful form submission', async () => {
     setupPromptInputTests();
     // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-then)
     const onSubmit = vi.fn(() => Promise.resolve());
@@ -2466,10 +2457,10 @@ describe("promptInputReferencedSources", () => {
             data-testid="add-source"
             onClick={() =>
               refs.add({
-                mediaType: "text/plain",
-                sourceId: "s1",
-                title: "Test Source",
-                type: "source-document",
+                mediaType: 'text/plain',
+                sourceId: 's1',
+                title: 'Test Source',
+                type: 'source-document',
               })
             }
             type="button"
@@ -2477,7 +2468,7 @@ describe("promptInputReferencedSources", () => {
             Add Source
           </button>
           <PromptInputReferencedSources>
-            {(source) => <div key={source.id}>{(source as any).title}</div>}
+            {source => <div key={source.id}>{(source as any).title}</div>}
           </PromptInputReferencedSources>
         </>
       );
@@ -2490,19 +2481,19 @@ describe("promptInputReferencedSources", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     // Add a referenced source
-    await user.click(screen.getByTestId("add-source"));
-    expect(screen.getByText("Test Source")).toBeInTheDocument();
+    await user.click(screen.getByTestId('add-source'));
+    expect(screen.getByText('Test Source')).toBeInTheDocument();
 
     // Type and submit
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
-    await user.type(textarea, "test message");
-    await user.keyboard("{Enter}");
+    await user.type(textarea, 'test message');
+    await user.keyboard('{Enter}');
 
     // Wait for async submission to complete
     await vi.waitFor(() => {
@@ -2511,18 +2502,18 @@ describe("promptInputReferencedSources", () => {
 
     // Give time for promise resolution
     // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, 100);
     });
 
     // Verify referenced source was cleared
-    expect(screen.queryByText("Test Source")).not.toBeInTheDocument();
+    expect(screen.queryByText('Test Source')).not.toBeInTheDocument();
   });
 
-  it("does not clear referenced sources when onSubmit throws an error", async () => {
+  it('does not clear referenced sources when onSubmit throws an error', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn(() => {
-      throw new Error("Submission failed");
+      throw new Error('Submission failed');
     });
     const user = userEvent.setup();
 
@@ -2534,10 +2525,10 @@ describe("promptInputReferencedSources", () => {
             data-testid="add-source"
             onClick={() =>
               refs.add({
-                mediaType: "text/plain",
-                sourceId: "s1",
-                title: "Test Source",
-                type: "source-document",
+                mediaType: 'text/plain',
+                sourceId: 's1',
+                title: 'Test Source',
+                type: 'source-document',
               })
             }
             type="button"
@@ -2545,7 +2536,7 @@ describe("promptInputReferencedSources", () => {
             Add Source
           </button>
           <PromptInputReferencedSources>
-            {(source) => <div key={source.id}>{(source as any).title}</div>}
+            {source => <div key={source.id}>{(source as any).title}</div>}
           </PromptInputReferencedSources>
         </>
       );
@@ -2558,19 +2549,19 @@ describe("promptInputReferencedSources", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     // Add a referenced source
-    await user.click(screen.getByTestId("add-source"));
-    expect(screen.getByText("Test Source")).toBeInTheDocument();
+    await user.click(screen.getByTestId('add-source'));
+    expect(screen.getByText('Test Source')).toBeInTheDocument();
 
     // Type and submit
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
-    await user.type(textarea, "test message");
-    await user.keyboard("{Enter}");
+    await user.type(textarea, 'test message');
+    await user.keyboard('{Enter}');
 
     // Wait for submission attempt
     await vi.waitFor(() => {
@@ -2578,14 +2569,14 @@ describe("promptInputReferencedSources", () => {
     });
 
     // Verify referenced source was NOT cleared due to error
-    expect(screen.getByText("Test Source")).toBeInTheDocument();
+    expect(screen.getByText('Test Source')).toBeInTheDocument();
   });
 
-  it("does not clear referenced sources when async onSubmit rejects", async () => {
+  it('does not clear referenced sources when async onSubmit rejects', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn(
       // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-then)
-      () => Promise.reject(new Error("Async submission failed"))
+      () => Promise.reject(new Error('Async submission failed')),
     );
     const user = userEvent.setup();
 
@@ -2597,10 +2588,10 @@ describe("promptInputReferencedSources", () => {
             data-testid="add-source"
             onClick={() =>
               refs.add({
-                mediaType: "text/plain",
-                sourceId: "s1",
-                title: "Test Source",
-                type: "source-document",
+                mediaType: 'text/plain',
+                sourceId: 's1',
+                title: 'Test Source',
+                type: 'source-document',
               })
             }
             type="button"
@@ -2608,7 +2599,7 @@ describe("promptInputReferencedSources", () => {
             Add Source
           </button>
           <PromptInputReferencedSources>
-            {(source) => <div key={source.id}>{(source as any).title}</div>}
+            {source => <div key={source.id}>{(source as any).title}</div>}
           </PromptInputReferencedSources>
         </>
       );
@@ -2621,19 +2612,19 @@ describe("promptInputReferencedSources", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     // Add a referenced source
-    await user.click(screen.getByTestId("add-source"));
-    expect(screen.getByText("Test Source")).toBeInTheDocument();
+    await user.click(screen.getByTestId('add-source'));
+    expect(screen.getByText('Test Source')).toBeInTheDocument();
 
     // Type and submit
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
-    await user.type(textarea, "test message");
-    await user.keyboard("{Enter}");
+    await user.type(textarea, 'test message');
+    await user.keyboard('{Enter}');
 
     // Wait for async submission attempt
     await vi.waitFor(() => {
@@ -2642,21 +2633,21 @@ describe("promptInputReferencedSources", () => {
 
     // Give time for promise rejection
     // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, 100);
     });
 
     // Verify referenced source was NOT cleared due to rejection
-    expect(screen.getByText("Test Source")).toBeInTheDocument();
+    expect(screen.getByText('Test Source')).toBeInTheDocument();
   });
 
-  it("clears both attachments and referenced sources after successful submission", async () => {
+  it('clears both attachments and referenced sources after successful submission', async () => {
     setupPromptInputTests();
     // oxlint-disable-next-line eslint-plugin-promise(prefer-await-to-then)
     const onSubmit = vi.fn(() => Promise.resolve());
     const user = userEvent.setup();
 
-    const file = new File(["test"], "test.txt", { type: "text/plain" });
+    const file = new File(['test'], 'test.txt', { type: 'text/plain' });
 
     const Consumer = () => {
       const attachments = usePromptInputAttachments();
@@ -2674,10 +2665,10 @@ describe("promptInputReferencedSources", () => {
             data-testid="add-source"
             onClick={() =>
               refs.add({
-                mediaType: "text/plain",
-                sourceId: "s1",
-                title: "Test Source",
-                type: "source-document",
+                mediaType: 'text/plain',
+                sourceId: 's1',
+                title: 'Test Source',
+                type: 'source-document',
               })
             }
             type="button"
@@ -2685,12 +2676,10 @@ describe("promptInputReferencedSources", () => {
             Add Source
           </button>
           <PromptInputAttachments>
-            {(attachment) => (
-              <div key={attachment.id}>{attachment.filename}</div>
-            )}
+            {attachment => <div key={attachment.id}>{attachment.filename}</div>}
           </PromptInputAttachments>
           <PromptInputReferencedSources>
-            {(source) => <div key={source.id}>{(source as any).title}</div>}
+            {source => <div key={source.id}>{(source as any).title}</div>}
           </PromptInputReferencedSources>
         </>
       );
@@ -2703,21 +2692,21 @@ describe("promptInputReferencedSources", () => {
           <PromptInputTextarea />
           <PromptInputSubmit />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     // Add both attachment and referenced source
-    await user.click(screen.getByTestId("add-file"));
-    await user.click(screen.getByTestId("add-source"));
-    expect(screen.getByText("test.txt")).toBeInTheDocument();
-    expect(screen.getByText("Test Source")).toBeInTheDocument();
+    await user.click(screen.getByTestId('add-file'));
+    await user.click(screen.getByTestId('add-source'));
+    expect(screen.getByText('test.txt')).toBeInTheDocument();
+    expect(screen.getByText('Test Source')).toBeInTheDocument();
 
     // Type and submit
     const textarea = screen.getByPlaceholderText(
-      "What would you like to know?"
+      'What would you like to know?',
     ) as HTMLTextAreaElement;
-    await user.type(textarea, "test message");
-    await user.keyboard("{Enter}");
+    await user.type(textarea, 'test message');
+    await user.keyboard('{Enter}');
 
     // Wait for async submission
     await vi.waitFor(() => {
@@ -2726,18 +2715,18 @@ describe("promptInputReferencedSources", () => {
 
     // Give time for promise resolution
     // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, 100);
     });
 
     // Verify both were cleared
-    expect(screen.queryByText("test.txt")).not.toBeInTheDocument();
-    expect(screen.queryByText("Test Source")).not.toBeInTheDocument();
+    expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
+    expect(screen.queryByText('Test Source')).not.toBeInTheDocument();
   });
 });
 
-describe("promptInputActionAddAttachments", () => {
-  it("opens file dialog when clicked", async () => {
+describe('promptInputActionAddAttachments', () => {
+  it('opens file dialog when clicked', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -2753,17 +2742,17 @@ describe("promptInputActionAddAttachments", () => {
           </PromptInputActionMenu>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    const trigger = screen.getByRole("button");
+    const trigger = screen.getByRole('button');
     await user.click(trigger);
 
-    const addButton = screen.getByText("Add photos or files");
+    const addButton = screen.getByText('Add photos or files');
     expect(addButton).toBeInTheDocument();
   });
 
-  it("accepts custom label", async () => {
+  it('accepts custom label', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -2779,18 +2768,18 @@ describe("promptInputActionAddAttachments", () => {
           </PromptInputActionMenu>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    const trigger = screen.getByRole("button");
+    const trigger = screen.getByRole('button');
     await user.click(trigger);
 
-    expect(screen.getByText("Upload files")).toBeInTheDocument();
+    expect(screen.getByText('Upload files')).toBeInTheDocument();
   });
 });
 
-describe("promptInputActionAddScreenshot", () => {
-  it("captures a screenshot and adds it as attachment", async () => {
+describe('promptInputActionAddScreenshot', () => {
+  it('captures a screenshot and adds it as attachment', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -2801,9 +2790,7 @@ describe("promptInputActionAddScreenshot", () => {
       <PromptInput onSubmit={onSubmit}>
         <PromptInputBody>
           <PromptInputAttachments>
-            {(attachment) => (
-              <div key={attachment.id}>{attachment.filename}</div>
-            )}
+            {attachment => <div key={attachment.id}>{attachment.filename}</div>}
           </PromptInputAttachments>
           <PromptInputActionMenu>
             <PromptInputActionMenuTrigger />
@@ -2813,11 +2800,11 @@ describe("promptInputActionAddScreenshot", () => {
           </PromptInputActionMenu>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByRole("button"));
-    await user.click(screen.getByText("Take screenshot"));
+    await user.click(screen.getByRole('button'));
+    await user.click(screen.getByText('Take screenshot'));
 
     await vi.waitFor(() => {
       expect(screen.getByText(/^screenshot-.*\.png$/)).toBeInTheDocument();
@@ -2829,23 +2816,21 @@ describe("promptInputActionAddScreenshot", () => {
     expect(pause).toHaveBeenCalledOnce();
   });
 
-  it("ignores denied capture permission", async () => {
+  it('ignores denied capture permission', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
-    const consoleError = vi.spyOn(console, "error").mockImplementation(vi.fn());
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(vi.fn());
     const { getDisplayMedia } = setupScreenshotCaptureMock();
     getDisplayMedia.mockRejectedValue(
-      new DOMException("Permission denied", "NotAllowedError")
+      new DOMException('Permission denied', 'NotAllowedError'),
     );
 
     render(
       <PromptInput onSubmit={onSubmit}>
         <PromptInputBody>
           <PromptInputAttachments>
-            {(attachment) => (
-              <div key={attachment.id}>{attachment.filename}</div>
-            )}
+            {attachment => <div key={attachment.id}>{attachment.filename}</div>}
           </PromptInputAttachments>
           <PromptInputActionMenu>
             <PromptInputActionMenuTrigger />
@@ -2855,11 +2840,11 @@ describe("promptInputActionAddScreenshot", () => {
           </PromptInputActionMenu>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    await user.click(screen.getByRole("button"));
-    await user.click(screen.getByText("Take screenshot"));
+    await user.click(screen.getByRole('button'));
+    await user.click(screen.getByText('Take screenshot'));
 
     await vi.waitFor(() => {
       expect(getDisplayMedia).toHaveBeenCalledOnce();
@@ -2869,10 +2854,10 @@ describe("promptInputActionAddScreenshot", () => {
   });
 });
 
-describe("promptInputHeader", () => {
-  it("renders header content", async () => {
+describe('promptInputHeader', () => {
+  it('renders header content', async () => {
     setupPromptInputTests();
-    const { PromptInputHeader } = await import("./prompt-input");
+    const { PromptInputHeader } = await import('./prompt-input');
     const onSubmit = vi.fn();
 
     render(
@@ -2881,15 +2866,15 @@ describe("promptInputHeader", () => {
           <PromptInputHeader>Header content</PromptInputHeader>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByText("Header content")).toBeInTheDocument();
+    expect(screen.getByText('Header content')).toBeInTheDocument();
   });
 
-  it("applies custom className", async () => {
+  it('applies custom className', async () => {
     setupPromptInputTests();
-    const { PromptInputHeader } = await import("./prompt-input");
+    const { PromptInputHeader } = await import('./prompt-input');
     const onSubmit = vi.fn();
 
     const { container } = render(
@@ -2900,17 +2885,17 @@ describe("promptInputHeader", () => {
           </PromptInputHeader>
           <PromptInputTextarea />
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(container.querySelector(".custom-header")).toBeInTheDocument();
+    expect(container.querySelector('.custom-header')).toBeInTheDocument();
   });
 });
 
-describe("promptInputFooter", () => {
-  it("renders footer content", async () => {
+describe('promptInputFooter', () => {
+  it('renders footer content', async () => {
     setupPromptInputTests();
-    const { PromptInputFooter } = await import("./prompt-input");
+    const { PromptInputFooter } = await import('./prompt-input');
     const onSubmit = vi.fn();
 
     render(
@@ -2919,15 +2904,15 @@ describe("promptInputFooter", () => {
           <PromptInputTextarea />
           <PromptInputFooter>Footer content</PromptInputFooter>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByText("Footer content")).toBeInTheDocument();
+    expect(screen.getByText('Footer content')).toBeInTheDocument();
   });
 
-  it("applies custom className", async () => {
+  it('applies custom className', async () => {
     setupPromptInputTests();
-    const { PromptInputFooter } = await import("./prompt-input");
+    const { PromptInputFooter } = await import('./prompt-input');
     const onSubmit = vi.fn();
 
     const { container } = render(
@@ -2938,21 +2923,21 @@ describe("promptInputFooter", () => {
             Footer
           </PromptInputFooter>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(container.querySelector(".custom-footer")).toBeInTheDocument();
+    expect(container.querySelector('.custom-footer')).toBeInTheDocument();
   });
 });
 
-describe("promptInputHoverCard", () => {
-  it("renders hover card", async () => {
+describe('promptInputHoverCard', () => {
+  it('renders hover card', async () => {
     setupPromptInputTests();
     const {
       PromptInputHoverCard,
       PromptInputHoverCardTrigger,
       PromptInputHoverCardContent,
-    } = await import("./prompt-input");
+    } = await import('./prompt-input');
     const onSubmit = vi.fn();
 
     render(
@@ -2967,15 +2952,15 @@ describe("promptInputHoverCard", () => {
             </PromptInputHoverCardContent>
           </PromptInputHoverCard>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByText("Hover me")).toBeInTheDocument();
+    expect(screen.getByText('Hover me')).toBeInTheDocument();
   });
 });
 
-describe("promptInputCommand", () => {
-  it("renders command input", async () => {
+describe('promptInputCommand', () => {
+  it('renders command input', async () => {
     setupPromptInputTests();
     const {
       PromptInputCommand,
@@ -2984,11 +2969,11 @@ describe("promptInputCommand", () => {
       PromptInputCommandEmpty,
       PromptInputCommandGroup,
       PromptInputCommandItem,
-    } = await import("./prompt-input");
+    } = await import('./prompt-input');
     const onSubmit = vi.fn();
 
     // Mock scrollIntoView for command
-    vi.spyOn(Element.prototype, "scrollIntoView").mockImplementation(vi.fn());
+    vi.spyOn(Element.prototype, 'scrollIntoView').mockImplementation(vi.fn());
 
     render(
       <PromptInput onSubmit={onSubmit}>
@@ -3004,26 +2989,26 @@ describe("promptInputCommand", () => {
             </PromptInputCommandList>
           </PromptInputCommand>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByPlaceholderText("Search...")).toBeInTheDocument();
-    expect(screen.getByText("Item 1")).toBeInTheDocument();
-    expect(screen.getByText("Item 2")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
+    expect(screen.getByText('Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Item 2')).toBeInTheDocument();
   });
 
-  it("shows empty state", async () => {
+  it('shows empty state', async () => {
     setupPromptInputTests();
     const {
       PromptInputCommand,
       PromptInputCommandInput,
       PromptInputCommandList,
       PromptInputCommandEmpty,
-    } = await import("./prompt-input");
+    } = await import('./prompt-input');
     const onSubmit = vi.fn();
 
     // Mock scrollIntoView for command
-    vi.spyOn(Element.prototype, "scrollIntoView").mockImplementation(vi.fn());
+    vi.spyOn(Element.prototype, 'scrollIntoView').mockImplementation(vi.fn());
 
     render(
       <PromptInput onSubmit={onSubmit}>
@@ -3037,13 +3022,13 @@ describe("promptInputCommand", () => {
             </PromptInputCommandList>
           </PromptInputCommand>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByText("No results found")).toBeInTheDocument();
+    expect(screen.getByText('No results found')).toBeInTheDocument();
   });
 
-  it("renders command separator", async () => {
+  it('renders command separator', async () => {
     setupPromptInputTests();
     const {
       PromptInputCommand,
@@ -3051,11 +3036,11 @@ describe("promptInputCommand", () => {
       PromptInputCommandGroup,
       PromptInputCommandItem,
       PromptInputCommandSeparator,
-    } = await import("./prompt-input");
+    } = await import('./prompt-input');
     const onSubmit = vi.fn();
 
     // Mock scrollIntoView for command
-    vi.spyOn(Element.prototype, "scrollIntoView").mockImplementation(vi.fn());
+    vi.spyOn(Element.prototype, 'scrollIntoView').mockImplementation(vi.fn());
 
     const { container } = render(
       <PromptInput onSubmit={onSubmit}>
@@ -3072,18 +3057,19 @@ describe("promptInputCommand", () => {
             </PromptInputCommandList>
           </PromptInputCommand>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     expect(container.querySelector('[role="separator"]')).toBeInTheDocument();
   });
 });
 
-describe("promptInputTab components", () => {
-  it("renders tab list", async () => {
+describe('promptInputTab components', () => {
+  it('renders tab list', async () => {
     setupPromptInputTests();
-    const { PromptInputTabsList, PromptInputTab } =
-      await import("./prompt-input");
+    const { PromptInputTabsList, PromptInputTab } = await import(
+      './prompt-input'
+    );
     const onSubmit = vi.fn();
 
     render(
@@ -3094,21 +3080,21 @@ describe("promptInputTab components", () => {
             <PromptInputTab>Tab 2</PromptInputTab>
           </PromptInputTabsList>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByText("Tab 1")).toBeInTheDocument();
-    expect(screen.getByText("Tab 2")).toBeInTheDocument();
+    expect(screen.getByText('Tab 1')).toBeInTheDocument();
+    expect(screen.getByText('Tab 2')).toBeInTheDocument();
   });
 
-  it("renders tab with label and body", async () => {
+  it('renders tab with label and body', async () => {
     setupPromptInputTests();
     const {
       PromptInputTab,
       PromptInputTabLabel,
       PromptInputTabBody,
       PromptInputTabItem,
-    } = await import("./prompt-input");
+    } = await import('./prompt-input');
     const onSubmit = vi.fn();
 
     render(
@@ -3122,17 +3108,17 @@ describe("promptInputTab components", () => {
             </PromptInputTabBody>
           </PromptInputTab>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByText("Commands")).toBeInTheDocument();
-    expect(screen.getByText("Command 1")).toBeInTheDocument();
-    expect(screen.getByText("Command 2")).toBeInTheDocument();
+    expect(screen.getByText('Commands')).toBeInTheDocument();
+    expect(screen.getByText('Command 1')).toBeInTheDocument();
+    expect(screen.getByText('Command 2')).toBeInTheDocument();
   });
 });
 
-describe("promptInputSelect components", () => {
-  it("renders model select with all subcomponents", () => {
+describe('promptInputSelect components', () => {
+  it('renders model select with all subcomponents', () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
 
@@ -3153,20 +3139,22 @@ describe("promptInputSelect components", () => {
             </PromptInputSelectContent>
           </PromptInputSelect>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    expect(screen.getByText("Choose model")).toBeInTheDocument();
+    expect(screen.getByText('Choose model')).toBeInTheDocument();
   });
 
-  it("opens model select menu", async () => {
+  it('opens model select menu', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
 
     // Mock hasPointerCapture and releasePointerCapture for select
-    vi.spyOn(Element.prototype, "hasPointerCapture").mockReturnValue(false);
-    vi.spyOn(Element.prototype, "releasePointerCapture").mockImplementation(() => {});
+    vi.spyOn(Element.prototype, 'hasPointerCapture').mockReturnValue(false);
+    vi.spyOn(Element.prototype, 'releasePointerCapture').mockImplementation(
+      () => {},
+    );
 
     render(
       <PromptInput onSubmit={onSubmit}>
@@ -3182,21 +3170,21 @@ describe("promptInputSelect components", () => {
             </PromptInputSelectContent>
           </PromptInputSelect>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    const trigger = screen.getByRole("combobox");
+    const trigger = screen.getByRole('combobox');
     await user.click(trigger);
 
     await vi.waitFor(() => {
-      const listbox = screen.getByRole("listbox");
+      const listbox = screen.getByRole('listbox');
       expect(listbox).toBeInTheDocument();
     });
   });
 });
 
-describe("promptInputActionMenu subcomponents", () => {
-  it("renders action menu content", async () => {
+describe('promptInputActionMenu subcomponents', () => {
+  it('renders action menu content', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const user = userEvent.setup();
@@ -3212,19 +3200,19 @@ describe("promptInputActionMenu subcomponents", () => {
             </PromptInputActionMenuContent>
           </PromptInputActionMenu>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    const trigger = screen.getByRole("button");
+    const trigger = screen.getByRole('button');
     await user.click(trigger);
 
     await vi.waitFor(() => {
-      expect(screen.getByText("Action 1")).toBeInTheDocument();
-      expect(screen.getByText("Action 2")).toBeInTheDocument();
+      expect(screen.getByText('Action 1')).toBeInTheDocument();
+      expect(screen.getByText('Action 2')).toBeInTheDocument();
     });
   });
 
-  it("handles menu item click", async () => {
+  it('handles menu item click', async () => {
     setupPromptInputTests();
     const onSubmit = vi.fn();
     const onAction = vi.fn();
@@ -3242,14 +3230,14 @@ describe("promptInputActionMenu subcomponents", () => {
             </PromptInputActionMenuContent>
           </PromptInputActionMenu>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
-    const trigger = screen.getByRole("button");
+    const trigger = screen.getByRole('button');
     await user.click(trigger);
 
     await vi.waitFor(async () => {
-      const menuItem = screen.getByText("Click me");
+      const menuItem = screen.getByText('Click me');
       expect(menuItem).toBeInTheDocument();
       await user.click(menuItem);
     });
@@ -3258,11 +3246,12 @@ describe("promptInputActionMenu subcomponents", () => {
   });
 });
 
-describe("integration tests", () => {
-  it("renders complete prompt input with all components", async () => {
+describe('integration tests', () => {
+  it('renders complete prompt input with all components', async () => {
     setupPromptInputTests();
-    const { PromptInputHeader, PromptInputFooter } =
-      await import("./prompt-input");
+    const { PromptInputHeader, PromptInputFooter } = await import(
+      './prompt-input'
+    );
     const onSubmit = vi.fn();
 
     render(
@@ -3293,15 +3282,15 @@ describe("integration tests", () => {
             <PromptInputSubmit />
           </PromptInputFooter>
         </PromptInputBody>
-      </PromptInput>
+      </PromptInput>,
     );
 
     expect(
-      screen.getByPlaceholderText("What would you like to know?")
+      screen.getByPlaceholderText('What would you like to know?'),
     ).toBeInTheDocument();
-    expect(screen.getByText("Model")).toBeInTheDocument();
+    expect(screen.getByText('Model')).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: SUBMIT_REGEX })
+      screen.getByRole('button', { name: SUBMIT_REGEX }),
     ).toBeInTheDocument();
   });
 });

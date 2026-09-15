@@ -22,4 +22,6 @@ export const generateImageTool = tool({
   }),
 });
 
-export type GenerateImageUIToolInvocation = UIToolInvocation<typeof generateImageTool>;
+export type GenerateImageUIToolInvocation = UIToolInvocation<
+  typeof generateImageTool
+>;

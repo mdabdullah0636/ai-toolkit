@@ -19,7 +19,9 @@ export default function Chat() {
     <div className="flex flex-col py-24 mx-auto w-full max-w-2xl stretch">
       {messages.map(m => (
         <div key={m.id} className="mb-4">
-          <div className="mb-2 font-semibold">{m.role === 'user' ? '👤 User' : '🤖 Assistant'}</div>
+          <div className="mb-2 font-semibold">
+            {m.role === 'user' ? '👤 User' : '🤖 Assistant'}
+          </div>
           <div className="pl-4 space-y-2">
             {m.parts.map((part, index) => {
               // Handle text parts
@@ -47,13 +49,20 @@ export default function Chat() {
                 const displayName = toolPart.title || toolName;
 
                 return (
-                  <div key={index} className="p-4 bg-gray-50 rounded-lg border border-gray-300">
+                  <div
+                    key={index}
+                    className="p-4 bg-gray-50 rounded-lg border border-gray-300"
+                  >
                     <div className="flex gap-2 items-center mb-2">
                       <span className="text-xl">🔧</span>
                       <div>
-                        <div className="text-sm font-semibold">{displayName}</div>
+                        <div className="text-sm font-semibold">
+                          {displayName}
+                        </div>
                         {toolPart.title && (
-                          <div className="text-xs text-gray-500">Tool ID: {toolName}</div>
+                          <div className="text-xs text-gray-500">
+                            Tool ID: {toolName}
+                          </div>
                         )}
                       </div>
                     </div>
@@ -90,7 +99,9 @@ export default function Chat() {
                     )}
 
                     {toolPart.state === 'output-error' && (
-                      <div className="text-sm text-red-600">Error: {toolPart.errorText}</div>
+                      <div className="text-sm text-red-600">
+                        Error: {toolPart.errorText}
+                      </div>
                     )}
                   </div>
                 );

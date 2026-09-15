@@ -1,4 +1,7 @@
-import { LanguageModelV3Middleware, LanguageModelV3StreamPart } from '@ai-toolkit/provider';
+import {
+  LanguageModelV3Middleware,
+  LanguageModelV3StreamPart,
+} from '@ai-toolkit/provider';
 
 export const yourLogMiddleware: LanguageModelV3Middleware = {
   specificationVersion: 'v3',

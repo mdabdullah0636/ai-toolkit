@@ -132,7 +132,9 @@ class InMemoryOAuthClientProvider {
         params.set('client_id', clientId);
         return;
       }
-      const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+      const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString(
+        'base64',
+      );
       headers.set('Authorization', `Basic ${credentials}`);
       return;
     }
@@ -149,7 +151,8 @@ class InMemoryOAuthClientProvider {
   async invalidateCredentials(scope: 'all' | 'client' | 'tokens' | 'verifier') {
     const state = this.getState();
     if (scope === 'all' || scope === 'tokens') state.tokens = undefined;
-    if (scope === 'all' || scope === 'client') state.clientInformation = undefined;
+    if (scope === 'all' || scope === 'client')
+      state.clientInformation = undefined;
     if (scope === 'all' || scope === 'verifier') state.codeVerifier = undefined;
   }
 }
@@ -176,7 +179,9 @@ function waitForAuthorizationCode(port: number): Promise<string> {
         setTimeout(() => server.close(), 100);
         resolve(code);
       } else {
-        res.writeHead(400).end(`Authorization failed: ${err ?? 'missing code'}`);
+        res
+          .writeHead(400)
+          .end(`Authorization failed: ${err ?? 'missing code'}`);
         setTimeout(() => server.close(), 100);
         reject(new Error(`Authorization failed: ${err ?? 'missing code'}`));
       }
@@ -197,7 +202,10 @@ export async function POST(req: Request) {
     const stream = createUIMessageStream({
       originalMessages: messages,
       execute: async ({ writer }) => {
-        const authProvider = new InMemoryOAuthClientProvider(serverUrl, callbackPort);
+        const authProvider = new InMemoryOAuthClientProvider(
+          serverUrl,
+          callbackPort,
+        );
 
         // Attempt auth; if redirect is needed, instruct client to open URL, then wait and complete.
         const result = await auth(authProvider, {
@@ -214,7 +222,8 @@ export async function POST(req: Request) {
             });
           }
 
-          const authorizationCode = await waitForAuthorizationCode(callbackPort);
+          const authorizationCode =
+            await waitForAuthorizationCode(callbackPort);
           await auth(authProvider, {
             serverUrl: new URL(serverUrl),
             authorizationCode,
@@ -232,11 +241,14 @@ export async function POST(req: Request) {
             model: openai('gpt-4o-mini'),
             tools,
             stopWhen: stepCountIs(10),
-            system: 'You are a helpful assistant with access to protected tools.',
+            system:
+              'You are a helpful assistant with access to protected tools.',
             messages: await convertToModelMessages(messages),
           });
 
-          writer.merge(result.toUIMessageStream({ originalMessages: messages }));
+          writer.merge(
+            result.toUIMessageStream({ originalMessages: messages }),
+          );
         } finally {
           await mcpClient.close();
         }

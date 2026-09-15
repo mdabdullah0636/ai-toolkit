@@ -31,7 +31,9 @@ const falSpeechProviderOptionsSchema = z.looseObject({
   pronunciation_dict: z.record(z.string(), z.string()).nullish(),
 });
 
-export type FalSpeechCallOptions = z.infer<typeof falSpeechProviderOptionsSchema>;
+export type FalSpeechCallOptions = z.infer<
+  typeof falSpeechProviderOptionsSchema
+>;
 
 interface FalSpeechModelConfig extends FalConfig {
   _internal?: {
@@ -115,7 +117,9 @@ export class FalSpeechModel implements SpeechModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body: requestBody,
       failedResponseHandler: falFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(falSpeechResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        falSpeechResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });

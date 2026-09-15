@@ -9,7 +9,9 @@ run(async () => {
     output: 'array',
     schema: z.object({
       name: z.string(),
-      class: z.string().describe('Character class, e.g. warrior, mage, or thief.'),
+      class: z
+        .string()
+        .describe('Character class, e.g. warrior, mage, or thief.'),
       description: z.string(),
     }),
     prompt: 'Generate 3 hero descriptions for a fantasy role playing game.',

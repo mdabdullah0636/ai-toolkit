@@ -10,14 +10,17 @@ run(async () => {
       shell: openai.tools.shell({
         execute: async ({ action }) => {
           const outputs = await Promise.all(
-            action.commands.map(command => executeShellCommand(command, action.timeoutMs)),
+            action.commands.map(command =>
+              executeShellCommand(command, action.timeoutMs),
+            ),
           );
 
           return { output: outputs };
         },
       }),
     },
-    prompt: 'Create a file in my ~/Desktop directory called dec1.txt with the text: THIS WORKS!',
+    prompt:
+      'Create a file in my ~/Desktop directory called dec1.txt with the text: THIS WORKS!',
     stopWhen: stepCountIs(5),
   });
 

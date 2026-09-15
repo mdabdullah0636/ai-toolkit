@@ -18,7 +18,8 @@ run(async () => {
       type: 'tool',
       toolName: 'weather',
     },
-    prompt: 'What is the weather in San Francisco and what attractions should I visit?',
+    prompt:
+      'What is the weather in San Francisco and what attractions should I visit?',
   });
 
   console.log(JSON.stringify(result, null, 2));

@@ -1,5 +1,10 @@
 import { openai } from '@ai-toolkit/openai';
-import { generateText, ModelMessage, stepCountIs, ToolApprovalResponse } from 'ai-toolkit';
+import {
+  generateText,
+  ModelMessage,
+  stepCountIs,
+  ToolApprovalResponse,
+} from 'ai-toolkit';
 import * as readline from 'node:readline/promises';
 import { executeShellCommand } from '../lib/shell-executor';
 import { run } from '../lib/run';
@@ -31,7 +36,9 @@ run(async () => {
           needsApproval: true,
           execute: async ({ action }) => {
             const outputs = await Promise.all(
-              action.commands.map(command => executeShellCommand(command, action.timeoutMs)),
+              action.commands.map(command =>
+                executeShellCommand(command, action.timeoutMs),
+              ),
             );
 
             return { output: outputs };
@@ -58,19 +65,24 @@ run(async () => {
           typeof part.toolCall.input === 'string'
             ? JSON.parse(part.toolCall.input)
             : part.toolCall.input;
-        const commands = (input as { action?: { commands?: string[] } }).action?.commands || [];
+        const commands =
+          (input as { action?: { commands?: string[] } }).action?.commands ||
+          [];
 
         console.log('\nShell command approval required:');
         commands.forEach((cmd, index) => {
           console.log(`  ${index + 1}. ${cmd}`);
         });
 
-        const answer = await terminal.question('\nProceed with execution? [y/N] ');
+        const answer = await terminal.question(
+          '\nProceed with execution? [y/N] ',
+        );
 
         approvals.push({
           type: 'tool-approval-response',
           approvalId: part.approvalId,
-          approved: answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes',
+          approved:
+            answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes',
         });
       }
     }

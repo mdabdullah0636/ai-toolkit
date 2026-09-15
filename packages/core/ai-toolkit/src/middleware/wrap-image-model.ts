@@ -25,9 +25,11 @@ export const wrapImageModel = ({
   modelId?: string;
   providerId?: string;
 }): ImageModelV3 => {
-  return [...asArray(middlewareArg)].reverse().reduce((wrappedModel, middleware) => {
-    return doWrap({ model: wrappedModel, middleware, modelId, providerId });
-  }, model);
+  return [...asArray(middlewareArg)]
+    .reverse()
+    .reduce((wrappedModel, middleware) => {
+      return doWrap({ model: wrappedModel, middleware, modelId, providerId });
+    }, model);
 };
 
 const doWrap = ({
@@ -51,12 +53,15 @@ const doWrap = ({
     return transformParams ? await transformParams({ params, model }) : params;
   }
 
-  const maxImagesPerCallRaw = overrideMaxImagesPerCall?.({ model }) ?? model.maxImagesPerCall;
+  const maxImagesPerCallRaw =
+    overrideMaxImagesPerCall?.({ model }) ?? model.maxImagesPerCall;
 
   // Ensure provider implementations that rely on `this` inside `maxImagesPerCall`
   // keep working after the value is copied onto the wrapper object.
   const maxImagesPerCall =
-    maxImagesPerCallRaw instanceof Function ? maxImagesPerCallRaw.bind(model) : maxImagesPerCallRaw;
+    maxImagesPerCallRaw instanceof Function
+      ? maxImagesPerCallRaw.bind(model)
+      : maxImagesPerCallRaw;
 
   return {
     specificationVersion: 'v3',

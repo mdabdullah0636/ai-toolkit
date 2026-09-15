@@ -1,6 +1,15 @@
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, cn } from '@ai-toolkit/shadcn-ui';
-import { Handle, Position } from "@xyflow/react";
-import type { ComponentProps } from "react";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  cn,
+} from '@ai-toolkit/shadcn-ui';
+import { Handle, Position } from '@xyflow/react';
+import type { ComponentProps } from 'react';
 
 export type NodeProps = ComponentProps<typeof Card> & {
   handles: {
@@ -12,8 +21,8 @@ export type NodeProps = ComponentProps<typeof Card> & {
 export const Node = ({ handles, className, ...props }: NodeProps) => (
   <Card
     className={cn(
-      "node-container relative size-full h-auto w-sm gap-0 rounded-md p-0",
-      className
+      'node-container relative size-full h-auto w-sm gap-0 rounded-md p-0',
+      className,
     )}
     {...props}
   >
@@ -27,7 +36,7 @@ export type NodeHeaderProps = ComponentProps<typeof CardHeader>;
 
 export const NodeHeader = ({ className, ...props }: NodeHeaderProps) => (
   <CardHeader
-    className={cn("gap-0.5 rounded-t-md border-b bg-secondary p-3!", className)}
+    className={cn('gap-0.5 rounded-t-md border-b bg-secondary p-3!', className)}
     {...props}
   />
 );
@@ -49,14 +58,14 @@ export const NodeAction = (props: NodeActionProps) => <CardAction {...props} />;
 export type NodeContentProps = ComponentProps<typeof CardContent>;
 
 export const NodeContent = ({ className, ...props }: NodeContentProps) => (
-  <CardContent className={cn("p-3", className)} {...props} />
+  <CardContent className={cn('p-3', className)} {...props} />
 );
 
 export type NodeFooterProps = ComponentProps<typeof CardFooter>;
 
 export const NodeFooter = ({ className, ...props }: NodeFooterProps) => (
   <CardFooter
-    className={cn("rounded-b-md border-t bg-secondary p-3!", className)}
+    className={cn('rounded-b-md border-t bg-secondary p-3!', className)}
     {...props}
   />
 );

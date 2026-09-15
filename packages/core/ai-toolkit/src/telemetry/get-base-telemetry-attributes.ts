@@ -21,7 +21,9 @@ export function getBaseTelemetryAttributes({
     ...Object.entries(settings).reduce((attributes, [key, value]) => {
       // Handle timeout specially since it can be a number or object
       if (key === 'timeout') {
-        const totalTimeoutMs = getTotalTimeoutMs(value as Parameters<typeof getTotalTimeoutMs>[0]);
+        const totalTimeoutMs = getTotalTimeoutMs(
+          value as Parameters<typeof getTotalTimeoutMs>[0],
+        );
         if (totalTimeoutMs != null) {
           attributes[`ai.settings.${key}`] = totalTimeoutMs;
         }
@@ -32,10 +34,13 @@ export function getBaseTelemetryAttributes({
     }, {} as Attributes),
 
     // add metadata as attributes:
-    ...Object.entries(telemetry?.metadata ?? {}).reduce((attributes, [key, value]) => {
-      attributes[`ai.telemetry.metadata.${key}`] = value;
-      return attributes;
-    }, {} as Attributes),
+    ...Object.entries(telemetry?.metadata ?? {}).reduce(
+      (attributes, [key, value]) => {
+        attributes[`ai.telemetry.metadata.${key}`] = value;
+        return attributes;
+      },
+      {} as Attributes,
+    ),
 
     // request headers
     ...Object.entries(headers ?? {}).reduce((attributes, [key, value]) => {

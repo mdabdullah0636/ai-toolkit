@@ -14,7 +14,6 @@ tags:
   ]
 ---
 
-
 In this guide, you will learn how to build a retrieval-augmented generation (RAG) agent.
 
 <video
@@ -550,7 +549,12 @@ Update your route handler with the following code:
 
 ```tsx title="app/api/chat/route.ts" {18-29}
 import { createResource } from '@/lib/actions/resources';
-import { convertToModelMessages, streamText, tool, UIMessage } from 'ai-toolkit';
+import {
+  convertToModelMessages,
+  streamText,
+  tool,
+  UIMessage,
+} from 'ai-toolkit';
 import { z } from 'zod';
 
 // Allow streaming responses up to 30 seconds

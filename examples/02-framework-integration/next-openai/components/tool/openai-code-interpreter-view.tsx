@@ -24,7 +24,9 @@ export default function CodeInterpreterView({
 
         {invocation.state === 'output-available' && (
           <div className="mb-3">
-            <div className="mb-2 text-sm font-medium text-yellow-400">Output:</div>
+            <div className="mb-2 text-sm font-medium text-yellow-400">
+              Output:
+            </div>
             <div className="space-y-2">
               {invocation.output.outputs?.map((output, index) => (
                 <div key={index} className="p-3 bg-black rounded-lg">

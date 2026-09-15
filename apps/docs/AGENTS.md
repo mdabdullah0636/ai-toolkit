@@ -23,23 +23,23 @@ Use these instructions when an AI coding agent edits this project.
 
 ## Common edit targets
 
-| Task | Edit |
-| --- | --- |
-| Configure site title, logo, nav, GitHub links, AI prompt, retrieval, suggestions, translations, `basePath`, or `siteId` | `ai-docs.tsx` |
-| Add or update documentation pages | `content/docs/**/*.mdx` |
-| Control sidebar order, groups, and folder labels | `content/docs/meta.json` |
-| Give a page a shorter navigation label | Set `navTitle` in the page's frontmatter |
-| Override MDX components | `components/ai-docs/mdx-components.tsx` |
-| Wrap the site provider, analytics, or global client behavior | `components/ai-docs/provider.tsx` |
-| Customize the docs layout shell | `components/ai-docs/docs-layout.tsx` |
-| Configure the Fumadocs source adapter or versioned docs | `lib/ai-docs/source.ts` |
-| Configure Fumadocs collections and source-safe MDX processing | `source.config.ts` |
-| Configure the docs page renderer | `app/[lang]/docs/[[...slug]]/page.tsx` |
-| Configure AI-readable markdown output and recovery | `app/[lang]/agents.md/route.ts`, `app/[lang]/.well-known/mcp.json/route.ts`, `app/[lang]/llms.txt/route.ts`, `app/[lang]/llms.mdx/[[...slug]]/route.ts`, `app/[lang]/sitemap.md/route.ts` |
-| Configure chat or search APIs | `app/api/chat/route.ts`, `app/api/search/route.ts`, `app/api/search/export/route.ts` |
-| Add request handling before or after AiDocs routing | `proxy.ts` |
-| Edit the marketing home page | `app/[lang]/(home)/**` |
-| Edit shared styles | `app/global.css`, `app/styles/ai-docs.css` |
+| Task                                                                                                                    | Edit                                                                                                                                                                                      |
+| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Configure site title, logo, nav, GitHub links, AI prompt, retrieval, suggestions, translations, `basePath`, or `siteId` | `ai-docs.tsx`                                                                                                                                                                             |
+| Add or update documentation pages                                                                                       | `content/docs/**/*.mdx`                                                                                                                                                                   |
+| Control sidebar order, groups, and folder labels                                                                        | `content/docs/meta.json`                                                                                                                                                                  |
+| Give a page a shorter navigation label                                                                                  | Set `navTitle` in the page's frontmatter                                                                                                                                                  |
+| Override MDX components                                                                                                 | `components/ai-docs/mdx-components.tsx`                                                                                                                                                   |
+| Wrap the site provider, analytics, or global client behavior                                                            | `components/ai-docs/provider.tsx`                                                                                                                                                         |
+| Customize the docs layout shell                                                                                         | `components/ai-docs/docs-layout.tsx`                                                                                                                                                      |
+| Configure the Fumadocs source adapter or versioned docs                                                                 | `lib/ai-docs/source.ts`                                                                                                                                                                   |
+| Configure Fumadocs collections and source-safe MDX processing                                                           | `source.config.ts`                                                                                                                                                                        |
+| Configure the docs page renderer                                                                                        | `app/[lang]/docs/[[...slug]]/page.tsx`                                                                                                                                                    |
+| Configure AI-readable markdown output and recovery                                                                      | `app/[lang]/agents.md/route.ts`, `app/[lang]/.well-known/mcp.json/route.ts`, `app/[lang]/llms.txt/route.ts`, `app/[lang]/llms.mdx/[[...slug]]/route.ts`, `app/[lang]/sitemap.md/route.ts` |
+| Configure chat or search APIs                                                                                           | `app/api/chat/route.ts`, `app/api/search/route.ts`, `app/api/search/export/route.ts`                                                                                                      |
+| Add request handling before or after AiDocs routing                                                                     | `proxy.ts`                                                                                                                                                                                |
+| Edit the marketing home page                                                                                            | `app/[lang]/(home)/**`                                                                                                                                                                    |
+| Edit shared styles                                                                                                      | `app/global.css`, `app/styles/ai-docs.css`                                                                                                                                                |
 
 ## Content guidelines
 

@@ -1,4 +1,8 @@
-import { ImageModelV3Usage, JSONObject, LanguageModelV3Usage } from '@ai-toolkit/provider';
+import {
+  ImageModelV3Usage,
+  JSONObject,
+  LanguageModelV3Usage,
+} from '@ai-toolkit/provider';
 
 /**
  * Represents the number of tokens used in a prompt and completion.
@@ -84,7 +88,9 @@ The number of tokens used in the embedding.
   tokens: number;
 };
 
-export function asLanguageModelUsage(usage: LanguageModelV3Usage): LanguageModelUsage {
+export function asLanguageModelUsage(
+  usage: LanguageModelV3Usage,
+): LanguageModelUsage {
   return {
     inputTokens: usage.inputTokens.total,
     inputTokenDetails: {
@@ -97,7 +103,10 @@ export function asLanguageModelUsage(usage: LanguageModelV3Usage): LanguageModel
       textTokens: usage.outputTokens.text,
       reasoningTokens: usage.outputTokens.reasoning,
     },
-    totalTokens: addTokenCounts(usage.inputTokens.total, usage.outputTokens.total),
+    totalTokens: addTokenCounts(
+      usage.inputTokens.total,
+      usage.outputTokens.total,
+    ),
     raw: usage.raw,
     reasoningTokens: usage.outputTokens.reasoning,
     cachedInputTokens: usage.inputTokens.cacheRead,
@@ -154,8 +163,14 @@ export function addLanguageModelUsage(
       ),
     },
     totalTokens: addTokenCounts(usage1.totalTokens, usage2.totalTokens),
-    reasoningTokens: addTokenCounts(usage1.reasoningTokens, usage2.reasoningTokens),
-    cachedInputTokens: addTokenCounts(usage1.cachedInputTokens, usage2.cachedInputTokens),
+    reasoningTokens: addTokenCounts(
+      usage1.reasoningTokens,
+      usage2.reasoningTokens,
+    ),
+    cachedInputTokens: addTokenCounts(
+      usage1.cachedInputTokens,
+      usage2.cachedInputTokens,
+    ),
   };
 }
 

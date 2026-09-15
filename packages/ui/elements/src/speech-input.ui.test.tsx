@@ -1,14 +1,14 @@
 // oxlint-disable eslint(max-classes-per-file)
-import { render, screen, waitFor } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen, waitFor } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
-import { SpeechInput } from "./speech-input";
+import { SpeechInput } from './speech-input';
 
 // Mock SpeechRecognition with EventTarget support
 class MockSpeechRecognition {
   continuous = false;
   interimResults = false;
-  lang = "";
+  lang = '';
   onstart: ((ev: Event) => void) | null = null;
   onend: ((ev: Event) => void) | null = null;
   // oxlint-disable-next-line typescript-eslint(no-explicit-any)
@@ -45,11 +45,11 @@ class MockSpeechRecognition {
   }
 
   start() {
-    this.dispatchEvent(new Event("start"));
+    this.dispatchEvent(new Event('start'));
   }
 
   stop() {
-    this.dispatchEvent(new Event("end"));
+    this.dispatchEvent(new Event('end'));
   }
 }
 
@@ -69,8 +69,8 @@ const createTrackableMock = (instanceRef: InstanceRef) =>
 
 // Setup function to reset window globals and mock console
 const setupSpeechInputTests = () => {
-  vi.spyOn(console, "warn").mockImplementation(vi.fn());
-  vi.spyOn(console, "error").mockImplementation(vi.fn());
+  vi.spyOn(console, 'warn').mockImplementation(vi.fn());
+  vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
   // Reset window.SpeechRecognition - delete properties instead of setting to undefined
   // because `in` operator checks property existence, not value
@@ -86,61 +86,61 @@ const setupSpeechInputTests = () => {
   // oxlint-disable-next-line typescript-eslint(no-explicit-any)
   delete (window as any).MediaRecorder;
   // Also mock navigator.mediaDevices to be undefined
-  Object.defineProperty(navigator, "mediaDevices", {
+  Object.defineProperty(navigator, 'mediaDevices', {
     configurable: true,
     value: undefined,
     writable: true,
   });
 };
 
-describe("speechInput", () => {
-  it("renders button with microphone icon", () => {
+describe('speechInput', () => {
+  it('renders button with microphone icon', () => {
     setupSpeechInputTests();
     render(<SpeechInput />);
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
   });
 
-  it("is disabled when SpeechRecognition is not available", () => {
+  it('is disabled when SpeechRecognition is not available', () => {
     setupSpeechInputTests();
     render(<SpeechInput />);
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     expect(button).toBeDisabled();
   });
 
-  it("is enabled when SpeechRecognition is available", () => {
+  it('is enabled when SpeechRecognition is available', () => {
     setupSpeechInputTests();
     // oxlint-disable-next-line typescript-eslint(no-explicit-any)
     (window as any).SpeechRecognition = MockSpeechRecognition;
     render(<SpeechInput />);
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     expect(button).not.toBeDisabled();
   });
 
-  it("works with webkit prefix", () => {
+  it('works with webkit prefix', () => {
     setupSpeechInputTests();
     // oxlint-disable-next-line typescript-eslint(no-explicit-any)
     (window as any).webkitSpeechRecognition = MockSpeechRecognition;
     render(<SpeechInput />);
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     expect(button).not.toBeDisabled();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     setupSpeechInputTests();
     // oxlint-disable-next-line typescript-eslint(no-explicit-any)
     (window as any).SpeechRecognition = MockSpeechRecognition;
     render(<SpeechInput className="custom-class" />);
-    const button = screen.getByRole("button");
-    expect(button).toHaveClass("custom-class");
+    const button = screen.getByRole('button');
+    expect(button).toHaveClass('custom-class');
   });
 
-  it("accepts Button props", () => {
+  it('accepts Button props', () => {
     setupSpeechInputTests();
     // oxlint-disable-next-line typescript-eslint(no-explicit-any)
     (window as any).SpeechRecognition = MockSpeechRecognition;
     render(<SpeechInput size="lg" variant="outline" />);
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
   });
 });
@@ -152,47 +152,47 @@ const setupSpeechRecognitionTests = () => {
   (window as any).SpeechRecognition = MockSpeechRecognition;
 };
 
-describe("speechInput - Speech Recognition", () => {
-  it("initializes SpeechRecognition with correct settings", async () => {
+describe('speechInput - Speech Recognition', () => {
+  it('initializes SpeechRecognition with correct settings', async () => {
     setupSpeechRecognitionTests();
     render(<SpeechInput />);
 
     await waitFor(() => {
       // The component should have initialized recognition
-      const button = screen.getByRole("button");
+      const button = screen.getByRole('button');
       expect(button).not.toBeDisabled();
     });
   });
 
-  it("starts listening when clicked", async () => {
+  it('starts listening when clicked', async () => {
     setupSpeechRecognitionTests();
     const user = userEvent.setup();
-    const startSpy = vi.spyOn(MockSpeechRecognition.prototype, "start");
+    const startSpy = vi.spyOn(MockSpeechRecognition.prototype, 'start');
 
     render(<SpeechInput />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
     expect(startSpy).toHaveBeenCalled();
   });
 
-  it("stops listening when clicked again", async () => {
+  it('stops listening when clicked again', async () => {
     setupSpeechRecognitionTests();
     const user = userEvent.setup();
-    const stopSpy = vi.spyOn(MockSpeechRecognition.prototype, "stop");
+    const stopSpy = vi.spyOn(MockSpeechRecognition.prototype, 'stop');
 
     render(<SpeechInput />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
 
     // Start listening
     await user.click(button);
@@ -203,33 +203,33 @@ describe("speechInput - Speech Recognition", () => {
     expect(stopSpy).toHaveBeenCalled();
   });
 
-  it("applies pulse animation when listening", async () => {
+  it('applies pulse animation when listening', async () => {
     setupSpeechRecognitionTests();
     const user = userEvent.setup();
 
     const { container } = render(<SpeechInput />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
 
     // Should not have animate-ping divs initially
-    expect(container.querySelectorAll(".animate-ping")).toHaveLength(0);
+    expect(container.querySelectorAll('.animate-ping')).toHaveLength(0);
 
     await user.click(button);
 
     // Should have animate-ping divs when listening
     await waitFor(
       () => {
-        expect(container.querySelectorAll(".animate-ping")).toHaveLength(3);
+        expect(container.querySelectorAll('.animate-ping')).toHaveLength(3);
       },
-      { timeout: 3000 }
+      { timeout: 3000 },
     );
   });
 
-  it("calls onTranscriptionChange with final transcript", async () => {
+  it('calls onTranscriptionChange with final transcript', async () => {
     setupSpeechInputTests();
     const handleTranscription = vi.fn();
     const instanceRef: InstanceRef = { current: null };
@@ -240,10 +240,10 @@ describe("speechInput - Speech Recognition", () => {
     render(<SpeechInput onTranscriptionChange={handleTranscription} />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await userEvent.setup().click(button);
 
     await waitFor(() => {
@@ -251,15 +251,15 @@ describe("speechInput - Speech Recognition", () => {
     });
 
     // Simulate speech recognition result with final transcript
-    const resultEvent = Object.assign(new Event("result"), {
+    const resultEvent = Object.assign(new Event('result'), {
       resultIndex: 0,
       results: {
         0: {
-          0: { confidence: 0.9, transcript: "Hello world" },
+          0: { confidence: 0.9, transcript: 'Hello world' },
           isFinal: true,
           item: (_index: number) => ({
             confidence: 0.9,
-            transcript: "Hello world",
+            transcript: 'Hello world',
           }),
           length: 1,
         },
@@ -269,11 +269,11 @@ describe("speechInput - Speech Recognition", () => {
     instanceRef.current?.dispatchEvent(resultEvent);
 
     await waitFor(() => {
-      expect(handleTranscription).toHaveBeenCalledWith("Hello world");
+      expect(handleTranscription).toHaveBeenCalledWith('Hello world');
     });
   });
 
-  it("does not call onTranscriptionChange for interim results", async () => {
+  it('does not call onTranscriptionChange for interim results', async () => {
     setupSpeechInputTests();
     const handleTranscription = vi.fn();
     const instanceRef: InstanceRef = { current: null };
@@ -284,10 +284,10 @@ describe("speechInput - Speech Recognition", () => {
     render(<SpeechInput onTranscriptionChange={handleTranscription} />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await userEvent.setup().click(button);
 
     await waitFor(() => {
@@ -295,15 +295,15 @@ describe("speechInput - Speech Recognition", () => {
     });
 
     // Simulate interim result (should not trigger callback)
-    const interimEvent = Object.assign(new Event("result"), {
+    const interimEvent = Object.assign(new Event('result'), {
       resultIndex: 0,
       results: {
         0: {
-          0: { confidence: 0.5, transcript: "Hello" },
+          0: { confidence: 0.5, transcript: 'Hello' },
           isFinal: false,
           item: (_index: number) => ({
             confidence: 0.5,
-            transcript: "Hello",
+            transcript: 'Hello',
           }),
           length: 1,
         },
@@ -314,13 +314,13 @@ describe("speechInput - Speech Recognition", () => {
 
     // Wait a bit to ensure callback wasn't called
     // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, 100);
     });
     expect(handleTranscription).not.toHaveBeenCalled();
   });
 
-  it("handles speech recognition errors and stops listening", async () => {
+  it('handles speech recognition errors and stops listening', async () => {
     setupSpeechInputTests();
     const instanceRef: InstanceRef = { current: null };
 
@@ -330,10 +330,10 @@ describe("speechInput - Speech Recognition", () => {
     render(<SpeechInput />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await userEvent.setup().click(button);
 
     await waitFor(() => {
@@ -341,18 +341,18 @@ describe("speechInput - Speech Recognition", () => {
     });
 
     // Trigger error event
-    const errorEvent = Object.assign(new Event("error"), {
-      error: "no-speech",
+    const errorEvent = Object.assign(new Event('error'), {
+      error: 'no-speech',
     });
     instanceRef.current?.dispatchEvent(errorEvent);
 
     // Button should return to mic icon (not listening state)
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
   });
 
-  it("handles empty transcript gracefully", async () => {
+  it('handles empty transcript gracefully', async () => {
     setupSpeechInputTests();
     const handleTranscription = vi.fn();
     const instanceRef: InstanceRef = { current: null };
@@ -363,10 +363,10 @@ describe("speechInput - Speech Recognition", () => {
     render(<SpeechInput onTranscriptionChange={handleTranscription} />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await userEvent.setup().click(button);
 
     await waitFor(() => {
@@ -374,13 +374,13 @@ describe("speechInput - Speech Recognition", () => {
     });
 
     // Simulate result with empty transcript
-    const emptyEvent = Object.assign(new Event("result"), {
+    const emptyEvent = Object.assign(new Event('result'), {
       resultIndex: 0,
       results: {
         0: {
-          0: { confidence: 0.9, transcript: "" },
+          0: { confidence: 0.9, transcript: '' },
           isFinal: true,
-          item: (_index: number) => ({ confidence: 0.9, transcript: "" }),
+          item: (_index: number) => ({ confidence: 0.9, transcript: '' }),
           length: 1,
         },
         length: 1,
@@ -390,13 +390,13 @@ describe("speechInput - Speech Recognition", () => {
 
     // Wait to ensure callback wasn't called for empty transcript
     // oxlint-disable-next-line eslint-plugin-promise(avoid-new)
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, 100);
     });
     expect(handleTranscription).not.toHaveBeenCalled();
   });
 
-  it("does nothing when clicking button if recognition is not available", async () => {
+  it('does nothing when clicking button if recognition is not available', async () => {
     setupSpeechInputTests();
     // No SpeechRecognition available - delete properties to ensure `in` check fails
     // biome-ignore lint/performance/noDelete: delete required for `in` operator check
@@ -408,7 +408,7 @@ describe("speechInput - Speech Recognition", () => {
 
     render(<SpeechInput />);
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     expect(button).toBeDisabled();
 
     // Try to click (should do nothing)
@@ -418,14 +418,14 @@ describe("speechInput - Speech Recognition", () => {
     expect(button).toBeDisabled();
   });
 
-  it("cleans up recognition on unmount", async () => {
+  it('cleans up recognition on unmount', async () => {
     setupSpeechRecognitionTests();
-    const stopSpy = vi.spyOn(MockSpeechRecognition.prototype, "stop");
+    const stopSpy = vi.spyOn(MockSpeechRecognition.prototype, 'stop');
 
     const { unmount } = render(<SpeechInput />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
     unmount();
@@ -447,7 +447,7 @@ interface MediaRecorderTestContext {
 // Mock MediaRecorder class that captures instances with EventTarget support
 const createMockMediaRecorder = (context: MediaRecorderTestContext) =>
   class MockMediaRecorder {
-    state = "inactive";
+    state = 'inactive';
     // oxlint-disable-next-line typescript-eslint(no-explicit-any)
     ondataavailable: ((event: any) => void) | null = null;
     onstop: (() => void) | null = null;
@@ -487,13 +487,13 @@ const createMockMediaRecorder = (context: MediaRecorderTestContext) =>
     }
 
     start = vi.fn(() => {
-      this.state = "recording";
+      this.state = 'recording';
     });
 
     stop = vi.fn(() => {
-      this.state = "inactive";
+      this.state = 'inactive';
       // Dispatch stop event
-      this.dispatchEvent(new Event("stop"));
+      this.dispatchEvent(new Event('stop'));
     });
   };
 
@@ -522,7 +522,7 @@ const setupMediaRecorderTests = (): MediaRecorderTestContext => {
   (window as any).MediaRecorder = createMockMediaRecorder(context);
 
   // Mock navigator.mediaDevices
-  Object.defineProperty(navigator, "mediaDevices", {
+  Object.defineProperty(navigator, 'mediaDevices', {
     configurable: true,
     value: {
       getUserMedia: vi.fn().mockResolvedValue(context.mockStream),
@@ -533,41 +533,41 @@ const setupMediaRecorderTests = (): MediaRecorderTestContext => {
   return context;
 };
 
-describe("speechInput - MediaRecorder Fallback", () => {
-  it("is disabled when onAudioRecorded is not provided", async () => {
+describe('speechInput - MediaRecorder Fallback', () => {
+  it('is disabled when onAudioRecorded is not provided', async () => {
     setupMediaRecorderTests();
     render(<SpeechInput />);
 
     await waitFor(() => {
-      const button = screen.getByRole("button");
+      const button = screen.getByRole('button');
       expect(button).toBeDisabled();
     });
   });
 
-  it("is enabled when onAudioRecorded is provided", async () => {
+  it('is enabled when onAudioRecorded is provided', async () => {
     setupMediaRecorderTests();
-    const handleAudioRecorded = vi.fn().mockResolvedValue("test transcript");
+    const handleAudioRecorded = vi.fn().mockResolvedValue('test transcript');
 
     render(<SpeechInput onAudioRecorded={handleAudioRecorded} />);
 
     await waitFor(() => {
-      const button = screen.getByRole("button");
+      const button = screen.getByRole('button');
       expect(button).not.toBeDisabled();
     });
   });
 
-  it("starts recording when clicked", async () => {
+  it('starts recording when clicked', async () => {
     const ctx = setupMediaRecorderTests();
     const user = userEvent.setup();
-    const handleAudioRecorded = vi.fn().mockResolvedValue("test transcript");
+    const handleAudioRecorded = vi.fn().mockResolvedValue('test transcript');
 
     render(<SpeechInput onAudioRecorded={handleAudioRecorded} />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
     await waitFor(() => {
@@ -582,24 +582,24 @@ describe("speechInput - MediaRecorder Fallback", () => {
     });
   });
 
-  it("stops recording and transcribes when clicked again", async () => {
+  it('stops recording and transcribes when clicked again', async () => {
     const ctx = setupMediaRecorderTests();
     const user = userEvent.setup();
-    const handleAudioRecorded = vi.fn().mockResolvedValue("transcribed text");
+    const handleAudioRecorded = vi.fn().mockResolvedValue('transcribed text');
     const handleTranscriptionChange = vi.fn();
 
     render(
       <SpeechInput
         onAudioRecorded={handleAudioRecorded}
         onTranscriptionChange={handleTranscriptionChange}
-      />
+      />,
     );
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
 
     // Start recording
     await user.click(button);
@@ -611,8 +611,8 @@ describe("speechInput - MediaRecorder Fallback", () => {
     const [recorder] = ctx.mediaRecorderInstances;
 
     // Simulate data available via dispatchEvent
-    const dataAvailableEvent = Object.assign(new Event("dataavailable"), {
-      data: new Blob(["test"], { type: "audio/webm" }),
+    const dataAvailableEvent = Object.assign(new Event('dataavailable'), {
+      data: new Blob(['test'], { type: 'audio/webm' }),
     });
     recorder.dispatchEvent(dataAvailableEvent);
 
@@ -625,23 +625,23 @@ describe("speechInput - MediaRecorder Fallback", () => {
 
     await waitFor(() => {
       expect(handleTranscriptionChange).toHaveBeenCalledWith(
-        "transcribed text"
+        'transcribed text',
       );
     });
   });
 
-  it("releases microphone tracks on stop", async () => {
+  it('releases microphone tracks on stop', async () => {
     const ctx = setupMediaRecorderTests();
     const user = userEvent.setup();
-    const handleAudioRecorded = vi.fn().mockResolvedValue("text");
+    const handleAudioRecorded = vi.fn().mockResolvedValue('text');
 
     render(<SpeechInput onAudioRecorded={handleAudioRecorded} />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
 
     // Start recording
     await user.click(button);
@@ -653,8 +653,8 @@ describe("speechInput - MediaRecorder Fallback", () => {
     const [recorder] = ctx.mediaRecorderInstances;
 
     // Simulate data available via dispatchEvent
-    const dataAvailableEvent = Object.assign(new Event("dataavailable"), {
-      data: new Blob(["test"], { type: "audio/webm" }),
+    const dataAvailableEvent = Object.assign(new Event('dataavailable'), {
+      data: new Blob(['test'], { type: 'audio/webm' }),
     });
     recorder.dispatchEvent(dataAvailableEvent);
 
@@ -666,26 +666,26 @@ describe("speechInput - MediaRecorder Fallback", () => {
     });
   });
 
-  it("handles transcription errors gracefully", async () => {
+  it('handles transcription errors gracefully', async () => {
     const ctx = setupMediaRecorderTests();
     const user = userEvent.setup();
     const handleAudioRecorded = vi
       .fn()
-      .mockRejectedValue(new Error("Transcription failed"));
+      .mockRejectedValue(new Error('Transcription failed'));
     const handleTranscriptionChange = vi.fn();
 
     render(
       <SpeechInput
         onAudioRecorded={handleAudioRecorded}
         onTranscriptionChange={handleTranscriptionChange}
-      />
+      />,
     );
 
     await waitFor(() => {
-      expect(screen.getByRole("button")).not.toBeDisabled();
+      expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
 
     // Start recording
     await user.click(button);
@@ -697,8 +697,8 @@ describe("speechInput - MediaRecorder Fallback", () => {
     const [recorder] = ctx.mediaRecorderInstances;
 
     // Simulate data available via dispatchEvent
-    const dataAvailableEvent = Object.assign(new Event("dataavailable"), {
-      data: new Blob(["test"], { type: "audio/webm" }),
+    const dataAvailableEvent = Object.assign(new Event('dataavailable'), {
+      data: new Blob(['test'], { type: 'audio/webm' }),
     });
     recorder.dispatchEvent(dataAvailableEvent);
 

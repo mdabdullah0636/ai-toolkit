@@ -82,7 +82,10 @@ run(async () => {
     ],
   });
 
-  console.log('Usage information:', cachedResult.providerMetadata?.anthropic?.usage);
+  console.log(
+    'Usage information:',
+    cachedResult.providerMetadata?.anthropic?.usage,
+  );
 
   // e.g.
   // Usage information: {

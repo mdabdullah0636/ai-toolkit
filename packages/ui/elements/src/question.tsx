@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import type {
   ChangeEvent,
@@ -7,7 +7,7 @@ import type {
   HTMLAttributes,
   MouseEvent,
   ReactNode,
-} from "react";
+} from 'react';
 
 import { Button, Textarea, cn } from '@ai-toolkit/shadcn-ui';
 import {
@@ -16,7 +16,7 @@ import {
   useContext,
   useMemo,
   useState,
-} from "react";
+} from 'react';
 
 export interface QuestionValue {
   selectedValues: readonly string[];
@@ -28,7 +28,7 @@ export interface QuestionResponse {
   text?: string;
 }
 
-type SelectionMode = "multiple" | "single";
+type SelectionMode = 'multiple' | 'single';
 
 interface QuestionContextValue {
   disabled: boolean;
@@ -45,42 +45,42 @@ const useQuestion = () => {
   const context = useContext(QuestionContext);
 
   if (!context) {
-    throw new Error("Question components must be used within Question");
+    throw new Error('Question components must be used within Question');
   }
 
   return context;
 };
 
 export type QuestionProps = Omit<
-  ComponentProps<"form">,
-  "defaultValue" | "onSubmit" | "value"
+  ComponentProps<'form'>,
+  'defaultValue' | 'onSubmit' | 'value'
 > & {
   defaultValue?: QuestionValue;
   disabled?: boolean;
   onSubmit?: (
     response: QuestionResponse,
-    event: FormEvent<HTMLFormElement>
+    event: FormEvent<HTMLFormElement>,
   ) => void | Promise<void>;
   onValueChange?: (value: QuestionValue) => void;
   selectionMode?: SelectionMode;
   value?: QuestionValue;
 };
 
-const EMPTY_VALUE: QuestionValue = { selectedValues: [], text: "" };
+const EMPTY_VALUE: QuestionValue = { selectedValues: [], text: '' };
 
 const getSelectedValues = (
   currentValues: readonly string[],
   optionValue: string,
-  selectionMode: SelectionMode
+  selectionMode: SelectionMode,
 ): readonly string[] => {
   const isSelected = currentValues.includes(optionValue);
 
-  if (selectionMode === "single") {
+  if (selectionMode === 'single') {
     return isSelected ? [] : [optionValue];
   }
 
   if (isSelected) {
-    return currentValues.filter((item) => item !== optionValue);
+    return currentValues.filter(item => item !== optionValue);
   }
 
   return [...currentValues, optionValue];
@@ -93,7 +93,7 @@ export const Question = ({
   disabled = false,
   onSubmit,
   onValueChange,
-  selectionMode = "single",
+  selectionMode = 'single',
   value: controlledValue,
   ...props
 }: QuestionProps) => {
@@ -107,14 +107,14 @@ export const Question = ({
       }
       onValueChange?.(nextValue);
     },
-    [controlledValue, onValueChange]
+    [controlledValue, onValueChange],
   );
 
   const setText = useCallback(
     (text: string) => {
       setValue({ ...value, text });
     },
-    [setValue, value]
+    [setValue, value],
   );
 
   const toggleValue = useCallback(
@@ -122,11 +122,11 @@ export const Question = ({
       const selectedValues = getSelectedValues(
         value.selectedValues,
         optionValue,
-        selectionMode
+        selectionMode,
       );
       setValue({ ...value, selectedValues });
     },
-    [selectionMode, setValue, value]
+    [selectionMode, setValue, value],
   );
 
   const contextValue = useMemo(
@@ -138,7 +138,7 @@ export const Question = ({
       text: value.text,
       toggleValue,
     }),
-    [disabled, selectionMode, setText, toggleValue, value]
+    [disabled, selectionMode, setText, toggleValue, value],
   );
 
   const handleSubmit = useCallback(
@@ -158,18 +158,18 @@ export const Question = ({
           selectedValues: value.selectedValues,
           text: text.length > 0 ? text : undefined,
         },
-        event
+        event,
       );
     },
-    [disabled, onSubmit, value]
+    [disabled, onSubmit, value],
   );
 
   return (
     <QuestionContext.Provider value={contextValue}>
       <form
         className={cn(
-          "space-y-4 rounded-lg border bg-background p-4",
-          className
+          'space-y-4 rounded-lg border bg-background p-4',
+          className,
         )}
         onSubmit={handleSubmit}
         {...props}
@@ -186,7 +186,7 @@ export const QuestionPrompt = ({
   className,
   ...props
 }: QuestionPromptProps) => (
-  <p className={cn("font-medium text-sm", className)} {...props} />
+  <p className={cn('font-medium text-sm', className)} {...props} />
 );
 
 export type QuestionDescriptionProps = HTMLAttributes<HTMLParagraphElement>;
@@ -195,7 +195,7 @@ export const QuestionDescription = ({
   className,
   ...props
 }: QuestionDescriptionProps) => (
-  <p className={cn("text-muted-foreground text-sm", className)} {...props} />
+  <p className={cn('text-muted-foreground text-sm', className)} {...props} />
 );
 
 export type QuestionOptionsProps = HTMLAttributes<HTMLDivElement>;
@@ -208,8 +208,8 @@ export const QuestionOptions = ({
 
   return (
     <div
-      className={cn("flex flex-wrap gap-2", className)}
-      role={selectionMode === "single" ? "radiogroup" : "group"}
+      className={cn('flex flex-wrap gap-2', className)}
+      role={selectionMode === 'single' ? 'radiogroup' : 'group'}
       {...props}
     />
   );
@@ -217,7 +217,7 @@ export const QuestionOptions = ({
 
 export type QuestionOptionProps = Omit<
   ComponentProps<typeof Button>,
-  "value"
+  'value'
 > & {
   value: string;
 };
@@ -233,24 +233,24 @@ export const QuestionOption = ({
 }: QuestionOptionProps) => {
   const question = useQuestion();
   const isSelected = question.selectedValues.includes(value);
-  const role = question.selectionMode === "single" ? "radio" : "checkbox";
+  const role = question.selectionMode === 'single' ? 'radio' : 'checkbox';
   const handleClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       question.toggleValue(value);
       onClick?.(event);
     },
-    [onClick, question, value]
+    [onClick, question, value],
   );
 
   return (
     <Button
       aria-checked={isSelected}
-      className={cn("h-auto whitespace-normal", className)}
+      className={cn('h-auto whitespace-normal', className)}
       disabled={question.disabled || disabled}
       onClick={handleClick}
       role={role}
       type="button"
-      variant={variant ?? (isSelected ? "default" : "outline")}
+      variant={variant ?? (isSelected ? 'default' : 'outline')}
       {...props}
     >
       {children ?? value}
@@ -260,7 +260,7 @@ export const QuestionOption = ({
 
 export type QuestionInputProps = Omit<
   ComponentProps<typeof Textarea>,
-  "defaultValue" | "value"
+  'defaultValue' | 'value'
 >;
 
 export const QuestionInput = ({
@@ -275,12 +275,12 @@ export const QuestionInput = ({
       question.setText(event.currentTarget.value);
       onChange?.(event);
     },
-    [onChange, question]
+    [onChange, question],
   );
 
   return (
     <Textarea
-      className={cn("min-h-20", className)}
+      className={cn('min-h-20', className)}
       disabled={question.disabled || disabled}
       onChange={handleChange}
       value={question.text}
@@ -296,7 +296,7 @@ export const QuestionActions = ({
   ...props
 }: QuestionActionsProps) => (
   <div
-    className={cn("flex items-center justify-end gap-2", className)}
+    className={cn('flex items-center justify-end gap-2', className)}
     {...props}
   />
 );
@@ -306,7 +306,7 @@ export type QuestionSubmitProps = ComponentProps<typeof Button> & {
 };
 
 export const QuestionSubmit = ({
-  children = "Submit",
+  children = 'Submit',
   disabled,
   ...props
 }: QuestionSubmitProps) => {

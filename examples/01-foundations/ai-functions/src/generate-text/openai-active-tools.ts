@@ -15,7 +15,8 @@ run(async () => {
     },
     activeTools: [], // disable all tools
     stopWhen: stepCountIs(5),
-    prompt: 'What is the weather in San Francisco and what attractions should I visit?',
+    prompt:
+      'What is the weather in San Francisco and what attractions should I visit?',
   });
 
   console.log(text);

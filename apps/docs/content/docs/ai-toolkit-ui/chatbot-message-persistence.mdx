@@ -3,7 +3,6 @@ title: Chatbot Message Persistence
 description: Learn how to store and load chat messages in a chatbot.
 ---
 
-
 Being able to store and load chat messages is crucial for most AI chatbots.
 In this guide, we'll show how to implement message persistence with `useChat` and `streamText`.
 
@@ -450,7 +449,11 @@ const {
 On the server, you can then load the previous messages and append the new message to the previous messages. If your messages contain tools, metadata, or custom data parts, you should validate them:
 
 ```tsx title="app/api/chat/route.ts" {2-11,14-18}
-import { convertToModelMessages, UIMessage, validateUIMessages } from 'ai-toolkit';
+import {
+  convertToModelMessages,
+  UIMessage,
+  validateUIMessages,
+} from 'ai-toolkit';
 // import your tools and schemas
 
 export async function POST(req: Request) {

@@ -9,11 +9,12 @@ import { useChat } from '@ai-toolkit/react';
 import { DefaultChatTransport } from 'ai-toolkit';
 
 export default function ChatOpenAIApplyPatch() {
-  const { error, status, sendMessage, messages, regenerate } = useChat<OpenAIApplyPatchMessage>({
-    transport: new DefaultChatTransport({
-      api: '/api/chat-openai-apply-patch',
-    }),
-  });
+  const { error, status, sendMessage, messages, regenerate } =
+    useChat<OpenAIApplyPatchMessage>({
+      transport: new DefaultChatTransport({
+        api: '/api/chat-openai-apply-patch',
+      }),
+    });
 
   return (
     <div className="flex flex-col py-24 mx-auto w-full max-w-4xl stretch">
@@ -38,7 +39,9 @@ export default function ChatOpenAIApplyPatch() {
                     return <ReasoningView part={part} key={index} />;
                   }
                   case 'tool-apply_patch': {
-                    return <OpenAIApplyPatchView invocation={part} key={index} />;
+                    return (
+                      <OpenAIApplyPatchView invocation={part} key={index} />
+                    );
                   }
                 }
               })}

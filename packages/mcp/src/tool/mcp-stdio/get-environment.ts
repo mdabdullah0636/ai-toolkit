@@ -4,7 +4,9 @@
  * @param customEnv - Custom environment variables to merge with default environment variables.
  * @returns The environment variables for the child process.
  */
-export function getEnvironment(customEnv?: Record<string, string>): Record<string, string> {
+export function getEnvironment(
+  customEnv?: Record<string, string>,
+): Record<string, string> {
   const DEFAULT_INHERITED_ENV_VARS =
     globalThis.process.platform === 'win32'
       ? [

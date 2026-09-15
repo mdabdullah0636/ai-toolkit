@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   Sandbox,
@@ -10,87 +10,87 @@ import {
   SandboxTabsBar,
   SandboxTabsList,
   SandboxTabsTrigger,
-} from "./sandbox";
+} from './sandbox';
 
-describe("sandbox", () => {
-  it("renders children", () => {
+describe('sandbox', () => {
+  it('renders children', () => {
     render(<Sandbox>Content</Sandbox>);
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(<Sandbox className="custom">Test</Sandbox>);
-    expect(container.firstChild).toHaveClass("custom");
+    expect(container.firstChild).toHaveClass('custom');
   });
 
-  it("is open by default", () => {
+  it('is open by default', () => {
     const { container } = render(<Sandbox>Content</Sandbox>);
-    expect(container.firstChild).toHaveAttribute("data-state", "open");
+    expect(container.firstChild).toHaveAttribute('data-state', 'open');
   });
 
-  it("has base styles", () => {
+  it('has base styles', () => {
     const { container } = render(<Sandbox>Test</Sandbox>);
-    expect(container.firstChild).toHaveClass("rounded-md");
-    expect(container.firstChild).toHaveClass("border");
+    expect(container.firstChild).toHaveClass('rounded-md');
+    expect(container.firstChild).toHaveClass('border');
   });
 });
 
-describe("sandboxHeader", () => {
-  it("renders title", () => {
+describe('sandboxHeader', () => {
+  it('renders title', () => {
     render(
       <Sandbox>
         <SandboxHeader state="input-available" title="Code Sandbox" />
-      </Sandbox>
+      </Sandbox>,
     );
-    expect(screen.getByText("Code Sandbox")).toBeInTheDocument();
+    expect(screen.getByText('Code Sandbox')).toBeInTheDocument();
   });
 
-  it("shows pending status", () => {
+  it('shows pending status', () => {
     render(
       <Sandbox>
         <SandboxHeader state="input-streaming" title="test" />
-      </Sandbox>
+      </Sandbox>,
     );
-    expect(screen.getByText("Pending")).toBeInTheDocument();
+    expect(screen.getByText('Pending')).toBeInTheDocument();
   });
 
-  it("shows running status", () => {
+  it('shows running status', () => {
     render(
       <Sandbox>
         <SandboxHeader state="input-available" title="test" />
-      </Sandbox>
+      </Sandbox>,
     );
-    expect(screen.getByText("Running")).toBeInTheDocument();
+    expect(screen.getByText('Running')).toBeInTheDocument();
   });
 
-  it("shows completed status", () => {
+  it('shows completed status', () => {
     render(
       <Sandbox>
         <SandboxHeader state="output-available" title="test" />
-      </Sandbox>
+      </Sandbox>,
     );
-    expect(screen.getByText("Completed")).toBeInTheDocument();
+    expect(screen.getByText('Completed')).toBeInTheDocument();
   });
 
-  it("shows error status", () => {
+  it('shows error status', () => {
     render(
       <Sandbox>
         <SandboxHeader state="output-error" title="test" />
-      </Sandbox>
+      </Sandbox>,
     );
-    expect(screen.getByText("Error")).toBeInTheDocument();
+    expect(screen.getByText('Error')).toBeInTheDocument();
   });
 
-  it("has code icon", () => {
+  it('has code icon', () => {
     const { container } = render(
       <Sandbox>
         <SandboxHeader state="input-available" title="test" />
-      </Sandbox>
+      </Sandbox>,
     );
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(
       <Sandbox>
         <SandboxHeader
@@ -98,54 +98,54 @@ describe("sandboxHeader", () => {
           state="input-available"
           title="test"
         />
-      </Sandbox>
+      </Sandbox>,
     );
-    const trigger = screen.getByRole("button");
-    expect(trigger).toHaveClass("custom-header");
+    const trigger = screen.getByRole('button');
+    expect(trigger).toHaveClass('custom-header');
   });
 
-  it("toggles content on click", async () => {
+  it('toggles content on click', async () => {
     const user = userEvent.setup();
     const { container } = render(
       <Sandbox>
         <SandboxHeader state="input-available" title="test" />
         <SandboxContent>Hidden content</SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
 
-    expect(container.firstChild).toHaveAttribute("data-state", "open");
+    expect(container.firstChild).toHaveAttribute('data-state', 'open');
 
-    const trigger = screen.getByRole("button");
+    const trigger = screen.getByRole('button');
     await user.click(trigger);
 
-    expect(container.firstChild).toHaveAttribute("data-state", "closed");
+    expect(container.firstChild).toHaveAttribute('data-state', 'closed');
   });
 });
 
-describe("sandboxContent", () => {
-  it("renders content", () => {
+describe('sandboxContent', () => {
+  it('renders content', () => {
     render(
       <Sandbox defaultOpen>
         <SandboxHeader state="input-available" title="test" />
         <SandboxContent>Sandbox details</SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
-    expect(screen.getByText("Sandbox details")).toBeInTheDocument();
+    expect(screen.getByText('Sandbox details')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(
       <Sandbox defaultOpen>
         <SandboxContent className="custom-content">Content</SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
-    const content = screen.getByText("Content").closest("[class*='custom']");
-    expect(content).toHaveClass("custom-content");
+    const content = screen.getByText('Content').closest("[class*='custom']");
+    expect(content).toHaveClass('custom-content');
   });
 });
 
-describe("sandboxTabs", () => {
-  it("renders tabs", () => {
+describe('sandboxTabs', () => {
+  it('renders tabs', () => {
     render(
       <Sandbox defaultOpen>
         <SandboxContent>
@@ -158,13 +158,13 @@ describe("sandboxTabs", () => {
             </SandboxTabsBar>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
-    expect(screen.getByText("Code")).toBeInTheDocument();
-    expect(screen.getByText("Output")).toBeInTheDocument();
+    expect(screen.getByText('Code')).toBeInTheDocument();
+    expect(screen.getByText('Output')).toBeInTheDocument();
   });
 
-  it("switches tabs on click", async () => {
+  it('switches tabs on click', async () => {
     const user = userEvent.setup();
     render(
       <Sandbox defaultOpen>
@@ -180,17 +180,17 @@ describe("sandboxTabs", () => {
             <SandboxTabContent value="output">Output content</SandboxTabContent>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
 
-    expect(screen.getByText("Code content")).toBeInTheDocument();
+    expect(screen.getByText('Code content')).toBeInTheDocument();
 
-    await user.click(screen.getByText("Output"));
+    await user.click(screen.getByText('Output'));
 
-    expect(screen.getByText("Output content")).toBeInTheDocument();
+    expect(screen.getByText('Output content')).toBeInTheDocument();
   });
 
-  it("calls onValueChange when tab changes", async () => {
+  it('calls onValueChange when tab changes', async () => {
     const onValueChange = vi.fn();
     const user = userEvent.setup();
     render(
@@ -205,15 +205,15 @@ describe("sandboxTabs", () => {
             </SandboxTabsBar>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
 
-    await user.click(screen.getByText("Output"));
+    await user.click(screen.getByText('Output'));
 
-    expect(onValueChange).toHaveBeenCalledWith("output");
+    expect(onValueChange).toHaveBeenCalledWith('output');
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <Sandbox defaultOpen>
         <SandboxContent>
@@ -225,34 +225,34 @@ describe("sandboxTabs", () => {
             </SandboxTabsBar>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
-    expect(container.querySelector(".custom-tabs")).toBeInTheDocument();
+    expect(container.querySelector('.custom-tabs')).toBeInTheDocument();
   });
 });
 
-describe("sandboxTabsBar", () => {
-  it("renders children", () => {
+describe('sandboxTabsBar', () => {
+  it('renders children', () => {
     render(
       <SandboxTabsBar>
         <span>Bar content</span>
-      </SandboxTabsBar>
+      </SandboxTabsBar>,
     );
-    expect(screen.getByText("Bar content")).toBeInTheDocument();
+    expect(screen.getByText('Bar content')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <SandboxTabsBar className="custom-bar">Content</SandboxTabsBar>
+      <SandboxTabsBar className="custom-bar">Content</SandboxTabsBar>,
     );
-    expect(container.firstChild).toHaveClass("custom-bar");
-    expect(container.firstChild).toHaveClass("border-t");
-    expect(container.firstChild).toHaveClass("border-b");
+    expect(container.firstChild).toHaveClass('custom-bar');
+    expect(container.firstChild).toHaveClass('border-t');
+    expect(container.firstChild).toHaveClass('border-b');
   });
 });
 
-describe("sandboxTabsList", () => {
-  it("applies custom className", () => {
+describe('sandboxTabsList', () => {
+  it('applies custom className', () => {
     render(
       <Sandbox defaultOpen>
         <SandboxContent>
@@ -264,16 +264,16 @@ describe("sandboxTabsList", () => {
             </SandboxTabsBar>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
-    const list = screen.getByRole("tablist");
-    expect(list).toHaveClass("custom-list");
-    expect(list).toHaveClass("bg-transparent");
+    const list = screen.getByRole('tablist');
+    expect(list).toHaveClass('custom-list');
+    expect(list).toHaveClass('bg-transparent');
   });
 });
 
-describe("sandboxTabsTrigger", () => {
-  it("applies custom className", () => {
+describe('sandboxTabsTrigger', () => {
+  it('applies custom className', () => {
     render(
       <Sandbox defaultOpen>
         <SandboxContent>
@@ -287,13 +287,13 @@ describe("sandboxTabsTrigger", () => {
             </SandboxTabsBar>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
-    const trigger = screen.getByRole("tab");
-    expect(trigger).toHaveClass("custom-trigger");
+    const trigger = screen.getByRole('tab');
+    expect(trigger).toHaveClass('custom-trigger');
   });
 
-  it("shows active state", () => {
+  it('shows active state', () => {
     render(
       <Sandbox defaultOpen>
         <SandboxContent>
@@ -305,15 +305,15 @@ describe("sandboxTabsTrigger", () => {
             </SandboxTabsBar>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
-    const trigger = screen.getByRole("tab");
-    expect(trigger).toHaveAttribute("data-state", "active");
+    const trigger = screen.getByRole('tab');
+    expect(trigger).toHaveAttribute('data-state', 'active');
   });
 });
 
-describe("sandboxTabContent", () => {
-  it("renders content for active tab", () => {
+describe('sandboxTabContent', () => {
+  it('renders content for active tab', () => {
     render(
       <Sandbox defaultOpen>
         <SandboxContent>
@@ -326,12 +326,12 @@ describe("sandboxTabContent", () => {
             <SandboxTabContent value="code">Tab content</SandboxTabContent>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
-    expect(screen.getByText("Tab content")).toBeInTheDocument();
+    expect(screen.getByText('Tab content')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(
       <Sandbox defaultOpen>
         <SandboxContent>
@@ -346,15 +346,15 @@ describe("sandboxTabContent", () => {
             </SandboxTabContent>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
-    const tabPanel = screen.getByRole("tabpanel");
-    expect(tabPanel).toHaveClass("custom-content");
+    const tabPanel = screen.getByRole('tabpanel');
+    expect(tabPanel).toHaveClass('custom-content');
   });
 });
 
-describe("sandbox integration", () => {
-  it("renders complete sandbox with tabs", async () => {
+describe('sandbox integration', () => {
+  it('renders complete sandbox with tabs', async () => {
     const user = userEvent.setup();
     render(
       <Sandbox defaultOpen>
@@ -371,23 +371,23 @@ describe("sandbox integration", () => {
             <SandboxTabContent value="output">Output content</SandboxTabContent>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
 
     // Check header
-    expect(screen.getByText("Python Sandbox")).toBeInTheDocument();
-    expect(screen.getByText("Completed")).toBeInTheDocument();
+    expect(screen.getByText('Python Sandbox')).toBeInTheDocument();
+    expect(screen.getByText('Completed')).toBeInTheDocument();
 
     // Check tabs
-    expect(screen.getByText("Code")).toBeInTheDocument();
-    expect(screen.getByText("Output")).toBeInTheDocument();
+    expect(screen.getByText('Code')).toBeInTheDocument();
+    expect(screen.getByText('Output')).toBeInTheDocument();
 
     // Switch to output
-    await user.click(screen.getByText("Output"));
-    expect(screen.getByText("Output content")).toBeInTheDocument();
+    await user.click(screen.getByText('Output'));
+    expect(screen.getByText('Output content')).toBeInTheDocument();
   });
 
-  it("can be controlled externally", async () => {
+  it('can be controlled externally', async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
 
@@ -405,10 +405,10 @@ describe("sandbox integration", () => {
             <SandboxTabContent value="output">Output content</SandboxTabContent>
           </SandboxTabs>
         </SandboxContent>
-      </Sandbox>
+      </Sandbox>,
     );
 
-    await user.click(screen.getByText("Output"));
-    expect(onValueChange).toHaveBeenCalledWith("output");
+    await user.click(screen.getByText('Output'));
+    expect(onValueChange).toHaveBeenCalledWith('output');
   });
 });

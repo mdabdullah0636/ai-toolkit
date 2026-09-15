@@ -1,6 +1,9 @@
 import { LanguageModelV3Prompt } from '@ai-toolkit/provider';
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
-import { convertReadableStreamToArray, isNodeVersion } from '@ai-toolkit/provider-utils/test';
+import {
+  convertReadableStreamToArray,
+  isNodeVersion,
+} from '@ai-toolkit/provider-utils/test';
 import { createCohere } from './cohere-provider';
 import { describe, it, expect, vi } from 'vitest';
 
@@ -33,7 +36,9 @@ describe('doGenerate', () => {
     generation_id = 'dad0c7cd-7982-42a7-acfb-706ccf598291',
     headers,
   }: {
-    content?: Array<{ type: 'text'; text: string } | { type: 'thinking'; thinking: string }>;
+    content?: Array<
+      { type: 'text'; text: string } | { type: 'thinking'; thinking: string }
+    >;
     tool_calls?: any;
     finish_reason?: string;
     tokens?: {
@@ -832,7 +837,10 @@ describe('doStream', () => {
     finish_reason = 'COMPLETE',
     headers,
   }: {
-    content?: Array<{ type: 'text'; deltas: string[] } | { type: 'thinking'; deltas: string[] }>;
+    content?: Array<
+      | { type: 'text'; deltas: string[] }
+      | { type: 'thinking'; deltas: string[] }
+    >;
     usage?: {
       input_tokens: number;
       output_tokens: number;
@@ -1214,24 +1222,29 @@ describe('doStream', () => {
 
     // Check if the tool call ID is the same in the tool call delta and the tool call
     const toolCallIds = responseArray
-      .filter(chunk => chunk.type === 'tool-input-delta' || chunk.type === 'tool-call')
+      .filter(
+        chunk =>
+          chunk.type === 'tool-input-delta' || chunk.type === 'tool-call',
+      )
       .map(chunk => (chunk.type === 'tool-call' ? chunk.toolCallId : chunk.id));
 
     expect(new Set(toolCallIds)).toStrictEqual(new Set(['test-id-1']));
   });
 
-  it.skipIf(isNodeVersion(20))('should handle unparsable stream parts', async () => {
-    server.urls['https://api.cohere.com/v2/chat'].response = {
-      type: 'stream-chunks',
-      chunks: [`event: foo-message\ndata: {unparsable}\n\n`],
-    };
+  it.skipIf(isNodeVersion(20))(
+    'should handle unparsable stream parts',
+    async () => {
+      server.urls['https://api.cohere.com/v2/chat'].response = {
+        type: 'stream-chunks',
+        chunks: [`event: foo-message\ndata: {unparsable}\n\n`],
+      };
 
-    const { stream } = await model.doStream({
-      prompt: TEST_PROMPT,
-      includeRawChunks: false,
-    });
+      const { stream } = await model.doStream({
+        prompt: TEST_PROMPT,
+        includeRawChunks: false,
+      });
 
-    expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+      expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
         [
           {
             "type": "stream-start",
@@ -1265,7 +1278,8 @@ describe('doStream', () => {
           },
         ]
       `);
-  });
+    },
+  );
 
   it('should expose the raw response headers', async () => {
     prepareStreamResponse({

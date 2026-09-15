@@ -1,5 +1,9 @@
 import type { GoogleGenerativeAIProviderMetadata } from '@ai-toolkit/google';
-import type { EmbeddingModelV3, ImageModelV3, LanguageModelV3 } from '@ai-toolkit/provider';
+import type {
+  EmbeddingModelV3,
+  ImageModelV3,
+  LanguageModelV3,
+} from '@ai-toolkit/provider';
 import {
   APICallError,
   embed,
@@ -129,7 +133,9 @@ const shouldRunTests = (
   capabilities: ModelCapabilities | undefined,
   requiredCapabilities: Capability[],
 ) => {
-  return capabilities ? requiredCapabilities.every(cap => capabilities.includes(cap)) : false;
+  return capabilities
+    ? requiredCapabilities.every(cap => capabilities.includes(cap))
+    : false;
 };
 
 function describeIfCapability(
@@ -162,596 +168,684 @@ export function createFeatureTestSuite({
       describe.each(createModelObjects(models.languageModels))(
         'Language Model: $modelId',
         ({ model, capabilities }) => {
-          describeIfCapability(capabilities, ['textCompletion'], 'Basic Text Generation', () => {
-            it('should generate text', async () => {
-              const result = await generateText({
-                model,
-                prompt: 'Write a haiku about programming.',
-              });
-
-              expect(result.text).toBeTruthy();
-              if (!customAssertions.skipUsage) {
-                expect(result.usage?.totalTokens).toBeGreaterThan(0);
-              }
-            });
-
-            it('should generate text with system prompt', async () => {
-              const result = await generateText({
-                model,
-                messages: [
-                  {
-                    role: 'system',
-                    content: 'You are a helpful assistant.',
-                  },
-                  {
-                    role: 'user',
-                    content: [
-                      {
-                        type: 'text',
-                        text: 'Write a haiku about programming.',
-                      },
-                    ],
-                  },
-                ],
-              });
-
-              expect(result.text).toBeTruthy();
-              expect(result.usage?.totalTokens).toBeGreaterThan(0);
-            });
-
-            it('should stream text', async () => {
-              const result = streamText({
-                model,
-                prompt: 'Count from 1 to 5 slowly.',
-              });
-
-              const chunks: string[] = [];
-              for await (const chunk of result.textStream) {
-                chunks.push(chunk);
-              }
-
-              expect(chunks.length).toBeGreaterThan(0);
-              if (!customAssertions.skipUsage) {
-                expect((await result.usage)?.totalTokens).toBeGreaterThan(0);
-              }
-            });
-          });
-
-          describeIfCapability(capabilities, ['objectGeneration'], 'Object Generation', () => {
-            it('should generate basic blog metadata', async () => {
-              const result = await generateObject({
-                model,
-                schema: z.object({
-                  title: z.string(),
-                  tags: z.array(z.string()),
-                }),
-                prompt: 'Generate metadata for a blog post about TypeScript.',
-              });
-
-              expect(result.object.title).toBeTruthy();
-              expect(Array.isArray(result.object.tags)).toBe(true);
-              if (!customAssertions.skipUsage) {
-                expect(result.usage?.totalTokens).toBeGreaterThan(0);
-              }
-            });
-
-            it('should stream RPG character list', async () => {
-              const result = streamObject({
-                model,
-                schema: z.object({
-                  characters: z.array(
-                    z.object({
-                      name: z.string(),
-                      class: z.string().describe('Character class, e.g. warrior, mage, or thief.'),
-                      description: z.string(),
-                    }),
-                  ),
-                }),
-                prompt: 'Generate 3 RPG character descriptions.',
-              });
-
-              const parts = [];
-              for await (const part of result.partialObjectStream) {
-                parts.push(part);
-              }
-
-              expect(parts.length).toBeGreaterThan(0);
-              if (!customAssertions.skipUsage) {
-                expect((await result.usage).totalTokens).toBeGreaterThan(0);
-              }
-            });
-
-            it('should generate a simple object', async () => {
-              const result = await generateObject({
-                model,
-                schema: z.object({
-                  name: z.string(),
-                  age: z.number(),
-                }),
-                prompt: 'Generate details for a person.',
-              });
-
-              expect(result.object.name).toBeTruthy();
-              expect(typeof result.object.age).toBe('number');
-              if (!customAssertions.skipUsage) {
-                expect(result.usage?.totalTokens).toBeGreaterThan(0);
-              }
-            });
-
-            it('should generate multiple simple items', async () => {
-              const result = await generateObject({
-                model,
-                schema: z.object({
-                  items: z
-                    .array(
-                      z.object({
-                        name: z.string(),
-                        quantity: z.number(),
-                      }),
-                    )
-                    .length(3),
-                }),
-                prompt: 'Generate a shopping list with 3 items.',
-              });
-
-              expect(result.object.items).toHaveLength(3);
-              expect(result.object.items[0].name).toBeTruthy();
-              expect(typeof result.object.items[0].quantity).toBe('number');
-            });
-
-            it('should generate nested objects', async () => {
-              const result = await generateObject({
-                model,
-                schema: z.object({
-                  user: z.object({
-                    name: z.string(),
-                    contact: z.object({
-                      email: z.string(),
-                      phone: z.string(),
-                    }),
-                  }),
-                  preferences: z.object({
-                    theme: z.enum(['light', 'dark']),
-                    notifications: z.boolean(),
-                  }),
-                }),
-                prompt: 'Generate a user profile with contact details and preferences.',
-              });
-
-              // Verify the nested structure is present and populated
-              expect(typeof result.object.user.name).toBe('string');
-              expect(typeof result.object.user.contact.email).toBe('string');
-              expect(typeof result.object.user.contact.phone).toBe('string');
-              expect(['light', 'dark']).toContain(result.object.preferences.theme);
-              expect(typeof result.object.preferences.notifications).toBe('boolean');
-            });
-
-            it('should generate arrays of objects', async () => {
-              const result = await generateObject({
-                model,
-                schema: z.object({
-                  posts: z
-                    .array(
-                      z.object({
-                        title: z.string(),
-                        comments: z
-                          .array(
-                            z.object({
-                              author: z.string(),
-                              text: z.string(),
-                            }),
-                          )
-                          .min(1),
-                      }),
-                    )
-                    .min(2),
-                }),
-                prompt: 'Generate a blog with multiple posts and comments.',
-              });
-
-              expect(result.object.posts.length).toBeGreaterThanOrEqual(2);
-              expect(result.object.posts[0].comments.length).toBeGreaterThanOrEqual(1);
-            });
-
-            it('should handle cross-referenced schemas', async () => {
-              const BaseProduct = z.object({
-                name: z.string(),
-                category: z.string(),
-                usage_instructions: z.string(),
-              });
-
-              const MorningProduct = BaseProduct.extend({
-                morning_specific_instructions: z.string(),
-              });
-
-              const EveningProduct = BaseProduct.extend({
-                evening_specific_instructions: z.string(),
-              });
-
-              const result = await generateObject({
-                model,
-                schema: z.object({
-                  morning_routine: z.array(MorningProduct),
-                  evening_routine: z.array(EveningProduct),
-                  notes: z.string(),
-                }),
-                prompt: 'Generate a skincare routine with morning and evening products.',
-              });
-
-              expect(result.object.morning_routine.length).toBeGreaterThan(0);
-              expect(result.object.evening_routine.length).toBeGreaterThan(0);
-              expect(result.object.morning_routine[0].morning_specific_instructions).toBeTruthy();
-              expect(result.object.evening_routine[0].evening_specific_instructions).toBeTruthy();
-            });
-
-            it('should handle equivalent flat schemas', async () => {
-              const result = await generateObject({
-                model,
-                schema: z.object({
-                  morning_routine: z.array(
-                    z.object({
-                      name: z.string(),
-                      category: z.string(),
-                      usage_instructions: z.string(),
-                      morning_specific_instructions: z.string(),
-                    }),
-                  ),
-                  evening_routine: z.array(
-                    z.object({
-                      name: z.string(),
-                      category: z.string(),
-                      usage_instructions: z.string(),
-                      evening_specific_instructions: z.string(),
-                    }),
-                  ),
-                  notes: z.string(),
-                }),
-                prompt: 'Generate a skincare routine with morning and evening products.',
-              });
-
-              expect(result.object.morning_routine.length).toBeGreaterThan(0);
-              expect(result.object.evening_routine.length).toBeGreaterThan(0);
-              expect(result.object.morning_routine[0].morning_specific_instructions).toBeTruthy();
-              expect(result.object.evening_routine[0].evening_specific_instructions).toBeTruthy();
-            });
-
-            it('should stream complex nested objects', async () => {
-              const result = streamObject({
-                model,
-                schema: z.object({
-                  chapters: z.array(
-                    z.object({
-                      title: z.string(),
-                      sections: z.array(
-                        z.object({
-                          heading: z.string(),
-                          content: z.string(),
-                          subsections: z.array(
-                            z.object({
-                              title: z.string(),
-                              paragraphs: z.array(z.string()),
-                            }),
-                          ),
-                        }),
-                      ),
-                    }),
-                  ),
-                }),
-                prompt: 'Generate a book outline with chapters, sections, and subsections.',
-              });
-
-              const parts = [];
-              for await (const part of result.partialObjectStream) {
-                parts.push(part);
-              }
-
-              const finalResult = await result.object;
-              expect(finalResult.chapters.length).toBeGreaterThan(0);
-              expect(finalResult.chapters[0].sections.length).toBeGreaterThan(0);
-              expect(parts.length).toBeGreaterThan(0);
-            });
-
-            describe('Schema and Prompt Variations', () => {
-              it('should generate with field descriptions', async () => {
-                const result = await generateObject({
+          describeIfCapability(
+            capabilities,
+            ['textCompletion'],
+            'Basic Text Generation',
+            () => {
+              it('should generate text', async () => {
+                const result = await generateText({
                   model,
-                  schema: z.object({
-                    title: z.string().describe('A catchy title for the article'),
-                    summary: z.string().describe('A 2-3 sentence overview of the main points'),
-                    readingTime: z.number().describe('Estimated reading time in minutes'),
-                    targetAudience: z.array(z.string()).describe('The intended reader groups'),
-                  }),
-                  prompt: 'Generate metadata for a technical article.',
+                  prompt: 'Write a haiku about programming.',
                 });
 
-                expect(result.object.title).toBeTruthy();
-                expect(result.object.summary.length).toBeGreaterThan(50);
+                expect(result.text).toBeTruthy();
+                if (!customAssertions.skipUsage) {
+                  expect(result.usage?.totalTokens).toBeGreaterThan(0);
+                }
               });
 
-              it('should handle detailed system prompts', async () => {
-                const result = await generateObject({
+              it('should generate text with system prompt', async () => {
+                const result = await generateText({
                   model,
-                  schema: z.object({
-                    recipe: z.object({
-                      name: z.string(),
-                      ingredients: z.array(z.string()),
-                      steps: z.array(z.string()),
-                    }),
-                  }),
                   messages: [
                     {
                       role: 'system',
-                      content:
-                        'You are a professional chef. Always provide detailed, precise cooking instructions.',
-                    },
-                    { role: 'user', content: 'Create a pasta recipe.' },
-                  ],
-                });
-
-                expect(result.object.recipe.steps.length).toBeGreaterThan(3);
-                expect(result.object.recipe.ingredients.length).toBeGreaterThan(3);
-              });
-
-              it('should generate complex objects with both descriptions and system context', async () => {
-                const ProductSchema = z.object({
-                  name: z.string().describe('Product name, should be unique and memorable'),
-                  price: z.number().describe('Price in USD, should be competitive for market'),
-                  features: z.array(z.string()).describe('Key selling points, 3-5 items'),
-                  marketingPlan: z
-                    .object({
-                      targetMarket: z.string().describe('Primary customer demographic'),
-                      channels: z.array(z.string()).describe('Marketing channels to use'),
-                      budget: z.number().describe('Proposed marketing budget in USD'),
-                    })
-                    .describe('Marketing strategy details'),
-                });
-
-                const result = await generateObject({
-                  model,
-                  schemaName: 'product',
-                  schemaDescription: 'A product listing',
-                  schema: ProductSchema,
-                  messages: [
-                    {
-                      role: 'system',
-                      content:
-                        'You are a senior product manager with 15 years of experience in tech products.',
+                      content: 'You are a helpful assistant.',
                     },
                     {
                       role: 'user',
-                      content: 'Create a product plan for a new smart home device.',
+                      content: [
+                        {
+                          type: 'text',
+                          text: 'Write a haiku about programming.',
+                        },
+                      ],
                     },
                   ],
                 });
 
-                expect(result.object.features.length).toBeGreaterThanOrEqual(3);
-                expect(result.object.marketingPlan.budget).toBeGreaterThan(0);
-                expect(result.object.price).toBeGreaterThan(0);
-              });
-            });
-          });
-
-          describeIfCapability(capabilities, ['toolCalls'], 'Tool Calls', () => {
-            it('should generate text with tool calls', async () => {
-              const result = await generateText({
-                model,
-                prompt: 'What is 2+2? Use the calculator tool to compute this.',
-                tools: {
-                  calculator: {
-                    inputSchema: z.object({
-                      expression: z.string().describe('The mathematical expression to evaluate'),
-                    }),
-                    execute: async ({ expression }) => eval(expression).toString(),
-                  },
-                },
-              });
-
-              expect(result.toolCalls?.[0]).toMatchObject({
-                toolName: 'calculator',
-                input: { expression: '2+2' },
-              });
-              expect(result.toolResults?.[0].output).toBe('4');
-              if (!customAssertions.skipUsage) {
+                expect(result.text).toBeTruthy();
                 expect(result.usage?.totalTokens).toBeGreaterThan(0);
-              }
-            });
+              });
 
-            it('should stream text with tool calls', async () => {
-              let toolCallCount = 0;
-              const result = streamText({
-                model,
-                prompt: 'What is 2+2? Use the calculator tool to compute this.',
-                tools: {
-                  calculator: {
-                    inputSchema: z.object({
-                      expression: z.string(),
+              it('should stream text', async () => {
+                const result = streamText({
+                  model,
+                  prompt: 'Count from 1 to 5 slowly.',
+                });
+
+                const chunks: string[] = [];
+                for await (const chunk of result.textStream) {
+                  chunks.push(chunk);
+                }
+
+                expect(chunks.length).toBeGreaterThan(0);
+                if (!customAssertions.skipUsage) {
+                  expect((await result.usage)?.totalTokens).toBeGreaterThan(0);
+                }
+              });
+            },
+          );
+
+          describeIfCapability(
+            capabilities,
+            ['objectGeneration'],
+            'Object Generation',
+            () => {
+              it('should generate basic blog metadata', async () => {
+                const result = await generateObject({
+                  model,
+                  schema: z.object({
+                    title: z.string(),
+                    tags: z.array(z.string()),
+                  }),
+                  prompt: 'Generate metadata for a blog post about TypeScript.',
+                });
+
+                expect(result.object.title).toBeTruthy();
+                expect(Array.isArray(result.object.tags)).toBe(true);
+                if (!customAssertions.skipUsage) {
+                  expect(result.usage?.totalTokens).toBeGreaterThan(0);
+                }
+              });
+
+              it('should stream RPG character list', async () => {
+                const result = streamObject({
+                  model,
+                  schema: z.object({
+                    characters: z.array(
+                      z.object({
+                        name: z.string(),
+                        class: z
+                          .string()
+                          .describe(
+                            'Character class, e.g. warrior, mage, or thief.',
+                          ),
+                        description: z.string(),
+                      }),
+                    ),
+                  }),
+                  prompt: 'Generate 3 RPG character descriptions.',
+                });
+
+                const parts = [];
+                for await (const part of result.partialObjectStream) {
+                  parts.push(part);
+                }
+
+                expect(parts.length).toBeGreaterThan(0);
+                if (!customAssertions.skipUsage) {
+                  expect((await result.usage).totalTokens).toBeGreaterThan(0);
+                }
+              });
+
+              it('should generate a simple object', async () => {
+                const result = await generateObject({
+                  model,
+                  schema: z.object({
+                    name: z.string(),
+                    age: z.number(),
+                  }),
+                  prompt: 'Generate details for a person.',
+                });
+
+                expect(result.object.name).toBeTruthy();
+                expect(typeof result.object.age).toBe('number');
+                if (!customAssertions.skipUsage) {
+                  expect(result.usage?.totalTokens).toBeGreaterThan(0);
+                }
+              });
+
+              it('should generate multiple simple items', async () => {
+                const result = await generateObject({
+                  model,
+                  schema: z.object({
+                    items: z
+                      .array(
+                        z.object({
+                          name: z.string(),
+                          quantity: z.number(),
+                        }),
+                      )
+                      .length(3),
+                  }),
+                  prompt: 'Generate a shopping list with 3 items.',
+                });
+
+                expect(result.object.items).toHaveLength(3);
+                expect(result.object.items[0].name).toBeTruthy();
+                expect(typeof result.object.items[0].quantity).toBe('number');
+              });
+
+              it('should generate nested objects', async () => {
+                const result = await generateObject({
+                  model,
+                  schema: z.object({
+                    user: z.object({
+                      name: z.string(),
+                      contact: z.object({
+                        email: z.string(),
+                        phone: z.string(),
+                      }),
                     }),
-                    execute: async ({ expression }) => {
-                      toolCallCount++;
-                      return eval(expression).toString();
+                    preferences: z.object({
+                      theme: z.enum(['light', 'dark']),
+                      notifications: z.boolean(),
+                    }),
+                  }),
+                  prompt:
+                    'Generate a user profile with contact details and preferences.',
+                });
+
+                // Verify the nested structure is present and populated
+                expect(typeof result.object.user.name).toBe('string');
+                expect(typeof result.object.user.contact.email).toBe('string');
+                expect(typeof result.object.user.contact.phone).toBe('string');
+                expect(['light', 'dark']).toContain(
+                  result.object.preferences.theme,
+                );
+                expect(typeof result.object.preferences.notifications).toBe(
+                  'boolean',
+                );
+              });
+
+              it('should generate arrays of objects', async () => {
+                const result = await generateObject({
+                  model,
+                  schema: z.object({
+                    posts: z
+                      .array(
+                        z.object({
+                          title: z.string(),
+                          comments: z
+                            .array(
+                              z.object({
+                                author: z.string(),
+                                text: z.string(),
+                              }),
+                            )
+                            .min(1),
+                        }),
+                      )
+                      .min(2),
+                  }),
+                  prompt: 'Generate a blog with multiple posts and comments.',
+                });
+
+                expect(result.object.posts.length).toBeGreaterThanOrEqual(2);
+                expect(
+                  result.object.posts[0].comments.length,
+                ).toBeGreaterThanOrEqual(1);
+              });
+
+              it('should handle cross-referenced schemas', async () => {
+                const BaseProduct = z.object({
+                  name: z.string(),
+                  category: z.string(),
+                  usage_instructions: z.string(),
+                });
+
+                const MorningProduct = BaseProduct.extend({
+                  morning_specific_instructions: z.string(),
+                });
+
+                const EveningProduct = BaseProduct.extend({
+                  evening_specific_instructions: z.string(),
+                });
+
+                const result = await generateObject({
+                  model,
+                  schema: z.object({
+                    morning_routine: z.array(MorningProduct),
+                    evening_routine: z.array(EveningProduct),
+                    notes: z.string(),
+                  }),
+                  prompt:
+                    'Generate a skincare routine with morning and evening products.',
+                });
+
+                expect(result.object.morning_routine.length).toBeGreaterThan(0);
+                expect(result.object.evening_routine.length).toBeGreaterThan(0);
+                expect(
+                  result.object.morning_routine[0]
+                    .morning_specific_instructions,
+                ).toBeTruthy();
+                expect(
+                  result.object.evening_routine[0]
+                    .evening_specific_instructions,
+                ).toBeTruthy();
+              });
+
+              it('should handle equivalent flat schemas', async () => {
+                const result = await generateObject({
+                  model,
+                  schema: z.object({
+                    morning_routine: z.array(
+                      z.object({
+                        name: z.string(),
+                        category: z.string(),
+                        usage_instructions: z.string(),
+                        morning_specific_instructions: z.string(),
+                      }),
+                    ),
+                    evening_routine: z.array(
+                      z.object({
+                        name: z.string(),
+                        category: z.string(),
+                        usage_instructions: z.string(),
+                        evening_specific_instructions: z.string(),
+                      }),
+                    ),
+                    notes: z.string(),
+                  }),
+                  prompt:
+                    'Generate a skincare routine with morning and evening products.',
+                });
+
+                expect(result.object.morning_routine.length).toBeGreaterThan(0);
+                expect(result.object.evening_routine.length).toBeGreaterThan(0);
+                expect(
+                  result.object.morning_routine[0]
+                    .morning_specific_instructions,
+                ).toBeTruthy();
+                expect(
+                  result.object.evening_routine[0]
+                    .evening_specific_instructions,
+                ).toBeTruthy();
+              });
+
+              it('should stream complex nested objects', async () => {
+                const result = streamObject({
+                  model,
+                  schema: z.object({
+                    chapters: z.array(
+                      z.object({
+                        title: z.string(),
+                        sections: z.array(
+                          z.object({
+                            heading: z.string(),
+                            content: z.string(),
+                            subsections: z.array(
+                              z.object({
+                                title: z.string(),
+                                paragraphs: z.array(z.string()),
+                              }),
+                            ),
+                          }),
+                        ),
+                      }),
+                    ),
+                  }),
+                  prompt:
+                    'Generate a book outline with chapters, sections, and subsections.',
+                });
+
+                const parts = [];
+                for await (const part of result.partialObjectStream) {
+                  parts.push(part);
+                }
+
+                const finalResult = await result.object;
+                expect(finalResult.chapters.length).toBeGreaterThan(0);
+                expect(finalResult.chapters[0].sections.length).toBeGreaterThan(
+                  0,
+                );
+                expect(parts.length).toBeGreaterThan(0);
+              });
+
+              describe('Schema and Prompt Variations', () => {
+                it('should generate with field descriptions', async () => {
+                  const result = await generateObject({
+                    model,
+                    schema: z.object({
+                      title: z
+                        .string()
+                        .describe('A catchy title for the article'),
+                      summary: z
+                        .string()
+                        .describe('A 2-3 sentence overview of the main points'),
+                      readingTime: z
+                        .number()
+                        .describe('Estimated reading time in minutes'),
+                      targetAudience: z
+                        .array(z.string())
+                        .describe('The intended reader groups'),
+                    }),
+                    prompt: 'Generate metadata for a technical article.',
+                  });
+
+                  expect(result.object.title).toBeTruthy();
+                  expect(result.object.summary.length).toBeGreaterThan(50);
+                });
+
+                it('should handle detailed system prompts', async () => {
+                  const result = await generateObject({
+                    model,
+                    schema: z.object({
+                      recipe: z.object({
+                        name: z.string(),
+                        ingredients: z.array(z.string()),
+                        steps: z.array(z.string()),
+                      }),
+                    }),
+                    messages: [
+                      {
+                        role: 'system',
+                        content:
+                          'You are a professional chef. Always provide detailed, precise cooking instructions.',
+                      },
+                      { role: 'user', content: 'Create a pasta recipe.' },
+                    ],
+                  });
+
+                  expect(result.object.recipe.steps.length).toBeGreaterThan(3);
+                  expect(
+                    result.object.recipe.ingredients.length,
+                  ).toBeGreaterThan(3);
+                });
+
+                it('should generate complex objects with both descriptions and system context', async () => {
+                  const ProductSchema = z.object({
+                    name: z
+                      .string()
+                      .describe('Product name, should be unique and memorable'),
+                    price: z
+                      .number()
+                      .describe(
+                        'Price in USD, should be competitive for market',
+                      ),
+                    features: z
+                      .array(z.string())
+                      .describe('Key selling points, 3-5 items'),
+                    marketingPlan: z
+                      .object({
+                        targetMarket: z
+                          .string()
+                          .describe('Primary customer demographic'),
+                        channels: z
+                          .array(z.string())
+                          .describe('Marketing channels to use'),
+                        budget: z
+                          .number()
+                          .describe('Proposed marketing budget in USD'),
+                      })
+                      .describe('Marketing strategy details'),
+                  });
+
+                  const result = await generateObject({
+                    model,
+                    schemaName: 'product',
+                    schemaDescription: 'A product listing',
+                    schema: ProductSchema,
+                    messages: [
+                      {
+                        role: 'system',
+                        content:
+                          'You are a senior product manager with 15 years of experience in tech products.',
+                      },
+                      {
+                        role: 'user',
+                        content:
+                          'Create a product plan for a new smart home device.',
+                      },
+                    ],
+                  });
+
+                  expect(result.object.features.length).toBeGreaterThanOrEqual(
+                    3,
+                  );
+                  expect(result.object.marketingPlan.budget).toBeGreaterThan(0);
+                  expect(result.object.price).toBeGreaterThan(0);
+                });
+              });
+            },
+          );
+
+          describeIfCapability(
+            capabilities,
+            ['toolCalls'],
+            'Tool Calls',
+            () => {
+              it('should generate text with tool calls', async () => {
+                const result = await generateText({
+                  model,
+                  prompt:
+                    'What is 2+2? Use the calculator tool to compute this.',
+                  tools: {
+                    calculator: {
+                      inputSchema: z.object({
+                        expression: z
+                          .string()
+                          .describe('The mathematical expression to evaluate'),
+                      }),
+                      execute: async ({ expression }) =>
+                        eval(expression).toString(),
                     },
                   },
-                },
+                });
+
+                expect(result.toolCalls?.[0]).toMatchObject({
+                  toolName: 'calculator',
+                  input: { expression: '2+2' },
+                });
+                expect(result.toolResults?.[0].output).toBe('4');
+                if (!customAssertions.skipUsage) {
+                  expect(result.usage?.totalTokens).toBeGreaterThan(0);
+                }
               });
 
-              const parts = [];
-              for await (const part of result.fullStream) {
-                parts.push(part);
-              }
-
-              expect(parts.some(part => part.type === 'tool-call')).toBe(true);
-              expect(toolCallCount).toBe(1);
-              if (!customAssertions.skipUsage) {
-                expect((await result.usage).totalTokens).toBeGreaterThan(0);
-              }
-            });
-
-            it('should handle multiple sequential tool calls', async () => {
-              let weatherCalls = 0;
-              let musicCalls = 0;
-              const sfTemp = 15;
-              const result = await generateText({
-                model,
-                prompt:
-                  'Check the temperature in San Francisco and play music that matches the weather. Be sure to report the chosen song name.',
-                tools: {
-                  getTemperature: {
-                    inputSchema: z.object({
-                      city: z.string().describe('The city to check temperature for'),
-                    }),
-                    execute: async ({ city }) => {
-                      weatherCalls++;
-                      return `${sfTemp}`;
+              it('should stream text with tool calls', async () => {
+                let toolCallCount = 0;
+                const result = streamText({
+                  model,
+                  prompt:
+                    'What is 2+2? Use the calculator tool to compute this.',
+                  tools: {
+                    calculator: {
+                      inputSchema: z.object({
+                        expression: z.string(),
+                      }),
+                      execute: async ({ expression }) => {
+                        toolCallCount++;
+                        return eval(expression).toString();
+                      },
                     },
                   },
-                  playWeatherMusic: {
-                    inputSchema: z.object({
-                      temperature: z.number().describe('Temperature in Celsius'),
-                    }),
-                    execute: async ({ temperature }) => {
-                      musicCalls++;
-                      if (temperature <= 10) {
-                        return 'Playing "Winter Winds" by Mumford & Sons';
-                      } else if (temperature <= 20) {
-                        return 'Playing "Foggy Day" by Frank Sinatra';
-                      } else if (temperature <= 30) {
-                        return 'Playing "Here Comes the Sun" by The Beatles';
-                      } else {
-                        return 'Playing "Hot Hot Hot" by Buster Poindexter';
-                      }
+                });
+
+                const parts = [];
+                for await (const part of result.fullStream) {
+                  parts.push(part);
+                }
+
+                expect(parts.some(part => part.type === 'tool-call')).toBe(
+                  true,
+                );
+                expect(toolCallCount).toBe(1);
+                if (!customAssertions.skipUsage) {
+                  expect((await result.usage).totalTokens).toBeGreaterThan(0);
+                }
+              });
+
+              it('should handle multiple sequential tool calls', async () => {
+                let weatherCalls = 0;
+                let musicCalls = 0;
+                const sfTemp = 15;
+                const result = await generateText({
+                  model,
+                  prompt:
+                    'Check the temperature in San Francisco and play music that matches the weather. Be sure to report the chosen song name.',
+                  tools: {
+                    getTemperature: {
+                      inputSchema: z.object({
+                        city: z
+                          .string()
+                          .describe('The city to check temperature for'),
+                      }),
+                      execute: async ({ city }) => {
+                        weatherCalls++;
+                        return `${sfTemp}`;
+                      },
+                    },
+                    playWeatherMusic: {
+                      inputSchema: z.object({
+                        temperature: z
+                          .number()
+                          .describe('Temperature in Celsius'),
+                      }),
+                      execute: async ({ temperature }) => {
+                        musicCalls++;
+                        if (temperature <= 10) {
+                          return 'Playing "Winter Winds" by Mumford & Sons';
+                        } else if (temperature <= 20) {
+                          return 'Playing "Foggy Day" by Frank Sinatra';
+                        } else if (temperature <= 30) {
+                          return 'Playing "Here Comes the Sun" by The Beatles';
+                        } else {
+                          return 'Playing "Hot Hot Hot" by Buster Poindexter';
+                        }
+                      },
                     },
                   },
-                },
-                stopWhen: stepCountIs(10),
+                  stopWhen: stepCountIs(10),
+                });
+
+                expect(weatherCalls).toBe(1);
+                expect(musicCalls).toBe(1);
+                expect(result.text).toContain('Foggy Day');
+              });
+            },
+          );
+
+          describeIfCapability(
+            capabilities,
+            ['imageInput'],
+            'Image Input',
+            () => {
+              it('should generate text with image URL input', async () => {
+                const result = await generateText({
+                  model,
+                  messages: [
+                    {
+                      role: 'user',
+                      content: [
+                        {
+                          type: 'text',
+                          text: 'Describe the image in detail.',
+                        },
+                        {
+                          type: 'image',
+                          image:
+                            'https://github.com/khulnasoft/ai-toolkit/blob/main/examples/ai-functions/data/comic-cat.png?raw=true',
+                        },
+                      ],
+                    },
+                  ],
+                });
+
+                expect(result.text).toBeTruthy();
+                expect(result.text.toLowerCase()).toContain('cat');
+                if (!customAssertions.skipUsage) {
+                  expect(result.usage?.totalTokens).toBeGreaterThan(0);
+                }
               });
 
-              expect(weatherCalls).toBe(1);
-              expect(musicCalls).toBe(1);
-              expect(result.text).toContain('Foggy Day');
-            });
-          });
+              it('should generate text with image input', async () => {
+                const result = await generateText({
+                  model,
+                  messages: [
+                    {
+                      role: 'user',
+                      content: [
+                        {
+                          type: 'text',
+                          text: 'Describe the image in detail.',
+                        },
+                        {
+                          type: 'image',
+                          // TODO(shaper): Some tests omit the .toString() below.
+                          image: fs
+                            .readFileSync('./data/comic-cat.png')
+                            .toString('base64'),
+                        },
+                      ],
+                    },
+                  ],
+                });
 
-          describeIfCapability(capabilities, ['imageInput'], 'Image Input', () => {
-            it('should generate text with image URL input', async () => {
-              const result = await generateText({
-                model,
-                messages: [
-                  {
-                    role: 'user',
-                    content: [
-                      {
-                        type: 'text',
-                        text: 'Describe the image in detail.',
-                      },
-                      {
-                        type: 'image',
-                        image:
-                          'https://github.com/khulnasoft/ai-toolkit/blob/main/examples/ai-functions/data/comic-cat.png?raw=true',
-                      },
-                    ],
-                  },
-                ],
+                expect(result.text.toLowerCase()).toContain('cat');
+                if (!customAssertions.skipUsage) {
+                  expect(result.usage?.totalTokens).toBeGreaterThan(0);
+                }
               });
 
-              expect(result.text).toBeTruthy();
-              expect(result.text.toLowerCase()).toContain('cat');
-              if (!customAssertions.skipUsage) {
-                expect(result.usage?.totalTokens).toBeGreaterThan(0);
-              }
-            });
+              it('should stream text with image URL input', async () => {
+                const result = streamText({
+                  model,
+                  messages: [
+                    {
+                      role: 'user',
+                      content: [
+                        {
+                          type: 'text',
+                          text: 'Describe the image in detail.',
+                        },
+                        {
+                          type: 'image',
+                          image:
+                            'https://github.com/khulnasoft/ai-toolkit/blob/main/examples/ai-functions/data/comic-cat.png?raw=true',
+                        },
+                      ],
+                    },
+                  ],
+                });
 
-            it('should generate text with image input', async () => {
-              const result = await generateText({
-                model,
-                messages: [
-                  {
-                    role: 'user',
-                    content: [
-                      {
-                        type: 'text',
-                        text: 'Describe the image in detail.',
-                      },
-                      {
-                        type: 'image',
-                        // TODO(shaper): Some tests omit the .toString() below.
-                        image: fs.readFileSync('./data/comic-cat.png').toString('base64'),
-                      },
-                    ],
-                  },
-                ],
-              });
+                const chunks: string[] = [];
+                for await (const chunk of result.textStream) {
+                  chunks.push(chunk);
+                }
 
-              expect(result.text.toLowerCase()).toContain('cat');
-              if (!customAssertions.skipUsage) {
-                expect(result.usage?.totalTokens).toBeGreaterThan(0);
-              }
-            });
-
-            it('should stream text with image URL input', async () => {
-              const result = streamText({
-                model,
-                messages: [
-                  {
-                    role: 'user',
-                    content: [
-                      {
-                        type: 'text',
-                        text: 'Describe the image in detail.',
-                      },
-                      {
-                        type: 'image',
-                        image:
-                          'https://github.com/khulnasoft/ai-toolkit/blob/main/examples/ai-functions/data/comic-cat.png?raw=true',
-                      },
-                    ],
-                  },
-                ],
-              });
-
-              const chunks: string[] = [];
-              for await (const chunk of result.textStream) {
-                chunks.push(chunk);
-              }
-
-              const fullText = chunks.join('');
-              expect(chunks.length).toBeGreaterThan(0);
-              expect(fullText.toLowerCase()).toContain('cat');
-              expect((await result.usage)?.totalTokens).toBeGreaterThan(0);
-            });
-
-            it('should stream text with image input', async () => {
-              const result = streamText({
-                model,
-                messages: [
-                  {
-                    role: 'user',
-                    content: [
-                      {
-                        type: 'text',
-                        text: 'Describe the image in detail.',
-                      },
-                      {
-                        type: 'image',
-                        image: fs.readFileSync('./data/comic-cat.png'),
-                      },
-                    ],
-                  },
-                ],
-              });
-
-              const chunks: string[] = [];
-              for await (const chunk of result.textStream) {
-                chunks.push(chunk);
-              }
-
-              const fullText = chunks.join('');
-              expect(fullText.toLowerCase()).toContain('cat');
-              expect(chunks.length).toBeGreaterThan(0);
-              if (!customAssertions.skipUsage) {
+                const fullText = chunks.join('');
+                expect(chunks.length).toBeGreaterThan(0);
+                expect(fullText.toLowerCase()).toContain('cat');
                 expect((await result.usage)?.totalTokens).toBeGreaterThan(0);
-              }
-            });
-          });
+              });
+
+              it('should stream text with image input', async () => {
+                const result = streamText({
+                  model,
+                  messages: [
+                    {
+                      role: 'user',
+                      content: [
+                        {
+                          type: 'text',
+                          text: 'Describe the image in detail.',
+                        },
+                        {
+                          type: 'image',
+                          image: fs.readFileSync('./data/comic-cat.png'),
+                        },
+                      ],
+                    },
+                  ],
+                });
+
+                const chunks: string[] = [];
+                for await (const chunk of result.textStream) {
+                  chunks.push(chunk);
+                }
+
+                const fullText = chunks.join('');
+                expect(fullText.toLowerCase()).toContain('cat');
+                expect(chunks.length).toBeGreaterThan(0);
+                if (!customAssertions.skipUsage) {
+                  expect((await result.usage)?.totalTokens).toBeGreaterThan(0);
+                }
+              });
+            },
+          );
 
           describeIfCapability(capabilities, ['pdfInput'], 'PDF Input', () => {
             it('should generate text with PDF input', async () => {
@@ -767,7 +861,9 @@ export function createFeatureTestSuite({
                       },
                       {
                         type: 'file',
-                        data: fs.readFileSync('./data/ai.pdf').toString('base64'),
+                        data: fs
+                          .readFileSync('./data/ai.pdf')
+                          .toString('base64'),
                         mediaType: 'application/pdf',
                       },
                     ],
@@ -781,102 +877,114 @@ export function createFeatureTestSuite({
             });
           });
 
-          describeIfCapability(capabilities, ['audioInput'], 'Audio Input', () => {
-            it('should generate text from audio input', async () => {
-              const result = await generateText({
-                model,
-                messages: [
-                  {
-                    role: 'user',
-                    content: [
-                      {
-                        type: 'text',
-                        text: 'Output a transcript of spoken words. Break up transcript lines when there are pauses. Include timestamps in the format of HH:MM:SS.SSS.',
-                      },
-                      {
-                        type: 'file',
-                        data: Buffer.from(fs.readFileSync('./data/galileo.mp3')),
-                        mediaType: 'audio/mpeg',
-                      },
-                    ],
-                  },
-                ],
+          describeIfCapability(
+            capabilities,
+            ['audioInput'],
+            'Audio Input',
+            () => {
+              it('should generate text from audio input', async () => {
+                const result = await generateText({
+                  model,
+                  messages: [
+                    {
+                      role: 'user',
+                      content: [
+                        {
+                          type: 'text',
+                          text: 'Output a transcript of spoken words. Break up transcript lines when there are pauses. Include timestamps in the format of HH:MM:SS.SSS.',
+                        },
+                        {
+                          type: 'file',
+                          data: Buffer.from(
+                            fs.readFileSync('./data/galileo.mp3'),
+                          ),
+                          mediaType: 'audio/mpeg',
+                        },
+                      ],
+                    },
+                  ],
+                });
+                expect(result.text).toBeTruthy();
+                expect(result.text.toLowerCase()).toContain('galileo');
+                expect(result.usage?.totalTokens).toBeGreaterThan(0);
               });
-              expect(result.text).toBeTruthy();
-              expect(result.text.toLowerCase()).toContain('galileo');
-              expect(result.usage?.totalTokens).toBeGreaterThan(0);
-            });
-          });
+            },
+          );
 
-          describeIfCapability(capabilities, ['searchGrounding'], 'Search Grounding', () => {
-            it('should include search grounding metadata in response when search grounding is enabled', async () => {
-              const result = await generateText({
-                model,
-                prompt: 'What is the current population of Tokyo?',
-              });
+          describeIfCapability(
+            capabilities,
+            ['searchGrounding'],
+            'Search Grounding',
+            () => {
+              it('should include search grounding metadata in response when search grounding is enabled', async () => {
+                const result = await generateText({
+                  model,
+                  prompt: 'What is the current population of Tokyo?',
+                });
 
-              expect(result.text).toBeTruthy();
-              expect(result.text.toLowerCase()).toContain('tokyo');
-              expect(result.usage?.totalTokens).toBeGreaterThan(0);
+                expect(result.text).toBeTruthy();
+                expect(result.text.toLowerCase()).toContain('tokyo');
+                expect(result.usage?.totalTokens).toBeGreaterThan(0);
 
-              const metadata = result.providerMetadata?.google as
-                | GoogleGenerativeAIProviderMetadata
-                | undefined;
-              verifyGroundingMetadata(metadata?.groundingMetadata);
-            });
-
-            it('should include search grounding metadata when streaming with search grounding enabled', async () => {
-              const result = streamText({
-                model,
-                prompt: 'What is the current population of Tokyo?',
-              });
-
-              const chunks: string[] = [];
-              for await (const chunk of result.textStream) {
-                chunks.push(chunk);
-              }
-
-              const metadata = (await result.providerMetadata)?.google as
-                | GoogleGenerativeAIProviderMetadata
-                | undefined;
-
-              const completeText = chunks.join('');
-              expect(completeText).toBeTruthy();
-              expect(completeText.toLowerCase()).toContain('tokyo');
-              expect((await result.usage)?.totalTokens).toBeGreaterThan(0);
-
-              verifyGroundingMetadata(metadata?.groundingMetadata);
-            });
-
-            it('should include safety ratings in response when search grounding is enabled', async () => {
-              const result = await generateText({
-                model,
-                prompt: 'What is the current population of Tokyo?',
+                const metadata = result.providerMetadata?.google as
+                  | GoogleGenerativeAIProviderMetadata
+                  | undefined;
+                verifyGroundingMetadata(metadata?.groundingMetadata);
               });
 
-              const metadata = result.providerMetadata?.google as
-                | GoogleGenerativeAIProviderMetadata
-                | undefined;
-              verifySafetyRatings(metadata?.safetyRatings ?? []);
-            });
+              it('should include search grounding metadata when streaming with search grounding enabled', async () => {
+                const result = streamText({
+                  model,
+                  prompt: 'What is the current population of Tokyo?',
+                });
 
-            it('should include safety ratings when streaming with search grounding enabled', async () => {
-              const result = streamText({
-                model,
-                prompt: 'What is the current population of Tokyo?',
+                const chunks: string[] = [];
+                for await (const chunk of result.textStream) {
+                  chunks.push(chunk);
+                }
+
+                const metadata = (await result.providerMetadata)?.google as
+                  | GoogleGenerativeAIProviderMetadata
+                  | undefined;
+
+                const completeText = chunks.join('');
+                expect(completeText).toBeTruthy();
+                expect(completeText.toLowerCase()).toContain('tokyo');
+                expect((await result.usage)?.totalTokens).toBeGreaterThan(0);
+
+                verifyGroundingMetadata(metadata?.groundingMetadata);
               });
 
-              for await (const _ of result.textStream) {
-                // consume the stream
-              }
+              it('should include safety ratings in response when search grounding is enabled', async () => {
+                const result = await generateText({
+                  model,
+                  prompt: 'What is the current population of Tokyo?',
+                });
 
-              const metadata = (await result.providerMetadata)?.google as
-                | GoogleGenerativeAIProviderMetadata
-                | undefined;
+                const metadata = result.providerMetadata?.google as
+                  | GoogleGenerativeAIProviderMetadata
+                  | undefined;
+                verifySafetyRatings(metadata?.safetyRatings ?? []);
+              });
 
-              verifySafetyRatings(metadata?.safetyRatings ?? []);
-            });
-          });
+              it('should include safety ratings when streaming with search grounding enabled', async () => {
+                const result = streamText({
+                  model,
+                  prompt: 'What is the current population of Tokyo?',
+                });
+
+                for await (const _ of result.textStream) {
+                  // consume the stream
+                }
+
+                const metadata = (await result.providerMetadata)?.google as
+                  | GoogleGenerativeAIProviderMetadata
+                  | undefined;
+
+                verifySafetyRatings(metadata?.safetyRatings ?? []);
+              });
+            },
+          );
         },
       );
 
@@ -940,33 +1048,42 @@ export function createFeatureTestSuite({
         describe.each(createModelObjects(models.embeddingModels))(
           'Embedding Model: $modelId',
           ({ model, capabilities }) => {
-            describeIfCapability(capabilities, ['embedding'], 'Embedding Generation', () => {
-              it('should generate single embedding', async () => {
-                const result = await embed({
-                  model,
-                  value: 'This is a test sentence for embedding.',
+            describeIfCapability(
+              capabilities,
+              ['embedding'],
+              'Embedding Generation',
+              () => {
+                it('should generate single embedding', async () => {
+                  const result = await embed({
+                    model,
+                    value: 'This is a test sentence for embedding.',
+                  });
+
+                  expect(Array.isArray(result.embedding)).toBe(true);
+                  expect(result.embedding.length).toBeGreaterThan(0);
+                  if (!customAssertions.skipUsage) {
+                    expect(result.usage?.tokens).toBeGreaterThan(0);
+                  }
                 });
 
-                expect(Array.isArray(result.embedding)).toBe(true);
-                expect(result.embedding.length).toBeGreaterThan(0);
-                if (!customAssertions.skipUsage) {
-                  expect(result.usage?.tokens).toBeGreaterThan(0);
-                }
-              });
+                it('should generate multiple embeddings', async () => {
+                  const result = await embedMany({
+                    model,
+                    values: [
+                      'First test sentence.',
+                      'Second test sentence.',
+                      'Third test sentence.',
+                    ],
+                  });
 
-              it('should generate multiple embeddings', async () => {
-                const result = await embedMany({
-                  model,
-                  values: ['First test sentence.', 'Second test sentence.', 'Third test sentence.'],
+                  expect(Array.isArray(result.embeddings)).toBe(true);
+                  expect(result.embeddings.length).toBe(3);
+                  if (!customAssertions.skipUsage) {
+                    expect(result.usage?.tokens).toBeGreaterThan(0);
+                  }
                 });
-
-                expect(Array.isArray(result.embeddings)).toBe(true);
-                expect(result.embeddings.length).toBe(3);
-                if (!customAssertions.skipUsage) {
-                  expect(result.usage?.tokens).toBeGreaterThan(0);
-                }
-              });
-            });
+              },
+            );
           },
         );
       }
@@ -975,22 +1092,27 @@ export function createFeatureTestSuite({
         describe.each(createModelObjects(models.imageModels))(
           'Image Model: $modelId',
           ({ model, capabilities }) => {
-            describeIfCapability(capabilities, ['imageGeneration'], 'Image Generation', () => {
-              it('should generate an image', async () => {
-                const result = await generateImage({
-                  model,
-                  prompt: 'A cute cartoon cat',
+            describeIfCapability(
+              capabilities,
+              ['imageGeneration'],
+              'Image Generation',
+              () => {
+                it('should generate an image', async () => {
+                  const result = await generateImage({
+                    model,
+                    prompt: 'A cute cartoon cat',
+                  });
+
+                  // Verify we got a base64 string back
+                  expect(result.image.base64).toBeTruthy();
+                  expect(typeof result.image.base64).toBe('string');
+
+                  // Check the decoded length is reasonable (at least 10KB)
+                  const decoded = Buffer.from(result.image.base64, 'base64');
+                  expect(decoded.length).toBeGreaterThan(10 * 1024);
                 });
-
-                // Verify we got a base64 string back
-                expect(result.image.base64).toBeTruthy();
-                expect(typeof result.image.base64).toBe('string');
-
-                // Check the decoded length is reasonable (at least 10KB)
-                const decoded = Buffer.from(result.image.base64, 'base64');
-                expect(decoded.length).toBeGreaterThan(10 * 1024);
-              });
-            });
+              },
+            );
           },
         );
       }

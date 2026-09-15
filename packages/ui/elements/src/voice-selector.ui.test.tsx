@@ -1,7 +1,7 @@
 // oxlint-disable eslint-plugin-react-perf(jsx-no-new-function-as-prop)
-import { render, screen, waitFor } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
-import { useCallback } from "react";
+import { render, screen, waitFor } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { useCallback } from 'react';
 
 import {
   useVoiceSelector,
@@ -23,56 +23,56 @@ import {
   VoiceSelectorSeparator,
   VoiceSelectorShortcut,
   VoiceSelectorTrigger,
-} from "./voice-selector";
+} from './voice-selector';
 
 // Helper components for test display
 const ValueDisplay = ({ value }: { value: string | null }) => (
-  <div data-testid="value">{value ?? "none"}</div>
+  <div data-testid="value">{value ?? 'none'}</div>
 );
 
 // oxlint-disable-next-line eslint-plugin-jest(no-conditional-in-test)
 const OpenDisplay = ({ open }: { open: boolean }) => (
-  <div data-testid="open">{open ? "open" : "closed"}</div>
+  <div data-testid="open">{open ? 'open' : 'closed'}</div>
 );
 
-describe("voiceSelector", () => {
-  it("renders children", () => {
+describe('voiceSelector', () => {
+  it('renders children', () => {
     render(
       <VoiceSelector>
         <div>Content</div>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("starts closed by default", () => {
+  it('starts closed by default', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorTrigger>Open</VoiceSelectorTrigger>
         <VoiceSelectorContent>
           <div>Dialog content</div>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
     // Content should not be visible initially
-    expect(screen.queryByText("Dialog content")).not.toBeInTheDocument();
+    expect(screen.queryByText('Dialog content')).not.toBeInTheDocument();
   });
 
-  it("can start open with defaultOpen", () => {
+  it('can start open with defaultOpen', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorTrigger>Open</VoiceSelectorTrigger>
         <VoiceSelectorContent>
           <div>Dialog content</div>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Dialog content")).toBeInTheDocument();
+    expect(screen.getByText('Dialog content')).toBeInTheDocument();
   });
 
-  it("calls onOpenChange when opened", async () => {
+  it('calls onOpenChange when opened', async () => {
     const onOpenChange = vi.fn();
     const user = userEvent.setup();
 
@@ -82,16 +82,16 @@ describe("voiceSelector", () => {
         <VoiceSelectorContent>
           <div>Dialog content</div>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const trigger = screen.getByText("Open");
+    const trigger = screen.getByText('Open');
     await user.click(trigger);
 
     expect(onOpenChange).toHaveBeenCalledWith(true);
   });
 
-  it("calls onValueChange when voice is selected", async () => {
+  it('calls onValueChange when voice is selected', async () => {
     const onValueChange = vi.fn();
     const user = userEvent.setup();
 
@@ -101,25 +101,25 @@ describe("voiceSelector", () => {
         <VoiceSelectorContent>
           <VoiceSelectorList>
             <VoiceSelectorItem
-              onSelect={() => onValueChange("voice-1")}
+              onSelect={() => onValueChange('voice-1')}
               value="voice-1"
             >
               Voice 1
             </VoiceSelectorItem>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const item = screen.getByText("Voice 1");
+    const item = screen.getByText('Voice 1');
     await user.click(item);
 
     await waitFor(() => {
-      expect(onValueChange).toHaveBeenCalledWith("voice-1");
+      expect(onValueChange).toHaveBeenCalledWith('voice-1');
     });
   });
 
-  it("supports controlled open state", () => {
+  it('supports controlled open state', () => {
     const onOpenChange = vi.fn();
 
     const { rerender } = render(
@@ -128,10 +128,10 @@ describe("voiceSelector", () => {
         <VoiceSelectorContent>
           <div>Dialog content</div>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.queryByText("Dialog content")).not.toBeInTheDocument();
+    expect(screen.queryByText('Dialog content')).not.toBeInTheDocument();
 
     rerender(
       <VoiceSelector onOpenChange={onOpenChange} open={true}>
@@ -139,13 +139,13 @@ describe("voiceSelector", () => {
         <VoiceSelectorContent>
           <div>Dialog content</div>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Dialog content")).toBeInTheDocument();
+    expect(screen.getByText('Dialog content')).toBeInTheDocument();
   });
 
-  it("supports controlled value state", () => {
+  it('supports controlled value state', () => {
     const TestComponent = ({ value: _value }: { value: string }) => {
       const { value: contextValue } = useVoiceSelector();
       return <div data-testid="value">{contextValue}</div>;
@@ -154,14 +154,14 @@ describe("voiceSelector", () => {
     render(
       <VoiceSelector value="voice-1">
         <TestComponent value="voice-1" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByTestId("value")).toHaveTextContent("voice-1");
+    expect(screen.getByTestId('value')).toHaveTextContent('voice-1');
   });
 
-  it("throws error when hook used outside provider", () => {
-    const spy = vi.spyOn(console, "error").mockImplementation(vi.fn());
+  it('throws error when hook used outside provider', () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
     const TestComponent = () => {
       useVoiceSelector();
@@ -169,64 +169,64 @@ describe("voiceSelector", () => {
     };
 
     expect(() => render(<TestComponent />)).toThrow(
-      "VoiceSelector components must be used within VoiceSelector"
+      'VoiceSelector components must be used within VoiceSelector',
     );
 
     spy.mockRestore();
   });
 });
 
-describe("voiceSelectorContent", () => {
-  it("renders with default title", () => {
+describe('voiceSelectorContent', () => {
+  it('renders with default title', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent>Content</VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("renders with custom title", () => {
+  it('renders with custom title', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent title="Select AI Voice">
           Content
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent className="custom-class">
           Content
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
     // Content is rendered with custom class (p-0 is default, custom-class is added)
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorInput", () => {
-  it("renders search input", () => {
+describe('voiceSelectorInput', () => {
+  it('renders search input', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent>
           <VoiceSelectorInput placeholder="Search voices..." />
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByPlaceholderText("Search voices...")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search voices...')).toBeInTheDocument();
   });
 
-  it("accepts user input", async () => {
+  it('accepts user input', async () => {
     const user = userEvent.setup();
 
     render(
@@ -234,18 +234,18 @@ describe("voiceSelectorInput", () => {
         <VoiceSelectorContent>
           <VoiceSelectorInput placeholder="Search" />
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const input = screen.getByPlaceholderText("Search");
-    await user.type(input, "Nova");
+    const input = screen.getByPlaceholderText('Search');
+    await user.type(input, 'Nova');
 
-    expect(input).toHaveValue("Nova");
+    expect(input).toHaveValue('Nova');
   });
 });
 
-describe("voiceSelectorList", () => {
-  it("renders list items", () => {
+describe('voiceSelectorList', () => {
+  it('renders list items', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent>
@@ -254,16 +254,16 @@ describe("voiceSelectorList", () => {
             <VoiceSelectorItem value="voice-2">Voice 2</VoiceSelectorItem>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Voice 1")).toBeInTheDocument();
-    expect(screen.getByText("Voice 2")).toBeInTheDocument();
+    expect(screen.getByText('Voice 1')).toBeInTheDocument();
+    expect(screen.getByText('Voice 2')).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorEmpty", () => {
-  it("renders default empty message", () => {
+describe('voiceSelectorEmpty', () => {
+  it('renders default empty message', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent>
@@ -272,15 +272,15 @@ describe("voiceSelectorEmpty", () => {
             <VoiceSelectorEmpty />
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
     // Empty message shows when there are no results
-    const emptyElement = screen.getByRole("presentation");
+    const emptyElement = screen.getByRole('presentation');
     expect(emptyElement).toBeInTheDocument();
   });
 
-  it("renders custom empty message", () => {
+  it('renders custom empty message', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent>
@@ -288,15 +288,15 @@ describe("voiceSelectorEmpty", () => {
             <VoiceSelectorEmpty>No voices available</VoiceSelectorEmpty>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("No voices available")).toBeInTheDocument();
+    expect(screen.getByText('No voices available')).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorGroup", () => {
-  it("renders group heading", () => {
+describe('voiceSelectorGroup', () => {
+  it('renders group heading', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent>
@@ -306,15 +306,15 @@ describe("voiceSelectorGroup", () => {
             </VoiceSelectorGroup>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Professional")).toBeInTheDocument();
+    expect(screen.getByText('Professional')).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorItem", () => {
-  it("renders item content", () => {
+describe('voiceSelectorItem', () => {
+  it('renders item content', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent>
@@ -322,13 +322,13 @@ describe("voiceSelectorItem", () => {
             <VoiceSelectorItem value="alloy">Alloy</VoiceSelectorItem>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Alloy")).toBeInTheDocument();
+    expect(screen.getByText('Alloy')).toBeInTheDocument();
   });
 
-  it("calls onSelect when clicked", async () => {
+  it('calls onSelect when clicked', async () => {
     const onSelect = vi.fn();
     const user = userEvent.setup();
 
@@ -341,188 +341,188 @@ describe("voiceSelectorItem", () => {
             </VoiceSelectorItem>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const item = screen.getByText("Alloy");
+    const item = screen.getByText('Alloy');
     await user.click(item);
 
     await waitFor(() => {
-      expect(onSelect).toHaveBeenCalledWith("alloy");
+      expect(onSelect).toHaveBeenCalledWith('alloy');
     });
   });
 });
 
-describe("voiceSelectorGender", () => {
-  it("renders male icon", () => {
+describe('voiceSelectorGender', () => {
+  it('renders male icon', () => {
     const { container } = render(
       <VoiceSelector>
         <VoiceSelectorGender value="male" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it("renders female icon", () => {
+  it('renders female icon', () => {
     const { container } = render(
       <VoiceSelector>
         <VoiceSelectorGender value="female" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it("renders transgender icon", () => {
+  it('renders transgender icon', () => {
     const { container } = render(
       <VoiceSelector>
         <VoiceSelectorGender value="transgender" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it("renders non-binary icon", () => {
+  it('renders non-binary icon', () => {
     const { container } = render(
       <VoiceSelector>
         <VoiceSelectorGender value="non-binary" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it("renders default icon for unknown value", () => {
+  it('renders default icon for unknown value', () => {
     const { container } = render(
       <VoiceSelector>
         <VoiceSelectorGender />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it("renders custom children override", () => {
+  it('renders custom children override', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorGender value="male">Custom</VoiceSelectorGender>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Custom")).toBeInTheDocument();
+    expect(screen.getByText('Custom')).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorAccent", () => {
-  it("renders American flag emoji", () => {
+describe('voiceSelectorAccent', () => {
+  it('renders American flag emoji', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorAccent value="american" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("🇺🇸")).toBeInTheDocument();
+    expect(screen.getByText('🇺🇸')).toBeInTheDocument();
   });
 
-  it("renders British flag emoji", () => {
+  it('renders British flag emoji', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorAccent value="british" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("🇬🇧")).toBeInTheDocument();
+    expect(screen.getByText('🇬🇧')).toBeInTheDocument();
   });
 
-  it("renders Australian flag emoji", () => {
+  it('renders Australian flag emoji', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorAccent value="australian" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("🇦🇺")).toBeInTheDocument();
+    expect(screen.getByText('🇦🇺')).toBeInTheDocument();
   });
 
-  it("is case-sensitive for accent values", () => {
+  it('is case-sensitive for accent values', () => {
     const { container } = render(
       <VoiceSelector>
         <VoiceSelectorAccent value="AMERICAN" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
     // Should not match because it's uppercase
-    expect(container.textContent).not.toContain("🇺🇸");
+    expect(container.textContent).not.toContain('🇺🇸');
 
     // Lowercase should work
     const { container: container2 } = render(
       <VoiceSelector>
         <VoiceSelectorAccent value="american" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(container2.textContent).toContain("🇺🇸");
+    expect(container2.textContent).toContain('🇺🇸');
   });
 
-  it("renders nothing for unknown accent", () => {
+  it('renders nothing for unknown accent', () => {
     const { container } = render(
       <VoiceSelector>
         <VoiceSelectorAccent value="unknown" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const span = container.querySelector("span");
-    expect(span?.textContent).toBe("");
+    const span = container.querySelector('span');
+    expect(span?.textContent).toBe('');
   });
 
-  it("renders custom children override", () => {
+  it('renders custom children override', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorAccent value="american">US English</VoiceSelectorAccent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("US English")).toBeInTheDocument();
+    expect(screen.getByText('US English')).toBeInTheDocument();
   });
 
-  it("renders all supported accents", () => {
+  it('renders all supported accents', () => {
     const accents = [
-      { emoji: "🇨🇦", value: "canadian" },
-      { emoji: "🇮🇪", value: "irish" },
-      { emoji: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", value: "scottish" },
-      { emoji: "🇮🇳", value: "indian" },
-      { emoji: "🇿🇦", value: "south-african" },
-      { emoji: "🇳🇿", value: "new-zealand" },
-      { emoji: "🇪🇸", value: "spanish" },
-      { emoji: "🇫🇷", value: "french" },
-      { emoji: "🇩🇪", value: "german" },
-      { emoji: "🇮🇹", value: "italian" },
-      { emoji: "🇵🇹", value: "portuguese" },
-      { emoji: "🇧🇷", value: "brazilian" },
-      { emoji: "🇲🇽", value: "mexican" },
-      { emoji: "🇦🇷", value: "argentinian" },
-      { emoji: "🇯🇵", value: "japanese" },
-      { emoji: "🇨🇳", value: "chinese" },
-      { emoji: "🇰🇷", value: "korean" },
-      { emoji: "🇷🇺", value: "russian" },
-      { emoji: "🇸🇦", value: "arabic" },
-      { emoji: "🇳🇱", value: "dutch" },
-      { emoji: "🇸🇪", value: "swedish" },
-      { emoji: "🇳🇴", value: "norwegian" },
-      { emoji: "🇩🇰", value: "danish" },
-      { emoji: "🇫🇮", value: "finnish" },
-      { emoji: "🇵🇱", value: "polish" },
-      { emoji: "🇹🇷", value: "turkish" },
-      { emoji: "🇬🇷", value: "greek" },
+      { emoji: '🇨🇦', value: 'canadian' },
+      { emoji: '🇮🇪', value: 'irish' },
+      { emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', value: 'scottish' },
+      { emoji: '🇮🇳', value: 'indian' },
+      { emoji: '🇿🇦', value: 'south-african' },
+      { emoji: '🇳🇿', value: 'new-zealand' },
+      { emoji: '🇪🇸', value: 'spanish' },
+      { emoji: '🇫🇷', value: 'french' },
+      { emoji: '🇩🇪', value: 'german' },
+      { emoji: '🇮🇹', value: 'italian' },
+      { emoji: '🇵🇹', value: 'portuguese' },
+      { emoji: '🇧🇷', value: 'brazilian' },
+      { emoji: '🇲🇽', value: 'mexican' },
+      { emoji: '🇦🇷', value: 'argentinian' },
+      { emoji: '🇯🇵', value: 'japanese' },
+      { emoji: '🇨🇳', value: 'chinese' },
+      { emoji: '🇰🇷', value: 'korean' },
+      { emoji: '🇷🇺', value: 'russian' },
+      { emoji: '🇸🇦', value: 'arabic' },
+      { emoji: '🇳🇱', value: 'dutch' },
+      { emoji: '🇸🇪', value: 'swedish' },
+      { emoji: '🇳🇴', value: 'norwegian' },
+      { emoji: '🇩🇰', value: 'danish' },
+      { emoji: '🇫🇮', value: 'finnish' },
+      { emoji: '🇵🇱', value: 'polish' },
+      { emoji: '🇹🇷', value: 'turkish' },
+      { emoji: '🇬🇷', value: 'greek' },
     ];
 
     for (const { value, emoji } of accents) {
       const { container } = render(
         <VoiceSelector>
           <VoiceSelectorAccent value={value} />
-        </VoiceSelector>
+        </VoiceSelector>,
       );
 
       expect(container.textContent).toContain(emoji);
@@ -530,98 +530,98 @@ describe("voiceSelectorAccent", () => {
   });
 });
 
-describe("voiceSelectorAge", () => {
-  it("renders age text", () => {
+describe('voiceSelectorAge', () => {
+  it('renders age text', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorAge>25-35</VoiceSelectorAge>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("25-35")).toBeInTheDocument();
+    expect(screen.getByText('25-35')).toBeInTheDocument();
   });
 
-  it("applies tabular-nums class", () => {
+  it('applies tabular-nums class', () => {
     const { container } = render(
       <VoiceSelector>
         <VoiceSelectorAge>40-50</VoiceSelectorAge>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const span = container.querySelector(".tabular-nums");
+    const span = container.querySelector('.tabular-nums');
     expect(span).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorName", () => {
-  it("renders voice name", () => {
+describe('voiceSelectorName', () => {
+  it('renders voice name', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorName>Alloy</VoiceSelectorName>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Alloy")).toBeInTheDocument();
+    expect(screen.getByText('Alloy')).toBeInTheDocument();
   });
 
-  it("applies truncate class", () => {
+  it('applies truncate class', () => {
     const { container } = render(
       <VoiceSelector>
         <VoiceSelectorName>Very Long Voice Name</VoiceSelectorName>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const span = container.querySelector(".truncate");
+    const span = container.querySelector('.truncate');
     expect(span).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorDescription", () => {
-  it("renders description text", () => {
+describe('voiceSelectorDescription', () => {
+  it('renders description text', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorDescription>
           A warm, friendly voice
         </VoiceSelectorDescription>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("A warm, friendly voice")).toBeInTheDocument();
+    expect(screen.getByText('A warm, friendly voice')).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorAttributes", () => {
-  it("renders children", () => {
+describe('voiceSelectorAttributes', () => {
+  it('renders children', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorAttributes>
           <span>Attribute 1</span>
           <span>Attribute 2</span>
         </VoiceSelectorAttributes>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Attribute 1")).toBeInTheDocument();
-    expect(screen.getByText("Attribute 2")).toBeInTheDocument();
+    expect(screen.getByText('Attribute 1')).toBeInTheDocument();
+    expect(screen.getByText('Attribute 2')).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorBullet", () => {
-  it("renders bullet character", () => {
+describe('voiceSelectorBullet', () => {
+  it('renders bullet character', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorBullet />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("•")).toBeInTheDocument();
+    expect(screen.getByText('•')).toBeInTheDocument();
   });
 
-  it("has aria-hidden attribute", () => {
+  it('has aria-hidden attribute', () => {
     const { container } = render(
       <VoiceSelector>
         <VoiceSelectorBullet />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
     const bullet = container.querySelector('[aria-hidden="true"]');
@@ -629,8 +629,8 @@ describe("voiceSelectorBullet", () => {
   });
 });
 
-describe("voiceSelectorSeparator", () => {
-  it("renders separator", () => {
+describe('voiceSelectorSeparator', () => {
+  it('renders separator', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent>
@@ -640,17 +640,17 @@ describe("voiceSelectorSeparator", () => {
             <VoiceSelectorItem value="item2">Item 2</VoiceSelectorItem>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
     // Verify items around separator render correctly
-    expect(screen.getByText("Item 1")).toBeInTheDocument();
-    expect(screen.getByText("Item 2")).toBeInTheDocument();
+    expect(screen.getByText('Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Item 2')).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorShortcut", () => {
-  it("renders shortcut text", () => {
+describe('voiceSelectorShortcut', () => {
+  it('renders shortcut text', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorContent>
@@ -660,64 +660,64 @@ describe("voiceSelectorShortcut", () => {
             </VoiceSelectorItem>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("⌘K")).toBeInTheDocument();
+    expect(screen.getByText('⌘K')).toBeInTheDocument();
   });
 });
 
-describe("voiceSelectorPreview", () => {
-  it("renders play button by default", () => {
+describe('voiceSelectorPreview', () => {
+  it('renders play button by default', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorPreview />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const button = screen.getByRole("button", { name: "Play preview" });
+    const button = screen.getByRole('button', { name: 'Play preview' });
     expect(button).toBeInTheDocument();
   });
 
-  it("renders pause button when playing", () => {
+  it('renders pause button when playing', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorPreview playing />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const button = screen.getByRole("button", { name: "Pause preview" });
+    const button = screen.getByRole('button', { name: 'Pause preview' });
     expect(button).toBeInTheDocument();
   });
 
-  it("is disabled when loading", () => {
+  it('is disabled when loading', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorPreview loading />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const button = screen.getByRole("button", { name: "Play preview" });
+    const button = screen.getByRole('button', { name: 'Play preview' });
     expect(button).toBeDisabled();
   });
 
-  it("calls onPlay when clicked", async () => {
+  it('calls onPlay when clicked', async () => {
     const onPlay = vi.fn();
     const user = userEvent.setup();
 
     render(
       <VoiceSelector>
         <VoiceSelectorPreview onPlay={onPlay} />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const button = screen.getByRole("button", { name: "Play preview" });
+    const button = screen.getByRole('button', { name: 'Play preview' });
     await user.click(button);
 
     expect(onPlay).toHaveBeenCalled();
   });
 
-  it("does not trigger item selection when clicked", async () => {
+  it('does not trigger item selection when clicked', async () => {
     const onSelect = vi.fn();
     const onPlay = vi.fn();
     const user = userEvent.setup();
@@ -732,10 +732,10 @@ describe("voiceSelectorPreview", () => {
             </VoiceSelectorItem>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const button = screen.getByRole("button", { name: "Play preview" });
+    const button = screen.getByRole('button', { name: 'Play preview' });
     await user.click(button);
 
     await waitFor(() => {
@@ -746,23 +746,23 @@ describe("voiceSelectorPreview", () => {
     expect(onSelect).not.toHaveBeenCalled();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(
       <VoiceSelector>
         <VoiceSelectorPreview className="custom-class" />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const button = screen.getByRole("button", { name: "Play preview" });
-    expect(button).toHaveClass("custom-class");
+    const button = screen.getByRole('button', { name: 'Play preview' });
+    expect(button).toHaveClass('custom-class');
   });
 });
 
-describe("useVoiceSelector hook", () => {
-  it("provides value and setValue", () => {
+describe('useVoiceSelector hook', () => {
+  it('provides value and setValue', () => {
     const TestComponent = () => {
       const { value, setValue } = useVoiceSelector();
-      const handleClick = useCallback(() => setValue("new-voice"), [setValue]);
+      const handleClick = useCallback(() => setValue('new-voice'), [setValue]);
       return (
         <div>
           {/* oxlint-disable-next-line eslint-plugin-jest(no-conditional-in-test) */}
@@ -777,13 +777,13 @@ describe("useVoiceSelector hook", () => {
     render(
       <VoiceSelector defaultValue="initial-voice">
         <TestComponent />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByTestId("value")).toHaveTextContent("initial-voice");
+    expect(screen.getByTestId('value')).toHaveTextContent('initial-voice');
   });
 
-  it("provides open and setOpen", async () => {
+  it('provides open and setOpen', async () => {
     const user = userEvent.setup();
 
     const TestComponent = () => {
@@ -802,26 +802,26 @@ describe("useVoiceSelector hook", () => {
     render(
       <VoiceSelector>
         <TestComponent />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByTestId("open")).toHaveTextContent("closed");
+    expect(screen.getByTestId('open')).toHaveTextContent('closed');
 
-    const button = screen.getByText("Open");
+    const button = screen.getByText('Open');
     await user.click(button);
 
     await waitFor(() => {
-      expect(screen.getByTestId("open")).toHaveTextContent("open");
+      expect(screen.getByTestId('open')).toHaveTextContent('open');
     });
   });
 
-  it("allows updating value from nested component", async () => {
+  it('allows updating value from nested component', async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
 
     const TestComponent = () => {
       const { setValue } = useVoiceSelector();
-      const handleClick = useCallback(() => setValue("test-voice"), [setValue]);
+      const handleClick = useCallback(() => setValue('test-voice'), [setValue]);
       return (
         <button onClick={handleClick} type="button">
           Select Voice
@@ -832,18 +832,18 @@ describe("useVoiceSelector hook", () => {
     render(
       <VoiceSelector onValueChange={onValueChange}>
         <TestComponent />
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const button = screen.getByText("Select Voice");
+    const button = screen.getByText('Select Voice');
     await user.click(button);
 
-    expect(onValueChange).toHaveBeenCalledWith("test-voice");
+    expect(onValueChange).toHaveBeenCalledWith('test-voice');
   });
 });
 
-describe("integration tests", () => {
-  it("renders complete voice selector with all metadata", () => {
+describe('integration tests', () => {
+  it('renders complete voice selector with all metadata', () => {
     render(
       <VoiceSelector defaultOpen>
         <VoiceSelectorTrigger>Select Voice</VoiceSelectorTrigger>
@@ -864,16 +864,16 @@ describe("integration tests", () => {
             </VoiceSelectorGroup>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    expect(screen.getByText("Professional")).toBeInTheDocument();
-    expect(screen.getByText("Alloy")).toBeInTheDocument();
-    expect(screen.getByText("🇺🇸")).toBeInTheDocument();
-    expect(screen.getByText("40-50")).toBeInTheDocument();
+    expect(screen.getByText('Professional')).toBeInTheDocument();
+    expect(screen.getByText('Alloy')).toBeInTheDocument();
+    expect(screen.getByText('🇺🇸')).toBeInTheDocument();
+    expect(screen.getByText('40-50')).toBeInTheDocument();
   });
 
-  it("handles voice selection and dialog closing", async () => {
+  it('handles voice selection and dialog closing', async () => {
     const onValueChange = vi.fn();
     const onOpenChange = vi.fn();
     const user = userEvent.setup();
@@ -887,21 +887,21 @@ describe("integration tests", () => {
         <VoiceSelectorContent>
           <VoiceSelectorList>
             <VoiceSelectorItem
-              onSelect={() => onValueChange("nova")}
+              onSelect={() => onValueChange('nova')}
               value="nova"
             >
               Nova
             </VoiceSelectorItem>
           </VoiceSelectorList>
         </VoiceSelectorContent>
-      </VoiceSelector>
+      </VoiceSelector>,
     );
 
-    const item = screen.getByText("Nova");
+    const item = screen.getByText('Nova');
     await user.click(item);
 
     await waitFor(() => {
-      expect(onValueChange).toHaveBeenCalledWith("nova");
+      expect(onValueChange).toHaveBeenCalledWith('nova');
     });
   });
 });

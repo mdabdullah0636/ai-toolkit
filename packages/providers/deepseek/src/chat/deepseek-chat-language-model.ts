@@ -31,7 +31,10 @@ import {
   DeepSeekChatTokenUsage,
   deepSeekErrorSchema,
 } from './deepseek-chat-api-types';
-import { DeepSeekChatModelId, deepseekChatOptions } from './deepseek-chat-options';
+import {
+  DeepSeekChatModelId,
+  deepseekChatOptions,
+} from './deepseek-chat-options';
 import { prepareTools } from './deepseek-prepare-tools';
 import { getResponseMetadata } from './get-response-metadata';
 import { mapDeepSeekFinishReason } from './map-deepseek-finish-reason';
@@ -58,7 +61,8 @@ export class DeepSeekChatLanguageModel implements LanguageModelV3 {
 
     this.failedResponseHandler = createJsonErrorResponseHandler({
       errorSchema: deepSeekErrorSchema,
-      errorToMessage: (error: InferSchema<typeof deepSeekErrorSchema>) => error.error.message,
+      errorToMessage: (error: InferSchema<typeof deepSeekErrorSchema>) =>
+        error.error.message,
     });
   }
 
@@ -122,7 +126,8 @@ export class DeepSeekChatLanguageModel implements LanguageModelV3 {
         top_p: topP,
         frequency_penalty: frequencyPenalty,
         presence_penalty: presencePenalty,
-        response_format: responseFormat?.type === 'json' ? { type: 'json_object' } : undefined,
+        response_format:
+          responseFormat?.type === 'json' ? { type: 'json_object' } : undefined,
         stop: stopSequences,
         messages,
         tools: deepseekTools,
@@ -136,7 +141,9 @@ export class DeepSeekChatLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doGenerate(options: LanguageModelV3CallOptions): Promise<LanguageModelV3GenerateResult> {
+  async doGenerate(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3GenerateResult> {
     const { args, warnings } = await this.getArgs({ ...options });
 
     const {
@@ -151,7 +158,9 @@ export class DeepSeekChatLanguageModel implements LanguageModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body: args,
       failedResponseHandler: this.failedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(deepseekChatResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        deepseekChatResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -209,7 +218,9 @@ export class DeepSeekChatLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doStream(options: LanguageModelV3CallOptions): Promise<LanguageModelV3StreamResult> {
+  async doStream(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3StreamResult> {
     const { args, warnings } = await this.getArgs({ ...options });
 
     const body = {
@@ -226,7 +237,9 @@ export class DeepSeekChatLanguageModel implements LanguageModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body,
       failedResponseHandler: this.failedResponseHandler,
-      successfulResponseHandler: createEventSourceResponseHandler(deepseekChatChunkSchema),
+      successfulResponseHandler: createEventSourceResponseHandler(
+        deepseekChatChunkSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -396,7 +409,10 @@ export class DeepSeekChatLanguageModel implements LanguageModelV3 {
 
                   const toolCall = toolCalls[index];
 
-                  if (toolCall.function?.name != null && toolCall.function?.arguments != null) {
+                  if (
+                    toolCall.function?.name != null &&
+                    toolCall.function?.arguments != null
+                  ) {
                     // send delta if the argument text has already started:
                     if (toolCall.function.arguments.length > 0) {
                       controller.enqueue({
@@ -435,7 +451,8 @@ export class DeepSeekChatLanguageModel implements LanguageModelV3 {
                 }
 
                 if (toolCallDelta.function?.arguments != null) {
-                  toolCall.function!.arguments += toolCallDelta.function?.arguments ?? '';
+                  toolCall.function!.arguments +=
+                    toolCallDelta.function?.arguments ?? '';
                 }
 
                 // send delta
@@ -478,7 +495,9 @@ export class DeepSeekChatLanguageModel implements LanguageModelV3 {
             }
 
             // go through all tool calls and send the ones that are not finished
-            for (const toolCall of toolCalls.filter(toolCall => !toolCall.hasFinished)) {
+            for (const toolCall of toolCalls.filter(
+              toolCall => !toolCall.hasFinished,
+            )) {
               controller.enqueue({
                 type: 'tool-input-end',
                 id: toolCall.id,
@@ -498,8 +517,10 @@ export class DeepSeekChatLanguageModel implements LanguageModelV3 {
               usage: convertDeepSeekUsage(usage),
               providerMetadata: {
                 [providerOptionsName]: {
-                  promptCacheHitTokens: usage?.prompt_cache_hit_tokens ?? undefined,
-                  promptCacheMissTokens: usage?.prompt_cache_miss_tokens ?? undefined,
+                  promptCacheHitTokens:
+                    usage?.prompt_cache_hit_tokens ?? undefined,
+                  promptCacheMissTokens:
+                    usage?.prompt_cache_miss_tokens ?? undefined,
                 },
               },
             });

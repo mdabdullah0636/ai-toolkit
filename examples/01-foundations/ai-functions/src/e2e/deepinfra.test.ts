@@ -39,8 +39,12 @@ createFeatureTestSuite({
       createChatModel('Qwen/QwQ-32B-Preview'),
     ],
     embeddingModels: [
-      createEmbeddingModelWithCapabilities(provider.embeddingModel('BAAI/bge-base-en-v1.5')),
-      createEmbeddingModelWithCapabilities(provider.embeddingModel('intfloat/e5-base-v2')),
+      createEmbeddingModelWithCapabilities(
+        provider.embeddingModel('BAAI/bge-base-en-v1.5'),
+      ),
+      createEmbeddingModelWithCapabilities(
+        provider.embeddingModel('intfloat/e5-base-v2'),
+      ),
       createEmbeddingModelWithCapabilities(
         provider.embeddingModel('sentence-transformers/all-mpnet-base-v2'),
       ),

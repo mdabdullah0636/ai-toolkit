@@ -5,7 +5,8 @@ export function KasadaClient() {
     <>
       <script
         dangerouslySetInnerHTML={{
-          __html: `document.addEventListener('kpsdk-load', () => {window.KPSDK.configure([
+          __html:
+            `document.addEventListener('kpsdk-load', () => {window.KPSDK.configure([
           {
             domain: location.host,
             path: '/api/chat',

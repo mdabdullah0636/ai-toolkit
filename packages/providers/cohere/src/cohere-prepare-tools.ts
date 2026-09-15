@@ -79,7 +79,9 @@ export function prepareTools({
 
     case 'tool':
       return {
-        tools: cohereTools.filter(tool => tool.function.name === toolChoice.toolName),
+        tools: cohereTools.filter(
+          tool => tool.function.name === toolChoice.toolName,
+        ),
         toolChoice: 'REQUIRED',
         toolWarnings,
       };

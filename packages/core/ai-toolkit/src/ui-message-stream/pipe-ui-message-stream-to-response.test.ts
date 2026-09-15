@@ -66,7 +66,9 @@ describe('pipeUIMessageStreamToResponse', () => {
     pipeUIMessageStreamToResponse({
       response: mockResponse,
       status: 200,
-      stream: convertArrayToReadableStream([{ type: 'error', errorText: 'Custom error message' }]),
+      stream: convertArrayToReadableStream([
+        { type: 'error', errorText: 'Custom error message' },
+      ]),
     });
 
     // Wait for the stream to finish writing

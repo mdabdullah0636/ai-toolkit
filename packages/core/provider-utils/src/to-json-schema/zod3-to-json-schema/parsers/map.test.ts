@@ -31,7 +31,10 @@ describe('map', () => {
 
   it('should be possible to use additionalProperties-pattern (record)', () => {
     expect(
-      parseMapDef(z.map(z.string().min(1), z.number())._def, getRefs({ mapStrategy: 'record' })),
+      parseMapDef(
+        z.map(z.string().min(1), z.number())._def,
+        getRefs({ mapStrategy: 'record' }),
+      ),
     ).toStrictEqual({
       type: 'object',
       additionalProperties: {

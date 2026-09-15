@@ -17,7 +17,8 @@ run(async () => {
       },
       {
         role: 'user',
-        content: 'I want to visit in spring to see cherry blossoms. What cities should I visit?',
+        content:
+          'I want to visit in spring to see cherry blossoms. What cities should I visit?',
       },
     ],
   });

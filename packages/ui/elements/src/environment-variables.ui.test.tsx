@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   EnvironmentVariable,
@@ -11,68 +11,68 @@ import {
   EnvironmentVariablesHeader,
   EnvironmentVariablesTitle,
   EnvironmentVariablesToggle,
-} from "./environment-variables";
+} from './environment-variables';
 
-describe("environmentVariables", () => {
-  it("renders children", () => {
+describe('environmentVariables', () => {
+  it('renders children', () => {
     render(
       <EnvironmentVariables>
         <div>Content</div>
-      </EnvironmentVariables>
+      </EnvironmentVariables>,
     );
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <EnvironmentVariables className="custom-class">
         <div>Content</div>
-      </EnvironmentVariables>
+      </EnvironmentVariables>,
     );
-    expect(container.firstChild).toHaveClass("custom-class");
+    expect(container.firstChild).toHaveClass('custom-class');
   });
 });
 
-describe("environmentVariablesHeader", () => {
-  it("renders header with title and toggle", () => {
+describe('environmentVariablesHeader', () => {
+  it('renders header with title and toggle', () => {
     render(
       <EnvironmentVariables>
         <EnvironmentVariablesHeader>
           <EnvironmentVariablesTitle />
           <EnvironmentVariablesToggle />
         </EnvironmentVariablesHeader>
-      </EnvironmentVariables>
+      </EnvironmentVariables>,
     );
-    expect(screen.getByText("Environment Variables")).toBeInTheDocument();
-    expect(screen.getByRole("switch")).toBeInTheDocument();
+    expect(screen.getByText('Environment Variables')).toBeInTheDocument();
+    expect(screen.getByRole('switch')).toBeInTheDocument();
   });
 });
 
-describe("environmentVariable", () => {
-  it("renders variable name and masked value by default", () => {
+describe('environmentVariable', () => {
+  it('renders variable name and masked value by default', () => {
     render(
       <EnvironmentVariables>
         <EnvironmentVariablesContent>
           <EnvironmentVariable name="API_KEY" value="secret123" />
         </EnvironmentVariablesContent>
-      </EnvironmentVariables>
+      </EnvironmentVariables>,
     );
-    expect(screen.getByText("API_KEY")).toBeInTheDocument();
-    expect(screen.queryByText("secret123")).not.toBeInTheDocument();
+    expect(screen.getByText('API_KEY')).toBeInTheDocument();
+    expect(screen.queryByText('secret123')).not.toBeInTheDocument();
   });
 
-  it("shows value when showValues is true", () => {
+  it('shows value when showValues is true', () => {
     render(
       <EnvironmentVariables defaultShowValues={true}>
         <EnvironmentVariablesContent>
           <EnvironmentVariable name="API_KEY" value="secret123" />
         </EnvironmentVariablesContent>
-      </EnvironmentVariables>
+      </EnvironmentVariables>,
     );
-    expect(screen.getByText("secret123")).toBeInTheDocument();
+    expect(screen.getByText('secret123')).toBeInTheDocument();
   });
 
-  it("toggles value visibility", async () => {
+  it('toggles value visibility', async () => {
     const user = userEvent.setup();
     render(
       <EnvironmentVariables>
@@ -82,23 +82,23 @@ describe("environmentVariable", () => {
         <EnvironmentVariablesContent>
           <EnvironmentVariable name="API_KEY" value="secret123" />
         </EnvironmentVariablesContent>
-      </EnvironmentVariables>
+      </EnvironmentVariables>,
     );
 
-    expect(screen.queryByText("secret123")).not.toBeInTheDocument();
+    expect(screen.queryByText('secret123')).not.toBeInTheDocument();
 
-    const toggle = screen.getByRole("switch");
+    const toggle = screen.getByRole('switch');
     await user.click(toggle);
 
-    expect(screen.getByText("secret123")).toBeInTheDocument();
+    expect(screen.getByText('secret123')).toBeInTheDocument();
   });
 });
 
-describe("environmentVariableCopyButton", () => {
-  it("copies value to clipboard", async () => {
+describe('environmentVariableCopyButton', () => {
+  it('copies value to clipboard', async () => {
     vi.clearAllMocks();
     const user = userEvent.setup();
-    const writeTextSpy = vi.spyOn(navigator.clipboard, "writeText");
+    const writeTextSpy = vi.spyOn(navigator.clipboard, 'writeText');
 
     render(
       <EnvironmentVariables>
@@ -108,19 +108,19 @@ describe("environmentVariableCopyButton", () => {
             <EnvironmentVariableCopyButton />
           </EnvironmentVariable>
         </EnvironmentVariablesContent>
-      </EnvironmentVariables>
+      </EnvironmentVariables>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
-    expect(writeTextSpy).toHaveBeenCalledWith("secret123");
+    expect(writeTextSpy).toHaveBeenCalledWith('secret123');
   });
 
-  it("copies export format to clipboard", async () => {
+  it('copies export format to clipboard', async () => {
     vi.clearAllMocks();
     const user = userEvent.setup();
-    const writeTextSpy = vi.spyOn(navigator.clipboard, "writeText");
+    const writeTextSpy = vi.spyOn(navigator.clipboard, 'writeText');
 
     render(
       <EnvironmentVariables>
@@ -130,16 +130,16 @@ describe("environmentVariableCopyButton", () => {
             <EnvironmentVariableCopyButton copyFormat="export" />
           </EnvironmentVariable>
         </EnvironmentVariablesContent>
-      </EnvironmentVariables>
+      </EnvironmentVariables>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
     expect(writeTextSpy).toHaveBeenCalledWith('export API_KEY="secret123"');
   });
 
-  it("calls onCopy callback", async () => {
+  it('calls onCopy callback', async () => {
     vi.clearAllMocks();
     const onCopy = vi.fn();
     const user = userEvent.setup();
@@ -151,18 +151,18 @@ describe("environmentVariableCopyButton", () => {
             <EnvironmentVariableCopyButton onCopy={onCopy} />
           </EnvironmentVariable>
         </EnvironmentVariablesContent>
-      </EnvironmentVariables>
+      </EnvironmentVariables>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
     expect(onCopy).toHaveBeenCalled();
   });
 });
 
-describe("environmentVariableRequired", () => {
-  it("renders required badge", () => {
+describe('environmentVariableRequired', () => {
+  it('renders required badge', () => {
     render(
       <EnvironmentVariables>
         <EnvironmentVariablesContent>
@@ -170,8 +170,8 @@ describe("environmentVariableRequired", () => {
             <EnvironmentVariableRequired />
           </EnvironmentVariable>
         </EnvironmentVariablesContent>
-      </EnvironmentVariables>
+      </EnvironmentVariables>,
     );
-    expect(screen.getByText("Required")).toBeInTheDocument();
+    expect(screen.getByText('Required')).toBeInTheDocument();
   });
 });

@@ -6,9 +6,18 @@ import {
   type InferSchema,
 } from '@ai-toolkit/provider-utils';
 import { signal } from '@angular/core';
-import { FlexibleSchema, asSchema, isDeepEqualData, parsePartialJson, type DeepPartial } from 'ai-toolkit';
+import {
+  FlexibleSchema,
+  asSchema,
+  isDeepEqualData,
+  parsePartialJson,
+  type DeepPartial,
+} from 'ai-toolkit';
 
-export type StructuredObjectOptions<SCHEMA extends FlexibleSchema, RESULT = InferSchema<SCHEMA>> = {
+export type StructuredObjectOptions<
+  SCHEMA extends FlexibleSchema,
+  RESULT = InferSchema<SCHEMA>,
+> = {
   /**
    * The API endpoint. It should stream JSON that matches the schema as chunked text.
    */
@@ -149,7 +158,9 @@ export class StructuredObject<
       });
 
       if (!response.ok) {
-        throw new Error((await response.text()) ?? 'Failed to fetch the response.');
+        throw new Error(
+          (await response.text()) ?? 'Failed to fetch the response.',
+        );
       }
 
       if (response.body == null) {
@@ -207,7 +218,8 @@ export class StructuredObject<
         return;
       }
 
-      const coalescedError = error instanceof Error ? error : new Error(String(error));
+      const coalescedError =
+        error instanceof Error ? error : new Error(String(error));
       if (this.options.onError) {
         this.options.onError(coalescedError);
       }

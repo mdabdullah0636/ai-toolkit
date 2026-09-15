@@ -93,17 +93,20 @@ describe('doEmbed', () => {
       'shared-header': 'options-shared',
     };
 
-    const modelWithHeaders = new BedrockEmbeddingModel('amazon.titan-embed-text-v2:0', {
-      baseUrl: () => 'https://bedrock-runtime.us-east-1.amazonaws.com',
-      headers: {
-        'model-header': 'model-value',
-        'shared-header': 'model-shared',
+    const modelWithHeaders = new BedrockEmbeddingModel(
+      'amazon.titan-embed-text-v2:0',
+      {
+        baseUrl: () => 'https://bedrock-runtime.us-east-1.amazonaws.com',
+        headers: {
+          'model-header': 'model-value',
+          'shared-header': 'model-shared',
+        },
+        fetch: injectFetchHeaders({
+          'signed-header': 'signed-value',
+          authorization: 'AWS4-HMAC-SHA256...',
+        }),
       },
-      fetch: injectFetchHeaders({
-        'signed-header': 'signed-value',
-        authorization: 'AWS4-HMAC-SHA256...',
-      }),
-    });
+    );
 
     await modelWithHeaders.doEmbed({
       values: [testValues[0]],
@@ -119,16 +122,19 @@ describe('doEmbed', () => {
   });
 
   it('should work with partial headers', async () => {
-    const modelWithPartialHeaders = new BedrockEmbeddingModel('amazon.titan-embed-text-v2:0', {
-      baseUrl: () => 'https://bedrock-runtime.us-east-1.amazonaws.com',
-      headers: {
-        'model-header': 'model-value',
+    const modelWithPartialHeaders = new BedrockEmbeddingModel(
+      'amazon.titan-embed-text-v2:0',
+      {
+        baseUrl: () => 'https://bedrock-runtime.us-east-1.amazonaws.com',
+        headers: {
+          'model-header': 'model-value',
+        },
+        fetch: injectFetchHeaders({
+          'signed-header': 'signed-value',
+          authorization: 'AWS4-HMAC-SHA256...',
+        }),
       },
-      fetch: injectFetchHeaders({
-        'signed-header': 'signed-value',
-        authorization: 'AWS4-HMAC-SHA256...',
-      }),
-    });
+    );
 
     await modelWithPartialHeaders.doEmbed({
       values: [testValues[0]],

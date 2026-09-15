@@ -6,7 +6,10 @@ import { createResumableStreamContext } from 'resumable-stream';
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   const { id } = await params;
 
   if (!id) {
@@ -29,7 +32,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     waitUntil: after,
   });
 
-  const resumedStream = await streamContext.resumeExistingStream(recentStreamId);
+  const resumedStream =
+    await streamContext.resumeExistingStream(recentStreamId);
 
   if (!resumedStream) {
     return new Response(null, { status: 204 });

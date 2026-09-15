@@ -1,4 +1,6 @@
-export function getRuntimeEnvironmentUserAgent(globalThisAny: any = globalThis as any): string {
+export function getRuntimeEnvironmentUserAgent(
+  globalThisAny: any = globalThis as any,
+): string {
   // Browsers
   if (globalThisAny.window) {
     return `runtime/browser`;

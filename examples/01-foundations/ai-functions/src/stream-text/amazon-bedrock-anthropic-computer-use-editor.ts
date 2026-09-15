@@ -26,7 +26,8 @@ This is a sample README file for testing the text editor tool.
         },
       }),
     },
-    prompt: 'Update my README file to mention that this project uses AI TOOLKIT.',
+    prompt:
+      'Update my README file to mention that this project uses AI TOOLKIT.',
     stopWhen: stepCountIs(5),
   });
 

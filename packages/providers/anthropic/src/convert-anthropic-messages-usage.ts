@@ -7,7 +7,9 @@ export type AnthropicMessagesUsage = {
   cache_read_input_tokens?: number | null;
 };
 
-export function convertAnthropicMessagesUsage(usage: AnthropicMessagesUsage): LanguageModelV3Usage {
+export function convertAnthropicMessagesUsage(
+  usage: AnthropicMessagesUsage,
+): LanguageModelV3Usage {
   const inputTokens = usage.input_tokens;
   const outputTokens = usage.output_tokens;
   const cacheCreationTokens = usage.cache_creation_input_tokens ?? 0;

@@ -47,7 +47,9 @@ export async function POST(req: Request) {
     // set the messages to the message before the assistant message
     messages = messages.slice(
       0,
-      messages[messageIndex].role === 'assistant' ? messageIndex : messageIndex + 1,
+      messages[messageIndex].role === 'assistant'
+        ? messageIndex
+        : messageIndex + 1,
     );
   }
 

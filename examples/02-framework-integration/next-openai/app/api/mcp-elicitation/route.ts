@@ -14,7 +14,8 @@ import { createPendingElicitation } from './elicitation-store';
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages }: { messages: MCPElicitationUIMessage[] } = await req.json();
+  const { messages }: { messages: MCPElicitationUIMessage[] } =
+    await req.json();
 
   const stream = createUIMessageStream({
     originalMessages: messages,
@@ -26,7 +27,10 @@ export async function POST(req: Request) {
   return createUIMessageStreamResponse({ stream });
 }
 
-async function processMessages(messages: MCPElicitationUIMessage[], writer: any) {
+async function processMessages(
+  messages: MCPElicitationUIMessage[],
+  writer: any,
+) {
   // Create MCP client with elicitation capabilities
   const mcpClient = await createMCPClient({
     transport: {
@@ -60,7 +64,8 @@ async function processMessages(messages: MCPElicitationUIMessage[], writer: any)
       // Return the response in the format expected by the MCP server
       return {
         action: userResponse.action,
-        content: userResponse.action === 'accept' ? userResponse.content : undefined,
+        content:
+          userResponse.action === 'accept' ? userResponse.content : undefined,
       };
     } catch (error) {
       // Return a declined response on error

@@ -13,7 +13,8 @@ run(async () => {
     prompt: 'Summarize in 2 sentences',
     providerOptions: {
       openai: {
-        previousResponseId: result1.providerMetadata?.openai.responseId as string,
+        previousResponseId: result1.providerMetadata?.openai
+          .responseId as string,
       } satisfies OpenAIResponsesProviderOptions,
     },
   });

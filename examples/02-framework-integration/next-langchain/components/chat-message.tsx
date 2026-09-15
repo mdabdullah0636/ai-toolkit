@@ -1,6 +1,12 @@
 'use client';
 
-import { isDataUIPart, isTextUIPart, isReasoningUIPart, isFileUIPart, isToolUIPart } from 'ai-toolkit';
+import {
+  isDataUIPart,
+  isTextUIPart,
+  isReasoningUIPart,
+  isFileUIPart,
+  isToolUIPart,
+} from 'ai-toolkit';
 import { Reasoning, Text, File, ToolInvocation } from './message-parts';
 import { DataProgress, DataStatus, DataFileStatus } from './data-parts';
 import { type CustomDataMessage } from '../app/types';
@@ -26,7 +32,9 @@ export function ChatMessage({ message }: ChatMessageProps) {
       </div>
 
       {/* Message content */}
-      <div className={`flex-1 max-w-[85%] ${isUser ? 'flex flex-col items-end' : ''}`}>
+      <div
+        className={`flex-1 max-w-[85%] ${isUser ? 'flex flex-col items-end' : ''}`}
+      >
         <div
           className={`px-4 py-3 rounded-2xl flex flex-col gap-3 ${
             isUser
@@ -37,7 +45,13 @@ export function ChatMessage({ message }: ChatMessageProps) {
           {message.parts.map((part, i) => {
             // Handle reasoning parts (extended thinking)
             if (isReasoningUIPart(part)) {
-              return <Reasoning key={i} text={part.text} state={part.state || 'done'} />;
+              return (
+                <Reasoning
+                  key={i}
+                  text={part.text}
+                  state={part.state || 'done'}
+                />
+              );
             }
 
             // Handle text parts
@@ -52,11 +66,21 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
             // Handle tool parts
             if (isToolUIPart(part)) {
-              const toolName = 'toolName' in part ? part.toolName : part.type.replace('tool-', '');
+              const toolName =
+                'toolName' in part
+                  ? part.toolName
+                  : part.type.replace('tool-', '');
               const input = 'input' in part ? part.input : undefined;
               const output = 'output' in part ? part.output : undefined;
 
-              return <ToolInvocation key={i} toolName={toolName} input={input} output={output} />;
+              return (
+                <ToolInvocation
+                  key={i}
+                  toolName={toolName}
+                  input={input}
+                  output={output}
+                />
+              );
             }
             // Handle custom data parts (data-progress, data-status, data-file-status, etc.)
             if (isDataUIPart(part)) {
@@ -74,7 +98,13 @@ export function ChatMessage({ message }: ChatMessageProps) {
               }
 
               if (part.type === 'data-status') {
-                return <DataStatus key={i} status={part.data.status} message={part.data.message} />;
+                return (
+                  <DataStatus
+                    key={i}
+                    status={part.data.status}
+                    message={part.data.message}
+                  />
+                );
               }
 
               if (part.type === 'data-file-status') {

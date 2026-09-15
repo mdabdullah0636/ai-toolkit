@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
-import { DotIcon } from "lucide-react";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { DotIcon } from 'lucide-react';
 
 import {
   ChainOfThought,
@@ -10,49 +10,49 @@ import {
   ChainOfThoughtSearchResult,
   ChainOfThoughtSearchResults,
   ChainOfThoughtStep,
-} from "./chain-of-thought";
+} from './chain-of-thought';
 
-describe("chainOfThought", () => {
-  it("renders children", () => {
+describe('chainOfThought', () => {
+  it('renders children', () => {
     render(<ChainOfThought>Content</ChainOfThought>);
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("throws error when component used outside provider", () => {
+  it('throws error when component used outside provider', () => {
     // Suppress console.error for this test
-    const spy = vi.spyOn(console, "error").mockImplementation(vi.fn());
+    const spy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
     expect(() =>
-      render(<ChainOfThoughtHeader>Test</ChainOfThoughtHeader>)
-    ).toThrow("ChainOfThought components must be used within ChainOfThought");
+      render(<ChainOfThoughtHeader>Test</ChainOfThoughtHeader>),
+    ).toThrow('ChainOfThought components must be used within ChainOfThought');
 
     spy.mockRestore();
   });
 
-  it("starts closed by default", () => {
+  it('starts closed by default', () => {
     render(
       <ChainOfThought>
         <ChainOfThoughtHeader />
         <ChainOfThoughtContent>Hidden content</ChainOfThoughtContent>
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    const content = screen.queryByText("Hidden content");
+    const content = screen.queryByText('Hidden content');
     expect(content).not.toBeInTheDocument();
   });
 
-  it("can start open", () => {
+  it('can start open', () => {
     render(
       <ChainOfThought defaultOpen>
         <ChainOfThoughtHeader />
         <ChainOfThoughtContent>Visible content</ChainOfThoughtContent>
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Visible content")).toBeVisible();
+    expect(screen.getByText('Visible content')).toBeVisible();
   });
 
-  it("calls onOpenChange", async () => {
+  it('calls onOpenChange', async () => {
     const onOpenChange = vi.fn();
     const user = userEvent.setup();
 
@@ -60,149 +60,149 @@ describe("chainOfThought", () => {
       <ChainOfThought onOpenChange={onOpenChange}>
         <ChainOfThoughtHeader />
         <ChainOfThoughtContent>Content</ChainOfThoughtContent>
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    const trigger = screen.getByRole("button");
+    const trigger = screen.getByRole('button');
     await user.click(trigger);
 
     expect(onOpenChange).toHaveBeenCalledWith(true);
   });
 });
 
-describe("chainOfThoughtHeader", () => {
-  it("renders default text", () => {
+describe('chainOfThoughtHeader', () => {
+  it('renders default text', () => {
     render(
       <ChainOfThought>
         <ChainOfThoughtHeader />
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Chain of Thought")).toBeInTheDocument();
+    expect(screen.getByText('Chain of Thought')).toBeInTheDocument();
   });
 
-  it("renders custom children", () => {
+  it('renders custom children', () => {
     render(
       <ChainOfThought>
         <ChainOfThoughtHeader>Custom Header</ChainOfThoughtHeader>
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Custom Header")).toBeInTheDocument();
+    expect(screen.getByText('Custom Header')).toBeInTheDocument();
   });
 });
 
-describe("chainOfThoughtStep", () => {
-  it("renders label", () => {
+describe('chainOfThoughtStep', () => {
+  it('renders label', () => {
     render(
       <ChainOfThought>
         <ChainOfThoughtStep label="Step 1" />
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Step 1")).toBeInTheDocument();
+    expect(screen.getByText('Step 1')).toBeInTheDocument();
   });
 
-  it("renders description", () => {
+  it('renders description', () => {
     render(
       <ChainOfThought>
         <ChainOfThoughtStep description="Details" label="Step" />
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Details")).toBeInTheDocument();
+    expect(screen.getByText('Details')).toBeInTheDocument();
   });
 
-  it("renders with custom icon", () => {
+  it('renders with custom icon', () => {
     const { container } = render(
       <ChainOfThought>
         <ChainOfThoughtStep icon={DotIcon} label="Step" />
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it("applies status styles", () => {
+  it('applies status styles', () => {
     const { rerender } = render(
       <ChainOfThought>
         <ChainOfThoughtStep label="Step" status="complete" />
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Step")).toBeInTheDocument();
+    expect(screen.getByText('Step')).toBeInTheDocument();
 
     rerender(
       <ChainOfThought>
         <ChainOfThoughtStep label="Step" status="active" />
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Step")).toBeInTheDocument();
+    expect(screen.getByText('Step')).toBeInTheDocument();
   });
 });
 
-describe("chainOfThoughtSearchResults", () => {
-  it("renders search results", () => {
+describe('chainOfThoughtSearchResults', () => {
+  it('renders search results', () => {
     render(
       <ChainOfThought>
         <ChainOfThoughtSearchResults>
           <span>Result 1</span>
         </ChainOfThoughtSearchResults>
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Result 1")).toBeInTheDocument();
+    expect(screen.getByText('Result 1')).toBeInTheDocument();
   });
 });
 
-describe("chainOfThoughtSearchResult", () => {
-  it("renders result badge", () => {
+describe('chainOfThoughtSearchResult', () => {
+  it('renders result badge', () => {
     render(
       <ChainOfThought>
         <ChainOfThoughtSearchResult>Source</ChainOfThoughtSearchResult>
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Source")).toBeInTheDocument();
+    expect(screen.getByText('Source')).toBeInTheDocument();
   });
 });
 
-describe("chainOfThoughtContent", () => {
-  it("renders content", () => {
+describe('chainOfThoughtContent', () => {
+  it('renders content', () => {
     render(
       <ChainOfThought defaultOpen>
         <ChainOfThoughtHeader />
         <ChainOfThoughtContent>Content text</ChainOfThoughtContent>
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Content text")).toBeInTheDocument();
+    expect(screen.getByText('Content text')).toBeInTheDocument();
   });
 });
 
-describe("chainOfThoughtImage", () => {
-  it("renders image container", () => {
+describe('chainOfThoughtImage', () => {
+  it('renders image container', () => {
     render(
       <ChainOfThought>
         <ChainOfThoughtImage>
           <img alt="test" height={100} src="test.jpg" width={100} />
         </ChainOfThoughtImage>
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByAltText("test")).toBeInTheDocument();
+    expect(screen.getByAltText('test')).toBeInTheDocument();
   });
 
-  it("renders caption", () => {
+  it('renders caption', () => {
     render(
       <ChainOfThought>
         <ChainOfThoughtImage caption="Image caption">
           <img alt="test" height={100} src="test.jpg" width={100} />
         </ChainOfThoughtImage>
-      </ChainOfThought>
+      </ChainOfThought>,
     );
 
-    expect(screen.getByText("Image caption")).toBeInTheDocument();
+    expect(screen.getByText('Image caption')).toBeInTheDocument();
   });
 });

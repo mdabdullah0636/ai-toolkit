@@ -1,7 +1,11 @@
 'use client';
 
 import { experimental_useObject as useObject } from '@ai-toolkit/react';
-import { Expense, expenseSchema, PartialExpense } from '../api/use-object-expense-tracker/schema';
+import {
+  Expense,
+  expenseSchema,
+  PartialExpense,
+} from '../api/use-object-expense-tracker/schema';
 import { useState } from 'react';
 
 export default function Page() {
@@ -57,7 +61,9 @@ export default function Page() {
 const ExpenseView = ({ expense }: { expense: PartialExpense | Expense }) => (
   <div className="grid grid-cols-12 gap-4 p-4 mt-4 bg-gray-100 rounded-md dark:bg-gray-800">
     <div className="col-span-2">
-      <p className="text-sm text-gray-500 dark:text-gray-400">{expense?.date ?? ''}</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400">
+        {expense?.date ?? ''}
+      </p>
     </div>
     <div className="col-span-2">
       <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -68,7 +74,9 @@ const ExpenseView = ({ expense }: { expense: PartialExpense | Expense }) => (
       <p className="font-medium dark:text-white">{expense?.category ?? ''}</p>
     </div>
     <div className="col-span-5">
-      <p className="text-gray-700 dark:text-gray-300">{expense?.details ?? ''}</p>
+      <p className="text-gray-700 dark:text-gray-300">
+        {expense?.details ?? ''}
+      </p>
     </div>
   </div>
 );

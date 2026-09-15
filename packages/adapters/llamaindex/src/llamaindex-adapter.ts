@@ -1,6 +1,9 @@
 import { UIMessageChunk } from 'ai-toolkit';
 import { convertAsyncIteratorToReadableStream } from 'ai-toolkit/internal';
-import { createCallbacksTransformer, StreamCallbacks } from './stream-callbacks';
+import {
+  createCallbacksTransformer,
+  StreamCallbacks,
+} from './stream-callbacks';
 
 type EngineResponse = {
   delta: string;

@@ -66,12 +66,14 @@ export class WorkspaceEditor {
   ): Promise<{ status: 'completed' | 'failed'; output?: string }> {
     try {
       const targetPath = await this.resolve(operation.path);
-      const original = await fs.readFile(targetPath, 'utf8').catch((error: any) => {
-        if (error?.code === 'ENOENT') {
-          throw new Error(`Cannot update missing file: ${operation.path}`);
-        }
-        throw error;
-      });
+      const original = await fs
+        .readFile(targetPath, 'utf8')
+        .catch((error: any) => {
+          if (error?.code === 'ENOENT') {
+            throw new Error(`Cannot update missing file: ${operation.path}`);
+          }
+          throw error;
+        });
       const patched = applyDiff(original, operation.diff);
       await fs.writeFile(targetPath, patched, 'utf8');
       return { status: 'completed', output: `Updated ${operation.path}` };

@@ -15,7 +15,9 @@ export default function Chat() {
           <div key={message.id} className="flex flex-row gap-2">
             <div className="w-24 text-zinc-500">{`${message.role}: `}</div>
             <div className="w-full">
-              {message.parts.map(part => (part.type === 'text' ? part.text : '')).join('')}
+              {message.parts
+                .map(part => (part.type === 'text' ? part.text : ''))
+                .join('')}
             </div>
           </div>
         ))}

@@ -1,6 +1,9 @@
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
 import { UIMessageChunk } from '../ui-message-stream/ui-message-chunks';
-import { HttpChatTransport, HttpChatTransportInitOptions } from './http-chat-transport';
+import {
+  HttpChatTransport,
+  HttpChatTransportInitOptions,
+} from './http-chat-transport';
 import { UIMessage } from './ui-messages';
 import { describe, it, expect } from 'vitest';
 
@@ -142,7 +145,9 @@ describe('HttpChatTransport', () => {
         abortSignal: new AbortController().signal,
       });
 
-      expect(server.calls[0].requestHeaders['x-test-header']).toBe('test-value');
+      expect(server.calls[0].requestHeaders['x-test-header']).toBe(
+        'test-value',
+      );
       expect(server.calls[0].requestUserAgent).toContain('ai-toolkit/');
     });
 
@@ -171,7 +176,9 @@ describe('HttpChatTransport', () => {
         abortSignal: new AbortController().signal,
       });
 
-      expect(server.calls[0].requestHeaders['x-test-header']).toBe('test-value-fn');
+      expect(server.calls[0].requestHeaders['x-test-header']).toBe(
+        'test-value-fn',
+      );
       expect(server.calls[0].requestUserAgent).toContain('ai-toolkit/');
     });
   });

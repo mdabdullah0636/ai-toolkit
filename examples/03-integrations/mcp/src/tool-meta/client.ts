@@ -2,7 +2,9 @@ import { createMCPClient } from '@ai-toolkit/mcp';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
 async function main() {
-  const transport = new StreamableHTTPClientTransport(new URL('http://localhost:8084/mcp'));
+  const transport = new StreamableHTTPClientTransport(
+    new URL('http://localhost:8084/mcp'),
+  );
 
   const mcpClient = await createMCPClient({
     transport,
@@ -17,7 +19,9 @@ async function main() {
     console.log(`  _meta: ${JSON.stringify(weatherTool._meta, null, 2)}`);
 
     if (weatherTool._meta?.['openai/outputTemplate']) {
-      console.log(`  Output template: ${weatherTool._meta['openai/outputTemplate']}`);
+      console.log(
+        `  Output template: ${weatherTool._meta['openai/outputTemplate']}`,
+      );
     }
 
     const weatherWidget = await mcpClient.readResource({

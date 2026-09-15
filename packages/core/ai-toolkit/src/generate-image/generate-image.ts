@@ -11,14 +11,20 @@ import {
   withUserAgentSuffix,
 } from '@ai-toolkit/provider-utils';
 import { NoImageGeneratedError } from '../error/no-image-generated-error';
-import { DefaultGeneratedFile, GeneratedFile } from '../generate-text/generated-file';
+import {
+  DefaultGeneratedFile,
+  GeneratedFile,
+} from '../generate-text/generated-file';
 import { logWarnings } from '../logger/log-warnings';
 import { resolveImageModel } from '../model/resolve-model';
 import type { ImageModel } from '../types/image-model';
 import { ImageModelResponseMetadata } from '../types/image-model-response-metadata';
 import { addImageModelUsage, ImageModelUsage } from '../types/usage';
 import { Warning } from '../types/warning';
-import { detectMediaType, imageMediaTypeSignatures } from '../util/detect-media-type';
+import {
+  detectMediaType,
+  imageMediaTypeSignatures,
+} from '../util/detect-media-type';
 import { prepareRetries } from '../util/prepare-retries';
 import { VERSION } from '../version';
 import { GenerateImageResult } from './generate-image-result';
@@ -134,7 +140,10 @@ Only applicable for HTTP-based providers.
 }): Promise<GenerateImageResult> {
   const model = resolveImageModel(modelArg);
 
-  const headersWithUserAgent = withUserAgentSuffix(headers ?? {}, `ai/${VERSION}`);
+  const headersWithUserAgent = withUserAgentSuffix(
+    headers ?? {},
+    `ai/${VERSION}`,
+  );
 
   const { retry } = prepareRetries({
     maxRetries: maxRetriesArg,
@@ -220,11 +229,15 @@ Only applicable for HTTP-based providers.
               ...metadata,
             } as ImageModelV3ProviderMetadata[string];
           } else {
-            providerMetadata[providerName] = metadata as ImageModelV3ProviderMetadata[string];
+            providerMetadata[providerName] =
+              metadata as ImageModelV3ProviderMetadata[string];
           }
-          const imagesValue = (providerMetadata[providerName] as { images?: unknown }).images;
+          const imagesValue = (
+            providerMetadata[providerName] as { images?: unknown }
+          ).images;
           if (Array.isArray(imagesValue) && imagesValue.length === 0) {
-            delete (providerMetadata[providerName] as { images?: unknown }).images;
+            delete (providerMetadata[providerName] as { images?: unknown })
+              .images;
           }
         } else {
           providerMetadata[providerName] ??= { images: [] };
@@ -315,7 +328,8 @@ function toImageModelV3File(dataContent: DataContent): ImageModelV3File {
 
   // Handle data URLs
   if (typeof dataContent === 'string' && dataContent.startsWith('data:')) {
-    const { mediaType: dataUrlMediaType, base64Content } = splitDataUrl(dataContent);
+    const { mediaType: dataUrlMediaType, base64Content } =
+      splitDataUrl(dataContent);
 
     if (base64Content != null) {
       const uint8Data = convertBase64ToUint8Array(base64Content);

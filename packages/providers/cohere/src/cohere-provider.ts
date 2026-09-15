@@ -93,8 +93,11 @@ Optional function to generate a unique ID for each request.
 /**
 Create a Cohere AI provider instance.
  */
-export function createCohere(options: CohereProviderSettings = {}): CohereProvider {
-  const baseURL = withoutTrailingSlash(options.baseURL) ?? 'https://api.cohere.com/v2';
+export function createCohere(
+  options: CohereProviderSettings = {},
+): CohereProvider {
+  const baseURL =
+    withoutTrailingSlash(options.baseURL) ?? 'https://api.cohere.com/v2';
 
   const getHeaders = () =>
     withUserAgentSuffix(
@@ -136,7 +139,9 @@ export function createCohere(options: CohereProviderSettings = {}): CohereProvid
 
   const provider = function (modelId: CohereChatModelId) {
     if (new.target) {
-      throw new Error('The Cohere model function cannot be called with the new keyword.');
+      throw new Error(
+        'The Cohere model function cannot be called with the new keyword.',
+      );
     }
 
     return createChatModel(modelId);

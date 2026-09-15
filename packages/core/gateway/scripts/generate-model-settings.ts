@@ -18,7 +18,10 @@ const modelsResponseSchema = z4.object({
 type ModelsResponse = z4.infer<typeof modelsResponseSchema>;
 type Modality = (typeof MODALITIES)[number];
 
-const MODALITY_CONFIG: Record<Modality, { outputFile: string; typeName: string }> = {
+const MODALITY_CONFIG: Record<
+  Modality,
+  { outputFile: string; typeName: string }
+> = {
   language: {
     outputFile: 'gateway-language-model-settings.ts',
     typeName: 'GatewayModelId',
@@ -38,7 +41,9 @@ async function fetchModels(): Promise<ModelsResponse> {
 
   const response = await fetch(API_URL);
   if (!response.ok) {
-    throw new Error(`Failed to fetch models: HTTP ${response.status} from ${API_URL}`);
+    throw new Error(
+      `Failed to fetch models: HTTP ${response.status} from ${API_URL}`,
+    );
   }
 
   const data = await response.json();
@@ -85,7 +90,9 @@ async function main() {
     const outputPath = path.join(OUTPUT_DIR, config.outputFile);
 
     fs.writeFileSync(outputPath, content, 'utf-8');
-    console.log(`Generated ${config.outputFile} with ${modelIds.length} models`);
+    console.log(
+      `Generated ${config.outputFile} with ${modelIds.length} models`,
+    );
   }
 
   console.log('Model settings updated successfully');

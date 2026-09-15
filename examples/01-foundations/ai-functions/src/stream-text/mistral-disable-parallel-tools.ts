@@ -11,7 +11,9 @@ run(async () => {
       getWeather: tool({
         description: 'Get the current weather for a location',
         inputSchema: z.object({
-          location: z.string().describe('The city and state, e.g. San Francisco, CA'),
+          location: z
+            .string()
+            .describe('The city and state, e.g. San Francisco, CA'),
         }),
         execute: async ({ location }: { location: string }) => {
           return `Weather in ${location}: 72°F, sunny`;
@@ -32,7 +34,9 @@ run(async () => {
         break;
       }
       case 'tool-call': {
-        console.log(`\nTOOL CALL: ${chunk.toolName}(${JSON.stringify(chunk.input)})`);
+        console.log(
+          `\nTOOL CALL: ${chunk.toolName}(${JSON.stringify(chunk.input)})`,
+        );
         break;
       }
       case 'tool-result': {

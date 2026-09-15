@@ -8,7 +8,8 @@
  * Keeps everything else unchanged (scheme, domain, port, path, query).
  */
 export function resourceUrlFromServerUrl(url: URL | string): URL {
-  const resourceURL = typeof url === 'string' ? new URL(url) : new URL(url.href);
+  const resourceURL =
+    typeof url === 'string' ? new URL(url) : new URL(url.href);
   resourceURL.hash = ''; // Remove fragment
   return resourceURL;
 }

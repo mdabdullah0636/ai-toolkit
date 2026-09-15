@@ -3,7 +3,6 @@ title: Tool Calling
 description: Learn about tool calling and multi-step calls (using stopWhen) with AI TOOLKIT Core.
 ---
 
-
 As covered under Foundations, [tools](/docs/foundations/tools) are objects that can be called by the model to perform a specific task.
 AI TOOLKIT Core tools contain several core elements:
 
@@ -858,7 +857,12 @@ You can use different strategies to repair the tool call:
 
 ```ts
 import { openai } from '@ai-toolkit/openai';
-import { generateObject, generateText, NoSuchToolError, tool } from 'ai-toolkit';
+import {
+  generateObject,
+  generateText,
+  NoSuchToolError,
+  tool,
+} from 'ai-toolkit';
 
 const result = await generateText({
   model,
@@ -899,7 +903,12 @@ const result = await generateText({
 
 ```ts
 import { openai } from '@ai-toolkit/openai';
-import { generateObject, generateText, NoSuchToolError, tool } from 'ai-toolkit';
+import {
+  generateObject,
+  generateText,
+  NoSuchToolError,
+  tool,
+} from 'ai-toolkit';
 
 const result = await generateText({
   model,

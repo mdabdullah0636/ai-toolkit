@@ -22,7 +22,10 @@ export function isMistralModel(modelId: string): boolean {
  * @param isMistral - Whether the model is a Mistral model
  * @returns The normalized tool call ID (9 alphanumeric chars) if Mistral, otherwise the original ID
  */
-export function normalizeToolCallId(toolCallId: string, isMistral: boolean): string {
+export function normalizeToolCallId(
+  toolCallId: string,
+  isMistral: boolean,
+): string {
   if (!isMistral) {
     return toolCallId;
   }

@@ -39,7 +39,9 @@ const customSchema: StandardSchema<{ name: string; age: number }> = {
 describe('validateTypes', () => {
   it('should return validated object for valid input', async () => {
     const input = { name: 'John', age: 30 };
-    expect(await validateTypes({ value: input, schema: customSchema })).toEqual(input);
+    expect(await validateTypes({ value: input, schema: customSchema })).toEqual(
+      input,
+    );
   });
 
   it('should throw TypeValidationError for invalid input', async () => {

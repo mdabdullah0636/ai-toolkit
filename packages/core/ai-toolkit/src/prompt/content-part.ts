@@ -97,87 +97,90 @@ export const toolCallPartSchema: z.ZodType<ToolCallPart> = z.object({
 /**
 @internal
  */
-export const outputSchema: z.ZodType<ToolResultOutput> = z.discriminatedUnion('type', [
-  z.object({
-    type: z.literal('text'),
-    value: z.string(),
-    providerOptions: providerMetadataSchema.optional(),
-  }),
-  z.object({
-    type: z.literal('json'),
-    value: jsonValueSchema,
-    providerOptions: providerMetadataSchema.optional(),
-  }),
-  z.object({
-    type: z.literal('execution-denied'),
-    reason: z.string().optional(),
-    providerOptions: providerMetadataSchema.optional(),
-  }),
-  z.object({
-    type: z.literal('error-text'),
-    value: z.string(),
-    providerOptions: providerMetadataSchema.optional(),
-  }),
-  z.object({
-    type: z.literal('error-json'),
-    value: jsonValueSchema,
-    providerOptions: providerMetadataSchema.optional(),
-  }),
-  z.object({
-    type: z.literal('content'),
-    value: z.array(
-      z.union([
-        z.object({
-          type: z.literal('text'),
-          text: z.string(),
-          providerOptions: providerMetadataSchema.optional(),
-        }),
-        z.object({
-          type: z.literal('media'),
-          data: z.string(),
-          mediaType: z.string(),
-        }),
-        z.object({
-          type: z.literal('file-data'),
-          data: z.string(),
-          mediaType: z.string(),
-          filename: z.string().optional(),
-          providerOptions: providerMetadataSchema.optional(),
-        }),
-        z.object({
-          type: z.literal('file-url'),
-          url: z.string(),
-          providerOptions: providerMetadataSchema.optional(),
-        }),
-        z.object({
-          type: z.literal('file-id'),
-          fileId: z.union([z.string(), z.record(z.string(), z.string())]),
-          providerOptions: providerMetadataSchema.optional(),
-        }),
-        z.object({
-          type: z.literal('image-data'),
-          data: z.string(),
-          mediaType: z.string(),
-          providerOptions: providerMetadataSchema.optional(),
-        }),
-        z.object({
-          type: z.literal('image-url'),
-          url: z.string(),
-          providerOptions: providerMetadataSchema.optional(),
-        }),
-        z.object({
-          type: z.literal('image-file-id'),
-          fileId: z.union([z.string(), z.record(z.string(), z.string())]),
-          providerOptions: providerMetadataSchema.optional(),
-        }),
-        z.object({
-          type: z.literal('custom'),
-          providerOptions: providerMetadataSchema.optional(),
-        }),
-      ]),
-    ),
-  }),
-]);
+export const outputSchema: z.ZodType<ToolResultOutput> = z.discriminatedUnion(
+  'type',
+  [
+    z.object({
+      type: z.literal('text'),
+      value: z.string(),
+      providerOptions: providerMetadataSchema.optional(),
+    }),
+    z.object({
+      type: z.literal('json'),
+      value: jsonValueSchema,
+      providerOptions: providerMetadataSchema.optional(),
+    }),
+    z.object({
+      type: z.literal('execution-denied'),
+      reason: z.string().optional(),
+      providerOptions: providerMetadataSchema.optional(),
+    }),
+    z.object({
+      type: z.literal('error-text'),
+      value: z.string(),
+      providerOptions: providerMetadataSchema.optional(),
+    }),
+    z.object({
+      type: z.literal('error-json'),
+      value: jsonValueSchema,
+      providerOptions: providerMetadataSchema.optional(),
+    }),
+    z.object({
+      type: z.literal('content'),
+      value: z.array(
+        z.union([
+          z.object({
+            type: z.literal('text'),
+            text: z.string(),
+            providerOptions: providerMetadataSchema.optional(),
+          }),
+          z.object({
+            type: z.literal('media'),
+            data: z.string(),
+            mediaType: z.string(),
+          }),
+          z.object({
+            type: z.literal('file-data'),
+            data: z.string(),
+            mediaType: z.string(),
+            filename: z.string().optional(),
+            providerOptions: providerMetadataSchema.optional(),
+          }),
+          z.object({
+            type: z.literal('file-url'),
+            url: z.string(),
+            providerOptions: providerMetadataSchema.optional(),
+          }),
+          z.object({
+            type: z.literal('file-id'),
+            fileId: z.union([z.string(), z.record(z.string(), z.string())]),
+            providerOptions: providerMetadataSchema.optional(),
+          }),
+          z.object({
+            type: z.literal('image-data'),
+            data: z.string(),
+            mediaType: z.string(),
+            providerOptions: providerMetadataSchema.optional(),
+          }),
+          z.object({
+            type: z.literal('image-url'),
+            url: z.string(),
+            providerOptions: providerMetadataSchema.optional(),
+          }),
+          z.object({
+            type: z.literal('image-file-id'),
+            fileId: z.union([z.string(), z.record(z.string(), z.string())]),
+            providerOptions: providerMetadataSchema.optional(),
+          }),
+          z.object({
+            type: z.literal('custom'),
+            providerOptions: providerMetadataSchema.optional(),
+          }),
+        ]),
+      ),
+    }),
+  ],
+);
 
 /**
 @internal
@@ -190,16 +193,18 @@ export const toolResultPartSchema: z.ZodType<ToolResultPart> = z.object({
   providerOptions: providerMetadataSchema.optional(),
 }) as z.ZodType<ToolResultPart>; // necessary bc result is optional on Zod type
 
-export const toolApprovalRequestSchema: z.ZodType<ToolApprovalRequest> = z.object({
-  type: z.literal('tool-approval-request'),
-  approvalId: z.string(),
-  toolCallId: z.string(),
-  signature: z.string().optional(),
-});
+export const toolApprovalRequestSchema: z.ZodType<ToolApprovalRequest> =
+  z.object({
+    type: z.literal('tool-approval-request'),
+    approvalId: z.string(),
+    toolCallId: z.string(),
+    signature: z.string().optional(),
+  });
 
-export const toolApprovalResponseSchema: z.ZodType<ToolApprovalResponse> = z.object({
-  type: z.literal('tool-approval-response'),
-  approvalId: z.string(),
-  approved: z.boolean(),
-  reason: z.string().optional(),
-});
+export const toolApprovalResponseSchema: z.ZodType<ToolApprovalResponse> =
+  z.object({
+    type: z.literal('tool-approval-response'),
+    approvalId: z.string(),
+    approved: z.boolean(),
+    reason: z.string().optional(),
+  });

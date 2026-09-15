@@ -48,7 +48,9 @@ describe('ElevenLabsSpeechModel', () => {
       });
 
       // Check output_format is in query params
-      expect(server.calls[0].requestUrl).toContain('output_format=mp3_44100_128');
+      expect(server.calls[0].requestUrl).toContain(
+        'output_format=mp3_44100_128',
+      );
     });
 
     it('should handle custom output format', async () => {
@@ -85,7 +87,9 @@ describe('ElevenLabsSpeechModel', () => {
       });
 
       // Check output_format is in query params
-      expect(server.calls[0].requestUrl).toContain('output_format=mp3_44100_128');
+      expect(server.calls[0].requestUrl).toContain(
+        'output_format=mp3_44100_128',
+      );
     });
 
     it('should handle speed parameter in voice settings', async () => {
@@ -154,7 +158,9 @@ describe('ElevenLabsSpeechModel', () => {
       });
 
       // Check output_format is in query params
-      expect(server.calls[0].requestUrl).toContain('output_format=mp3_44100_128');
+      expect(server.calls[0].requestUrl).toContain(
+        'output_format=mp3_44100_128',
+      );
     });
 
     it('should include user-agent header', async () => {
@@ -165,7 +171,9 @@ describe('ElevenLabsSpeechModel', () => {
         voice: 'test-voice-id',
       });
 
-      expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/elevenlabs/0.0.0-test`);
+      expect(server.calls[0].requestUserAgent).toContain(
+        `ai-toolkit/elevenlabs/0.0.0-test`,
+      );
     });
   });
 });

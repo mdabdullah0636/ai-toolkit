@@ -19,7 +19,10 @@ run(async () => {
         console.log('\n\n--- Finish Step ---');
         console.log('Finish reason:', part.finishReason);
         console.log('Raw finish reason:', part.rawFinishReason);
-        console.log('Stop sequence:', part.providerMetadata?.anthropic?.stopSequence);
+        console.log(
+          'Stop sequence:',
+          part.providerMetadata?.anthropic?.stopSequence,
+        );
         break;
     }
   }

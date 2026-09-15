@@ -1,6 +1,9 @@
 import 'dotenv/config';
 import { expect } from 'vitest';
-import { togetherai as provider, TogetherAIErrorData } from '@ai-toolkit/togetherai';
+import {
+  togetherai as provider,
+  TogetherAIErrorData,
+} from '@ai-toolkit/togetherai';
 import { APICallError } from 'ai-toolkit';
 import {
   createEmbeddingModelWithCapabilities,
@@ -12,7 +15,9 @@ const createChatModel = (modelId: string) =>
   createLanguageModelWithCapabilities(provider.chatModel(modelId));
 
 const createCompletionModel = (modelId: string) =>
-  createLanguageModelWithCapabilities(provider.completionModel(modelId), ['textCompletion']);
+  createLanguageModelWithCapabilities(provider.completionModel(modelId), [
+    'textCompletion',
+  ]);
 
 createFeatureTestSuite({
   name: 'TogetherAI',
@@ -33,14 +38,18 @@ createFeatureTestSuite({
       createEmbeddingModelWithCapabilities(
         provider.embeddingModel('togethercomputer/m2-bert-80M-8k-retrieval'),
       ),
-      createEmbeddingModelWithCapabilities(provider.embeddingModel('BAAI/bge-base-en-v1.5')),
+      createEmbeddingModelWithCapabilities(
+        provider.embeddingModel('BAAI/bge-base-en-v1.5'),
+      ),
     ],
   },
   timeout: 10000,
   customAssertions: {
     skipUsage: true,
     errorValidator: (error: APICallError) => {
-      expect((error.data as TogetherAIErrorData).error.message).toMatch(/^Unable to access model/);
+      expect((error.data as TogetherAIErrorData).error.message).toMatch(
+        /^Unable to access model/,
+      );
     },
   },
 })();

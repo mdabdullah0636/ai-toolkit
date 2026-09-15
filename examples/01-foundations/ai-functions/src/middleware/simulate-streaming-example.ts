@@ -1,5 +1,9 @@
 import { openai } from '@ai-toolkit/openai';
-import { simulateStreamingMiddleware, streamText, wrapLanguageModel } from 'ai-toolkit';
+import {
+  simulateStreamingMiddleware,
+  streamText,
+  wrapLanguageModel,
+} from 'ai-toolkit';
 import { run } from '../lib/run';
 
 run(async () => {

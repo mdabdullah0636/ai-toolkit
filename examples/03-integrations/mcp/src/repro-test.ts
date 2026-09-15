@@ -8,7 +8,9 @@ async function testRefreshAuthorization() {
   const refreshToken = process.env.GITHUB_REFRESH_TOKEN;
 
   if (!clientId || !clientSecret || !refreshToken) {
-    throw new Error('Missing GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, or GITHUB_REFRESH_TOKEN');
+    throw new Error(
+      'Missing GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, or GITHUB_REFRESH_TOKEN',
+    );
   }
 
   const headers = new Headers({

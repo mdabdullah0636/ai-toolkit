@@ -15,7 +15,9 @@ describe('doRerank', () => {
   function prepareJsonFixtureResponse(filename: string) {
     server.urls['https://api.cohere.com/v2/rerank'].response = {
       type: 'json-value',
-      body: JSON.parse(fs.readFileSync(`src/reranking/__fixtures__/${filename}.json`, 'utf8')),
+      body: JSON.parse(
+        fs.readFileSync(`src/reranking/__fixtures__/${filename}.json`, 'utf8'),
+      ),
     };
     return;
   }
@@ -29,7 +31,10 @@ describe('doRerank', () => {
       result = await model.doRerank({
         documents: {
           type: 'object',
-          values: [{ example: 'sunny day at the beach' }, { example: 'rainy day in the city' }],
+          values: [
+            { example: 'sunny day at the beach' },
+            { example: 'rainy day in the city' },
+          ],
         },
         query: 'rainy day',
         topN: 2,

@@ -15,7 +15,10 @@ run(async () => {
   try {
     const abortController = new AbortController();
     const timeoutSignal = AbortSignal.timeout(connectionTimeout);
-    const finalSignal = AbortSignal.any([timeoutSignal, abortController.signal]);
+    const finalSignal = AbortSignal.any([
+      timeoutSignal,
+      abortController.signal,
+    ]);
 
     const result = streamText({
       model: openaiCompatible('deepseek-chat'),

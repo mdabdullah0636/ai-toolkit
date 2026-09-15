@@ -2,7 +2,7 @@
 
 A data-dense dashboard platform for the AI Toolkit: gateways, models,
 providers, and the registry. Where `apps/www` markets and `apps/docs`
-teaches, `apps/studio` *operates* — searchable, sortable, filterable tables,
+teaches, `apps/studio` _operates_ — searchable, sortable, filterable tables,
 KPI cards, and charting over the catalog data the monorepo already owns.
 
 **Assumption:** studio is a read-only dashboard over existing data sources
@@ -25,7 +25,7 @@ page splits below still apply.
   `readFileSync`); pages SSG to static HTML.
 - **Design system**: reuse the tokens/components established in
   `apps/www` (see `apps/www/REFACTORING-PLAN.md` + commit `310dce7`) — as a
-  *reference*, duplicated into studio for now.
+  _reference_, duplicated into studio for now.
 
 ## Design system (shared with www, then extended)
 
@@ -49,6 +49,7 @@ New dashboard primitives (studio-only, in `components/`):
 ## Data layer (`lib/`)
 
 Canonical sources (already in-repo):
+
 - `content/gateways-registry/registry.ts` → `Gateway[]` (name, developer,
   packageName, tags, install commands, urls).
 - `content/tools-registry/registry.ts` → `Tool[]`.
@@ -63,6 +64,7 @@ Canonical sources (already in-repo):
   seed data.
 
 Files:
+
 ```
 lib/types.ts          shared types (Gateway, Model, Provider, Tool, Metric, Sample)
 lib/gateways.ts       read registry.ts → Gateway[]
@@ -126,15 +128,15 @@ apps/studio/
 
 ## Phases
 
-| Phase | Scope | Exit criteria |
-| --- | --- | --- |
-| **S1 Scaffold** | Create `apps/studio` with www-copied configs (next, tsconfig, postcss, tailwind w/ surface tokens) + minimal `app/` hello | `pnpm install`, type-check passes |
-| **S2 Shell** | `StudioShell` chrome: h-16 top bar (logo, search input, GitHub), w-56 sidebar (section links + active underline), mobile drawer, `PageHeader` | Layout renders; nav works |
-| **S3 Data** | `lib/types.ts` + readers (registries, model-settings parse, providers frontmatter) + seeded `lib/metrics.ts` | Build-time reads produce typed arrays; unit-smoke via `tsx` |
-| **S4 Primitives** | `KpiCard`, `DataTable`, `FilterBar`, `StatusPill`, `chart/*`, `Drawer` | Components render on overview with seed data |
-| **S5 Pages** | Overview, Gateways, Models, Providers, Tools, Templates wired to data + primitives | All 6 routes SSG; tables sortable/searchable; drawers open |
-| **S6 Polish** | Empty states, responsive sidebar, row-count footers, prettier on touched files, cleanup | Lint + build green |
-| **S7 Verify** | From `apps/studio`: `pnpm type-check`, `pnpm lint`, `pnpm build`; confirm routes in build output | All pass |
+| Phase             | Scope                                                                                                                                         | Exit criteria                                               |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **S1 Scaffold**   | Create `apps/studio` with www-copied configs (next, tsconfig, postcss, tailwind w/ surface tokens) + minimal `app/` hello                     | `pnpm install`, type-check passes                           |
+| **S2 Shell**      | `StudioShell` chrome: h-16 top bar (logo, search input, GitHub), w-56 sidebar (section links + active underline), mobile drawer, `PageHeader` | Layout renders; nav works                                   |
+| **S3 Data**       | `lib/types.ts` + readers (registries, model-settings parse, providers frontmatter) + seeded `lib/metrics.ts`                                  | Build-time reads produce typed arrays; unit-smoke via `tsx` |
+| **S4 Primitives** | `KpiCard`, `DataTable`, `FilterBar`, `StatusPill`, `chart/*`, `Drawer`                                                                        | Components render on overview with seed data                |
+| **S5 Pages**      | Overview, Gateways, Models, Providers, Tools, Templates wired to data + primitives                                                            | All 6 routes SSG; tables sortable/searchable; drawers open  |
+| **S6 Polish**     | Empty states, responsive sidebar, row-count footers, prettier on touched files, cleanup                                                       | Lint + build green                                          |
+| **S7 Verify**     | From `apps/studio`: `pnpm type-check`, `pnpm lint`, `pnpm build`; confirm routes in build output                                              | All pass                                                    |
 
 ## Follow-ups (not in the initial build)
 

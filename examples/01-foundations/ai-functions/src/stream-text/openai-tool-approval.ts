@@ -1,5 +1,11 @@
 import { openai } from '@ai-toolkit/openai';
-import { ModelMessage, stepCountIs, streamText, tool, ToolApprovalResponse } from 'ai-toolkit';
+import {
+  ModelMessage,
+  stepCountIs,
+  streamText,
+  tool,
+  ToolApprovalResponse,
+} from 'ai-toolkit';
 import * as readline from 'node:readline/promises';
 import { z } from 'zod';
 import { run } from '../lib/run';
@@ -63,7 +69,8 @@ run(async () => {
           approvals.push({
             type: 'tool-approval-response',
             approvalId: part.approvalId,
-            approved: answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes',
+            approved:
+              answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes',
           });
         }
       }

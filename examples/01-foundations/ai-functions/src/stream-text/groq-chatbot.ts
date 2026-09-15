@@ -27,7 +27,9 @@ run(async () => {
         weather: tool({
           description: 'Get the weather in a location',
           inputSchema: z.object({
-            location: z.string().describe('The location to get the weather for'),
+            location: z
+              .string()
+              .describe('The location to get the weather for'),
           }),
           execute: async ({ location }) => ({
             location,
@@ -38,7 +40,9 @@ run(async () => {
       stopWhen: stepCountIs(5),
       messages,
       onStepFinish(step) {
-        console.log(JSON.stringify(JSON.parse(step.request.body as string), null, 2));
+        console.log(
+          JSON.stringify(JSON.parse(step.request.body as string), null, 2),
+        );
       },
     });
 

@@ -7,7 +7,8 @@ import { run } from '../lib/run';
 run(async () => {
   const result = streamText({
     model: openai('gpt-5'),
-    prompt: 'Generate an image of an echidna swimming across the Mozambique channel.',
+    prompt:
+      'Generate an image of an echidna swimming across the Mozambique channel.',
     tools: {
       image_generation: openai.tools.imageGeneration({
         outputFormat: 'webp',

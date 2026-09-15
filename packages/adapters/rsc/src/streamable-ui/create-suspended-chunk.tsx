@@ -18,7 +18,13 @@ type ChunkType =
 // `R` for `Row`, `c` for `current`, `n` for `next`.
 // Note: Array construction is needed to access the name R.
 const R = [
-  (async ({ c: current, n: next }: { c: React.ReactNode; n: Promise<ChunkType> }) => {
+  (async ({
+    c: current,
+    n: next,
+  }: {
+    c: React.ReactNode;
+    n: Promise<ChunkType>;
+  }) => {
     const chunk = await next;
 
     if (chunk.done) {

@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   WebPreview,
@@ -8,190 +8,190 @@ import {
   WebPreviewNavigation,
   WebPreviewNavigationButton,
   WebPreviewUrl,
-} from "./web-preview";
+} from './web-preview';
 
 const CONSOLE_REGEX = /console/i;
 
-describe("webPreview", () => {
-  it("renders children", () => {
+describe('webPreview', () => {
+  it('renders children', () => {
     render(<WebPreview>Content</WebPreview>);
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("uses default URL", () => {
+  it('uses default URL', () => {
     render(
       <WebPreview defaultUrl="https://example.com">
         <WebPreviewUrl />
-      </WebPreview>
+      </WebPreview>,
     );
-    const input = screen.getByPlaceholderText("Enter URL...");
-    expect(input).toHaveValue("https://example.com");
+    const input = screen.getByPlaceholderText('Enter URL...');
+    expect(input).toHaveValue('https://example.com');
   });
 
-  it("calls onUrlChange", async () => {
+  it('calls onUrlChange', async () => {
     const onUrlChange = vi.fn();
     const user = userEvent.setup();
 
     render(
       <WebPreview onUrlChange={onUrlChange}>
         <WebPreviewUrl />
-      </WebPreview>
+      </WebPreview>,
     );
 
-    const input = screen.getByPlaceholderText("Enter URL...");
-    await user.type(input, "https://test.com{Enter}");
+    const input = screen.getByPlaceholderText('Enter URL...');
+    await user.type(input, 'https://test.com{Enter}');
 
-    expect(onUrlChange).toHaveBeenCalledWith("https://test.com");
+    expect(onUrlChange).toHaveBeenCalledWith('https://test.com');
   });
 
-  it("throws error when component used outside provider", () => {
+  it('throws error when component used outside provider', () => {
     // Suppress console.error for this test
-    const spy = vi.spyOn(console, "error").mockImplementation(vi.fn());
+    const spy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
     expect(() => render(<WebPreviewUrl />)).toThrow(
-      "WebPreview components must be used within a WebPreview"
+      'WebPreview components must be used within a WebPreview',
     );
 
     spy.mockRestore();
   });
 });
 
-describe("webPreviewNavigation", () => {
-  it("renders navigation", () => {
+describe('webPreviewNavigation', () => {
+  it('renders navigation', () => {
     render(<WebPreviewNavigation>Nav content</WebPreviewNavigation>);
-    expect(screen.getByText("Nav content")).toBeInTheDocument();
+    expect(screen.getByText('Nav content')).toBeInTheDocument();
   });
 });
 
-describe("webPreviewNavigationButton", () => {
-  it("renders button with tooltip", () => {
+describe('webPreviewNavigationButton', () => {
+  it('renders button with tooltip', () => {
     render(
       <WebPreviewNavigationButton tooltip="Back">
         <span>←</span>
-      </WebPreviewNavigationButton>
+      </WebPreviewNavigationButton>,
     );
-    expect(screen.getByText("←")).toBeInTheDocument();
+    expect(screen.getByText('←')).toBeInTheDocument();
   });
 
-  it("can be disabled", () => {
+  it('can be disabled', () => {
     render(
       <WebPreviewNavigationButton disabled tooltip="Forward">
         →
-      </WebPreviewNavigationButton>
+      </WebPreviewNavigationButton>,
     );
-    expect(screen.getByRole("button")).toBeDisabled();
+    expect(screen.getByRole('button')).toBeDisabled();
   });
 
-  it("handles click", async () => {
+  it('handles click', async () => {
     const onClick = vi.fn();
     const user = userEvent.setup();
 
     render(
       <WebPreviewNavigationButton onClick={onClick} tooltip="Refresh">
         ↻
-      </WebPreviewNavigationButton>
+      </WebPreviewNavigationButton>,
     );
 
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole('button'));
     expect(onClick).toHaveBeenCalled();
   });
 });
 
-describe("webPreviewUrl", () => {
-  it("renders URL input", () => {
+describe('webPreviewUrl', () => {
+  it('renders URL input', () => {
     render(
       <WebPreview>
         <WebPreviewUrl />
-      </WebPreview>
+      </WebPreview>,
     );
-    expect(screen.getByPlaceholderText("Enter URL...")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Enter URL...')).toBeInTheDocument();
   });
 
-  it("updates URL on Enter key", async () => {
+  it('updates URL on Enter key', async () => {
     const user = userEvent.setup();
 
     render(
       <WebPreview>
         <WebPreviewUrl />
-      </WebPreview>
+      </WebPreview>,
     );
 
     const input = screen.getByPlaceholderText(
-      "Enter URL..."
+      'Enter URL...',
     ) as HTMLInputElement;
-    await user.type(input, "https://example.com{Enter}");
+    await user.type(input, 'https://example.com{Enter}');
 
     // Wait for the state to update
     await vi.waitFor(() => {
-      expect(input).toHaveValue("https://example.com");
+      expect(input).toHaveValue('https://example.com');
     });
   });
 });
 
-describe("webPreviewBody", () => {
-  it("renders iframe", () => {
+describe('webPreviewBody', () => {
+  it('renders iframe', () => {
     render(
       <WebPreview>
         <WebPreviewBody src="https://example.com" />
-      </WebPreview>
+      </WebPreview>,
     );
-    const iframe = screen.getByTitle("Preview");
+    const iframe = screen.getByTitle('Preview');
     expect(iframe).toBeInTheDocument();
-    expect(iframe).toHaveAttribute("src", "https://example.com");
+    expect(iframe).toHaveAttribute('src', 'https://example.com');
   });
 
-  it("has sandbox attribute", () => {
+  it('has sandbox attribute', () => {
     render(
       <WebPreview>
         <WebPreviewBody />
-      </WebPreview>
+      </WebPreview>,
     );
-    const iframe = screen.getByTitle("Preview");
-    expect(iframe).toHaveAttribute("sandbox");
+    const iframe = screen.getByTitle('Preview');
+    expect(iframe).toHaveAttribute('sandbox');
   });
 
-  it("renders loading component", () => {
+  it('renders loading component', () => {
     render(
       <WebPreview>
         <WebPreviewBody loading="lazy" />
-      </WebPreview>
+      </WebPreview>,
     );
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 });
 
-describe("webPreviewConsole", () => {
-  it("renders console", () => {
+describe('webPreviewConsole', () => {
+  it('renders console', () => {
     render(
       <WebPreview>
         <WebPreviewConsole />
-      </WebPreview>
+      </WebPreview>,
     );
     expect(
-      screen.getByRole("button", { name: CONSOLE_REGEX })
+      screen.getByRole('button', { name: CONSOLE_REGEX }),
     ).toBeInTheDocument();
   });
 
-  it("displays no output message", async () => {
+  it('displays no output message', async () => {
     const user = userEvent.setup();
 
     render(
       <WebPreview>
         <WebPreviewConsole />
-      </WebPreview>
+      </WebPreview>,
     );
 
-    await user.click(screen.getByRole("button", { name: CONSOLE_REGEX }));
-    expect(screen.getByText("No console output")).toBeVisible();
+    await user.click(screen.getByRole('button', { name: CONSOLE_REGEX }));
+    expect(screen.getByText('No console output')).toBeVisible();
   });
 
-  it("displays logs", async () => {
+  it('displays logs', async () => {
     const user = userEvent.setup();
     const logs = [
-      { level: "log" as const, message: "Test log", timestamp: new Date() },
+      { level: 'log' as const, message: 'Test log', timestamp: new Date() },
       {
-        level: "error" as const,
-        message: "Error message",
+        level: 'error' as const,
+        message: 'Error message',
         timestamp: new Date(),
       },
     ];
@@ -199,11 +199,11 @@ describe("webPreviewConsole", () => {
     render(
       <WebPreview>
         <WebPreviewConsole logs={logs} />
-      </WebPreview>
+      </WebPreview>,
     );
 
-    await user.click(screen.getByRole("button", { name: CONSOLE_REGEX }));
-    expect(screen.getByText("Test log")).toBeVisible();
-    expect(screen.getByText("Error message")).toBeVisible();
+    await user.click(screen.getByRole('button', { name: CONSOLE_REGEX }));
+    expect(screen.getByText('Test log')).toBeVisible();
+    expect(screen.getByText('Error message')).toBeVisible();
   });
 });

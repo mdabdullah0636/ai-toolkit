@@ -45,9 +45,7 @@ type DeepPartialInternal<T> = T extends
   | Date
   | RegExp
   | ((...arguments_: any[]) => unknown)
-  | (new (
-      ...arguments_: any[]
-    ) => unknown)
+  | (new (...arguments_: any[]) => unknown)
   ? T
   : T extends Map<infer KeyType, infer ValueType>
     ? PartialMap<KeyType, ValueType>

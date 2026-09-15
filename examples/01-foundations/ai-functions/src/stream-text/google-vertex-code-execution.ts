@@ -1,5 +1,10 @@
 import { vertex } from '@ai-toolkit/google-vertex';
-import { ModelMessage, streamText, ToolCallPart, ToolResultPart } from 'ai-toolkit';
+import {
+  ModelMessage,
+  streamText,
+  ToolCallPart,
+  ToolResultPart,
+} from 'ai-toolkit';
 import * as process from 'process';
 import { run } from '../lib/run';
 
@@ -11,7 +16,8 @@ run(async () => {
     model: vertex('gemini-2.5-pro'),
     tools: { code_execution: vertex.tools.codeExecution({}) },
     maxOutputTokens: 10000,
-    prompt: 'Calculate 20th fibonacci number. Then find the nearest palindrome to it.',
+    prompt:
+      'Calculate 20th fibonacci number. Then find the nearest palindrome to it.',
   });
 
   let fullResponse = '';
@@ -29,7 +35,9 @@ run(async () => {
       case 'tool-call': {
         toolCalls.push(delta);
 
-        process.stdout.write(`\nTool call: '${delta.toolName}' ${JSON.stringify(delta.input)}`);
+        process.stdout.write(
+          `\nTool call: '${delta.toolName}' ${JSON.stringify(delta.input)}`,
+        );
         break;
       }
 

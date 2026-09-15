@@ -21,7 +21,10 @@ import {
   InvalidGrantError,
   UnauthorizedClientError,
 } from '../error/oauth-error';
-import { resourceUrlFromServerUrl, checkResourceAllowed } from '../util/oauth-util';
+import {
+  resourceUrlFromServerUrl,
+  checkResourceAllowed,
+} from '../util/oauth-util';
 import { LATEST_PROTOCOL_VERSION } from './types';
 import { FetchFunction } from '@ai-toolkit/provider-utils';
 
@@ -67,16 +70,23 @@ export interface OAuthClientProvider {
    * credentials, in the case where the server has indicated that they are no longer valid.
    * This avoids requiring the user to intervene manually.
    */
-  invalidateCredentials?(scope: 'all' | 'client' | 'tokens' | 'verifier'): void | Promise<void>;
+  invalidateCredentials?(
+    scope: 'all' | 'client' | 'tokens' | 'verifier',
+  ): void | Promise<void>;
   get redirectUrl(): string | URL;
   get clientMetadata(): OAuthClientMetadata;
   clientInformation():
     | OAuthClientInformation
     | undefined
     | Promise<OAuthClientInformation | undefined>;
-  saveClientInformation?(clientInformation: OAuthClientInformation): void | Promise<void>;
+  saveClientInformation?(
+    clientInformation: OAuthClientInformation,
+  ): void | Promise<void>;
   state?(): string | Promise<string>;
-  validateResourceURL?(serverUrl: string | URL, resource?: string): Promise<URL | undefined>;
+  validateResourceURL?(
+    serverUrl: string | URL,
+    resource?: string,
+  ): Promise<URL | undefined>;
 }
 
 export class UnauthorizedError extends Error {
@@ -90,9 +100,12 @@ export class UnauthorizedError extends Error {
  * Extracts the OAuth 2.0 Protected Resource Metadata URL from a WWW-Authenticate header (RFC9728).
  * Looks for a resource="..." parameter.
  */
-export function extractResourceMetadataUrl(response: Response): URL | undefined {
+export function extractResourceMetadataUrl(
+  response: Response,
+): URL | undefined {
   const header =
-    response.headers.get('www-authenticate') ?? response.headers.get('WWW-Authenticate');
+    response.headers.get('www-authenticate') ??
+    response.headers.get('WWW-Authenticate');
   if (!header) {
     return undefined;
   }
@@ -172,8 +185,14 @@ async function tryMetadataDiscovery(
 /**
  * Determines if fallback to root discovery should be attempted
  */
-function shouldAttemptFallback(response: Response | undefined, pathname: string): boolean {
-  return !response || (response.status >= 400 && response.status < 500 && pathname !== '/');
+function shouldAttemptFallback(
+  response: Response | undefined,
+  pathname: string,
+): boolean {
+  return (
+    !response ||
+    (response.status >= 400 && response.status < 500 && pathname !== '/')
+  );
 }
 
 /**
@@ -227,7 +246,9 @@ export async function discoverOAuthProtectedResourceMetadata(
   );
 
   if (!response || response.status === 404) {
-    throw new Error(`Resource server does not implement OAuth 2.0 Protected Resource Metadata.`);
+    throw new Error(
+      `Resource server does not implement OAuth 2.0 Protected Resource Metadata.`,
+    );
   }
 
   if (!response.ok) {
@@ -275,7 +296,10 @@ export function buildDiscoveryUrls(
   }
 
   urlsToTry.push({
-    url: new URL(`/.well-known/oauth-authorization-server${pathname}`, url.origin),
+    url: new URL(
+      `/.well-known/oauth-authorization-server${pathname}`,
+      url.origin,
+    ),
     type: 'oauth',
   });
 
@@ -335,7 +359,9 @@ export async function discoverAuthorizationServerMetadata(
     if (type === 'oauth') {
       return OAuthMetadataSchema.parse(await response.json());
     } else {
-      const metadata = OpenIdProviderDiscoveryMetadataSchema.parse(await response.json());
+      const metadata = OpenIdProviderDiscoveryMetadataSchema.parse(
+        await response.json(),
+      );
 
       // MCP spec requires OIDC providers to support S256 PKCE
       if (!metadata.code_challenge_methods_supported?.includes('S256')) {
@@ -377,7 +403,9 @@ export async function startAuthorization(
     authorizationUrl = new URL(metadata.authorization_endpoint);
 
     if (!metadata.response_types_supported.includes(responseType)) {
-      throw new Error(`Incompatible auth server: does not support response type ${responseType}`);
+      throw new Error(
+        `Incompatible auth server: does not support response type ${responseType}`,
+      );
     }
 
     if (
@@ -399,7 +427,10 @@ export async function startAuthorization(
   authorizationUrl.searchParams.set('response_type', responseType);
   authorizationUrl.searchParams.set('client_id', clientInformation.client_id);
   authorizationUrl.searchParams.set('code_challenge', codeChallenge);
-  authorizationUrl.searchParams.set('code_challenge_method', codeChallengeMethod);
+  authorizationUrl.searchParams.set(
+    'code_challenge_method',
+    codeChallengeMethod,
+  );
   authorizationUrl.searchParams.set('redirect_uri', String(redirectUrl));
 
   if (state) {
@@ -506,7 +537,9 @@ function applyBasicAuth(
   headers: Headers,
 ): void {
   if (!clientSecret) {
-    throw new Error('client_secret_basic authentication requires a client_secret');
+    throw new Error(
+      'client_secret_basic authentication requires a client_secret',
+    );
   }
 
   const credentials = btoa(`${clientId}:${clientSecret}`);
@@ -545,7 +578,9 @@ function applyPublicAuth(clientId: string, params: URLSearchParams): void {
  * @param input - A Response object or string containing the error response
  * @returns A Promise that resolves to an OAuthError instance
  */
-export async function parseErrorResponse(input: Response | string): Promise<MCPClientOAuthError> {
+export async function parseErrorResponse(
+  input: Response | string,
+): Promise<MCPClientOAuthError> {
   const statusCode = input instanceof Response ? input.status : undefined;
   const body = input instanceof Response ? await input.text() : input;
 
@@ -604,8 +639,13 @@ export async function exchangeAuthorization(
     ? new URL(metadata.token_endpoint)
     : new URL('/token', authorizationServerUrl);
 
-  if (metadata?.grant_types_supported && !metadata.grant_types_supported.includes(grantType)) {
-    throw new Error(`Incompatible auth server: does not support grant type ${grantType}`);
+  if (
+    metadata?.grant_types_supported &&
+    !metadata.grant_types_supported.includes(grantType)
+  ) {
+    throw new Error(
+      `Incompatible auth server: does not support grant type ${grantType}`,
+    );
   }
 
   const headers = new Headers({
@@ -622,8 +662,12 @@ export async function exchangeAuthorization(
   if (addClientAuthentication) {
     addClientAuthentication(headers, params, authorizationServerUrl, metadata);
   } else {
-    const supportedMethods = metadata?.token_endpoint_auth_methods_supported ?? [];
-    const authMethod = selectClientAuthMethod(clientInformation, supportedMethods);
+    const supportedMethods =
+      metadata?.token_endpoint_auth_methods_supported ?? [];
+    const authMethod = selectClientAuthMethod(
+      clientInformation,
+      supportedMethods,
+    );
 
     applyClientAuthentication(authMethod, clientInformation, headers, params);
   }
@@ -681,8 +725,13 @@ export async function refreshAuthorization(
   if (metadata) {
     tokenUrl = new URL(metadata.token_endpoint);
 
-    if (metadata.grant_types_supported && !metadata.grant_types_supported.includes(grantType)) {
-      throw new Error(`Incompatible auth server: does not support grant type ${grantType}`);
+    if (
+      metadata.grant_types_supported &&
+      !metadata.grant_types_supported.includes(grantType)
+    ) {
+      throw new Error(
+        `Incompatible auth server: does not support grant type ${grantType}`,
+      );
     }
   } else {
     tokenUrl = new URL('/token', authorizationServerUrl);
@@ -700,8 +749,12 @@ export async function refreshAuthorization(
   if (addClientAuthentication) {
     addClientAuthentication(headers, params, authorizationServerUrl, metadata);
   } else {
-    const supportedMethods = metadata?.token_endpoint_auth_methods_supported ?? [];
-    const authMethod = selectClientAuthMethod(clientInformation, supportedMethods);
+    const supportedMethods =
+      metadata?.token_endpoint_auth_methods_supported ?? [];
+    const authMethod = selectClientAuthMethod(
+      clientInformation,
+      supportedMethods,
+    );
 
     applyClientAuthentication(authMethod, clientInformation, headers, params);
   }
@@ -744,7 +797,9 @@ export async function registerClient(
 
   if (metadata) {
     if (!metadata.registration_endpoint) {
-      throw new Error('Incompatible auth server: does not support dynamic client registration');
+      throw new Error(
+        'Incompatible auth server: does not support dynamic client registration',
+      );
     }
 
     registrationUrl = new URL(metadata.registration_endpoint);
@@ -780,7 +835,10 @@ export async function auth(
   try {
     return await authInternal(provider, options);
   } catch (error) {
-    if (error instanceof InvalidClientError || error instanceof UnauthorizedClientError) {
+    if (
+      error instanceof InvalidClientError ||
+      error instanceof UnauthorizedClientError
+    ) {
       await provider.invalidateCredentials?.('all');
       return await authInternal(provider, options);
     } else if (error instanceof InvalidGrantError) {
@@ -800,7 +858,10 @@ export async function selectResourceURL(
   const defaultResource = resourceUrlFromServerUrl(serverUrl);
 
   if (provider.validateResourceURL) {
-    return await provider.validateResourceURL(defaultResource, resourceMetadata?.resource);
+    return await provider.validateResourceURL(
+      defaultResource,
+      resourceMetadata?.resource,
+    );
   }
 
   if (!resourceMetadata) {
@@ -860,11 +921,18 @@ async function authInternal(
     authorizationServerUrl = serverUrl;
   }
 
-  const resource: URL | undefined = await selectResourceURL(serverUrl, provider, resourceMetadata);
+  const resource: URL | undefined = await selectResourceURL(
+    serverUrl,
+    provider,
+    resourceMetadata,
+  );
 
-  const metadata = await discoverAuthorizationServerMetadata(authorizationServerUrl, {
-    fetchFn,
-  });
+  const metadata = await discoverAuthorizationServerMetadata(
+    authorizationServerUrl,
+    {
+      fetchFn,
+    },
+  );
 
   let clientInformation = await Promise.resolve(provider.clientInformation());
   if (!clientInformation) {
@@ -875,7 +943,9 @@ async function authInternal(
     }
 
     if (!provider.saveClientInformation) {
-      throw new Error('OAuth client information must be saveable for dynamic registration');
+      throw new Error(
+        'OAuth client information must be saveable for dynamic registration',
+      );
     }
 
     const fullInformation = await registerClient(authorizationServerUrl, {
@@ -940,14 +1010,17 @@ async function authInternal(
   const state = provider.state ? await provider.state() : undefined;
 
   // Start new authorization flow
-  const { authorizationUrl, codeVerifier } = await startAuthorization(authorizationServerUrl, {
-    metadata,
-    clientInformation,
-    state,
-    redirectUrl: provider.redirectUrl,
-    scope: scope || provider.clientMetadata.scope,
-    resource,
-  });
+  const { authorizationUrl, codeVerifier } = await startAuthorization(
+    authorizationServerUrl,
+    {
+      metadata,
+      clientInformation,
+      state,
+      redirectUrl: provider.redirectUrl,
+      scope: scope || provider.clientMetadata.scope,
+      resource,
+    },
+  );
 
   await provider.saveCodeVerifier(codeVerifier);
   await provider.redirectToAuthorization(authorizationUrl);

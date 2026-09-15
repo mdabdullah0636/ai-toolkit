@@ -1,5 +1,9 @@
 import { OpenAICompatibleChatLanguageModel } from '@ai-toolkit/openai-compatible';
-import { LanguageModelV3, NoSuchModelError, ProviderV3 } from '@ai-toolkit/provider';
+import {
+  LanguageModelV3,
+  NoSuchModelError,
+  ProviderV3,
+} from '@ai-toolkit/provider';
 import {
   FetchFunction,
   loadApiKey,
@@ -68,8 +72,12 @@ Creates a Cerebras chat model for text generation.
   textEmbeddingModel(modelId: string): never;
 }
 
-export function createCerebras(options: CerebrasProviderSettings = {}): CerebrasProvider {
-  const baseURL = withoutTrailingSlash(options.baseURL ?? 'https://api.cerebras.ai/v1');
+export function createCerebras(
+  options: CerebrasProviderSettings = {},
+): CerebrasProvider {
+  const baseURL = withoutTrailingSlash(
+    options.baseURL ?? 'https://api.cerebras.ai/v1',
+  );
   const getHeaders = () =>
     withUserAgentSuffix(
       {
@@ -94,7 +102,8 @@ export function createCerebras(options: CerebrasProviderSettings = {}): Cerebras
     });
   };
 
-  const provider = (modelId: CerebrasChatModelId) => createLanguageModel(modelId);
+  const provider = (modelId: CerebrasChatModelId) =>
+    createLanguageModel(modelId);
 
   provider.specificationVersion = 'v3' as const;
   provider.languageModel = createLanguageModel;

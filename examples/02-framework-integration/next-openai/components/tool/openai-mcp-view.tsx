@@ -24,7 +24,12 @@ export default function OpenAIMCPView({
       const output = invocation.output;
 
       // Handle MCP call output
-      if (output && typeof output === 'object' && 'type' in output && output.type === 'call') {
+      if (
+        output &&
+        typeof output === 'object' &&
+        'type' in output &&
+        output.type === 'call'
+      ) {
         return (
           <div className="mb-4 p-3 bg-green-50 rounded border-l-4 border-green-400 shadow">
             <div className="flex items-center font-semibold text-green-700">
@@ -86,13 +91,17 @@ export default function OpenAIMCPView({
           </div>
           <div className="mt-2 pl-5">
             <div className="mb-2">
-              <span className="text-xs font-semibold text-gray-600 mb-1">Input:</span>
+              <span className="text-xs font-semibold text-gray-600 mb-1">
+                Input:
+              </span>
               <pre className="text-xs overflow-auto bg-white p-2 rounded border border-gray-200">
                 {JSON.stringify(invocation.input, null, 2)}
               </pre>
             </div>
             <div>
-              <span className="text-xs font-semibold text-gray-600 mb-1">Output:</span>
+              <span className="text-xs font-semibold text-gray-600 mb-1">
+                Output:
+              </span>
               <pre className="text-xs overflow-auto bg-white p-2 rounded border border-gray-200">
                 {JSON.stringify(output, null, 2)}
               </pre>
@@ -110,7 +119,9 @@ export default function OpenAIMCPView({
             </span>
             MCP tool error
           </div>
-          <div className="mt-2 pl-5 text-sm text-red-600">{invocation.errorText}</div>
+          <div className="mt-2 pl-5 text-sm text-red-600">
+            {invocation.errorText}
+          </div>
         </div>
       );
     }

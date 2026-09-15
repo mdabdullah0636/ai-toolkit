@@ -110,7 +110,9 @@ export function smoothStream<TOOLS extends ToolSet>({
     let type: 'text-delta' | 'reasoning-delta' | undefined = undefined;
     let providerMetadata: SharedV3ProviderMetadata | undefined = undefined;
 
-    function flushBuffer(controller: TransformStreamDefaultController<TextStreamPart<TOOLS>>) {
+    function flushBuffer(
+      controller: TransformStreamDefaultController<TextStreamPart<TOOLS>>,
+    ) {
       if (buffer.length > 0 && type !== undefined) {
         controller.enqueue({
           type,

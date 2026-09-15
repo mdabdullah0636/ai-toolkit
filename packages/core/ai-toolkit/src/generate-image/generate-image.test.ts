@@ -1,6 +1,21 @@
-import { ImageModelV3, ImageModelV3ProviderMetadata } from '@ai-toolkit/provider';
-import { convertBase64ToUint8Array, convertUint8ArrayToBase64 } from '@ai-toolkit/provider-utils';
-import { afterEach, beforeEach, describe, expect, it, test, vi, vitest } from 'vitest';
+import {
+  ImageModelV3,
+  ImageModelV3ProviderMetadata,
+} from '@ai-toolkit/provider';
+import {
+  convertBase64ToUint8Array,
+  convertUint8ArrayToBase64,
+} from '@ai-toolkit/provider-utils';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  test,
+  vi,
+  vitest,
+} from 'vitest';
 import * as logWarningsModule from '../logger/log-warnings';
 import { MockImageModelV3 } from '../test/mock-image-model-v3';
 import { Warning } from '../types/warning';
@@ -47,7 +62,9 @@ describe('generateImage', () => {
   let logWarningsSpy: ReturnType<typeof vitest.spyOn>;
 
   beforeEach(() => {
-    logWarningsSpy = vitest.spyOn(logWarningsModule, 'logWarnings').mockImplementation(() => {});
+    logWarningsSpy = vitest
+      .spyOn(logWarningsModule, 'logWarnings')
+      .mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -394,7 +411,9 @@ describe('generateImage', () => {
         },
       });
 
-      expect(result.images.map(image => image.base64)).toStrictEqual(base64Images);
+      expect(result.images.map(image => image.base64)).toStrictEqual(
+        base64Images,
+      );
     });
 
     it('should aggregate warnings', async () => {
@@ -472,79 +491,84 @@ describe('generateImage', () => {
     test.each([
       ['sync method', () => 2],
       ['async method', async () => 2],
-    ])('should generate with maxImagesPerCall = %s', async (_, maxImagesPerCall) => {
-      const base64Images = [pngBase64, jpegBase64, gifBase64];
+    ])(
+      'should generate with maxImagesPerCall = %s',
+      async (_, maxImagesPerCall) => {
+        const base64Images = [pngBase64, jpegBase64, gifBase64];
 
-      let callCount = 0;
-      const maxImagesPerCallMock = vitest.fn(maxImagesPerCall);
+        let callCount = 0;
+        const maxImagesPerCallMock = vitest.fn(maxImagesPerCall);
 
-      const result = await generateImage({
-        model: new MockImageModelV3({
-          maxImagesPerCall: maxImagesPerCallMock,
-          doGenerate: async options => {
-            switch (callCount++) {
-              case 0:
-                expect(options).toStrictEqual({
-                  prompt,
-                  files: undefined,
-                  mask: undefined,
-                  n: 2,
-                  seed: 12345,
-                  size: '1024x1024',
-                  aspectRatio: '16:9',
-                  providerOptions: {
-                    'mock-provider': { style: 'vivid' },
-                  },
-                  headers: {
-                    'custom-request-header': 'request-header-value',
-                    'user-agent': 'ai/0.0.0-test',
-                  },
-                  abortSignal: undefined,
-                });
-                return createMockResponse({
-                  images: base64Images.slice(0, 2),
-                });
-              case 1:
-                expect(options).toStrictEqual({
-                  prompt,
-                  files: undefined,
-                  mask: undefined,
-                  n: 1,
-                  seed: 12345,
-                  size: '1024x1024',
-                  aspectRatio: '16:9',
-                  providerOptions: { 'mock-provider': { style: 'vivid' } },
-                  headers: {
-                    'custom-request-header': 'request-header-value',
-                    'user-agent': 'ai/0.0.0-test',
-                  },
-                  abortSignal: undefined,
-                });
-                return createMockResponse({
-                  images: base64Images.slice(2),
-                });
-              default:
-                throw new Error('Unexpected call');
-            }
+        const result = await generateImage({
+          model: new MockImageModelV3({
+            maxImagesPerCall: maxImagesPerCallMock,
+            doGenerate: async options => {
+              switch (callCount++) {
+                case 0:
+                  expect(options).toStrictEqual({
+                    prompt,
+                    files: undefined,
+                    mask: undefined,
+                    n: 2,
+                    seed: 12345,
+                    size: '1024x1024',
+                    aspectRatio: '16:9',
+                    providerOptions: {
+                      'mock-provider': { style: 'vivid' },
+                    },
+                    headers: {
+                      'custom-request-header': 'request-header-value',
+                      'user-agent': 'ai/0.0.0-test',
+                    },
+                    abortSignal: undefined,
+                  });
+                  return createMockResponse({
+                    images: base64Images.slice(0, 2),
+                  });
+                case 1:
+                  expect(options).toStrictEqual({
+                    prompt,
+                    files: undefined,
+                    mask: undefined,
+                    n: 1,
+                    seed: 12345,
+                    size: '1024x1024',
+                    aspectRatio: '16:9',
+                    providerOptions: { 'mock-provider': { style: 'vivid' } },
+                    headers: {
+                      'custom-request-header': 'request-header-value',
+                      'user-agent': 'ai/0.0.0-test',
+                    },
+                    abortSignal: undefined,
+                  });
+                  return createMockResponse({
+                    images: base64Images.slice(2),
+                  });
+                default:
+                  throw new Error('Unexpected call');
+              }
+            },
+          }),
+          prompt,
+          n: 3,
+          size: '1024x1024',
+          aspectRatio: '16:9',
+          seed: 12345,
+          providerOptions: { 'mock-provider': { style: 'vivid' } },
+          headers: {
+            'custom-request-header': 'request-header-value',
           },
-        }),
-        prompt,
-        n: 3,
-        size: '1024x1024',
-        aspectRatio: '16:9',
-        seed: 12345,
-        providerOptions: { 'mock-provider': { style: 'vivid' } },
-        headers: {
-          'custom-request-header': 'request-header-value',
-        },
-      });
+        });
 
-      expect(result.images.map(image => image.base64)).toStrictEqual(base64Images);
-      expect(maxImagesPerCallMock).toHaveBeenCalledTimes(1);
-      expect(maxImagesPerCallMock).toHaveBeenCalledWith({
-        modelId: 'mock-model-id',
-      });
-    });
+        expect(result.images.map(image => image.base64)).toStrictEqual(
+          base64Images,
+        );
+        expect(maxImagesPerCallMock).toHaveBeenCalledTimes(1);
+        expect(maxImagesPerCallMock).toHaveBeenCalledWith({
+          modelId: 'mock-model-id',
+        });
+      },
+    );
   });
 
   describe('error handling', () => {
@@ -727,7 +751,10 @@ describe('generateImage', () => {
       n: 2,
     });
 
-    expect(result.images.map(image => image.base64)).toStrictEqual([pngBase64, jpegBase64]);
+    expect(result.images.map(image => image.base64)).toStrictEqual([
+      pngBase64,
+      jpegBase64,
+    ]);
     expect(result.usage).toStrictEqual({
       inputTokens: 15,
       outputTokens: 0,
@@ -772,7 +799,10 @@ describe('generateImage', () => {
 
       expect(result.providerMetadata).toStrictEqual({
         testProvider: {
-          images: [{ revisedPrompt: 'prompt-1' }, { revisedPrompt: 'prompt-2' }],
+          images: [
+            { revisedPrompt: 'prompt-1' },
+            { revisedPrompt: 'prompt-2' },
+          ],
         },
       });
     });
@@ -931,7 +961,10 @@ describe('generateImage', () => {
             warnings: [],
             providerMetadata: {
               vertex: {
-                images: [{ revisedPrompt: 'revised-1' }, { revisedPrompt: 'revised-2' }],
+                images: [
+                  { revisedPrompt: 'revised-1' },
+                  { revisedPrompt: 'revised-2' },
+                ],
               },
               gateway: {
                 images: [],
@@ -952,7 +985,10 @@ describe('generateImage', () => {
 
       expect(result.providerMetadata).toStrictEqual({
         vertex: {
-          images: [{ revisedPrompt: 'revised-1' }, { revisedPrompt: 'revised-2' }],
+          images: [
+            { revisedPrompt: 'revised-1' },
+            { revisedPrompt: 'revised-2' },
+          ],
         },
         gateway: {
           routing: { provider: 'vertex' },
@@ -1006,7 +1042,10 @@ describe('generateImage', () => {
 
       expect(result.providerMetadata).toStrictEqual({
         vertex: {
-          images: [{ revisedPrompt: 'revised-1' }, { revisedPrompt: 'revised-2' }],
+          images: [
+            { revisedPrompt: 'revised-1' },
+            { revisedPrompt: 'revised-2' },
+          ],
         },
         gateway: {
           routing: { provider: 'vertex' },

@@ -47,7 +47,9 @@ describe('AI State Management', () => {
   });
 
   it('should throw an error when accessing AI state outside of withAIState', () => {
-    expect(() => getAIState()).toThrow('`getAIState` must be called within an AI Action.');
+    expect(() => getAIState()).toThrow(
+      '`getAIState` must be called within an AI Action.',
+    );
   });
 
   it('should throw an error when updating AI state after it has been sealed', () => {

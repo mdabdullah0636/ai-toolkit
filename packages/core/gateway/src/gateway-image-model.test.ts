@@ -6,7 +6,9 @@ import type { GatewayConfig } from './gateway-config';
 const TEST_MODEL_ID = 'google/imagen-4.0-generate';
 
 const createTestModel = (
-  config: Partial<GatewayConfig & { o11yHeaders?: Record<string, string> }> = {},
+  config: Partial<
+    GatewayConfig & { o11yHeaders?: Record<string, string> }
+  > = {},
 ) => {
   return new GatewayImageModel(TEST_MODEL_ID, {
     provider: 'gateway',
@@ -178,7 +180,10 @@ describe('GatewayImageModel', () => {
     it('should return provider metadata correctly', async () => {
       const mockProviderMetadata = {
         vertex: {
-          images: [{ revisedPrompt: 'Revised prompt 1' }, { revisedPrompt: 'Revised prompt 2' }],
+          images: [
+            { revisedPrompt: 'Revised prompt 1' },
+            { revisedPrompt: 'Revised prompt 2' },
+          ],
         },
         gateway: {
           routing: { provider: 'vertex' },
@@ -275,7 +280,9 @@ describe('GatewayImageModel', () => {
     });
 
     it('should return warnings when provided', async () => {
-      const mockWarnings = [{ type: 'other' as const, message: 'Setting not supported' }];
+      const mockWarnings = [
+        { type: 'other' as const, message: 'Setting not supported' },
+      ];
 
       prepareJsonResponse({
         images: ['base64-1'],
@@ -551,7 +558,10 @@ describe('GatewayImageModel', () => {
         images: ['base64-1', 'base64-2'],
         providerMetadata: {
           vertex: {
-            images: [{ revisedPrompt: 'Revised 1' }, { revisedPrompt: 'Revised 2' }],
+            images: [
+              { revisedPrompt: 'Revised 1' },
+              { revisedPrompt: 'Revised 2' },
+            ],
             usage: { tokens: 150 },
           },
           gateway: {
@@ -582,7 +592,10 @@ describe('GatewayImageModel', () => {
 
       expect(result.providerMetadata).toEqual({
         vertex: {
-          images: [{ revisedPrompt: 'Revised 1' }, { revisedPrompt: 'Revised 2' }],
+          images: [
+            { revisedPrompt: 'Revised 1' },
+            { revisedPrompt: 'Revised 2' },
+          ],
           usage: { tokens: 150 },
         },
         gateway: {

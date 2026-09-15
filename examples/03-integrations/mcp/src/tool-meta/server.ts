@@ -43,18 +43,23 @@ mcpServer.registerTool(
   },
 );
 
-mcpServer.registerResource('weather-widget', WEATHER_WIDGET_URI, {}, async () => {
-  return {
-    contents: [
-      {
-        uri: 'ui://widgets/weather.html',
-        mimeType: 'text/html+skybridge',
-        text: `<div>Weather widget</div>`,
-      },
-    ],
-    _meta: {},
-  };
-});
+mcpServer.registerResource(
+  'weather-widget',
+  WEATHER_WIDGET_URI,
+  {},
+  async () => {
+    return {
+      contents: [
+        {
+          uri: 'ui://widgets/weather.html',
+          mimeType: 'text/html+skybridge',
+          text: `<div>Weather widget</div>`,
+        },
+      ],
+      _meta: {},
+    };
+  },
+);
 
 mcpServer.registerTool(
   'get-time',

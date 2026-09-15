@@ -983,7 +983,9 @@ describe('convertToModelMessages', () => {
         },
         {
           role: 'assistant',
-          parts: [{ type: 'text', text: "I'll check that for you.", state: 'done' }],
+          parts: [
+            { type: 'text', text: "I'll check that for you.", state: 'done' },
+          ],
         },
         {
           role: 'user',
@@ -2372,7 +2374,9 @@ describe('convertToModelMessages', () => {
       });
 
       it('should preserve order of parts including converted data parts', async () => {
-        const result = await convertToModelMessages<UIMessage<unknown, { tag: { value: string } }>>(
+        const result = await convertToModelMessages<
+          UIMessage<unknown, { tag: { value: string } }>
+        >(
           [
             {
               role: 'user',
@@ -2713,7 +2717,9 @@ describe('convertToModelMessages', () => {
       });
 
       it('should preserve order of parts including converted data parts', async () => {
-        const result = await convertToModelMessages<UIMessage<unknown, { tag: { value: string } }>>(
+        const result = await convertToModelMessages<
+          UIMessage<unknown, { tag: { value: string } }>
+        >(
           [
             {
               role: 'assistant',

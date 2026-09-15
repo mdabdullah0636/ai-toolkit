@@ -309,7 +309,9 @@ describe('user messages', () => {
           content: [
             {
               type: 'file',
-              data: Buffer.from('sample text content', 'utf-8').toString('base64'),
+              data: Buffer.from('sample text content', 'utf-8').toString(
+                'base64',
+              ),
               mediaType: 'text/plain',
               filename: 'sample.txt',
             },
@@ -965,7 +967,8 @@ describe('assistant messages', () => {
             content: [
               {
                 type: 'thinking',
-                thinking: 'I need to count the number of "r"s in the word "strawberry".',
+                thinking:
+                  'I need to count the number of "r"s in the word "strawberry".',
                 signature: 'test-signature',
               },
               {
@@ -2339,7 +2342,9 @@ describe('cache control', () => {
         toolNameMapping: defaultToolNameMapping,
       });
 
-      expect(result.prompt.messages[0].content[0]).not.toHaveProperty('cache_control');
+      expect(result.prompt.messages[0].content[0]).not.toHaveProperty(
+        'cache_control',
+      );
 
       expect(cacheControlValidator.getWarnings()).toMatchInlineSnapshot(`
         [
@@ -2710,7 +2715,9 @@ describe('citations', () => {
         prompt: [
           {
             role: 'user',
-            content: [{ type: 'text', text: 'weather for berlin, london and paris' }],
+            content: [
+              { type: 'text', text: 'weather for berlin, london and paris' },
+            ],
           },
           {
             role: 'assistant',

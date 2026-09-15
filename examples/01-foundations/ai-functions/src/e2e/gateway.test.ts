@@ -1,6 +1,9 @@
 import 'dotenv/config';
 import { gateway as provider } from '@ai-toolkit/gateway';
-import { createFeatureTestSuite, createLanguageModelWithCapabilities } from './feature-test-suite';
+import {
+  createFeatureTestSuite,
+  createLanguageModelWithCapabilities,
+} from './feature-test-suite';
 
 const createChatModel = (modelId: string) =>
   createLanguageModelWithCapabilities(provider.languageModel(modelId));

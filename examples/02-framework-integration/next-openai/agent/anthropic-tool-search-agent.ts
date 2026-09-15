@@ -1,5 +1,10 @@
 import { anthropic } from '@ai-toolkit/anthropic';
-import { InferAgentUIMessage, tool, ToolLoopAgent, UIToolInvocation } from 'ai-toolkit';
+import {
+  InferAgentUIMessage,
+  tool,
+  ToolLoopAgent,
+  UIToolInvocation,
+} from 'ai-toolkit';
 import { z } from 'zod';
 
 const weatherTool = tool({
@@ -41,6 +46,8 @@ export const anthropicToolSearchAgent = new ToolLoopAgent({
   },
 });
 
-export type AnthropicToolSearchAgentMessage = InferAgentUIMessage<typeof anthropicToolSearchAgent>;
+export type AnthropicToolSearchAgentMessage = InferAgentUIMessage<
+  typeof anthropicToolSearchAgent
+>;
 
 export type SendEmailUIToolInvocation = UIToolInvocation<typeof sendEmailTool>;

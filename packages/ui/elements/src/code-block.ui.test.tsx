@@ -1,47 +1,47 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen, waitFor } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
-import { CodeBlock, CodeBlockCopyButton } from "./code-block";
+import { CodeBlock, CodeBlockCopyButton } from './code-block';
 
-describe("codeBlock", () => {
-  it("renders code content", async () => {
+describe('codeBlock', () => {
+  it('renders code content', async () => {
     const { container } = render(
-      <CodeBlock code="const foo = 'bar';" language="javascript" />
+      <CodeBlock code="const foo = 'bar';" language="javascript" />,
     );
     await waitFor(() => {
-      expect(container.textContent).toContain("const foo");
+      expect(container.textContent).toContain('const foo');
     });
   });
 
-  it("renders with line numbers", async () => {
+  it('renders with line numbers', async () => {
     const { container } = render(
       <CodeBlock
         code="line1\nline2"
         language="javascript"
         showLineNumbers={true}
-      />
+      />,
     );
     await waitFor(() => {
-      expect(container.textContent).toContain("line1");
+      expect(container.textContent).toContain('line1');
     });
   });
 
-  it("renders children actions", () => {
+  it('renders children actions', () => {
     render(
       <CodeBlock code="code" language="javascript">
         <button type="button">Action</button>
-      </CodeBlock>
+      </CodeBlock>,
     );
-    expect(screen.getByText("Action")).toBeInTheDocument();
+    expect(screen.getByText('Action')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <CodeBlock className="custom-class" code="code" language="javascript" />
+      <CodeBlock className="custom-class" code="code" language="javascript" />,
     );
-    expect(container.firstChild).toHaveClass("custom-class");
-    expect(container.firstChild).toHaveClass("group");
-    expect(container.firstChild).toHaveClass("relative");
+    expect(container.firstChild).toHaveClass('custom-class');
+    expect(container.firstChild).toHaveClass('group');
+    expect(container.firstChild).toHaveClass('relative');
   });
 });
 
@@ -49,63 +49,63 @@ const setupCopyButtonTests = () => {
   vi.clearAllMocks();
 };
 
-describe("codeBlockCopyButton", () => {
-  it("renders copy button", () => {
+describe('codeBlockCopyButton', () => {
+  it('renders copy button', () => {
     setupCopyButtonTests();
     render(
       <CodeBlock code="test code" language="javascript">
         <CodeBlockCopyButton />
-      </CodeBlock>
+      </CodeBlock>,
     );
-    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  it("copies code to clipboard", async () => {
+  it('copies code to clipboard', async () => {
     const user = userEvent.setup();
-    const writeTextSpy = vi.spyOn(navigator.clipboard, "writeText");
+    const writeTextSpy = vi.spyOn(navigator.clipboard, 'writeText');
 
     render(
       <CodeBlock code="test code" language="javascript">
         <CodeBlockCopyButton />
-      </CodeBlock>
+      </CodeBlock>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
-    expect(writeTextSpy).toHaveBeenCalledWith("test code");
+    expect(writeTextSpy).toHaveBeenCalledWith('test code');
   });
 
-  it("calls onCopy callback", async () => {
+  it('calls onCopy callback', async () => {
     const onCopy = vi.fn();
     const user = userEvent.setup();
 
     render(
       <CodeBlock code="test code" language="javascript">
         <CodeBlockCopyButton onCopy={onCopy} />
-      </CodeBlock>
+      </CodeBlock>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
     expect(onCopy).toHaveBeenCalled();
   });
 
-  it("calls onError when clipboard fails", async () => {
+  it('calls onError when clipboard fails', async () => {
     const onError = vi.fn();
     const user = userEvent.setup();
-    const error = new Error("Clipboard error");
+    const error = new Error('Clipboard error');
 
-    vi.spyOn(navigator.clipboard, "writeText").mockRejectedValueOnce(error);
+    vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValueOnce(error);
 
     render(
       <CodeBlock code="test code" language="javascript">
         <CodeBlockCopyButton onError={onError} />
-      </CodeBlock>
+      </CodeBlock>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
     await vi.waitFor(() => {
@@ -113,13 +113,13 @@ describe("codeBlockCopyButton", () => {
     });
   });
 
-  it("calls onError when clipboard API is not available", async () => {
+  it('calls onError when clipboard API is not available', async () => {
     const onError = vi.fn();
     const user = userEvent.setup();
 
     // Temporarily remove clipboard writeText method
     const originalClipboard = navigator.clipboard;
-    Object.defineProperty(navigator, "clipboard", {
+    Object.defineProperty(navigator, 'clipboard', {
       configurable: true,
       value: { writeText: undefined },
       writable: true,
@@ -128,20 +128,20 @@ describe("codeBlockCopyButton", () => {
     render(
       <CodeBlock code="test code" language="javascript">
         <CodeBlockCopyButton onError={onError} />
-      </CodeBlock>
+      </CodeBlock>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
     expect(onError).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: "Clipboard API not available",
-      })
+        message: 'Clipboard API not available',
+      }),
     );
 
     // Restore clipboard API
-    Object.defineProperty(navigator, "clipboard", {
+    Object.defineProperty(navigator, 'clipboard', {
       configurable: true,
       value: originalClipboard,
       writable: true,

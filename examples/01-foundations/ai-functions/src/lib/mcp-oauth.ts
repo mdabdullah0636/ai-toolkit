@@ -1,5 +1,9 @@
 import { auth, type OAuthClientProvider } from '@ai-toolkit/mcp';
-import type { OAuthClientInformation, OAuthClientMetadata, OAuthTokens } from '@ai-toolkit/mcp';
+import type {
+  OAuthClientInformation,
+  OAuthClientMetadata,
+  OAuthTokens,
+} from '@ai-toolkit/mcp';
 import { createServer } from 'node:http';
 
 /**
@@ -83,7 +87,9 @@ function waitForAuthorizationCode(port: number): Promise<string> {
 
       if (error) {
         res.writeHead(400, { 'Content-Type': 'text/html' });
-        res.end(`<html><body><h1>Authorization Failed</h1><p>Error: ${error}</p></body></html>`);
+        res.end(
+          `<html><body><h1>Authorization Failed</h1><p>Error: ${error}</p></body></html>`,
+        );
         setTimeout(() => server.close(), 100);
         reject(new Error(`Authorization failed: ${error}`));
         return;
@@ -107,7 +113,9 @@ function waitForAuthorizationCode(port: number): Promise<string> {
     });
 
     server.listen(port, () => {
-      console.log(`Listening for OAuth callback on http://localhost:${port}/callback`);
+      console.log(
+        `Listening for OAuth callback on http://localhost:${port}/callback`,
+      );
     });
   });
 }
@@ -115,7 +123,10 @@ function waitForAuthorizationCode(port: number): Promise<string> {
 /**
  * Get OAuth access token for MCP server
  */
-export async function getMCPToken(serverUrl: string, port: number = 8090): Promise<string> {
+export async function getMCPToken(
+  serverUrl: string,
+  port: number = 8090,
+): Promise<string> {
   const authProvider = new MinimalOAuthProvider(port);
 
   // Start authorization flow

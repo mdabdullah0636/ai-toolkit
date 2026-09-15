@@ -10,16 +10,16 @@ Phase 0 deliverable. Every package classified by architectural layer, with owner
 
 ## Layer Classification Schema
 
-| Layer                  | Description                                                                                                 | Packages                                                                                         |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Foundation         | Types, protocols, serialization, streams, errors, validation, runtime contracts. Depends on nothing higher. | `@ai-toolkit/provider`, `@ai-toolkit/runtime`, `@ai-toolkit/capabilities` |
-| Runtime            | High-level generation functions, shared utilities for providers, gateway routing. | `ai-toolkit`, `@ai-toolkit/provider-utils`, `@ai-toolkit/gateway`, `@ai-toolkit/valibot` |
-| **Protocol**           | MCP and other protocol implementations. First-class citizens.                                               | `@ai-toolkit/mcp`                                                                                |
-| **Gateway**            | Routing, fallback, auth, policy enforcement.                                                                | `@ai-toolkit/gateway`                                                                            |
-| **Provider**           | LLM, embedding, image, speech, etc. provider implementations.                                               | 41 packages under `packages/providers/`                                                          |
-| **Integration**        | Framework adapters and ecosystem bridges.                                                                   | `@ai-toolkit/react`, `rsc`, `vue`, `angular`, `svelte`, `langchain`, `llamaindex`                |
-| **Experience/Tooling** | UI primitives, developer tools, codemods, diagnostics.                                                      | `@ai-toolkit/elements`, `design`, `shadcn-ui`, `@ai-toolkit/devtools`, `@ai-toolkit/codemod`     |
-| **Infrastructure**     | Internal test utilities.                                                                                    | `@ai-toolkit/test-server`                                                                        |
+| Layer                  | Description                                                                                                 | Packages                                                                                     |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Foundation             | Types, protocols, serialization, streams, errors, validation, runtime contracts. Depends on nothing higher. | `@ai-toolkit/provider`, `@ai-toolkit/runtime`, `@ai-toolkit/capabilities`                    |
+| Runtime                | High-level generation functions, shared utilities for providers, gateway routing.                           | `ai-toolkit`, `@ai-toolkit/provider-utils`, `@ai-toolkit/gateway`, `@ai-toolkit/valibot`     |
+| **Protocol**           | MCP and other protocol implementations. First-class citizens.                                               | `@ai-toolkit/mcp`                                                                            |
+| **Gateway**            | Routing, fallback, auth, policy enforcement.                                                                | `@ai-toolkit/gateway`                                                                        |
+| **Provider**           | LLM, embedding, image, speech, etc. provider implementations.                                               | 41 packages under `packages/providers/`                                                      |
+| **Integration**        | Framework adapters and ecosystem bridges.                                                                   | `@ai-toolkit/react`, `rsc`, `vue`, `angular`, `svelte`, `langchain`, `llamaindex`            |
+| **Experience/Tooling** | UI primitives, developer tools, codemods, diagnostics.                                                      | `@ai-toolkit/elements`, `design`, `shadcn-ui`, `@ai-toolkit/devtools`, `@ai-toolkit/codemod` |
+| **Infrastructure**     | Internal test utilities.                                                                                    | `@ai-toolkit/test-server`                                                                    |
 
 ---
 
@@ -27,10 +27,10 @@ Phase 0 deliverable. Every package classified by architectural layer, with owner
 
 | Package                      | Layer      | Stability | Owners                        | Runtime  | Published | Dependencies                                                                |
 | ---------------------------- | ---------- | --------- | ----------------------------- | -------- | --------- | --------------------------------------------------------------------------- |
-| `ai-toolkit`                 | Runtime    | stable    | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | `@ai-toolkit/provider`, `@ai-toolkit/provider-utils`, `@ai-toolkit/gateway`                       |
-| `@ai-toolkit/gateway`        | Runtime    | beta      | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | `@ai-toolkit/provider`, `@ai-toolkit/provider-utils`                                              |
-| `@ai-toolkit/provider-utils` | Runtime    | stable    | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | `@ai-toolkit/provider`                                                        |
-| `@ai-toolkit/runtime`        | Foundation | stable    | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | none (browser-safe)                                                           |
+| `ai-toolkit`                 | Runtime    | stable    | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | `@ai-toolkit/provider`, `@ai-toolkit/provider-utils`, `@ai-toolkit/gateway` |
+| `@ai-toolkit/gateway`        | Runtime    | beta      | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | `@ai-toolkit/provider`, `@ai-toolkit/provider-utils`                        |
+| `@ai-toolkit/provider-utils` | Runtime    | stable    | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | `@ai-toolkit/provider`                                                      |
+| `@ai-toolkit/runtime`        | Foundation | stable    | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | none (browser-safe)                                                         |
 
 **Notes**:
 
@@ -42,8 +42,8 @@ Phase 0 deliverable. Every package classified by architectural layer, with owner
 
 ## Validation Domain — `packages/validation/`
 
-| Package                    | Layer    | Stability | Owners                        | Runtime  | Published | Dependencies                 |
-| -------------------------- | -------- | --------- | ----------------------------- | -------- | --------- | ---------------------------- |
+| Package                    | Layer      | Stability | Owners                        | Runtime  | Published | Dependencies                 |
+| -------------------------- | ---------- | --------- | ----------------------------- | -------- | --------- | ---------------------------- |
 | `@ai-toolkit/provider`     | Foundation | stable    | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | `json-schema` (external)     |
 | `@ai-toolkit/capabilities` | Foundation | beta      | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | `@ai-toolkit/runtime`        |
 | `@ai-toolkit/valibot`      | Runtime    | stable    | `@khulnasoft/ai-toolkit-core` | node>=18 | yes       | `@ai-toolkit/provider-utils` |
@@ -224,9 +224,9 @@ These providers depend only on `@ai-toolkit/provider` + `@ai-toolkit/provider-ut
 
 ### Cross-domain dependencies (flagged)
 
-| From                                    | To                                         | Concern                                                         |
-| --------------------------------------- | ------------------------------------------ | --------------------------------------------------------------- |
-| `@ai-toolkit/khulnasoft` (Gateway)      | `@ai-toolkit/openai-compatible` (Provider) | Special package depends on a specific provider — documented exception |
+| From                               | To                                         | Concern                                                               |
+| ---------------------------------- | ------------------------------------------ | --------------------------------------------------------------------- |
+| `@ai-toolkit/khulnasoft` (Gateway) | `@ai-toolkit/openai-compatible` (Provider) | Special package depends on a specific provider — documented exception |
 
 ### Runtime support matrix (high-level)
 

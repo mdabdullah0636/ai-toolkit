@@ -566,7 +566,9 @@ describe('GatewayFetchMetadata', () => {
 
       const metadata = createBasicMetadataFetcher();
 
-      await expect(metadata.getCredits()).rejects.toThrow(GatewayAuthenticationError);
+      await expect(metadata.getCredits()).rejects.toThrow(
+        GatewayAuthenticationError,
+      );
     });
 
     it('should handle rate limit errors for credits endpoint', async () => {
@@ -583,7 +585,9 @@ describe('GatewayFetchMetadata', () => {
 
       const metadata = createBasicMetadataFetcher();
 
-      await expect(metadata.getCredits()).rejects.toThrow(GatewayRateLimitError);
+      await expect(metadata.getCredits()).rejects.toThrow(
+        GatewayRateLimitError,
+      );
     });
 
     it('should handle internal server errors for credits endpoint', async () => {
@@ -600,7 +604,9 @@ describe('GatewayFetchMetadata', () => {
 
       const metadata = createBasicMetadataFetcher();
 
-      await expect(metadata.getCredits()).rejects.toThrow(GatewayInternalServerError);
+      await expect(metadata.getCredits()).rejects.toThrow(
+        GatewayInternalServerError,
+      );
     });
 
     it('should handle malformed credits response', async () => {

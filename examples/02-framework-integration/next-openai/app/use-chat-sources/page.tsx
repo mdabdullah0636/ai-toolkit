@@ -6,9 +6,10 @@ import { DefaultChatTransport } from 'ai-toolkit';
 import { SourcesChatMessage } from '@/app/api/use-chat-sources/route';
 
 export default function Chat() {
-  const { error, status, sendMessage, messages, regenerate, stop } = useChat<SourcesChatMessage>({
-    transport: new DefaultChatTransport({ api: '/api/use-chat-sources' }),
-  });
+  const { error, status, sendMessage, messages, regenerate, stop } =
+    useChat<SourcesChatMessage>({
+      transport: new DefaultChatTransport({ api: '/api/use-chat-sources' }),
+    });
 
   console.log(messages);
 
@@ -23,16 +24,25 @@ export default function Chat() {
             }
 
             if (part.type === 'tool-web_search') {
-              if (part.state === 'input-available' || part.state === 'input-streaming') {
+              if (
+                part.state === 'input-available' ||
+                part.state === 'input-streaming'
+              ) {
                 return (
-                  <pre key={index} className="overflow-auto p-2 text-sm bg-gray-100 rounded">
+                  <pre
+                    key={index}
+                    className="overflow-auto p-2 text-sm bg-gray-100 rounded"
+                  >
                     {JSON.stringify(part.input, null, 2)}
                   </pre>
                 );
               }
               if (part.state === 'output-available') {
                 return (
-                  <pre key={index} className="overflow-auto p-2 text-sm bg-gray-100 rounded">
+                  <pre
+                    key={index}
+                    className="overflow-auto p-2 text-sm bg-gray-100 rounded"
+                  >
                     {JSON.stringify(part.input, null, 2)}
                     {`\n\nDONE - ${part.output.length} results`}
                   </pre>

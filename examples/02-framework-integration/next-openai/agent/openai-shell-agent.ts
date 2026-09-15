@@ -54,7 +54,9 @@ async function executeShellCommand(
     return {
       stdout: error?.stdout ?? '',
       stderr: error?.stderr ?? String(error),
-      outcome: timedOut ? { type: 'timeout' } : { type: 'exit', exitCode: exitCode ?? 1 },
+      outcome: timedOut
+        ? { type: 'timeout' }
+        : { type: 'exit', exitCode: exitCode ?? 1 },
     };
   }
 }
@@ -71,7 +73,9 @@ export const openaiShellAgent = new ToolLoopAgent({
       needsApproval: true,
       async execute({ action }) {
         const outputs = await Promise.all(
-          action.commands.map(command => executeShellCommand(command, action.timeoutMs)),
+          action.commands.map(command =>
+            executeShellCommand(command, action.timeoutMs),
+          ),
         );
 
         return { output: outputs };

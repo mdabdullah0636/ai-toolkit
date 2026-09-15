@@ -12,16 +12,19 @@ import { useChat } from '@ai-toolkit/react';
 import { DefaultChatTransport } from 'ai-toolkit';
 
 export default function TestAnthropicWebFetch() {
-  const { error, status, sendMessage, messages, regenerate } = useChat<AnthropicMicrosoftMessage>({
-    transport: new DefaultChatTransport({
-      api: '/api/chat-anthropic-microsoft',
-    }),
-  });
+  const { error, status, sendMessage, messages, regenerate } =
+    useChat<AnthropicMicrosoftMessage>({
+      transport: new DefaultChatTransport({
+        api: '/api/chat-anthropic-microsoft',
+      }),
+    });
 
   return (
     <div className="flex flex-col py-24 mx-auto w-full max-w-md stretch">
       <h1 className="mb-4 text-xl font-bold">Microsoft Foundry Anthropic</h1>
-      <h2 className="mb-4 text-xl font-bold">web search , web fetch , code execution</h2>
+      <h2 className="mb-4 text-xl font-bold">
+        web search , web fetch , code execution
+      </h2>
 
       {messages.map(message => (
         <div key={message.id} className="whitespace-pre-wrap">
@@ -52,7 +55,9 @@ export default function TestAnthropicWebFetch() {
             }
           })}
 
-          <SourcesView sources={message.parts.filter(part => part.type === 'source-url')} />
+          <SourcesView
+            sources={message.parts.filter(part => part.type === 'source-url')}
+          />
         </div>
       ))}
 

@@ -32,11 +32,17 @@ async function main() {
 
   console.log();
   console.log('Tool calls:', JSON.stringify(await result.toolCalls, null, 2));
-  console.log('Tool results:', JSON.stringify(await result.toolResults, null, 2));
+  console.log(
+    'Tool results:',
+    JSON.stringify(await result.toolResults, null, 2),
+  );
   console.log();
   console.log('Token usage:', await result.usage);
   console.log('Finish reason:', await result.finishReason);
-  console.log('Provider metadata:', JSON.stringify(await result.providerMetadata, null, 2));
+  console.log(
+    'Provider metadata:',
+    JSON.stringify(await result.providerMetadata, null, 2),
+  );
 }
 
 main().catch(console.error);

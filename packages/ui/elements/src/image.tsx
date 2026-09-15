@@ -1,5 +1,5 @@
 import { cn } from '@ai-toolkit/shadcn-ui';
-import type { Experimental_GeneratedImage } from "ai-toolkit";
+import type { Experimental_GeneratedImage } from 'ai-toolkit';
 
 export type ImageProps = Experimental_GeneratedImage & {
   className?: string;
@@ -16,8 +16,8 @@ export const Image = ({
     {...props}
     alt={props.alt}
     className={cn(
-      "h-auto max-w-full overflow-hidden rounded-md",
-      props.className
+      'h-auto max-w-full overflow-hidden rounded-md',
+      props.className,
     )}
     src={`data:${mediaType};base64,${base64}`}
   />

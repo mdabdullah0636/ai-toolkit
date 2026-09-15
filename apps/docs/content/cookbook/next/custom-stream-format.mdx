@@ -4,7 +4,6 @@ description: Build a custom format to stream LLM responses
 tags: ['next', 'streaming', 'tool use']
 ---
 
-
 Create a custom stream to control the streaming format and structure of tool calls instead of using the built-in AI TOOLKIT data stream format (`toUIMessageStream()`).
 
 `fullStream` (on `StreamTextResult`) gives you direct access to all model events. You can transform, filter, and structure these events into your own streaming format. This gives you the benefits of the AI TOOLKIT's unified provider interface without prescribing how you consume the stream.

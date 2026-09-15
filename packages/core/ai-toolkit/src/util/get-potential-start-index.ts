@@ -2,7 +2,10 @@
  * Returns the index of the start of the searchedText in the text, or null if it
  * is not found.
  */
-export function getPotentialStartIndex(text: string, searchedText: string): number | null {
+export function getPotentialStartIndex(
+  text: string,
+  searchedText: string,
+): number | null {
   // Return null immediately if searchedText is empty.
   if (searchedText.length === 0) {
     return null;

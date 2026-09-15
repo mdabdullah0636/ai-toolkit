@@ -54,6 +54,8 @@ const factory = createProviderToolFactoryWithOutputSchema<
   outputSchema: codeExecution_20250522OutputSchema,
 });
 
-export const codeExecution_20250522 = (args: Parameters<typeof factory>[0] = {}) => {
+export const codeExecution_20250522 = (
+  args: Parameters<typeof factory>[0] = {},
+) => {
   return factory(args);
 };

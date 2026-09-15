@@ -10,7 +10,10 @@ import {
   resolve,
 } from '@ai-toolkit/provider-utils';
 import { BedrockErrorSchema } from '../bedrock-error';
-import { BedrockRerankingInput, bedrockRerankingResponseSchema } from './bedrock-reranking-api';
+import {
+  BedrockRerankingInput,
+  bedrockRerankingResponseSchema,
+} from './bedrock-reranking-api';
 import {
   BedrockRerankingModelId,
   bedrockRerankingOptionsSchema,
@@ -54,7 +57,9 @@ export class BedrockRerankingModel implements RerankingModelV3 {
       rawValue,
     } = await postJsonToApi({
       url: `${this.config.baseUrl()}/rerank`,
-      headers: await resolve(combineHeaders(await resolve(this.config.headers), headers)),
+      headers: await resolve(
+        combineHeaders(await resolve(this.config.headers), headers),
+      ),
       body: {
         nextToken: bedrockOptions?.nextToken,
         queries: [
@@ -67,7 +72,8 @@ export class BedrockRerankingModel implements RerankingModelV3 {
           bedrockRerankingConfiguration: {
             modelConfiguration: {
               modelArn: `arn:aws:bedrock:${this.config.region}::foundation-model/${this.modelId}`,
-              additionalModelRequestFields: bedrockOptions?.additionalModelRequestFields,
+              additionalModelRequestFields:
+                bedrockOptions?.additionalModelRequestFields,
             },
             numberOfResults: topN,
           },
@@ -91,7 +97,9 @@ export class BedrockRerankingModel implements RerankingModelV3 {
         errorSchema: BedrockErrorSchema,
         errorToMessage: error => `${error.type}: ${error.message}`,
       }),
-      successfulResponseHandler: createJsonResponseHandler(bedrockRerankingResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        bedrockRerankingResponseSchema,
+      ),
       fetch: this.config.fetch,
       abortSignal,
     });

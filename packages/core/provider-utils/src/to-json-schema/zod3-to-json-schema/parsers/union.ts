@@ -1,4 +1,9 @@
-import { ZodDiscriminatedUnionDef, ZodLiteralDef, ZodTypeAny, ZodUnionDef } from 'zod/v3';
+import {
+  ZodDiscriminatedUnionDef,
+  ZodLiteralDef,
+  ZodTypeAny,
+  ZodUnionDef,
+} from 'zod/v3';
 import { parseDef } from '../parse-def';
 import { JsonSchema7Type } from '../parse-types';
 import { Refs } from '../refs';
@@ -11,9 +16,12 @@ export const primitiveMappings = {
   ZodNull: 'null',
 } as const;
 type ZodPrimitive = keyof typeof primitiveMappings;
-type JsonSchema7Primitive = (typeof primitiveMappings)[keyof typeof primitiveMappings];
+type JsonSchema7Primitive =
+  (typeof primitiveMappings)[keyof typeof primitiveMappings];
 
-export type JsonSchema7UnionType = JsonSchema7PrimitiveUnionType | JsonSchema7AnyOfType;
+export type JsonSchema7UnionType =
+  | JsonSchema7PrimitiveUnionType
+  | JsonSchema7AnyOfType;
 
 type JsonSchema7PrimitiveUnionType =
   | {
@@ -38,7 +46,9 @@ export function parseUnionDef(
   // This blocks tries to look ahead a bit to produce nicer looking schemas with type array instead of anyOf.
   if (
     options.every(
-      x => x._def.typeName in primitiveMappings && (!x._def.checks || !x._def.checks.length),
+      x =>
+        x._def.typeName in primitiveMappings &&
+        (!x._def.checks || !x._def.checks.length),
     )
   ) {
     // all types in union are primitive and lack checks, so might as well squash into {type: [...]}
@@ -51,27 +61,32 @@ export function parseUnionDef(
     return {
       type: types.length > 1 ? types : types[0],
     };
-  } else if (options.every(x => x._def.typeName === 'ZodLiteral' && !x.description)) {
+  } else if (
+    options.every(x => x._def.typeName === 'ZodLiteral' && !x.description)
+  ) {
     // all options literals
 
-    const types = options.reduce((acc: JsonSchema7Primitive[], x: { _def: ZodLiteralDef }) => {
-      const type = typeof x._def.value;
-      switch (type) {
-        case 'string':
-        case 'number':
-        case 'boolean':
-          return [...acc, type];
-        case 'bigint':
-          return [...acc, 'integer' as const];
-        case 'object':
-          if (x._def.value === null) return [...acc, 'null' as const];
-        case 'symbol':
-        case 'undefined':
-        case 'function':
-        default:
-          return acc;
-      }
-    }, []);
+    const types = options.reduce(
+      (acc: JsonSchema7Primitive[], x: { _def: ZodLiteralDef }) => {
+        const type = typeof x._def.value;
+        switch (type) {
+          case 'string':
+          case 'number':
+          case 'boolean':
+            return [...acc, type];
+          case 'bigint':
+            return [...acc, 'integer' as const];
+          case 'object':
+            if (x._def.value === null) return [...acc, 'null' as const];
+          case 'symbol':
+          case 'undefined':
+          case 'function':
+          default:
+            return acc;
+        }
+      },
+      [],
+    );
 
     if (types.length === options.length) {
       // all the literals are primitive, as far as null can be considered primitive
@@ -91,7 +106,10 @@ export function parseUnionDef(
     return {
       type: 'string',
       enum: options.reduce(
-        (acc: string[], x) => [...acc, ...x._def.values.filter((x: string) => !acc.includes(x))],
+        (acc: string[], x) => [
+          ...acc,
+          ...x._def.values.filter((x: string) => !acc.includes(x)),
+        ],
         [],
       ),
     };
@@ -105,7 +123,9 @@ const asAnyOf = (
   refs: Refs,
 ): JsonSchema7PrimitiveUnionType | JsonSchema7AnyOfType | undefined => {
   const anyOf = (
-    (def.options instanceof Map ? Array.from(def.options.values()) : def.options) as any[]
+    (def.options instanceof Map
+      ? Array.from(def.options.values())
+      : def.options) as any[]
   )
     .map((x, i) =>
       parseDef(x._def, {
@@ -115,7 +135,9 @@ const asAnyOf = (
     )
     .filter(
       (x): x is JsonSchema7Type =>
-        !!x && (!refs.strictUnions || (typeof x === 'object' && Object.keys(x).length > 0)),
+        !!x &&
+        (!refs.strictUnions ||
+          (typeof x === 'object' && Object.keys(x).length > 0)),
     );
 
   return anyOf.length ? { anyOf } : undefined;

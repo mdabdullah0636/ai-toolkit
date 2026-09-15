@@ -19,7 +19,10 @@ export interface RuntimeCapabilities {
   readonly binaryData: boolean;
 }
 
-export type RuntimeCapabilityName = Exclude<keyof RuntimeCapabilities, 'target'>;
+export type RuntimeCapabilityName = Exclude<
+  keyof RuntimeCapabilities,
+  'target'
+>;
 
 export interface RuntimeContext {
   readonly fetch: typeof globalThis.fetch;
@@ -41,7 +44,9 @@ export class RuntimeCapabilityError extends Error {
   readonly capability: RuntimeCapabilityName;
 
   constructor(target: RuntimeTarget, capability: RuntimeCapabilityName) {
-    super(`Runtime \"${target}\" does not support capability \"${capability}\".`);
+    super(
+      `Runtime \"${target}\" does not support capability \"${capability}\".`,
+    );
     this.name = 'RuntimeCapabilityError';
     this.target = target;
     this.capability = capability;

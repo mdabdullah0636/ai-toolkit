@@ -33,7 +33,10 @@ function _parse(text: string) {
     return obj;
   }
 
-  if (suspectProtoRx.test(text) === false && suspectConstructorRx.test(text) === false) {
+  if (
+    suspectProtoRx.test(text) === false &&
+    suspectConstructorRx.test(text) === false
+  ) {
     return obj;
   }
 

@@ -358,7 +358,10 @@ streamData.close();
 ```
 
 ```tsx filename="AI TOOLKIT 5.0"
-import { createUIMessageStream, createUIMessageStreamResponse } from 'ai-toolkit';
+import {
+  createUIMessageStream,
+  createUIMessageStreamResponse,
+} from 'ai-toolkit';
 
 const stream = createUIMessageStream({
   execute({ writer }) {

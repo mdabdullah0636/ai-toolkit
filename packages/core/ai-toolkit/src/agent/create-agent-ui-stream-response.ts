@@ -33,7 +33,9 @@ export async function createAgentUIStreamResponse<
   abortSignal?: AbortSignal;
   timeout?: TimeoutConfiguration;
   options?: CALL_OPTIONS;
-  experimental_transform?: StreamTextTransform<TOOLS> | Array<StreamTextTransform<TOOLS>>;
+  experimental_transform?:
+    | StreamTextTransform<TOOLS>
+    | Array<StreamTextTransform<TOOLS>>;
 } & UIMessageStreamResponseInit &
   UIMessageStreamOptions<
     UIMessage<MESSAGE_METADATA, never, InferUITools<TOOLS>>

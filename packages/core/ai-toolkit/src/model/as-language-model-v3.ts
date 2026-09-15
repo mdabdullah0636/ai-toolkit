@@ -10,7 +10,9 @@ import {
 } from '@ai-toolkit/provider';
 import { logV2CompatibilityWarning } from '../util/log-v2-compatibility-warning';
 
-export function asLanguageModelV3(model: LanguageModelV2 | LanguageModelV3): LanguageModelV3 {
+export function asLanguageModelV3(
+  model: LanguageModelV2 | LanguageModelV3,
+): LanguageModelV3 {
   if (model.specificationVersion === 'v3') {
     return model;
   }

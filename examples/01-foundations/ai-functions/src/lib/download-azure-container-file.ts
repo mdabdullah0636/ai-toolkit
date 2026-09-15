@@ -1,7 +1,10 @@
 import 'dotenv/config';
 import * as fs from 'fs';
 
-export async function downloadAzureContainerFile(container: string, file: string) {
+export async function downloadAzureContainerFile(
+  container: string,
+  file: string,
+) {
   try {
     const resourceName = process.env.AZURE_RESOURCE_NAME;
     const apiKey = process.env.AZURE_API_KEY;
@@ -20,7 +23,9 @@ export async function downloadAzureContainerFile(container: string, file: string
       },
     });
     if (!infoResponse.ok) {
-      throw new Error(`HTTP Error: ${infoResponse.status} ${infoResponse.statusText}`);
+      throw new Error(
+        `HTTP Error: ${infoResponse.status} ${infoResponse.statusText}`,
+      );
     }
     const {
       path,
@@ -45,7 +50,9 @@ export async function downloadAzureContainerFile(container: string, file: string
     });
 
     if (!downloadResponse.ok) {
-      throw new Error(`HTTP Error: ${downloadResponse.status} ${downloadResponse.statusText}`);
+      throw new Error(
+        `HTTP Error: ${downloadResponse.status} ${downloadResponse.statusText}`,
+      );
     }
 
     // get as binary data

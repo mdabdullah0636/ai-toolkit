@@ -26,7 +26,10 @@ export async function submitUserMessage(content: string) {
 
   aiState.update({
     ...aiState.get(),
-    messages: [...aiState.get().messages, { id: generateId(), role: 'user', content }],
+    messages: [
+      ...aiState.get().messages,
+      { id: generateId(), role: 'user', content },
+    ],
   });
 
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>;
@@ -50,7 +53,10 @@ export async function submitUserMessage(content: string) {
         textStream.done();
         aiState.update({
           ...aiState.get(),
-          messages: [...aiState.get().messages, { id: generateId(), role: 'assistant', content }],
+          messages: [
+            ...aiState.get().messages,
+            { id: generateId(), role: 'assistant', content },
+          ],
         });
       } else {
         textStream.append(delta);
@@ -65,7 +71,9 @@ export async function submitUserMessage(content: string) {
           location: z.string(),
         }),
         generate: async function* ({ location }) {
-          yield <Message role="assistant">Loading weather for {location}</Message>;
+          yield (
+            <Message role="assistant">Loading weather for {location}</Message>
+          );
           const { temperature } = await fetchWeatherData(location);
           return (
             <Message role="assistant">

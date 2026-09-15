@@ -23,10 +23,14 @@ describe('doRerank', () => {
   });
 
   function prepareJsonFixtureResponse(filename: string) {
-    server.urls['https://bedrock-agent-runtime.us-east-1.amazonaws.com/rerank'].response = {
+    server.urls[
+      'https://bedrock-agent-runtime.us-east-1.amazonaws.com/rerank'
+    ].response = {
       type: 'binary',
       headers: { 'content-type': 'application/json' },
-      body: Buffer.from(fs.readFileSync(`src/reranking/__fixtures__/${filename}.json`, 'utf8')),
+      body: Buffer.from(
+        fs.readFileSync(`src/reranking/__fixtures__/${filename}.json`, 'utf8'),
+      ),
     };
   }
 
@@ -39,7 +43,10 @@ describe('doRerank', () => {
       result = await model.doRerank({
         documents: {
           type: 'object',
-          values: [{ example: 'sunny day at the beach' }, { example: 'rainy day in the city' }],
+          values: [
+            { example: 'sunny day at the beach' },
+            { example: 'rainy day in the city' },
+          ],
         },
         query: 'rainy day',
         topN: 2,

@@ -2,9 +2,15 @@ import { ZodSchema, ZodTypeDef } from 'zod/v3';
 import { Refs, Seen } from './refs';
 import { JsonSchema7Type } from './parse-types';
 
-export type DateStrategy = 'format:date-time' | 'format:date' | 'string' | 'integer';
+export type DateStrategy =
+  | 'format:date-time'
+  | 'format:date'
+  | 'string'
+  | 'integer';
 
-export const ignoreOverride = Symbol('Let zodToJsonSchema decide on which parser to use');
+export const ignoreOverride = Symbol(
+  'Let zodToJsonSchema decide on which parser to use',
+);
 
 export type OverrideCallback = (
   def: ZodTypeDef,
@@ -78,7 +84,9 @@ export const defaultOptions: Options = {
   nameStrategy: 'ref',
 };
 
-export const getDefaultOptions = (options: Partial<Options> | string | undefined) =>
+export const getDefaultOptions = (
+  options: Partial<Options> | string | undefined,
+) =>
   (typeof options === 'string'
     ? {
         ...defaultOptions,

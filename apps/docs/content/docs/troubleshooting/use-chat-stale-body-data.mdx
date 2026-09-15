@@ -3,7 +3,6 @@ title: Stale body values with useChat
 description: Troubleshooting stale values when passing information via the body parameter of useChat
 ---
 
-
 ## Issue
 
 When using `useChat` and passing dynamic information via the `body` parameter at the hook level, the data remains stale and only reflects the value from the initial component render. This occurs because the body configuration is captured once when the hook is initialized and doesn't update with subsequent component re-renders.

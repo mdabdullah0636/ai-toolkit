@@ -10,7 +10,10 @@ import {
 export function createTestServer<
   URLS extends {
     [url: string]: {
-      response?: UrlResponse | UrlResponse[] | ((options: { callNumber: number }) => UrlResponse);
+      response?:
+        | UrlResponse
+        | UrlResponse[]
+        | ((options: { callNumber: number }) => UrlResponse);
     };
   },
 >(

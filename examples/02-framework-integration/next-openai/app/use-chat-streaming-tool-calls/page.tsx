@@ -2,29 +2,33 @@
 
 import { useChat } from '@ai-toolkit/react';
 import ChatInput from '@/components/chat-input';
-import { DefaultChatTransport, lastAssistantMessageIsCompleteWithToolCalls } from 'ai-toolkit';
+import {
+  DefaultChatTransport,
+  lastAssistantMessageIsCompleteWithToolCalls,
+} from 'ai-toolkit';
 import { StreamingToolCallsMessage } from '../api/use-chat-streaming-tool-calls/route';
 
 export default function Chat() {
-  const { messages, status, sendMessage, addToolOutput } = useChat<StreamingToolCallsMessage>({
-    transport: new DefaultChatTransport({
-      api: '/api/use-chat-streaming-tool-calls',
-    }),
+  const { messages, status, sendMessage, addToolOutput } =
+    useChat<StreamingToolCallsMessage>({
+      transport: new DefaultChatTransport({
+        api: '/api/use-chat-streaming-tool-calls',
+      }),
 
-    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
+      sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
 
-    // run client-side tools that are automatically executed:
-    async onToolCall({ toolCall }) {
-      if (toolCall.toolName === 'showWeatherInformation') {
-        // display tool. add tool result that informs the llm that the tool was executed.
-        addToolOutput({
-          tool: 'showWeatherInformation',
-          toolCallId: toolCall.toolCallId,
-          output: 'Weather information was shown to the user.',
-        });
-      }
-    },
-  });
+      // run client-side tools that are automatically executed:
+      async onToolCall({ toolCall }) {
+        if (toolCall.toolName === 'showWeatherInformation') {
+          // display tool. add tool result that informs the llm that the tool was executed.
+          addToolOutput({
+            tool: 'showWeatherInformation',
+            toolCallId: toolCall.toolCallId,
+            output: 'Weather information was shown to the user.',
+          });
+        }
+      },
+    });
 
   // used to only render the role when it changes:
   let lastRole: string | undefined = undefined;
@@ -53,9 +57,13 @@ export default function Chat() {
                     <div className="flex flex-col gap-2">
                       <div className="flex gap-2">
                         {part.input?.weather && <b>{part.input.weather}</b>}
-                        {part.input?.temperature && <b>{part.input.temperature} &deg;C</b>}
+                        {part.input?.temperature && (
+                          <b>{part.input.temperature} &deg;C</b>
+                        )}
                       </div>
-                      {part.input?.typicalWeather && <div>{part.input.typicalWeather}</div>}
+                      {part.input?.typicalWeather && (
+                        <div>{part.input.typicalWeather}</div>
+                      )}
                     </div>
                   </div>
                 );

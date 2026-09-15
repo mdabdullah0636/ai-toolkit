@@ -43,14 +43,21 @@ declare global {
  * Global provider model ID type that defaults to GatewayModelId but can be augmented
  * by third-party packages via declaration merging.
  */
-export type GlobalProviderModelId = [keyof RegisteredProviderModels] extends [never]
+export type GlobalProviderModelId = [keyof RegisteredProviderModels] extends [
+  never,
+]
   ? GatewayModelId
-  : keyof RegisteredProviderModels | RegisteredProviderModels[keyof RegisteredProviderModels];
+  :
+      | keyof RegisteredProviderModels
+      | RegisteredProviderModels[keyof RegisteredProviderModels];
 
 /**
 Language model that is used by the AI TOOLKIT.
 */
-export type LanguageModel = GlobalProviderModelId | LanguageModelV3 | LanguageModelV2;
+export type LanguageModel =
+  | GlobalProviderModelId
+  | LanguageModelV3
+  | LanguageModelV2;
 
 /**
 Reason why a language model finished generating a response.
@@ -63,7 +70,13 @@ Can be one of the following:
 - `error`: model stopped because of an error
 - `other`: model stopped for other reasons
 */
-export type FinishReason = 'stop' | 'length' | 'content-filter' | 'tool-calls' | 'error' | 'other';
+export type FinishReason =
+  | 'stop'
+  | 'length'
+  | 'content-filter'
+  | 'tool-calls'
+  | 'error'
+  | 'other';
 
 /**
 Warning from the model provider for this call. The call will proceed, but e.g.

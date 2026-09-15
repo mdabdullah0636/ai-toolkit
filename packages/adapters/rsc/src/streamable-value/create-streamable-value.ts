@@ -1,6 +1,10 @@
 import { HANGING_STREAM_WARNING_TIME_MS } from '../util/constants';
 import { createResolvablePromise } from '../util/create-resolvable-promise';
-import { STREAMABLE_VALUE_TYPE, StreamablePatch, StreamableValue } from './streamable-value';
+import {
+  STREAMABLE_VALUE_TYPE,
+  StreamablePatch,
+  StreamableValue,
+} from './streamable-value';
 
 const STREAMABLE_VALUE_INTERNAL_LOCK = Symbol('streamable.value.lock');
 
@@ -8,7 +12,9 @@ const STREAMABLE_VALUE_INTERNAL_LOCK = Symbol('streamable.value.lock');
  * Create a wrapped, changeable value that can be streamed to the client.
  * On the client side, the value can be accessed via the readStreamableValue() API.
  */
-function createStreamableValue<T = any, E = any>(initialValue?: T | ReadableStream<T>) {
+function createStreamableValue<T = any, E = any>(
+  initialValue?: T | ReadableStream<T>,
+) {
   const isReadableStream =
     initialValue instanceof ReadableStream ||
     (typeof initialValue === 'object' &&
@@ -123,7 +129,8 @@ function createStreamableValueImpl<T = any, E = any>(initialValue?: T) {
 
   let currentValue = initialValue;
   let currentError: E | undefined;
-  let currentPromise: typeof resolvable.promise | undefined = resolvable.promise;
+  let currentPromise: typeof resolvable.promise | undefined =
+    resolvable.promise;
   let currentPatchValue: StreamablePatch;
 
   function assertStream(method: string) {
@@ -131,7 +138,9 @@ function createStreamableValueImpl<T = any, E = any>(initialValue?: T) {
       throw new Error(method + ': Value stream is already closed.');
     }
     if (locked) {
-      throw new Error(method + ': Value stream is locked and cannot be updated.');
+      throw new Error(
+        method + ': Value stream is locked and cannot be updated.',
+      );
     }
   }
 
@@ -214,13 +223,18 @@ function createStreamableValueImpl<T = any, E = any>(initialValue?: T) {
     append(value: T) {
       assertStream('.append()');
 
-      if (typeof currentValue !== 'string' && typeof currentValue !== 'undefined') {
+      if (
+        typeof currentValue !== 'string' &&
+        typeof currentValue !== 'undefined'
+      ) {
         throw new Error(
           `.append(): The current value is not a string. Received: ${typeof currentValue}`,
         );
       }
       if (typeof value !== 'string') {
-        throw new Error(`.append(): The value is not a string. Received: ${typeof value}`);
+        throw new Error(
+          `.append(): The value is not a string. Received: ${typeof value}`,
+        );
       }
 
       const resolvePrevious = resolvable.resolve;

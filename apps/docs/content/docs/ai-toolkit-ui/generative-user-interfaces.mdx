@@ -3,7 +3,6 @@ title: Generative User Interfaces
 description: Learn how to build Generative UI with AI TOOLKIT UI.
 ---
 
-
 Generative user interfaces (generative UI) is the process of allowing a large language model (LLM) to go beyond text and "generate UI". This creates a more engaging and AI-native experience for users.
 
 <WeatherSearch />
@@ -75,7 +74,12 @@ export default function Page() {
 To handle the chat requests and model responses, set up an API route:
 
 ```ts title="app/api/chat/route.ts"
-import { streamText, convertToModelMessages, UIMessage, stepCountIs } from 'ai-toolkit';
+import {
+  streamText,
+  convertToModelMessages,
+  UIMessage,
+  stepCountIs,
+} from 'ai-toolkit';
 __PROVIDER_IMPORT__;
 
 export async function POST(request: Request) {
@@ -127,7 +131,12 @@ In this file, you've created a tool called `weatherTool`. This tool simulates fe
 Update the API route to include the tool you've defined:
 
 ```ts title="app/api/chat/route.ts" {3,8,14}
-import { streamText, convertToModelMessages, UIMessage, stepCountIs } from 'ai-toolkit';
+import {
+  streamText,
+  convertToModelMessages,
+  UIMessage,
+  stepCountIs,
+} from 'ai-toolkit';
 __PROVIDER_IMPORT__;
 import { tools } from '@/ai/tools';
 

@@ -29,16 +29,20 @@ mcpServer.tool(
 );
 
 // Another protected tool
-mcpServer.tool('list-user-resources', 'List all resources for the authenticated user', async () => {
-  return {
-    content: [
-      {
-        type: 'text',
-        text: 'User Resources: [Resource A, Resource B, Resource C]',
-      },
-    ],
-  };
-});
+mcpServer.tool(
+  'list-user-resources',
+  'List all resources for the authenticated user',
+  async () => {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: 'User Resources: [Resource A, Resource B, Resource C]',
+        },
+      ],
+    };
+  },
+);
 
 // Simple in-memory token store (for demo purposes)
 const validTokens = new Set<string>(['demo-access-token-123']);
@@ -139,7 +143,8 @@ app.get('/authorize', (req, res) => {
   const authCode = `auth-code-${Date.now()}`;
 
   // Store code_challenge for PKCE verification (in production, use a database)
-  (global as any).pendingAuthorizations = (global as any).pendingAuthorizations || new Map();
+  (global as any).pendingAuthorizations =
+    (global as any).pendingAuthorizations || new Map();
   (global as any).pendingAuthorizations.set(authCode, {
     code_challenge,
     client_id: req.query.client_id,
@@ -154,7 +159,8 @@ app.get('/authorize', (req, res) => {
 
 // Token endpoint
 app.post('/token', express.urlencoded({ extended: true }), (req, res) => {
-  const { grant_type, code, code_verifier, refresh_token, client_id } = req.body;
+  const { grant_type, code, code_verifier, refresh_token, client_id } =
+    req.body;
 
   if (grant_type === 'authorization_code') {
     // Verify PKCE

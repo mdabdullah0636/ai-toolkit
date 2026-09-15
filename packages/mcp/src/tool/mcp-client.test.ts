@@ -13,7 +13,15 @@ import {
   ElicitationRequestSchema,
 } from './types';
 import { JSONRPCRequest } from './json-rpc-message';
-import { beforeEach, afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest';
+import {
+  beforeEach,
+  afterEach,
+  describe,
+  expect,
+  expectTypeOf,
+  it,
+  vi,
+} from 'vitest';
 
 const createMockTransport = vi.fn(config => new MockMCPTransport(config));
 
@@ -245,10 +253,12 @@ describe('MCPClient', () => {
       transport: { type: 'sse', url: 'https://example.com/sse' },
     });
 
-    await expect(client.experimental_listPrompts()).rejects.toThrow(MCPClientError);
-    await expect(client.experimental_getPrompt({ name: 'code_review' })).rejects.toThrow(
+    await expect(client.experimental_listPrompts()).rejects.toThrow(
       MCPClientError,
     );
+    await expect(
+      client.experimental_getPrompt({ name: 'code_review' }),
+    ).rejects.toThrow(MCPClientError);
   });
 
   it('should return typed AI TOOLKIT compatible tool set when schemas are provided', async () => {
@@ -294,7 +304,9 @@ describe('MCPClient', () => {
       },
     );
 
-    expectTypeOf<Exclude<typeof result, AsyncIterable<any>>>().toEqualTypeOf<CallToolResult>();
+    expectTypeOf<
+      Exclude<typeof result, AsyncIterable<any>>
+    >().toEqualTypeOf<CallToolResult>();
   });
 
   it('should not return user-defined tool if it is nonexistent', async () => {
@@ -330,9 +342,9 @@ describe('MCPClient', () => {
       },
     });
     const toolCall = tools['mock-tool'].execute;
-    await expect(toolCall({ bar: 'bar' }, { messages: [], toolCallId: '1' })).rejects.toThrow(
-      MCPClientError,
-    );
+    await expect(
+      toolCall({ bar: 'bar' }, { messages: [], toolCallId: '1' }),
+    ).rejects.toThrow(MCPClientError);
   });
 
   it('should include JSON-RPC error data in MCPClientError', async () => {
@@ -461,7 +473,9 @@ describe('MCPClient', () => {
           abortSignal: abortController.signal,
         },
       ),
-    ).rejects.toSatisfy(error => error instanceof Error && error.name === 'AbortError');
+    ).rejects.toSatisfy(
+      error => error instanceof Error && error.name === 'AbortError',
+    );
   });
 
   describe('elicitation support', () => {
@@ -473,7 +487,8 @@ describe('MCPClient', () => {
         },
       });
 
-      const transportInstance = createMockTransport.mock.results.at(-1)?.value as MockMCPTransport;
+      const transportInstance = createMockTransport.mock.results.at(-1)
+        ?.value as MockMCPTransport;
       const sendSpy = vi.spyOn(transportInstance, 'send');
       const handler = vi.fn(async () => ({
         action: 'accept' as const,
@@ -515,7 +530,8 @@ describe('MCPClient', () => {
       );
 
       const elicitationResponse = sendSpy.mock.calls.find(
-        ([message]) => 'result' in message && message.id === elicitationRequest.id,
+        ([message]) =>
+          'result' in message && message.id === elicitationRequest.id,
       );
 
       expect(elicitationResponse?.[0]).toMatchObject({
@@ -572,7 +588,9 @@ describe('MCPClient', () => {
       },
     );
 
-    expectTypeOf<Exclude<typeof result, AsyncIterable<any>>>().toEqualTypeOf<CallToolResult>();
+    expectTypeOf<
+      Exclude<typeof result, AsyncIterable<any>>
+    >().toEqualTypeOf<CallToolResult>();
   });
 
   it('should throw if transport is missing required methods', async () => {
@@ -776,7 +794,10 @@ describe('MCPClient', () => {
         },
       });
 
-      const result = await tools['json-tool'].execute({}, { messages: [], toolCallId: '1' });
+      const result = await tools['json-tool'].execute(
+        {},
+        { messages: [], toolCallId: '1' },
+      );
 
       expect(result).toEqual({
         value: 42,
@@ -827,9 +848,14 @@ describe('MCPClient', () => {
 
       const tool = tools['untyped-tool'];
 
-      const result = await tool.execute({ input: 'test' }, { messages: [], toolCallId: '1' });
+      const result = await tool.execute(
+        { input: 'test' },
+        { messages: [], toolCallId: '1' },
+      );
 
-      expectTypeOf<Exclude<typeof result, AsyncIterable<any>>>().toEqualTypeOf<CallToolResult>();
+      expectTypeOf<
+        Exclude<typeof result, AsyncIterable<any>>
+      >().toEqualTypeOf<CallToolResult>();
 
       expect(result).toEqual({
         content: [
@@ -929,7 +955,10 @@ describe('MCPClient', () => {
       });
 
       await expect(
-        tools['invalid-json-tool'].execute({}, { messages: [], toolCallId: '1' }),
+        tools['invalid-json-tool'].execute(
+          {},
+          { messages: [], toolCallId: '1' },
+        ),
       ).rejects.toThrow(MCPClientError);
     });
 
@@ -973,7 +1002,10 @@ describe('MCPClient', () => {
       });
 
       await expect(
-        tools['mismatched-json-tool'].execute({}, { messages: [], toolCallId: '1' }),
+        tools['mismatched-json-tool'].execute(
+          {},
+          { messages: [], toolCallId: '1' },
+        ),
       ).rejects.toThrow(MCPClientError);
     });
 
@@ -990,7 +1022,9 @@ describe('MCPClient', () => {
       );
 
       // With automatic discovery, result is CallToolResult
-      expectTypeOf<Exclude<typeof result, AsyncIterable<any>>>().toEqualTypeOf<CallToolResult>();
+      expectTypeOf<
+        Exclude<typeof result, AsyncIterable<any>>
+      >().toEqualTypeOf<CallToolResult>();
       expect(result).toMatchObject({
         content: [{ type: 'text', text: 'Mock tool call result' }],
       });
@@ -1063,7 +1097,10 @@ describe('MCPClient', () => {
         },
       });
 
-      const result = await tools['complex-tool'].execute({}, { messages: [], toolCallId: '1' });
+      const result = await tools['complex-tool'].execute(
+        {},
+        { messages: [], toolCallId: '1' },
+      );
 
       expect(result).toEqual({
         users: [

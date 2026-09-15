@@ -24,8 +24,10 @@ export const weatherTool = tool({
       location,
       condition: condition.name,
       temperature:
-        Math.floor(Math.random() * (condition.maxTemperature - condition.minTemperature + 1)) +
-        condition.minTemperature,
+        Math.floor(
+          Math.random() *
+            (condition.maxTemperature - condition.minTemperature + 1),
+        ) + condition.minTemperature,
     };
   },
 });

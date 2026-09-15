@@ -3,7 +3,6 @@ title: DirectChatTransport
 description: API Reference for the DirectChatTransport class.
 ---
 
-
 A transport that directly communicates with an [Agent](/docs/reference/ai-toolkit-core/agent) in-process, without going through HTTP. This is useful for:
 
 - Server-side rendering scenarios
@@ -33,7 +32,10 @@ export default function Chat() {
 
 ## Import
 
-<Snippet text={`import { DirectChatTransport } from "ai-toolkit"`} prompt={false} />
+<Snippet
+  text={`import { DirectChatTransport } from "ai-toolkit"`}
+  prompt={false}
+/>
 
 ## Constructor
 

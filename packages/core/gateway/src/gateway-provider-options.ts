@@ -49,7 +49,9 @@ const gatewayProviderOptions = lazySchema(() =>
        * - Multiple: `{ 'vertex': [{ projectId: 'proj-1', privateKey: '...' }, { projectId: 'proj-2', privateKey: '...' }] }`
        * - Multi-provider: `{ 'anthropic': [{ apiKey: '...' }], 'bedrock': [{ accessKeyId: '...', secretAccessKey: '...' }] }`
        */
-      byok: z.record(z.string(), z.array(z.record(z.string(), z.unknown()))).optional(),
+      byok: z
+        .record(z.string(), z.array(z.record(z.string(), z.unknown())))
+        .optional(),
       /**
        * Whether to filter by only providers that state they have zero data
        * retention with Vercel AI Gateway. When enabled, only providers that

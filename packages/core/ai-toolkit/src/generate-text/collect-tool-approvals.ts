@@ -50,7 +50,8 @@ export function collectToolApprovals<TOOLS extends ToolSet>({
   }
 
   // gather approval responses and prepare lookup
-  const toolApprovalRequestsByApprovalId: Record<string, ToolApprovalRequest> = {};
+  const toolApprovalRequestsByApprovalId: Record<string, ToolApprovalRequest> =
+    {};
   for (const message of messages) {
     if (message.role === 'assistant' && typeof message.content !== 'string') {
       const content = message.content;
@@ -77,7 +78,8 @@ export function collectToolApprovals<TOOLS extends ToolSet>({
     part => part.type === 'tool-approval-response',
   );
   for (const approvalResponse of approvalResponses) {
-    const approvalRequest = toolApprovalRequestsByApprovalId[approvalResponse.approvalId];
+    const approvalRequest =
+      toolApprovalRequestsByApprovalId[approvalResponse.approvalId];
 
     if (approvalRequest == null) {
       throw new InvalidToolApprovalError({

@@ -9,7 +9,9 @@ import {
 
 export type { CreateUIMessage, UIMessage };
 
-export class Chat<UI_MESSAGE extends UIMessage = UIMessage> extends AbstractChat<UI_MESSAGE> {
+export class Chat<
+  UI_MESSAGE extends UIMessage = UIMessage,
+> extends AbstractChat<UI_MESSAGE> {
   constructor(init: ChatInit<UI_MESSAGE>) {
     super({
       ...init,
@@ -18,7 +20,9 @@ export class Chat<UI_MESSAGE extends UIMessage = UIMessage> extends AbstractChat
   }
 }
 
-class SvelteChatState<UI_MESSAGE extends UIMessage> implements ChatState<UI_MESSAGE> {
+class SvelteChatState<UI_MESSAGE extends UIMessage>
+  implements ChatState<UI_MESSAGE>
+{
   messages: UI_MESSAGE[];
   status = $state<ChatStatus>('ready');
   error = $state<Error | undefined>(undefined);

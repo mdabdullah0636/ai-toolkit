@@ -11,20 +11,20 @@ A normalized request is the canonical representation of a model inference reques
 ```ts
 interface NormalizedRequest {
   // Routing metadata
-  readonly requestId: string;          // Correlation ID for tracing
-  readonly sessionId?: string;         // User session identifier
-  readonly tenantId?: string;          // Tenant for multi-tenant deployments
+  readonly requestId: string; // Correlation ID for tracing
+  readonly sessionId?: string; // User session identifier
+  readonly tenantId?: string; // Tenant for multi-tenant deployments
 
   // Model selection
   readonly capability: ModelCapability; // Required capability (chat, embedding, etc.)
-  readonly modelId?: string;           // Specific model requested (optional)
-  readonly provider?: string;          // Preferred provider (optional)
+  readonly modelId?: string; // Specific model requested (optional)
+  readonly provider?: string; // Preferred provider (optional)
 
   // Input
-  readonly messages?: NormalizedMessage[];  // Chat messages
-  readonly prompt?: string | NormalizedMessage[];  // Prompt input
-  readonly tools?: NormalizedTool[];   // Available tools
-  readonly outputSchema?: object;      // JSON Schema for structured output
+  readonly messages?: NormalizedMessage[]; // Chat messages
+  readonly prompt?: string | NormalizedMessage[]; // Prompt input
+  readonly tools?: NormalizedTool[]; // Available tools
+  readonly outputSchema?: object; // JSON Schema for structured output
 
   // Execution options
   readonly maxOutputTokens?: number;
@@ -56,8 +56,8 @@ interface NormalizedResponse {
   readonly finishReason: NormalizedFinishReason;
 
   // Metadata
-  readonly modelId: string;            // The model that actually served the request
-  readonly provider: string;           // The provider that served the request
+  readonly modelId: string; // The model that actually served the request
+  readonly provider: string; // The provider that served the request
   readonly latencyMs: number;
   readonly requestId: string;
   readonly warnings?: string[];
@@ -86,40 +86,45 @@ The gateway resolves which provider to use based on the requested capability:
 The gateway supports multiple routing policies:
 
 ### Fallback
+
 - Route to the primary provider; on failure, try secondary providers
 - Configurable retry count and backoff strategy
 - Failures include: network errors, rate limits, authentication errors
 
 ### Weighted
+
 - Distribute requests across providers by weight
 - Useful for A/B testing or gradual rollout
 - Example: 70% OpenAI, 30% Anthropic
 
 ### Priority
+
 - Always try higher-priority providers first
 - Fall back to lower-priority providers only on failure
 - Example: Priority 1 = OpenAI, Priority 2 = Anthropic
 
 ### Latency-aware
+
 - Track P95 latency per provider per capability
 - Route to the fastest available provider
 - Update latency metrics in real-time
 
 ### Cost-aware
+
 - Route to the lowest-cost provider that meets the capability requirements
 - Use cached cost estimates from `@ai-toolkit/capabilities` pricing descriptors
 - Balance cost vs. quality based on a configurable `qualityWeight`
 
 ## 6. Auth, Tenant, Quota, Rate-Limit Boundaries
 
-| Concern | Layer | Enforcement point |
-|---------|-------|-------------------|
-| API key resolution | Gateway client | `getGatewayAuthToken()` — resolves from options or `AI_GATEWAY_API_KEY` env var |
-| OIDC token | Gateway client | `getVercelOidcToken()` — fetches Vercel OIDC token |
-| Tenant identification | Gateway server | Headers `ai-tenant-id` |
-| Quota enforcement | Gateway server | Response 429 with `Retry-After` |
-| Rate limiting | Gateway server | Response 429 with `Retry-After` |
-| Policy enforcement | Gateway server | Policy engine evaluates rules per request |
+| Concern               | Layer          | Enforcement point                                                               |
+| --------------------- | -------------- | ------------------------------------------------------------------------------- |
+| API key resolution    | Gateway client | `getGatewayAuthToken()` — resolves from options or `AI_GATEWAY_API_KEY` env var |
+| OIDC token            | Gateway client | `getVercelOidcToken()` — fetches Vercel OIDC token                              |
+| Tenant identification | Gateway server | Headers `ai-tenant-id`                                                          |
+| Quota enforcement     | Gateway server | Response 429 with `Retry-After`                                                 |
+| Rate limiting         | Gateway server | Response 429 with `Retry-After`                                                 |
+| Policy enforcement    | Gateway server | Policy engine evaluates rules per request                                       |
 
 The gateway client (`@ai-toolkit/gateway`) handles auth and request formatting. The gateway server (deployed separately) handles quota, rate limiting, and policy enforcement.
 
@@ -127,13 +132,13 @@ The gateway client (`@ai-toolkit/gateway`) handles auth and request formatting. 
 
 The gateway client adds observability headers to every request:
 
-| Header | Source | Purpose |
-|--------|--------|---------|
-| `ai-o11y-deployment-id` | `VERCEL_DEPLOYMENT_ID` env | Identifies the Vercel deployment |
-| `ai-o11y-environment` | `VERCEL_ENV` env | `development`, `preview`, `production` |
-| `ai-o11y-region` | `VERCEL_REGION` env | The Vercel region serving the request |
-| `ai-o11y-request-id` | `getVercelRequestId()` | Unique request ID for tracing |
-| `ai-gateway-protocol-version` | Static (`"0.0.1"`) | Protocol version for compatibility |
+| Header                        | Source                     | Purpose                                |
+| ----------------------------- | -------------------------- | -------------------------------------- |
+| `ai-o11y-deployment-id`       | `VERCEL_DEPLOYMENT_ID` env | Identifies the Vercel deployment       |
+| `ai-o11y-environment`         | `VERCEL_ENV` env           | `development`, `preview`, `production` |
+| `ai-o11y-region`              | `VERCEL_REGION` env        | The Vercel region serving the request  |
+| `ai-o11y-request-id`          | `getVercelRequestId()`     | Unique request ID for tracing          |
+| `ai-gateway-protocol-version` | Static (`"0.0.1"`)         | Protocol version for compatibility     |
 
 ### Correlation model
 
@@ -158,25 +163,28 @@ The `@ai-toolkit/khulnasoft` package (in `packages/special/`) remains in the **G
 ## 9. Gateway Health and Failover
 
 ### Health checks
+
 - The gateway exposes `getAvailableModels()` which returns the current model catalog
 - Health status is inferred from metadata fetch success/failure
 
 ### Failover policy
-| Failure type | Retry? | Fallback provider |
-|--------------|--------|-------------------|
-| Network error | Yes (exponential backoff) | Next provider in chain |
-| Rate limit (429) | Yes (respect Retry-After) | Next provider in chain |
-| Auth error (401) | No | Fail immediately |
-| Model not found (404) | No | Next provider in chain |
-| Server error (5xx) | Yes (exponential backoff) | Next provider in chain |
+
+| Failure type          | Retry?                    | Fallback provider      |
+| --------------------- | ------------------------- | ---------------------- |
+| Network error         | Yes (exponential backoff) | Next provider in chain |
+| Rate limit (429)      | Yes (respect Retry-After) | Next provider in chain |
+| Auth error (401)      | No                        | Fail immediately       |
+| Model not found (404) | No                        | Next provider in chain |
+| Server error (5xx)    | Yes (exponential backoff) | Next provider in chain |
 
 ### Failover chain configuration
+
 ```ts
 interface FailoverConfig {
-  maxRetries: number;           // Default: 3
-  retryDelayMs: number;         // Default: 1000
-  maxRetryDelayMs: number;      // Default: 10000
-  fallbackProviders: string[];  // Ordered list of provider names
-  respectRetryAfter: boolean;   // Default: true
+  maxRetries: number; // Default: 3
+  retryDelayMs: number; // Default: 1000
+  maxRetryDelayMs: number; // Default: 10000
+  fallbackProviders: string[]; // Ordered list of provider names
+  respectRetryAfter: boolean; // Default: true
 }
 ```

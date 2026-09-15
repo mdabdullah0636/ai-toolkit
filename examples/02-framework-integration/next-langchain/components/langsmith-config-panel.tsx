@@ -30,8 +30,12 @@ export function LangsmithConfigPanel({
             <Server className="w-4 h-4 text-[var(--accent)]" strokeWidth={2} />
           </div>
           <div>
-            <div className="text-sm font-medium text-[var(--foreground)]">Connected to</div>
-            <code className="text-xs text-[var(--accent)]">{deploymentUrl}</code>
+            <div className="text-sm font-medium text-[var(--foreground)]">
+              Connected to
+            </div>
+            <code className="text-xs text-[var(--accent)]">
+              {deploymentUrl}
+            </code>
           </div>
         </div>
         <button

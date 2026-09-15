@@ -3,7 +3,6 @@ title: PromptInput
 description: Chat input form with Enter-to-send and controlled/uncontrolled modes
 ---
 
-
 Chat input form. Enter submits, Shift+Enter inserts a newline. Works controlled (`value`/`onChange`) or uncontrolled (`defaultValue`). Empty submissions are ignored and the input clears after submit in uncontrolled mode.
 
 ## Import
@@ -18,19 +17,19 @@ import { PromptInput } from '@ai-toolkit/elements';
 <PromptInput
   onSubmit={text => sendMessage({ text })}
   disabled={status === 'submitted' || status === 'streaming'}
- />
+/>
 ```
 
 ## Props
 
-| Prop | Type | Description |
-| ---- | ---- | ----------- |
-| `value` | `string` | Controlled input value. |
-| `defaultValue` | `string` | Uncontrolled initial input value. |
-| `onSubmit` | `(text: string) => void` | Submit callback. |
-| `onChange` | `(value: string) => void` | Input change callback. |
-| `disabled` | `boolean` | Whether the input is disabled. |
-| `className` | `string` | Tailwind class name override. |
+| Prop           | Type                      | Description                       |
+| -------------- | ------------------------- | --------------------------------- |
+| `value`        | `string`                  | Controlled input value.           |
+| `defaultValue` | `string`                  | Uncontrolled initial input value. |
+| `onSubmit`     | `(text: string) => void`  | Submit callback.                  |
+| `onChange`     | `(value: string) => void` | Input change callback.            |
+| `disabled`     | `boolean`                 | Whether the input is disabled.    |
+| `className`    | `string`                  | Tailwind class name override.     |
 
 ## Example
 

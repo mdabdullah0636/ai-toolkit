@@ -7,7 +7,10 @@ import { ChatContainer } from '../../components/chat-container';
 import { type CustomDataMessage } from '../types';
 
 export default function LangGraphChat() {
-  const transport = useMemo(() => new DefaultChatTransport({ api: '/api/langgraph' }), []);
+  const transport = useMemo(
+    () => new DefaultChatTransport({ api: '/api/langgraph' }),
+    [],
+  );
 
   const { messages, sendMessage, status, error } = useChat<CustomDataMessage>({
     transport,
@@ -18,9 +21,10 @@ export default function LangGraphChat() {
       title="LangGraph Example"
       description={
         <>
-          Uses LangGraph&apos;s <code>StateGraph</code> with <code>MessagesAnnotation</code> to
-          create a simple agent workflow. Messages are converted using <code>toBaseMessages</code>{' '}
-          and streamed back with <code>toUIMessageStream</code>.
+          Uses LangGraph&apos;s <code>StateGraph</code> with{' '}
+          <code>MessagesAnnotation</code> to create a simple agent workflow.
+          Messages are converted using <code>toBaseMessages</code> and streamed
+          back with <code>toUIMessageStream</code>.
         </>
       }
       messages={messages}
@@ -28,7 +32,11 @@ export default function LangGraphChat() {
       status={status}
       error={error}
       placeholder="Ask anything..."
-      suggestions={['What is LangGraph?', 'Explain state machines', 'How do agents work?']}
+      suggestions={[
+        'What is LangGraph?',
+        'Explain state machines',
+        'How do agents work?',
+      ]}
     />
   );
 }

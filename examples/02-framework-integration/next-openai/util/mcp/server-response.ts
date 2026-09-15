@@ -15,16 +15,21 @@ export function createServerResponseAdapter(
   fn: (re: ServerResponse) => Promise<void> | void,
 ): Promise<Response> {
   let writeHeadResolver: (v: WriteheadArgs) => void;
-  const writeHeadPromise = new Promise<WriteheadArgs>(async (resolve, _reject) => {
-    writeHeadResolver = resolve;
-  });
+  const writeHeadPromise = new Promise<WriteheadArgs>(
+    async (resolve, _reject) => {
+      writeHeadResolver = resolve;
+    },
+  );
 
   return new Promise(async (resolve, _reject) => {
     let controller: ReadableStreamController<Uint8Array> | undefined;
     let shouldClose = false;
     let wroteHead = false;
 
-    const writeHead = (statusCode: number, headers?: Record<string, string>) => {
+    const writeHead = (
+      statusCode: number,
+      headers?: Record<string, string>,
+    ) => {
       if (typeof headers === 'string') {
         throw new Error('Status message of writeHead not supported');
       }
@@ -40,7 +45,10 @@ export function createServerResponseAdapter(
 
     let bufferedData: Uint8Array[] = [];
 
-    const write = (chunk: Buffer | string, encoding?: BufferEncoding): boolean => {
+    const write = (
+      chunk: Buffer | string,
+      encoding?: BufferEncoding,
+    ): boolean => {
       if (encoding) {
         throw new Error('Encoding not supported');
       }

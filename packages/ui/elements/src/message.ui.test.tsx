@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   Message,
@@ -13,7 +13,7 @@ import {
   MessageBranchSelector,
   MessageContent,
   MessageResponse,
-} from "./message";
+} from './message';
 
 const BOLD_REGEX = /Bold/;
 const NEXT_REGEX = /next/i;
@@ -23,148 +23,148 @@ const ONE_OF_TWO_REGEX = /1 of 2/;
 const ONE_OF_THREE_REGEX = /1 of 3/;
 const THREE_OF_THREE_REGEX = /3 of 3/;
 
-describe("message", () => {
-  it("renders children", () => {
+describe('message', () => {
+  it('renders children', () => {
     render(<Message from="user">Content</Message>);
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("applies user class", () => {
+  it('applies user class', () => {
     const { container } = render(<Message from="user">Content</Message>);
-    expect(container.firstChild).toHaveClass("is-user");
+    expect(container.firstChild).toHaveClass('is-user');
   });
 
-  it("applies assistant class", () => {
+  it('applies assistant class', () => {
     const { container } = render(<Message from="assistant">Content</Message>);
-    expect(container.firstChild).toHaveClass("is-assistant");
+    expect(container.firstChild).toHaveClass('is-assistant');
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <Message className="custom" from="user">
         Content
-      </Message>
+      </Message>,
     );
-    expect(container.firstChild).toHaveClass("custom");
+    expect(container.firstChild).toHaveClass('custom');
   });
 });
 
-describe("messageContent", () => {
-  it("renders content", () => {
+describe('messageContent', () => {
+  it('renders content', () => {
     render(<MessageContent>Message text</MessageContent>);
-    expect(screen.getByText("Message text")).toBeInTheDocument();
+    expect(screen.getByText('Message text')).toBeInTheDocument();
   });
 
-  it("applies contained variant styles", () => {
+  it('applies contained variant styles', () => {
     render(<MessageContent>Text</MessageContent>);
-    expect(screen.getByText("Text")).toBeInTheDocument();
+    expect(screen.getByText('Text')).toBeInTheDocument();
   });
 
-  it("applies flat variant styles", () => {
+  it('applies flat variant styles', () => {
     render(<MessageContent>Text</MessageContent>);
-    expect(screen.getByText("Text")).toBeInTheDocument();
+    expect(screen.getByText('Text')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <MessageContent className="custom">Text</MessageContent>
+      <MessageContent className="custom">Text</MessageContent>,
     );
-    expect(container.firstChild).toHaveClass("custom");
+    expect(container.firstChild).toHaveClass('custom');
   });
 });
 
-describe("messageActions", () => {
-  it("renders children", () => {
+describe('messageActions', () => {
+  it('renders children', () => {
     render(
       <MessageActions>
         <button type="button">Test Action</button>
-      </MessageActions>
+      </MessageActions>,
     );
-    expect(screen.getByText("Test Action")).toBeInTheDocument();
+    expect(screen.getByText('Test Action')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <MessageActions className="custom-class">
         <button type="button">Test</button>
-      </MessageActions>
+      </MessageActions>,
     );
-    expect(container.firstChild).toHaveClass("custom-class");
+    expect(container.firstChild).toHaveClass('custom-class');
   });
 });
 
-describe("messageAction", () => {
-  it("renders button with children", () => {
+describe('messageAction', () => {
+  it('renders button with children', () => {
     render(<MessageAction>Click me</MessageAction>);
-    expect(screen.getByText("Click me")).toBeInTheDocument();
+    expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  it("renders with tooltip", () => {
+  it('renders with tooltip', () => {
     render(<MessageAction tooltip="Help text">Icon</MessageAction>);
-    expect(screen.getByText("Icon")).toBeInTheDocument();
+    expect(screen.getByText('Icon')).toBeInTheDocument();
   });
 
-  it("renders with label for accessibility", () => {
+  it('renders with label for accessibility', () => {
     render(<MessageAction label="Save">Icon</MessageAction>);
-    expect(screen.getByText("Save")).toBeInTheDocument();
+    expect(screen.getByText('Save')).toBeInTheDocument();
   });
 
-  it("applies default variant and size", () => {
+  it('applies default variant and size', () => {
     render(<MessageAction>Test</MessageAction>);
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
-    expect(button).toHaveAttribute("type", "button");
+    expect(button).toHaveAttribute('type', 'button');
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(<MessageAction className="custom-button">Test</MessageAction>);
-    const button = screen.getByRole("button");
-    expect(button).toHaveClass("custom-button");
+    const button = screen.getByRole('button');
+    expect(button).toHaveClass('custom-button');
   });
 });
 
-describe("messageResponse", () => {
-  it("renders markdown content", () => {
+describe('messageResponse', () => {
+  it('renders markdown content', () => {
     render(<MessageResponse>Plain text</MessageResponse>);
-    expect(screen.getByText("Plain text")).toBeInTheDocument();
+    expect(screen.getByText('Plain text')).toBeInTheDocument();
   });
 
-  it("renders markdown with formatting", () => {
+  it('renders markdown with formatting', () => {
     render(<MessageResponse>**Bold** text</MessageResponse>);
     expect(screen.getByText(BOLD_REGEX)).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <MessageResponse className="custom-class">Text</MessageResponse>
+      <MessageResponse className="custom-class">Text</MessageResponse>,
     );
-    expect(container.firstChild).toHaveClass("custom-class");
+    expect(container.firstChild).toHaveClass('custom-class');
   });
 
-  it("renders children as markdown", () => {
+  it('renders children as markdown', () => {
     render(<MessageResponse># Heading</MessageResponse>);
-    expect(screen.getByText("Heading")).toBeInTheDocument();
+    expect(screen.getByText('Heading')).toBeInTheDocument();
   });
 });
 
-describe("messageBranch", () => {
-  it("renders children", () => {
+describe('messageBranch', () => {
+  it('renders children', () => {
     render(<MessageBranch>Content</MessageBranch>);
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("throws error when components used outside MessageBranch provider", () => {
+  it('throws error when components used outside MessageBranch provider', () => {
     // Suppress console.error for this test
-    const spy = vi.spyOn(console, "error").mockImplementation(vi.fn());
+    const spy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
     expect(() => render(<MessageBranchNext />)).toThrow(
-      "MessageBranch components must be used within MessageBranch"
+      'MessageBranch components must be used within MessageBranch',
     );
 
     spy.mockRestore();
   });
 
-  it("calls onBranchChange when branch changes", async () => {
+  it('calls onBranchChange when branch changes', async () => {
     const onBranchChange = vi.fn();
     const user = userEvent.setup();
 
@@ -178,33 +178,33 @@ describe("messageBranch", () => {
           <MessageBranchPrevious />
           <MessageBranchNext />
         </MessageBranchSelector>
-      </MessageBranch>
+      </MessageBranch>,
     );
 
-    const nextButton = screen.getByRole("button", { name: NEXT_REGEX });
+    const nextButton = screen.getByRole('button', { name: NEXT_REGEX });
     await user.click(nextButton);
 
     expect(onBranchChange).toHaveBeenCalledWith(1);
   });
 });
 
-describe("messageBranchContent", () => {
-  it("renders active branch", () => {
+describe('messageBranchContent', () => {
+  it('renders active branch', () => {
     render(
       <MessageBranch>
         <MessageBranchContent>
           <div key="1">Branch 1</div>
           <div key="2">Branch 2</div>
         </MessageBranchContent>
-      </MessageBranch>
+      </MessageBranch>,
     );
 
-    expect(screen.getByText("Branch 1")).toBeInTheDocument();
+    expect(screen.getByText('Branch 1')).toBeInTheDocument();
   });
 });
 
-describe("messageBranchSelector", () => {
-  it("hides when only one branch", () => {
+describe('messageBranchSelector', () => {
+  it('hides when only one branch', () => {
     render(
       <MessageBranch>
         <MessageBranchContent>
@@ -213,13 +213,13 @@ describe("messageBranchSelector", () => {
         <MessageBranchSelector>
           <span>Selector</span>
         </MessageBranchSelector>
-      </MessageBranch>
+      </MessageBranch>,
     );
 
-    expect(screen.queryByText("Selector")).not.toBeInTheDocument();
+    expect(screen.queryByText('Selector')).not.toBeInTheDocument();
   });
 
-  it("shows when multiple branches", () => {
+  it('shows when multiple branches', () => {
     render(
       <MessageBranch>
         <MessageBranchContent>
@@ -229,15 +229,15 @@ describe("messageBranchSelector", () => {
         <MessageBranchSelector>
           <span>Selector</span>
         </MessageBranchSelector>
-      </MessageBranch>
+      </MessageBranch>,
     );
 
-    expect(screen.getByText("Selector")).toBeInTheDocument();
+    expect(screen.getByText('Selector')).toBeInTheDocument();
   });
 });
 
-describe("messageBranchPrevious", () => {
-  it("renders previous button", () => {
+describe('messageBranchPrevious', () => {
+  it('renders previous button', () => {
     render(
       <MessageBranch>
         <MessageBranchContent>
@@ -245,15 +245,15 @@ describe("messageBranchPrevious", () => {
           <div key="2">Branch 2</div>
         </MessageBranchContent>
         <MessageBranchPrevious />
-      </MessageBranch>
+      </MessageBranch>,
     );
 
     expect(
-      screen.getByRole("button", { name: PREVIOUS_REGEX })
+      screen.getByRole('button', { name: PREVIOUS_REGEX }),
     ).toBeInTheDocument();
   });
 
-  it("navigates to previous branch", async () => {
+  it('navigates to previous branch', async () => {
     const user = userEvent.setup();
 
     render(
@@ -264,20 +264,20 @@ describe("messageBranchPrevious", () => {
         </MessageBranchContent>
         <MessageBranchPrevious />
         <MessageBranchPage />
-      </MessageBranch>
+      </MessageBranch>,
     );
 
     // Should start at branch 2
     expect(screen.getByText(TWO_OF_TWO_REGEX)).toBeInTheDocument();
 
-    const prevButton = screen.getByRole("button", { name: PREVIOUS_REGEX });
+    const prevButton = screen.getByRole('button', { name: PREVIOUS_REGEX });
     await user.click(prevButton);
 
     // Should navigate to branch 1
     expect(screen.getByText(ONE_OF_TWO_REGEX)).toBeInTheDocument();
   });
 
-  it("wraps to last branch when clicking previous on first branch", async () => {
+  it('wraps to last branch when clicking previous on first branch', async () => {
     const user = userEvent.setup();
 
     render(
@@ -289,13 +289,13 @@ describe("messageBranchPrevious", () => {
         </MessageBranchContent>
         <MessageBranchPrevious />
         <MessageBranchPage />
-      </MessageBranch>
+      </MessageBranch>,
     );
 
     // Should start at branch 1
     expect(screen.getByText(ONE_OF_THREE_REGEX)).toBeInTheDocument();
 
-    const prevButton = screen.getByRole("button", { name: PREVIOUS_REGEX });
+    const prevButton = screen.getByRole('button', { name: PREVIOUS_REGEX });
     await user.click(prevButton);
 
     // Should wrap to branch 3
@@ -303,8 +303,8 @@ describe("messageBranchPrevious", () => {
   });
 });
 
-describe("messageBranchNext", () => {
-  it("renders next button", () => {
+describe('messageBranchNext', () => {
+  it('renders next button', () => {
     render(
       <MessageBranch>
         <MessageBranchContent>
@@ -312,17 +312,17 @@ describe("messageBranchNext", () => {
           <div key="2">Branch 2</div>
         </MessageBranchContent>
         <MessageBranchNext />
-      </MessageBranch>
+      </MessageBranch>,
     );
 
     expect(
-      screen.getByRole("button", { name: NEXT_REGEX })
+      screen.getByRole('button', { name: NEXT_REGEX }),
     ).toBeInTheDocument();
   });
 });
 
-describe("messageBranchPage", () => {
-  it("displays current page count", () => {
+describe('messageBranchPage', () => {
+  it('displays current page count', () => {
     render(
       <MessageBranch>
         <MessageBranchContent>
@@ -330,7 +330,7 @@ describe("messageBranchPage", () => {
           <div key="2">Branch 2</div>
         </MessageBranchContent>
         <MessageBranchPage />
-      </MessageBranch>
+      </MessageBranch>,
     );
 
     expect(screen.getByText(ONE_OF_TWO_REGEX)).toBeInTheDocument();

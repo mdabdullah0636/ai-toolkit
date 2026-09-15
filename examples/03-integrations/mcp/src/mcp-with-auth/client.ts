@@ -46,7 +46,10 @@ class InMemoryOAuthClientProvider implements OAuthClientProvider {
           : `xdg-open "${authorizationUrl.toString()}"`;
     exec(cmd, error => {
       if (error) {
-        console.error('Open this URL to continue:', authorizationUrl.toString());
+        console.error(
+          'Open this URL to continue:',
+          authorizationUrl.toString(),
+        );
       }
     });
   }
@@ -103,7 +106,9 @@ class InMemoryOAuthClientProvider implements OAuthClientProvider {
         params.set('client_id', clientId);
         return;
       }
-      const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+      const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString(
+        'base64',
+      );
       headers.set('Authorization', `Basic ${credentials}`);
       return;
     }
@@ -119,7 +124,8 @@ class InMemoryOAuthClientProvider implements OAuthClientProvider {
   };
   async invalidateCredentials(scope: 'all' | 'client' | 'tokens' | 'verifier') {
     if (scope === 'all' || scope === 'tokens') this._tokens = undefined;
-    if (scope === 'all' || scope === 'client') this._clientInformation = undefined;
+    if (scope === 'all' || scope === 'client')
+      this._clientInformation = undefined;
     if (scope === 'all' || scope === 'verifier') this._codeVerifier = undefined;
   }
 }
@@ -161,7 +167,9 @@ function waitForAuthorizationCode(port: number): Promise<string> {
         setTimeout(() => server.close(), 100);
         resolve(code);
       } else {
-        res.writeHead(400).end(`Authorization failed: ${err ?? 'missing code'}`);
+        res
+          .writeHead(400)
+          .end(`Authorization failed: ${err ?? 'missing code'}`);
         setTimeout(() => server.close(), 100);
         reject(new Error(`Authorization failed: ${err ?? 'missing code'}`));
       }
@@ -196,12 +204,16 @@ async function main() {
       if (toolResults.length > 0) {
         console.log('Tool execution results:');
         toolResults.forEach(result => {
-          console.log(`  - ${result.toolName}:`, JSON.stringify(result, null, 2));
+          console.log(
+            `  - ${result.toolName}:`,
+            JSON.stringify(result, null, 2),
+          );
         });
       }
     },
     system: 'You are a helpful assistant with access to protected tools.',
-    prompt: 'List the tools available for me to call. Arrange them in alphabetical order.',
+    prompt:
+      'List the tools available for me to call. Arrange them in alphabetical order.',
   });
 
   await mcpClient.close();

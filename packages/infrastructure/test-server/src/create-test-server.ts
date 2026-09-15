@@ -63,7 +63,9 @@ class TestServerCall {
   }
 
   get requestBodyMultipart() {
-    return this.request!.headers.get('content-type')?.startsWith('multipart/form-data')
+    return this.request!.headers.get('content-type')?.startsWith(
+      'multipart/form-data',
+    )
       ? this.request!.formData().then(formData => {
           const entries: Record<string, any> = {};
           formData.forEach((value, key) => {
@@ -154,7 +156,9 @@ export function createTestServer<
 
           case 'stream-chunks':
             return new HttpResponse(
-              convertArrayToReadableStream(response.chunks).pipeThrough(new TextEncoderStream()),
+              convertArrayToReadableStream(response.chunks).pipeThrough(
+                new TextEncoderStream(),
+              ),
               {
                 status: 200,
                 headers: {
@@ -169,7 +173,9 @@ export function createTestServer<
           case 'controlled-stream': {
             if (request.signal) {
               request.signal.addEventListener('abort', () => {
-                response.controller.error(new DOMException('Aborted', 'AbortError'));
+                response.controller.error(
+                  new DOMException('Aborted', 'AbortError'),
+                );
               });
             }
 

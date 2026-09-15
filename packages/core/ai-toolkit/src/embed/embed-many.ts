@@ -1,4 +1,7 @@
-import { ProviderOptions, withUserAgentSuffix } from '@ai-toolkit/provider-utils';
+import {
+  ProviderOptions,
+  withUserAgentSuffix,
+} from '@ai-toolkit/provider-utils';
 import { logWarnings } from '../logger/log-warnings';
 import { resolveEmbeddingModel } from '../model/resolve-model';
 import { assembleOperationName } from '../telemetry/assemble-operation-name';
@@ -94,7 +97,10 @@ Only applicable for HTTP-based providers.
     abortSignal,
   });
 
-  const headersWithUserAgent = withUserAgentSuffix(headers ?? {}, `ai/${VERSION}`);
+  const headersWithUserAgent = withUserAgentSuffix(
+    headers ?? {},
+    `ai/${VERSION}`,
+  );
 
   const baseTelemetryAttributes = getBaseTelemetryAttributes({
     model,
@@ -128,65 +134,70 @@ Only applicable for HTTP-based providers.
       // the model has not specified limits on
       // how many embeddings can be generated in a single call
       if (maxEmbeddingsPerCall == null || maxEmbeddingsPerCall === Infinity) {
-        const { embeddings, usage, warnings, response, providerMetadata } = await retry(() => {
-          // nested spans to align with the embedMany telemetry data:
-          return recordSpan({
-            name: 'ai.embedMany.doEmbed',
-            attributes: selectTelemetryAttributes({
-              telemetry,
-              attributes: {
-                ...assembleOperationName({
-                  operationId: 'ai.embedMany.doEmbed',
-                  telemetry,
-                }),
-                ...baseTelemetryAttributes,
-                // specific settings that only make sense on the outer level:
-                'ai.values': {
-                  input: () => values.map(value => JSON.stringify(value)),
-                },
-              },
-            }),
-            tracer,
-            fn: async doEmbedSpan => {
-              const modelResponse = await model.doEmbed({
-                values,
-                abortSignal,
-                headers: headersWithUserAgent,
-                providerOptions,
-              });
-
-              const embeddings = modelResponse.embeddings;
-              const usage = modelResponse.usage ?? { tokens: NaN };
-
-              doEmbedSpan.setAttributes(
-                await selectTelemetryAttributes({
-                  telemetry,
-                  attributes: {
-                    'ai.embeddings': {
-                      output: () => embeddings.map(embedding => JSON.stringify(embedding)),
-                    },
-                    'ai.usage.tokens': usage.tokens,
+        const { embeddings, usage, warnings, response, providerMetadata } =
+          await retry(() => {
+            // nested spans to align with the embedMany telemetry data:
+            return recordSpan({
+              name: 'ai.embedMany.doEmbed',
+              attributes: selectTelemetryAttributes({
+                telemetry,
+                attributes: {
+                  ...assembleOperationName({
+                    operationId: 'ai.embedMany.doEmbed',
+                    telemetry,
+                  }),
+                  ...baseTelemetryAttributes,
+                  // specific settings that only make sense on the outer level:
+                  'ai.values': {
+                    input: () => values.map(value => JSON.stringify(value)),
                   },
-                }),
-              );
+                },
+              }),
+              tracer,
+              fn: async doEmbedSpan => {
+                const modelResponse = await model.doEmbed({
+                  values,
+                  abortSignal,
+                  headers: headersWithUserAgent,
+                  providerOptions,
+                });
 
-              return {
-                embeddings,
-                usage,
-                warnings: modelResponse.warnings,
-                providerMetadata: modelResponse.providerMetadata,
-                response: modelResponse.response,
-              };
-            },
+                const embeddings = modelResponse.embeddings;
+                const usage = modelResponse.usage ?? { tokens: NaN };
+
+                doEmbedSpan.setAttributes(
+                  await selectTelemetryAttributes({
+                    telemetry,
+                    attributes: {
+                      'ai.embeddings': {
+                        output: () =>
+                          embeddings.map(embedding =>
+                            JSON.stringify(embedding),
+                          ),
+                      },
+                      'ai.usage.tokens': usage.tokens,
+                    },
+                  }),
+                );
+
+                return {
+                  embeddings,
+                  usage,
+                  warnings: modelResponse.warnings,
+                  providerMetadata: modelResponse.providerMetadata,
+                  response: modelResponse.response,
+                };
+              },
+            });
           });
-        });
 
         span.setAttributes(
           await selectTelemetryAttributes({
             telemetry,
             attributes: {
               'ai.embeddings': {
-                output: () => embeddings.map(embedding => JSON.stringify(embedding)),
+                output: () =>
+                  embeddings.map(embedding => JSON.stringify(embedding)),
               },
               'ai.usage.tokens': usage.tokens,
             },
@@ -225,7 +236,10 @@ Only applicable for HTTP-based providers.
       let tokens = 0;
       let providerMetadata: ProviderMetadata | undefined;
 
-      const parallelChunks = splitArray(valueChunks, supportsParallelCalls ? maxParallelCalls : 1);
+      const parallelChunks = splitArray(
+        valueChunks,
+        supportsParallelCalls ? maxParallelCalls : 1,
+      );
 
       for (const parallelChunk of parallelChunks) {
         const results = await Promise.all(
@@ -265,7 +279,10 @@ Only applicable for HTTP-based providers.
                       telemetry,
                       attributes: {
                         'ai.embeddings': {
-                          output: () => embeddings.map(embedding => JSON.stringify(embedding)),
+                          output: () =>
+                            embeddings.map(embedding =>
+                              JSON.stringify(embedding),
+                            ),
                         },
                         'ai.usage.tokens': usage.tokens,
                       },
@@ -294,7 +311,9 @@ Only applicable for HTTP-based providers.
             if (!providerMetadata) {
               providerMetadata = { ...result.providerMetadata };
             } else {
-              for (const [providerName, metadata] of Object.entries(result.providerMetadata)) {
+              for (const [providerName, metadata] of Object.entries(
+                result.providerMetadata,
+              )) {
                 providerMetadata[providerName] = {
                   ...(providerMetadata[providerName] ?? {}),
                   ...metadata,
@@ -310,7 +329,8 @@ Only applicable for HTTP-based providers.
           telemetry,
           attributes: {
             'ai.embeddings': {
-              output: () => embeddings.map(embedding => JSON.stringify(embedding)),
+              output: () =>
+                embeddings.map(embedding => JSON.stringify(embedding)),
             },
             'ai.usage.tokens': tokens,
           },

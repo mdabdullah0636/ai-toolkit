@@ -5,7 +5,10 @@ import {
   SharedV3ProviderMetadata,
   UnsupportedFunctionalityError,
 } from '@ai-toolkit/provider';
-import { convertToBase64, parseProviderOptions } from '@ai-toolkit/provider-utils';
+import {
+  convertToBase64,
+  parseProviderOptions,
+} from '@ai-toolkit/provider-utils';
 import {
   BEDROCK_CACHE_POINT,
   BEDROCK_DOCUMENT_MIME_TYPES,
@@ -66,7 +69,8 @@ export async function convertToBedrockChatMessages(
       case 'system': {
         if (messages.length > 0) {
           throw new UnsupportedFunctionalityError({
-            functionality: 'Multiple system messages that are separated by user/assistant messages',
+            functionality:
+              'Multiple system messages that are separated by user/assistant messages',
           });
         }
 
@@ -117,11 +121,14 @@ export async function convertToBedrockChatMessages(
                       if (!part.mediaType) {
                         throw new UnsupportedFunctionalityError({
                           functionality: 'file without mime type',
-                          message: 'File mime type is required in user message part content',
+                          message:
+                            'File mime type is required in user message part content',
                         });
                       }
 
-                      const enableCitations = await shouldEnableCitations(part.providerOptions);
+                      const enableCitations = await shouldEnableCitations(
+                        part.providerOptions,
+                      );
 
                       bedrockContent.push({
                         document: {
@@ -163,7 +170,9 @@ export async function convertToBedrockChatMessages(
                             });
                           }
 
-                          const format = getBedrockImageFormat(contentPart.mediaType);
+                          const format = getBedrockImageFormat(
+                            contentPart.mediaType,
+                          );
 
                           return {
                             image: {
@@ -185,12 +194,16 @@ export async function convertToBedrockChatMessages(
                     toolResultContent = [{ text: output.value }];
                     break;
                   case 'execution-denied':
-                    toolResultContent = [{ text: output.reason ?? 'Tool execution denied.' }];
+                    toolResultContent = [
+                      { text: output.reason ?? 'Tool execution denied.' },
+                    ];
                     break;
                   case 'json':
                   case 'error-json':
                   default:
-                    toolResultContent = [{ text: JSON.stringify(output.value) }];
+                    toolResultContent = [
+                      { text: JSON.stringify(output.value) },
+                    ];
                     break;
                 }
 
@@ -245,7 +258,12 @@ export async function convertToBedrockChatMessages(
                     // trim the last text part if it's the last message in the block
                     // because Bedrock does not allow trailing whitespace
                     // in pre-filled assistant responses
-                    trimIfLast(isLastBlock, isLastMessage, isLastContentPart, part.text),
+                    trimIfLast(
+                      isLastBlock,
+                      isLastMessage,
+                      isLastContentPart,
+                      part.text,
+                    ),
                 });
                 break;
               }
@@ -322,7 +340,9 @@ export async function convertToBedrockChatMessages(
 }
 
 function isBedrockImageFormat(format: string): format is BedrockImageFormat {
-  return Object.values(BEDROCK_IMAGE_MIME_TYPES).includes(format as BedrockImageFormat);
+  return Object.values(BEDROCK_IMAGE_MIME_TYPES).includes(
+    format as BedrockImageFormat,
+  );
 }
 
 function getBedrockImageFormat(mimeType?: string): BedrockImageFormat {
@@ -345,7 +365,8 @@ function getBedrockImageFormat(mimeType?: string): BedrockImageFormat {
 }
 
 function getBedrockDocumentFormat(mimeType: string): BedrockDocumentFormat {
-  const format = BEDROCK_DOCUMENT_MIME_TYPES[mimeType as BedrockDocumentMimeType];
+  const format =
+    BEDROCK_DOCUMENT_MIME_TYPES[mimeType as BedrockDocumentMimeType];
   if (!format) {
     throw new UnsupportedFunctionalityError({
       functionality: `file mime type: ${mimeType}`,
@@ -381,7 +402,8 @@ function groupIntoBlocks(
   prompt: LanguageModelV3Prompt,
 ): Array<SystemBlock | AssistantBlock | UserBlock> {
   const blocks: Array<SystemBlock | AssistantBlock | UserBlock> = [];
-  let currentBlock: SystemBlock | AssistantBlock | UserBlock | undefined = undefined;
+  let currentBlock: SystemBlock | AssistantBlock | UserBlock | undefined =
+    undefined;
 
   for (const message of prompt) {
     const { role } = message;

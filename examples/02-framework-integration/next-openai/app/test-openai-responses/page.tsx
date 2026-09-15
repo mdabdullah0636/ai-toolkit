@@ -11,11 +11,15 @@ export default function TestOpenAIResponses() {
 
   return (
     <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-      <h1 className="mb-4 text-xl font-bold">OpenAI Responses Block-Based Streaming Test</h1>
+      <h1 className="mb-4 text-xl font-bold">
+        OpenAI Responses Block-Based Streaming Test
+      </h1>
 
       {messages.map(m => (
         <div key={m.id} className="whitespace-pre-wrap mb-4">
-          <div className="font-semibold mb-1">{m.role === 'user' ? 'User:' : 'AI:'}</div>
+          <div className="font-semibold mb-1">
+            {m.role === 'user' ? 'User:' : 'AI:'}
+          </div>
           {m.parts.map((part, index) => {
             if (part.type === 'text') {
               return <div key={index}>{part.text}</div>;

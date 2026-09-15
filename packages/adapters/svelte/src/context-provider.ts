@@ -1,4 +1,7 @@
-import { KeyedCompletionStore, setCompletionContext } from './completion-context.svelte.js';
+import {
+  KeyedCompletionStore,
+  setCompletionContext,
+} from './completion-context.svelte.js';
 import {
   KeyedStructuredObjectStore,
   setStructuredObjectContext,

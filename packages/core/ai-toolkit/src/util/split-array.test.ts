@@ -39,13 +39,17 @@ it('should handle chunk size of 1 correctly', () => {
 it('should throw an error for chunk size of 0', () => {
   const array = [1, 2, 3];
   const size = 0;
-  expect(() => splitArray(array, size)).toThrow('chunkSize must be greater than 0');
+  expect(() => splitArray(array, size)).toThrow(
+    'chunkSize must be greater than 0',
+  );
 });
 
 it('should throw an error for negative chunk size', () => {
   const array = [1, 2, 3];
   const size = -1;
-  expect(() => splitArray(array, size)).toThrow('chunkSize must be greater than 0');
+  expect(() => splitArray(array, size)).toThrow(
+    'chunkSize must be greater than 0',
+  );
 });
 
 it('should handle non-integer chunk size by flooring the size', () => {

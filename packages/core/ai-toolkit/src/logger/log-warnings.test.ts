@@ -1,7 +1,11 @@
 import type { SharedV3Warning } from '@ai-toolkit/provider';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Warning } from '../types/warning';
-import { FIRST_WARNING_INFO_MESSAGE, logWarnings, resetLogWarningsState } from './log-warnings';
+import {
+  FIRST_WARNING_INFO_MESSAGE,
+  logWarnings,
+  resetLogWarningsState,
+} from './log-warnings';
 
 // Mock console.warn and console.info
 const mockConsoleWarn = vi.fn();
@@ -153,8 +157,12 @@ describe('logWarnings', () => {
     });
 
     it('should only show console.info on the first non-empty call', () => {
-      const first: Warning[] = [{ type: 'other', message: '1' } as SharedV3Warning];
-      const second: Warning[] = [{ type: 'other', message: '2' } as SharedV3Warning];
+      const first: Warning[] = [
+        { type: 'other', message: '1' } as SharedV3Warning,
+      ];
+      const second: Warning[] = [
+        { type: 'other', message: '2' } as SharedV3Warning,
+      ];
 
       logWarnings({ warnings: first, provider: 'a', model: 'b' });
       logWarnings({ warnings: second, provider: 'a', model: 'b' });
@@ -163,8 +171,14 @@ describe('logWarnings', () => {
       expect(mockConsoleInfo).toHaveBeenCalledTimes(1);
       expect(mockConsoleInfo).toHaveBeenCalledWith(FIRST_WARNING_INFO_MESSAGE);
       expect(mockConsoleWarn).toHaveBeenCalledTimes(2);
-      expect(mockConsoleWarn).toHaveBeenNthCalledWith(1, 'AI TOOLKIT Warning (a / b): 1');
-      expect(mockConsoleWarn).toHaveBeenNthCalledWith(2, 'AI TOOLKIT Warning (a / b): 2');
+      expect(mockConsoleWarn).toHaveBeenNthCalledWith(
+        1,
+        'AI TOOLKIT Warning (a / b): 1',
+      );
+      expect(mockConsoleWarn).toHaveBeenNthCalledWith(
+        2,
+        'AI TOOLKIT Warning (a / b): 2',
+      );
     });
 
     it('should only log for non-empty warnings', () => {
@@ -218,11 +232,13 @@ describe('logWarnings', () => {
       expect(mockConsoleWarn).toHaveBeenCalledTimes(3);
       expect(mockConsoleWarn).toHaveBeenNthCalledWith(
         1,
-        'AI TOOLKIT Warning (zzz / MMM): ' + 'The feature "mediaType" is not supported. detail',
+        'AI TOOLKIT Warning (zzz / MMM): ' +
+          'The feature "mediaType" is not supported. detail',
       );
       expect(mockConsoleWarn).toHaveBeenNthCalledWith(
         2,
-        'AI TOOLKIT Warning (zzz / MMM): ' + 'The feature "voice" is not supported. detail2',
+        'AI TOOLKIT Warning (zzz / MMM): ' +
+          'The feature "voice" is not supported. detail2',
       );
       expect(mockConsoleWarn).toHaveBeenNthCalledWith(
         3,

@@ -1,4 +1,7 @@
-import { convertBase64ToUint8Array, convertUint8ArrayToBase64 } from '@ai-toolkit/provider-utils';
+import {
+  convertBase64ToUint8Array,
+  convertUint8ArrayToBase64,
+} from '@ai-toolkit/provider-utils';
 
 /**
  * A generated file.

@@ -10,7 +10,9 @@ import {
   createLanguageModelWithCapabilities,
 } from './feature-test-suite';
 
-const createChatModel = (modelId: string): ModelWithCapabilities<LanguageModelV3> =>
+const createChatModel = (
+  modelId: string,
+): ModelWithCapabilities<LanguageModelV3> =>
   createLanguageModelWithCapabilities(provider.chat(modelId));
 
 createFeatureTestSuite({
@@ -31,7 +33,9 @@ createFeatureTestSuite({
       createChatModel('gpt-5-nano'),
     ],
     embeddingModels: [
-      createEmbeddingModelWithCapabilities(provider.embeddingModel('text-embedding-3-small')),
+      createEmbeddingModelWithCapabilities(
+        provider.embeddingModel('text-embedding-3-small'),
+      ),
     ],
   },
   timeout: 30000,

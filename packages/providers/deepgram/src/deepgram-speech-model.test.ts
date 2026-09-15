@@ -15,7 +15,9 @@ const server = createTestServer({
 });
 
 describe('doGenerate', () => {
-  function prepareAudioResponse({ headers }: { headers?: Record<string, string> } = {}) {
+  function prepareAudioResponse({
+    headers,
+  }: { headers?: Record<string, string> } = {}) {
     const audioBuffer = new Uint8Array(100); // Mock audio data
     server.urls['https://api.deepgram.com/v1/speak'].response = {
       type: 'binary',
@@ -67,7 +69,9 @@ describe('doGenerate', () => {
       'custom-request-header': 'request-header-value',
     });
 
-    expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/deepgram/0.0.0-test`);
+    expect(server.calls[0].requestUserAgent).toContain(
+      `ai-toolkit/deepgram/0.0.0-test`,
+    );
   });
 
   it('should pass query parameters for model', async () => {
@@ -117,7 +121,9 @@ describe('doGenerate', () => {
     expect(url.searchParams.get('bit_rate')).toBe('48000');
     // mp3 doesn't support container, so it should be removed
     expect(url.searchParams.get('container')).toBeNull();
-    expect(url.searchParams.get('callback')).toBe('https://example.com/callback');
+    expect(url.searchParams.get('callback')).toBe(
+      'https://example.com/callback',
+    );
     expect(url.searchParams.get('callback_method')).toBe('POST');
     expect(url.searchParams.get('mip_opt_out')).toBe('true');
     expect(url.searchParams.get('tag')).toBe('test-tag');
@@ -268,7 +274,9 @@ describe('doGenerate', () => {
       text: 'Hello, welcome to Deepgram!',
     });
 
-    expect(result.request?.body).toBe(JSON.stringify({ text: 'Hello, welcome to Deepgram!' }));
+    expect(result.request?.body).toBe(
+      JSON.stringify({ text: 'Hello, welcome to Deepgram!' }),
+    );
   });
 
   it('should clean up incompatible parameters when encoding changes via providerOptions', async () => {

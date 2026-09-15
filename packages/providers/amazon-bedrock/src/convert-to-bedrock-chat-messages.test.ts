@@ -979,7 +979,8 @@ describe('additional file format tests', () => {
           {
             type: 'file',
             data: 'base64data',
-            mediaType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            mediaType:
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           },
         ],
       },
@@ -1016,7 +1017,8 @@ describe('additional file format tests', () => {
           {
             type: 'file',
             data: 'base64data',
-            mediaType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            mediaType:
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           },
         ],
       },

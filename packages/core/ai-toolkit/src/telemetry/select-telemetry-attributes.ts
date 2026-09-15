@@ -1,7 +1,10 @@
 import type { Attributes, AttributeValue } from '@opentelemetry/api';
 import type { TelemetrySettings } from './telemetry-settings';
 
-type ResolvableAttributeValue = () => AttributeValue | PromiseLike<AttributeValue> | undefined;
+type ResolvableAttributeValue = () =>
+  | AttributeValue
+  | PromiseLike<AttributeValue>
+  | undefined;
 
 export async function selectTelemetryAttributes({
   telemetry,
@@ -29,7 +32,11 @@ export async function selectTelemetryAttributes({
     }
 
     // input value, check if it should be recorded:
-    if (typeof value === 'object' && 'input' in value && typeof value.input === 'function') {
+    if (
+      typeof value === 'object' &&
+      'input' in value &&
+      typeof value.input === 'function'
+    ) {
       // default to true:
       if (telemetry?.recordInputs === false) {
         continue;
@@ -45,7 +52,11 @@ export async function selectTelemetryAttributes({
     }
 
     // output value, check if it should be recorded:
-    if (typeof value === 'object' && 'output' in value && typeof value.output === 'function') {
+    if (
+      typeof value === 'object' &&
+      'output' in value &&
+      typeof value.output === 'function'
+    ) {
       // default to true:
       if (telemetry?.recordOutputs === false) {
         continue;

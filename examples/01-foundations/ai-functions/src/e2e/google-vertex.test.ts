@@ -54,7 +54,9 @@ const createSearchGroundedModel = (
   capabilities: [...defaultChatModelCapabilities, 'searchGrounding'],
 });
 
-const createModelObject = (imageModel: ImageModelV3): { model: ImageModelV3; modelId: string } => ({
+const createModelObject = (
+  imageModel: ImageModelV3,
+): { model: ImageModelV3; modelId: string } => ({
   model: imageModel,
   modelId: imageModel.modelId,
 });
@@ -67,9 +69,12 @@ const createImageModel = (
   const model = vertex.image(modelId);
 
   if (additionalTests.length > 0) {
-    describe.each([createModelObject(model)])('Provider-specific tests: $modelId', ({ model }) => {
-      additionalTests.forEach(test => test(model));
-    });
+    describe.each([createModelObject(model)])(
+      'Provider-specific tests: $modelId',
+      ({ model }) => {
+        additionalTests.forEach(test => test(model));
+      },
+    );
   }
   return createImageModelWithCapabilities(model);
 };
@@ -82,7 +87,9 @@ const createModelVariants = (
   createSearchGroundedModel(vertex, modelId),
 ];
 
-const createModelsForRuntime = (vertex: typeof vertexNode | typeof vertexEdge) => ({
+const createModelsForRuntime = (
+  vertex: typeof vertexNode | typeof vertexEdge,
+) => ({
   invalidModel: vertex('no-such-model'),
   languageModels: [
     ...createModelVariants(vertex, 'gemini-2.0-flash-exp'),
@@ -92,8 +99,12 @@ const createModelsForRuntime = (vertex: typeof vertexNode | typeof vertexEdge) =
     // ...createModelVariants(vertex, 'gemini-1.0-pro-001'),
   ],
   embeddingModels: [
-    createEmbeddingModelWithCapabilities(vertex.embeddingModel('textembedding-gecko')),
-    createEmbeddingModelWithCapabilities(vertex.embeddingModel('textembedding-gecko-multilingual')),
+    createEmbeddingModelWithCapabilities(
+      vertex.embeddingModel('textembedding-gecko'),
+    ),
+    createEmbeddingModelWithCapabilities(
+      vertex.embeddingModel('textembedding-gecko-multilingual'),
+    ),
   ],
   imageModels: [
     createImageModel(vertex, 'imagen-3.0-fast-generate-001', [imageTest]),
@@ -101,19 +112,22 @@ const createModelsForRuntime = (vertex: typeof vertexNode | typeof vertexEdge) =
   ],
 });
 
-describe.each(Object.values(RUNTIME_VARIANTS))('Google Vertex AI - $name', ({ vertex }) => {
-  createFeatureTestSuite({
-    name: `Google Vertex AI (${vertex.name})`,
-    models: createModelsForRuntime(vertex),
-    timeout: 20000,
-    customAssertions: {
-      skipUsage: false,
-      errorValidator: (error: APICallError) => {
-        expect(error.message).toMatch(/Model .* not found/);
+describe.each(Object.values(RUNTIME_VARIANTS))(
+  'Google Vertex AI - $name',
+  ({ vertex }) => {
+    createFeatureTestSuite({
+      name: `Google Vertex AI (${vertex.name})`,
+      models: createModelsForRuntime(vertex),
+      timeout: 20000,
+      customAssertions: {
+        skipUsage: false,
+        errorValidator: (error: APICallError) => {
+          expect(error.message).toMatch(/Model .* not found/);
+        },
       },
-    },
-  })();
-});
+    })();
+  },
+);
 
 const mediaTypeSignatures = [
   { mediaType: 'image/gif' as const, bytes: [0x47, 0x49, 0x46] },
@@ -126,7 +140,10 @@ function detectImageMediaType(
   image: Uint8Array,
 ): 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp' | undefined {
   for (const { bytes, mediaType } of mediaTypeSignatures) {
-    if (image.length >= bytes.length && bytes.every((byte, index) => image[index] === byte)) {
+    if (
+      image.length >= bytes.length &&
+      bytes.every((byte, index) => image[index] === byte)
+    ) {
       return mediaType;
     }
   }

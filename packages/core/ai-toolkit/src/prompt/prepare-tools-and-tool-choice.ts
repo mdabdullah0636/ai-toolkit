@@ -17,7 +17,9 @@ export async function prepareToolsAndToolChoice<TOOLS extends ToolSet>({
   toolChoice: ToolChoice<TOOLS> | undefined;
   activeTools: Array<keyof TOOLS> | undefined;
 }): Promise<{
-  tools: Array<LanguageModelV3FunctionTool | LanguageModelV3ProviderTool> | undefined;
+  tools:
+    | Array<LanguageModelV3FunctionTool | LanguageModelV3ProviderTool>
+    | undefined;
   toolChoice: LanguageModelV3ToolChoice | undefined;
 }> {
   if (!isNonEmptyObject(tools)) {
@@ -30,10 +32,14 @@ export async function prepareToolsAndToolChoice<TOOLS extends ToolSet>({
   // when activeTools is provided, we only include the tools that are in the list:
   const filteredTools =
     activeTools != null
-      ? Object.entries(tools).filter(([name]) => activeTools.includes(name as keyof TOOLS))
+      ? Object.entries(tools).filter(([name]) =>
+          activeTools.includes(name as keyof TOOLS),
+        )
       : Object.entries(tools);
 
-  const languageModelTools: Array<LanguageModelV3FunctionTool | LanguageModelV3ProviderTool> = [];
+  const languageModelTools: Array<
+    LanguageModelV3FunctionTool | LanguageModelV3ProviderTool
+  > = [];
   for (const [name, tool] of filteredTools) {
     const toolType = tool.type;
 
@@ -46,7 +52,9 @@ export async function prepareToolsAndToolChoice<TOOLS extends ToolSet>({
           name,
           description: tool.description,
           inputSchema: await asSchema(tool.inputSchema).jsonSchema,
-          ...(tool.inputExamples != null ? { inputExamples: tool.inputExamples } : {}),
+          ...(tool.inputExamples != null
+            ? { inputExamples: tool.inputExamples }
+            : {}),
           providerOptions: tool.providerOptions,
           ...(tool.strict != null ? { strict: tool.strict } : {}),
         });

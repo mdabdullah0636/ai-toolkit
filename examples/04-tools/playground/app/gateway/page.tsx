@@ -33,22 +33,26 @@ const features = [
   {
     icon: Plug,
     title: 'Unified API',
-    description: 'Single integration to access 50+ models across all major providers.',
+    description:
+      'Single integration to access 50+ models across all major providers.',
   },
   {
     icon: Key,
     title: 'Unified API Keys',
-    description: 'Manage all provider API keys in one place. No more scattered credentials.',
+    description:
+      'Manage all provider API keys in one place. No more scattered credentials.',
   },
   {
     icon: Shield,
     title: 'Unified Security',
-    description: 'Consistent authentication, rate limiting, and access controls across all models.',
+    description:
+      'Consistent authentication, rate limiting, and access controls across all models.',
   },
   {
     icon: Gauge,
     title: 'Unified Observability',
-    description: 'One dashboard to monitor usage, costs, and latency across every provider.',
+    description:
+      'One dashboard to monitor usage, costs, and latency across every provider.',
   },
   {
     icon: Database,
@@ -141,8 +145,8 @@ export default function GatewayPage() {
             AI Gateway For <span className="text-primary">Developers</span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12">
-            One integration. Every model. Switch between OpenAI, Anthropic, Google, and more with a
-            single line of code.
+            One integration. Every model. Switch between OpenAI, Anthropic,
+            Google, and more with a single line of code.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/playground">
@@ -173,7 +177,9 @@ export default function GatewayPage() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">One code, every provider</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              One code, every provider
+            </h2>
             <p className="text-lg text-muted-foreground">
               Drop in any model without changing your application code
             </p>
@@ -227,7 +233,9 @@ export default function GatewayPage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Support for every major provider
             </h2>
-            <p className="text-lg text-muted-foreground">50+ models and counting</p>
+            <p className="text-lg text-muted-foreground">
+              50+ models and counting
+            </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
             {providers.map(provider => (
@@ -247,7 +255,9 @@ export default function GatewayPage() {
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">Built for enterprise security</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                Built for enterprise security
+              </h2>
               <div className="space-y-6">
                 <div className="flex gap-4">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -256,7 +266,8 @@ export default function GatewayPage() {
                   <div>
                     <h3 className="font-semibold mb-1">API Key Management</h3>
                     <p className="text-muted-foreground text-sm">
-                      Securely store and rotate API keys with environment-based configuration.
+                      Securely store and rotate API keys with environment-based
+                      configuration.
                     </p>
                   </div>
                 </div>
@@ -267,7 +278,8 @@ export default function GatewayPage() {
                   <div>
                     <h3 className="font-semibold mb-1">Rate Limiting</h3>
                     <p className="text-muted-foreground text-sm">
-                      Protect your API quotas with configurable rate limits per model.
+                      Protect your API quotas with configurable rate limits per
+                      model.
                     </p>
                   </div>
                 </div>
@@ -278,7 +290,8 @@ export default function GatewayPage() {
                   <div>
                     <h3 className="font-semibold mb-1">Request Logging</h3>
                     <p className="text-muted-foreground text-sm">
-                      Full observability into every request and response for audits.
+                      Full observability into every request and response for
+                      audits.
                     </p>
                   </div>
                 </div>
@@ -305,13 +318,19 @@ gateway('gemini-2-0-flash')`}</code>
       {/* CTA Section */}
       <section className="py-24 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Start building with AI Gateway</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Start building with AI Gateway
+          </h2>
           <p className="text-xl mb-12 opacity-90">
             Join thousands of developers using one API for every model
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/playground">
-              <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="text-lg px-8 py-6"
+              >
                 Try the Playground
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -341,7 +360,10 @@ gateway('gemini-2-0-flash')`}</code>
             </div>
             <p className="text-sm text-muted-foreground">
               Built by{' '}
-              <a href="https://vercel.com" className="underline hover:text-primary">
+              <a
+                href="https://vercel.com"
+                className="underline hover:text-primary"
+              >
                 Vercel
               </a>
               . Open-source under Apache-2.0 license.

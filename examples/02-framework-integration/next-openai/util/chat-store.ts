@@ -54,7 +54,13 @@ function getChatFile(id: string): string {
   return chatFile;
 }
 
-export async function appendStreamId({ chatId, streamId }: { chatId: string; streamId: string }) {
+export async function appendStreamId({
+  chatId,
+  streamId,
+}: {
+  chatId: string;
+  streamId: string;
+}) {
   const file = getStreamsFile(chatId);
   const streams = await loadStreams(chatId);
   streams.push(streamId);

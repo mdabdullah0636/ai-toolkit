@@ -5739,12 +5739,7 @@
       "name": "Vercel AI Gateway",
       "description": "Access models from OpenAI, Anthropic, Google, Meta, xAI, and more through a single interface. Built into the AI TOOLKIT with automatic authentication on Vercel, BYOK support, provider routing, fallbacks, and observability in your Vercel dashboard.",
       "status": "active",
-      "tags": [
-        "unified-access",
-        "routing",
-        "observability",
-        "byok"
-      ],
+      "tags": ["unified-access", "routing", "observability", "byok"],
       "links": [
         {
           "label": "docs",
@@ -5785,11 +5780,7 @@
       "name": "OpenRouter",
       "description": "A unified API gateway with one API key for hundreds of models from Anthropic, Google, Meta, Mistral, and more. Transparent per-token pricing, enterprise-grade infrastructure with automatic failover, and immediate access to newly released models.",
       "status": "active",
-      "tags": [
-        "unified-access",
-        "routing",
-        "pay-as-you-go"
-      ],
+      "tags": ["unified-access", "routing", "pay-as-you-go"],
       "links": [
         {
           "label": "docs",
@@ -5830,12 +5821,7 @@
       "name": "Cloudflare AI Gateway",
       "description": "Access models from OpenAI, Anthropic, DeepSeek, Google AI Studio, and more through Cloudflare's AI Gateway. Automatic fallback between models, response caching, retries, rate limiting, and native support for Cloudflare Workers AI bindings.",
       "status": "active",
-      "tags": [
-        "unified-access",
-        "caching",
-        "routing",
-        "workers"
-      ],
+      "tags": ["unified-access", "caching", "routing", "workers"],
       "links": [
         {
           "label": "docs",
@@ -6018,12 +6004,7 @@
       "name": "Apertis",
       "description": "A unified AI gateway providing access to 470+ models from OpenAI, Anthropic, Google, and more through a single API key with transparent pay-as-you-go pricing. OpenAI-compatible and enterprise ready with automatic failover.",
       "status": "active",
-      "tags": [
-        "unified-access",
-        "pay-as-you-go",
-        "enterprise",
-        "routing"
-      ],
+      "tags": ["unified-access", "pay-as-you-go", "enterprise", "routing"],
       "links": [
         {
           "label": "docs",
@@ -6064,11 +6045,7 @@
       "name": "LlamaGate",
       "description": "An OpenAI-compatible API gateway with access to 26+ open-source LLMs (Llama, Qwen, DeepSeek, Mistral) at competitive prices. Includes vision, reasoning, code, and embedding models with pay-as-you-go pricing from $0.02-$0.55 per 1M tokens.",
       "status": "active",
-      "tags": [
-        "unified-access",
-        "open-source",
-        "pay-as-you-go"
-      ],
+      "tags": ["unified-access", "open-source", "pay-as-you-go"],
       "links": [
         {
           "label": "docs",
@@ -6109,10 +6086,7 @@
       "name": "Code Execution",
       "description": "Execute Python code in a sandboxed environment using Vercel Sandbox. Run calculations, data processing, and other computational tasks safely in an isolated environment with Python 3.13.",
       "status": "active",
-      "tags": [
-        "code-execution",
-        "sandbox"
-      ],
+      "tags": ["code-execution", "sandbox"],
       "links": [
         {
           "label": "docs",
@@ -6152,11 +6126,7 @@
       "name": "Exa",
       "description": "Exa is a web search API that adds web search capabilities to your LLMs. Exa can search the web for code docs, current information, news, articles, and a lot more. Exa performs real-time web searches and can get page content from specific URLs. Add Exa web search tool to your LLMs in just a few lines of code.",
       "status": "active",
-      "tags": [
-        "search",
-        "web",
-        "extraction"
-      ],
+      "tags": ["search", "web", "extraction"],
       "links": [
         {
           "label": "docs",
@@ -6196,11 +6166,7 @@
       "name": "Parallel",
       "description": "Parallel gives AI agents best-in-class tools to search and extract context from the web. Web results returned by Parallel are compressed for optimal token efficiency at inference time.",
       "status": "active",
-      "tags": [
-        "search",
-        "web",
-        "extraction"
-      ],
+      "tags": ["search", "web", "extraction"],
       "links": [
         {
           "label": "apiKey",
@@ -6236,12 +6202,7 @@
       "name": "ctx-zip",
       "description": "Transform MCP tools and AI TOOLKIT tools into code, write it to a Vercel sandbox file system and have the agent import the tools, write code, and execute it.",
       "status": "active",
-      "tags": [
-        "code-execution",
-        "sandbox",
-        "mcp",
-        "code-mode"
-      ],
+      "tags": ["code-execution", "sandbox", "mcp", "code-mode"],
       "links": [
         {
           "label": "docs",
@@ -6281,10 +6242,7 @@
       "name": "Perplexity Search",
       "description": "Search the web with real-time results and advanced filtering powered by Perplexity's Search API. Provides ranked search results with domain, language, date range, and recency filters. Supports multi-query searches and regional search results.",
       "status": "active",
-      "tags": [
-        "search",
-        "web"
-      ],
+      "tags": ["search", "web"],
       "links": [
         {
           "label": "docs",
@@ -6324,11 +6282,7 @@
       "name": "Tavily",
       "description": "Tavily is a web intelligence platform offering real-time web search optimized for AI applications. Tavily provides comprehensive web research capabilities including search, content extraction, website crawling, and site mapping to power AI agents with current information.",
       "status": "active",
-      "tags": [
-        "search",
-        "extract",
-        "crawl"
-      ],
+      "tags": ["search", "extract", "crawl"],
       "links": [
         {
           "label": "docs",
@@ -6368,13 +6322,7 @@
       "name": "Firecrawl",
       "description": "Firecrawl tools for the AI TOOLKIT. Web scraping, search, crawling, and data extraction for AI applications. Scrape any website into clean markdown, search the web, crawl entire sites, and extract structured data.",
       "status": "active",
-      "tags": [
-        "scraping",
-        "search",
-        "crawling",
-        "extraction",
-        "web"
-      ],
+      "tags": ["scraping", "search", "crawling", "extraction", "web"],
       "links": [
         {
           "label": "docs",
@@ -6414,11 +6362,7 @@
       "name": "Amazon Bedrock AgentCore",
       "description": "Fully managed Browser and Code Interpreter tools for AI agents. Browser is a fast and secure cloud-based runtime for interacting with web applications, filling forms, navigating websites, and extracting information. Code Interpreter provides an isolated sandbox for executing Python, JavaScript, and TypeScript code to solve complex tasks.",
       "status": "active",
-      "tags": [
-        "code-execution",
-        "browser-automation",
-        "sandbox"
-      ],
+      "tags": ["code-execution", "browser-automation", "sandbox"],
       "links": [
         {
           "label": "docs",
@@ -6504,12 +6448,7 @@
       "name": "Tako Search",
       "description": "Search Tako's knowledge base for data visualizations, insights, and well-sourced information with charts and analytics.",
       "status": "active",
-      "tags": [
-        "search",
-        "data",
-        "visualization",
-        "analytics"
-      ],
+      "tags": ["search", "data", "visualization", "analytics"],
       "links": [
         {
           "label": "docs",
@@ -6549,11 +6488,7 @@
       "name": "Valyu",
       "description": "Valyu provides powerful search tools for AI agents. Web search for real-time information, plus specialized domain-specific searchtools: financeSearch (stock prices, earnings, income statements, cash flows, etc), paperSearch (full-text PubMed, arXiv, bioRxiv, medRxiv), bioSearch (clinical trials, FDA drug labels, PubMed, medRxiv, bioRxiv), patentSearch (USPTO patents), secSearch (10-k/10-Q/8-k), economicsSearch (BLS, FRED, World Bank data), and companyResearch (comprehensive company research reports).",
       "status": "active",
-      "tags": [
-        "search",
-        "web",
-        "domain-search"
-      ],
+      "tags": ["search", "web", "domain-search"],
       "links": [
         {
           "label": "docs",
@@ -6593,12 +6528,7 @@
       "name": "Airweave",
       "description": "Airweave is an open-source platform that makes any app searchable for your agent. Sync and search across 35+ data sources (Notion, Slack, Google Drive, databases, and more) with semantic search. Add unified search across all your connected data to your AI applications in just a few lines of code.",
       "status": "active",
-      "tags": [
-        "search",
-        "rag",
-        "data-sources",
-        "semantic-search"
-      ],
+      "tags": ["search", "rag", "data-sources", "semantic-search"],
       "links": [
         {
           "label": "docs",
@@ -6638,12 +6568,7 @@
       "name": "bash-tool",
       "description": "Provides bash, readFile, and writeFile tools for AI agents. Supports @vercel/sandbox for full VM isolation.",
       "status": "active",
-      "tags": [
-        "bash",
-        "file-system",
-        "sandbox",
-        "code-execution"
-      ],
+      "tags": ["bash", "file-system", "sandbox", "code-execution"],
       "links": [
         {
           "label": "docs",
@@ -6679,11 +6604,7 @@
       "name": "AI Functions",
       "description": "Scripts and test suites for validating, testing, and iterating on AI functions across providers.",
       "status": "active",
-      "tags": [
-        "testing",
-        "providers",
-        "multi-provider"
-      ],
+      "tags": ["testing", "providers", "multi-provider"],
       "links": [
         {
           "label": "github",
@@ -6708,11 +6629,7 @@
       "name": "Express.js",
       "description": "Use the AI TOOLKIT in an Express.js server to generate and stream text and objects.",
       "status": "active",
-      "tags": [
-        "express",
-        "streaming",
-        "node"
-      ],
+      "tags": ["express", "streaming", "node"],
       "links": [
         {
           "label": "github",
@@ -6737,11 +6654,7 @@
       "name": "Fastify",
       "description": "Use the AI TOOLKIT in a Fastify server to generate and stream text and objects.",
       "status": "active",
-      "tags": [
-        "fastify",
-        "streaming",
-        "node"
-      ],
+      "tags": ["fastify", "streaming", "node"],
       "links": [
         {
           "label": "github",
@@ -6766,11 +6679,7 @@
       "name": "Hono",
       "description": "Use the AI TOOLKIT in a Hono server to generate and stream text and objects.",
       "status": "active",
-      "tags": [
-        "hono",
-        "streaming",
-        "edge"
-      ],
+      "tags": ["hono", "streaming", "edge"],
       "links": [
         {
           "label": "github",
@@ -6795,11 +6704,7 @@
       "name": "Node.js HTTP Server",
       "description": "Use the AI TOOLKIT in a simple Node.js HTTP server to generate and stream text and objects.",
       "status": "active",
-      "tags": [
-        "node",
-        "http",
-        "streaming"
-      ],
+      "tags": ["node", "http", "streaming"],
       "links": [
         {
           "label": "github",
@@ -6824,11 +6729,7 @@
       "name": "Angular Chat",
       "description": "A simple chat application built with Angular that connects to OpenAI models using the AI TOOLKIT.",
       "status": "active",
-      "tags": [
-        "angular",
-        "chat",
-        "angular-components"
-      ],
+      "tags": ["angular", "chat", "angular-components"],
       "links": [
         {
           "label": "github",
@@ -6853,11 +6754,7 @@
       "name": "NestJS",
       "description": "Use the AI TOOLKIT in a Nest.js server to generate and stream text and objects.",
       "status": "active",
-      "tags": [
-        "nest",
-        "node",
-        "streaming"
-      ],
+      "tags": ["nest", "node", "streaming"],
       "links": [
         {
           "label": "github",
@@ -6882,12 +6779,7 @@
       "name": "Next.js Agent",
       "description": "A minimal example to show code modularization with agents, tools, and components.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "agent",
-        "tools",
-        "modularization"
-      ],
+      "tags": ["nextjs", "agent", "tools", "modularization"],
       "links": [
         {
           "label": "github",
@@ -6912,12 +6804,7 @@
       "name": "Next.js + FastAPI",
       "description": "Use the AI TOOLKIT with Next.js and FastAPI to create AI-powered streaming applications.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "fastapi",
-        "streaming",
-        "full-stack"
-      ],
+      "tags": ["nextjs", "fastapi", "streaming", "full-stack"],
       "links": [
         {
           "label": "github",
@@ -6942,12 +6829,7 @@
       "name": "Next.js + LangChain",
       "description": "Use the AI TOOLKIT with Next.js, LangChain, LangGraph, and OpenAI to create AI-powered streaming applications.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "langchain",
-        "langgraph",
-        "streaming"
-      ],
+      "tags": ["nextjs", "langchain", "langgraph", "streaming"],
       "links": [
         {
           "label": "github",
@@ -6972,12 +6854,7 @@
       "name": "Next.js Pages Router",
       "description": "Use the AI TOOLKIT with the Next.js pages router and OpenAI to create a ChatGPT-like streaming chat bot.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "pages-router",
-        "openai",
-        "chat"
-      ],
+      "tags": ["nextjs", "pages-router", "openai", "chat"],
       "links": [
         {
           "label": "github",
@@ -7002,12 +6879,7 @@
       "name": "Next.js + OpenAI Chat",
       "description": "Use the AI TOOLKIT with Next.js and OpenAI to create a ChatGPT-like AI-powered streaming chat bot.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "openai",
-        "chat",
-        "streaming"
-      ],
+      "tags": ["nextjs", "openai", "chat", "streaming"],
       "links": [
         {
           "label": "github",
@@ -7032,12 +6904,7 @@
       "name": "Next.js Minimal",
       "description": "A minimal Next.js example to test persistence, SSR, and stream resume.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "ssr",
-        "persistence",
-        "streaming"
-      ],
+      "tags": ["nextjs", "ssr", "persistence", "streaming"],
       "links": [
         {
           "label": "github",
@@ -7062,12 +6929,7 @@
       "name": "Nuxt + OpenAI Chat",
       "description": "Use the AI TOOLKIT with Nuxt and OpenAI to create a ChatGPT-like AI-powered streaming chat bot.",
       "status": "active",
-      "tags": [
-        "nuxt",
-        "vue",
-        "openai",
-        "chat"
-      ],
+      "tags": ["nuxt", "vue", "openai", "chat"],
       "links": [
         {
           "label": "github",
@@ -7092,11 +6954,7 @@
       "name": "MCP Integration",
       "description": "Use the AI TOOLKIT with MCP to convert between MCP and AI TOOLKIT tool calls.",
       "status": "active",
-      "tags": [
-        "mcp",
-        "tools",
-        "protocol"
-      ],
+      "tags": ["mcp", "tools", "protocol"],
       "links": [
         {
           "label": "github",
@@ -7121,12 +6979,7 @@
       "name": "Google Vertex AI",
       "description": "Use the AI TOOLKIT with Next.js and Google Vertex AI to validate the Google Vertex provider on the Edge runtime.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "google-vertex",
-        "edge-runtime",
-        "cloud"
-      ],
+      "tags": ["nextjs", "google-vertex", "edge-runtime", "cloud"],
       "links": [
         {
           "label": "github",
@@ -7151,12 +7004,7 @@
       "name": "Kasada Bot Protection",
       "description": "Integration of an AI chat app based on the AI TOOLKIT and Kasada's advanced bot protection solution.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "openai",
-        "security",
-        "bot-protection"
-      ],
+      "tags": ["nextjs", "openai", "security", "bot-protection"],
       "links": [
         {
           "label": "github",
@@ -7181,13 +7029,7 @@
       "name": "OpenTelemetry + Sentry",
       "description": "Use the AI TOOLKIT with Next.js, OpenAI, and Sentry to create a streaming chat bot with OpenTelemetry support.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "openai",
-        "telemetry",
-        "sentry",
-        "opentelemetry"
-      ],
+      "tags": ["nextjs", "openai", "telemetry", "sentry", "opentelemetry"],
       "links": [
         {
           "label": "github",
@@ -7212,12 +7054,7 @@
       "name": "OpenTelemetry",
       "description": "Use the AI TOOLKIT with Next.js and OpenAI to create a streaming chat bot with OpenTelemetry support.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "openai",
-        "telemetry",
-        "opentelemetry"
-      ],
+      "tags": ["nextjs", "openai", "telemetry", "opentelemetry"],
       "links": [
         {
           "label": "github",
@@ -7242,12 +7079,7 @@
       "name": "Upstash Rate Limits",
       "description": "Use the AI TOOLKIT with Next.js and OpenAI to create a streaming chat bot with rate limits using Vercel KV.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "openai",
-        "rate-limiting",
-        "vercel-kv"
-      ],
+      "tags": ["nextjs", "openai", "rate-limiting", "vercel-kv"],
       "links": [
         {
           "label": "github",
@@ -7272,12 +7104,7 @@
       "name": "Playground",
       "description": "An interactive web-based playground for experimenting with AI models and providers using the AI TOOLKIT.",
       "status": "active",
-      "tags": [
-        "nextjs",
-        "playground",
-        "dashboard",
-        "multi-provider"
-      ],
+      "tags": ["nextjs", "playground", "dashboard", "multi-provider"],
       "links": [
         {
           "label": "github",
@@ -7302,12 +7129,7 @@
       "name": "Harness Profiles",
       "description": "Construct per-agent ACP harness profiles (Claude Code, Cline, Codex, Cursor, Grok Build, opencode, Pi) and print their stable bootstrap identities.",
       "status": "active",
-      "tags": [
-        "harness",
-        "acp",
-        "agents",
-        "node"
-      ],
+      "tags": ["harness", "acp", "agents", "node"],
       "links": [
         {
           "label": "github",

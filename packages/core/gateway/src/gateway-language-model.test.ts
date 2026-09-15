@@ -1,4 +1,7 @@
-import type { LanguageModelV3Prompt, LanguageModelV3FilePart } from '@ai-toolkit/provider';
+import type {
+  LanguageModelV3Prompt,
+  LanguageModelV3FilePart,
+} from '@ai-toolkit/provider';
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
 import { convertReadableStreamToArray } from '@ai-toolkit/provider-utils/test';
 import { GatewayLanguageModel } from './gateway-language-model';
@@ -18,7 +21,9 @@ const TEST_PROMPT: LanguageModelV3Prompt = [
 ];
 
 const createTestModel = (
-  config: Partial<GatewayConfig & { o11yHeaders?: Record<string, string> }> = {},
+  config: Partial<
+    GatewayConfig & { o11yHeaders?: Record<string, string> }
+  > = {},
 ) => {
   return new GatewayLanguageModel('test-model', {
     provider: 'test-provider',
@@ -255,7 +260,9 @@ describe('GatewayLanguageModel', () => {
       } catch (error) {
         expect(GatewayRateLimitError.isInstance(error)).toBe(true);
         const rateLimitError = error as GatewayRateLimitError;
-        expect(rateLimitError.message).toBe('Rate limit exceeded. Try again later.');
+        expect(rateLimitError.message).toBe(
+          'Rate limit exceeded. Try again later.',
+        );
         expect(rateLimitError.statusCode).toBe(429);
         expect(rateLimitError.type).toBe('rate_limit_exceeded');
       }
@@ -318,7 +325,8 @@ describe('GatewayLanguageModel', () => {
         });
 
         const requestBody = await server.calls[0].requestBodyJson;
-        const imagePart = requestBody.prompt[0].content[1] as LanguageModelV3FilePart;
+        const imagePart = requestBody.prompt[0]
+          .content[1] as LanguageModelV3FilePart;
 
         expect(imagePart.type).toBe('file');
         expect(imagePart.data).toBe(`data:image/jpeg;base64,${expectedBase64}`);
@@ -342,10 +350,13 @@ describe('GatewayLanguageModel', () => {
         });
 
         const requestBody = await server.calls[0].requestBodyJson;
-        const imagePart = requestBody.prompt[0].content[0] as LanguageModelV3FilePart;
+        const imagePart = requestBody.prompt[0]
+          .content[0] as LanguageModelV3FilePart;
 
         expect(imagePart.type).toBe('file');
-        expect(imagePart.data).toBe(`data:${mimeType};base64,${expectedBase64}`);
+        expect(imagePart.data).toBe(
+          `data:${mimeType};base64,${expectedBase64}`,
+        );
         expect(imagePart.mediaType).toBe(mimeType);
       });
 
@@ -367,7 +378,8 @@ describe('GatewayLanguageModel', () => {
         });
 
         const requestBody = await server.calls[0].requestBodyJson;
-        const imagePart = requestBody.prompt[0].content[1] as LanguageModelV3FilePart;
+        const imagePart = requestBody.prompt[0]
+          .content[1] as LanguageModelV3FilePart;
 
         expect(imagePart.type).toBe('file');
         expect(imagePart.data).toBe(imageUrl.toString());
@@ -503,7 +515,9 @@ describe('GatewayLanguageModel', () => {
 
         try {
           await model.doGenerate({
-            prompt: [{ role: 'user', content: [{ type: 'text', text: 'test' }] }],
+            prompt: [
+              { role: 'user', content: [{ type: 'text', text: 'test' }] },
+            ],
           });
           expect.fail('Expected error to be thrown');
         } catch (error) {
@@ -528,7 +542,9 @@ describe('GatewayLanguageModel', () => {
 
         try {
           await model.doGenerate({
-            prompt: [{ role: 'user', content: [{ type: 'text', text: 'test' }] }],
+            prompt: [
+              { role: 'user', content: [{ type: 'text', text: 'test' }] },
+            ],
           });
           expect.fail('Expected error to be thrown');
         } catch (error) {
@@ -837,7 +853,8 @@ describe('GatewayLanguageModel', () => {
         });
 
         const requestBody = await server.calls[0].requestBodyJson;
-        const imagePart = requestBody.prompt[0].content[1] as LanguageModelV3FilePart;
+        const imagePart = requestBody.prompt[0]
+          .content[1] as LanguageModelV3FilePart;
 
         expect(imagePart.type).toBe('file');
         expect(imagePart.data).toBe(`data:image/jpeg;base64,${expectedBase64}`);
@@ -865,10 +882,13 @@ describe('GatewayLanguageModel', () => {
         });
 
         const requestBody = await server.calls[0].requestBodyJson;
-        const imagePart = requestBody.prompt[0].content[1] as LanguageModelV3FilePart;
+        const imagePart = requestBody.prompt[0]
+          .content[1] as LanguageModelV3FilePart;
 
         expect(imagePart.type).toBe('file');
-        expect(imagePart.data).toBe(`data:${mimeType};base64,${expectedBase64}`);
+        expect(imagePart.data).toBe(
+          `data:${mimeType};base64,${expectedBase64}`,
+        );
         expect(imagePart.mediaType).toBe(mimeType);
       });
 
@@ -891,7 +911,8 @@ describe('GatewayLanguageModel', () => {
         });
 
         const requestBody = await server.calls[0].requestBodyJson;
-        const imagePart = requestBody.prompt[0].content[1] as LanguageModelV3FilePart;
+        const imagePart = requestBody.prompt[0]
+          .content[1] as LanguageModelV3FilePart;
 
         expect(imagePart.type).toBe('file');
         expect(imagePart.data).toBe(imageUrl.toString());
@@ -955,7 +976,9 @@ describe('GatewayLanguageModel', () => {
         } catch (error: unknown) {
           // Should be the same instance, not wrapped
           expect(error).toBe(existingGatewayError);
-          expect((error as GatewayAuthenticationError).message).toBe('Already a Gateway error');
+          expect((error as GatewayAuthenticationError).message).toBe(
+            'Already a Gateway error',
+          );
         }
       });
 
@@ -1163,7 +1186,9 @@ describe('GatewayLanguageModel', () => {
         modelId: 'test-model',
       });
       expect(responseMetadataChunk.timestamp).toBeInstanceOf(Date);
-      expect(responseMetadataChunk.timestamp.toISOString()).toBe(timestampString);
+      expect(responseMetadataChunk.timestamp.toISOString()).toBe(
+        timestampString,
+      );
     });
 
     it('should not modify timestamp if it is already a Date object', async () => {

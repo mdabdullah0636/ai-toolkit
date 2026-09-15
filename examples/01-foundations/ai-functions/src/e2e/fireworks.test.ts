@@ -1,6 +1,9 @@
 import 'dotenv/config';
 import { expect } from 'vitest';
-import { fireworks as provider, FireworksErrorData } from '@ai-toolkit/fireworks';
+import {
+  fireworks as provider,
+  FireworksErrorData,
+} from '@ai-toolkit/fireworks';
 import { APICallError } from '@ai-toolkit/provider';
 import {
   createEmbeddingModelWithCapabilities,
@@ -13,7 +16,9 @@ const createChatModel = (modelId: string) =>
   createLanguageModelWithCapabilities(provider.chatModel(modelId));
 
 const createCompletionModel = (modelId: string) =>
-  createLanguageModelWithCapabilities(provider.completionModel(modelId), ['textCompletion']);
+  createLanguageModelWithCapabilities(provider.completionModel(modelId), [
+    'textCompletion',
+  ]);
 
 createFeatureTestSuite({
   name: 'Fireworks',
@@ -25,7 +30,9 @@ createFeatureTestSuite({
       // createChatModel('accounts/fireworks/models/mixtral-8x7b-instruct'),
       // createChatModel('accounts/fireworks/models/qwen2p5-72b-instruct'),
       // createCompletionModel('accounts/fireworks/models/llama-v3-8b-instruct'),
-      createCompletionModel('accounts/fireworks/models/llama-v3p2-11b-vision-instruct'),
+      createCompletionModel(
+        'accounts/fireworks/models/llama-v3p2-11b-vision-instruct',
+      ),
     ],
     embeddingModels: [
       createEmbeddingModelWithCapabilities(
@@ -33,7 +40,9 @@ createFeatureTestSuite({
       ),
     ],
     imageModels: [
-      createImageModelWithCapabilities(provider.image('accounts/fireworks/models/flux-1-dev-fp8')),
+      createImageModelWithCapabilities(
+        provider.image('accounts/fireworks/models/flux-1-dev-fp8'),
+      ),
     ],
   },
   timeout: 10000,

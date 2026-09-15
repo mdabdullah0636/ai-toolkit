@@ -18,11 +18,15 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-      <h4 className="pb-4 text-xl font-bold text-gray-900 md:text-xl">useChat throttle example</h4>
+      <h4 className="pb-4 text-xl font-bold text-gray-900 md:text-xl">
+        useChat throttle example
+      </h4>
       {messages.map(m => (
         <div key={m.id} className="whitespace-pre-wrap">
           {m.role === 'user' ? 'User: ' : 'AI: '}
-          {m.parts.map(part => (part.type === 'text' ? part.text : '')).join('')}
+          {m.parts
+            .map(part => (part.type === 'text' ? part.text : ''))
+            .join('')}
         </div>
       ))}
 

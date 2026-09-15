@@ -1,11 +1,19 @@
 import { anthropic } from '@ai-toolkit/anthropic';
-import { convertToModelMessages, InferUITool, streamText, UIDataTypes, UIMessage } from 'ai-toolkit';
+import {
+  convertToModelMessages,
+  InferUITool,
+  streamText,
+  UIDataTypes,
+  UIMessage,
+} from 'ai-toolkit';
 
 export type SourcesChatMessage = UIMessage<
   never,
   UIDataTypes,
   {
-    web_search: InferUITool<ReturnType<typeof anthropic.tools.webSearch_20250305>>;
+    web_search: InferUITool<
+      ReturnType<typeof anthropic.tools.webSearch_20250305>
+    >;
   }
 >;
 

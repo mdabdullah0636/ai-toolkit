@@ -33,6 +33,9 @@ export function createAnthropicMicrosoftAgent() {
   });
 }
 
-export type AnthropicMicrosoftAgent = ReturnType<typeof createAnthropicMicrosoftAgent>;
+export type AnthropicMicrosoftAgent = ReturnType<
+  typeof createAnthropicMicrosoftAgent
+>;
 
-export type AnthropicMicrosoftMessage = InferAgentUIMessage<AnthropicMicrosoftAgent>;
+export type AnthropicMicrosoftMessage =
+  InferAgentUIMessage<AnthropicMicrosoftAgent>;

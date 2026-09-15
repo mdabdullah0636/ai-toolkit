@@ -47,6 +47,8 @@ describe('InferAgentUIMessage', () => {
 
     type Message = InferAgentUIMessage<typeof agent, { foo: string }>;
 
-    expectTypeOf<Message>().toMatchTypeOf<UIMessage<{ foo: string }, never, {}>>();
+    expectTypeOf<Message>().toMatchTypeOf<
+      UIMessage<{ foo: string }, never, {}>
+    >();
   });
 });

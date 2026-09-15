@@ -32,7 +32,8 @@ describe('doGenerate', () => {
         metadata: {
           transaction_key: 'deprecated',
           request_id: '2479c8c8-8185-40ac-9ac6-f0874419f793',
-          sha256: '154e291ecfa8be6ab8343560bcc109008fa7853eb5372533e8efdefc9b504c33',
+          sha256:
+            '154e291ecfa8be6ab8343560bcc109008fa7853eb5372533e8efdefc9b504c33',
           created: '2024-02-06T19:56:16.180Z',
           duration: 25.933313,
           channels: 1,
@@ -130,7 +131,9 @@ describe('doGenerate', () => {
       'custom-provider-header': 'provider-header-value',
       'custom-request-header': 'request-header-value',
     });
-    expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/deepgram/0.0.0-test`);
+    expect(server.calls[0].requestUserAgent).toContain(
+      `ai-toolkit/deepgram/0.0.0-test`,
+    );
   });
 
   it('should extract the transcription text', async () => {

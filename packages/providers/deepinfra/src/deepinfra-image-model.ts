@@ -1,4 +1,8 @@
-import { ImageModelV3, ImageModelV3File, SharedV3Warning } from '@ai-toolkit/provider';
+import {
+  ImageModelV3,
+  ImageModelV3File,
+  SharedV3Warning,
+} from '@ai-toolkit/provider';
 import {
   combineHeaders,
   convertBase64ToUint8Array,
@@ -74,7 +78,9 @@ export class DeepInfraImageModel implements ImageModelV3 {
           errorSchema: deepInfraEditErrorSchema,
           errorToMessage: error => error.error?.message ?? 'Unknown error',
         }),
-        successfulResponseHandler: createJsonResponseHandler(deepInfraEditResponseSchema),
+        successfulResponseHandler: createJsonResponseHandler(
+          deepInfraEditResponseSchema,
+        ),
         abortSignal,
         fetch: this.config.fetch,
       });
@@ -109,13 +115,17 @@ export class DeepInfraImageModel implements ImageModelV3 {
         errorSchema: deepInfraErrorSchema,
         errorToMessage: error => error.detail.error,
       }),
-      successfulResponseHandler: createJsonResponseHandler(deepInfraImageResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        deepInfraImageResponseSchema,
+      ),
       abortSignal,
       fetch: this.config.fetch,
     });
 
     return {
-      images: response.images.map(image => image.replace(/^data:image\/\w+;base64,/, '')),
+      images: response.images.map(image =>
+        image.replace(/^data:image\/\w+;base64,/, ''),
+      ),
       warnings,
       response: {
         timestamp: currentDate,
@@ -175,7 +185,10 @@ async function fileToBlob(file: ImageModelV3File): Promise<Blob> {
     return downloadBlob(file.url);
   }
 
-  const data = file.data instanceof Uint8Array ? file.data : convertBase64ToUint8Array(file.data);
+  const data =
+    file.data instanceof Uint8Array
+      ? file.data
+      : convertBase64ToUint8Array(file.data);
 
   return new Blob([data as BlobPart], { type: file.mediaType });
 }

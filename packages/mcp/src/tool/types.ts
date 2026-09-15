@@ -3,7 +3,11 @@ import { FlexibleSchema, JSONObject } from '@ai-toolkit/provider';
 import { Tool } from '@ai-toolkit/provider-utils';
 
 export const LATEST_PROTOCOL_VERSION = '2025-06-18';
-export const SUPPORTED_PROTOCOL_VERSIONS = [LATEST_PROTOCOL_VERSION, '2025-03-26', '2024-11-05'];
+export const SUPPORTED_PROTOCOL_VERSIONS = [
+  LATEST_PROTOCOL_VERSION,
+  '2025-03-26',
+  '2024-11-05',
+];
 
 /** MCP tool metadata - keys should follow MCP _meta key format specification */
 const ToolMetaSchema = z.optional(z.record(z.string(), z.unknown()));
@@ -21,7 +25,10 @@ export type ToolSchemas =
   | undefined;
 
 /** Base MCP tool type with execute and _meta */
-type McpToolBase<INPUT = unknown, OUTPUT = CallToolResult> = Tool<INPUT, OUTPUT> &
+type McpToolBase<INPUT = unknown, OUTPUT = CallToolResult> = Tool<
+  INPUT,
+  OUTPUT
+> &
   Required<Pick<Tool<INPUT, OUTPUT>, 'execute'>> & {
     _meta?: ToolMeta;
   };
@@ -226,7 +233,9 @@ const EmbeddedResourceSchema = z
   .loose();
 
 export const CallToolResultSchema = ResultSchema.extend({
-  content: z.array(z.union([TextContentSchema, ImageContentSchema, EmbeddedResourceSchema])),
+  content: z.array(
+    z.union([TextContentSchema, ImageContentSchema, EmbeddedResourceSchema]),
+  ),
   /**
    * @see https://modelcontextprotocol.io/specification/2025-06-18/server/tools#structured-content
    */
@@ -252,10 +261,14 @@ const ResourceTemplateSchema = z
 export const ListResourceTemplatesResultSchema = ResultSchema.extend({
   resourceTemplates: z.array(ResourceTemplateSchema),
 });
-export type ListResourceTemplatesResult = z.infer<typeof ListResourceTemplatesResultSchema>;
+export type ListResourceTemplatesResult = z.infer<
+  typeof ListResourceTemplatesResultSchema
+>;
 
 export const ReadResourceResultSchema = ResultSchema.extend({
-  contents: z.array(z.union([TextResourceContentsSchema, BlobResourceContentsSchema])),
+  contents: z.array(
+    z.union([TextResourceContentsSchema, BlobResourceContentsSchema]),
+  ),
 });
 export type ReadResourceResult = z.infer<typeof ReadResourceResultSchema>;
 
@@ -286,7 +299,11 @@ export type ListPromptsResult = z.infer<typeof ListPromptsResultSchema>;
 const PromptMessageSchema = z
   .object({
     role: z.union([z.literal('user'), z.literal('assistant')]),
-    content: z.union([TextContentSchema, ImageContentSchema, EmbeddedResourceSchema]),
+    content: z.union([
+      TextContentSchema,
+      ImageContentSchema,
+      EmbeddedResourceSchema,
+    ]),
   })
   .loose();
 export type MCPPromptMessage = z.infer<typeof PromptMessageSchema>;
@@ -310,7 +327,11 @@ export const ElicitationRequestSchema = RequestSchema.extend({
 export type ElicitationRequest = z.infer<typeof ElicitationRequestSchema>;
 
 export const ElicitResultSchema = ResultSchema.extend({
-  action: z.union([z.literal('accept'), z.literal('decline'), z.literal('cancel')]),
+  action: z.union([
+    z.literal('accept'),
+    z.literal('decline'),
+    z.literal('cancel'),
+  ]),
   content: z.optional(z.record(z.string(), z.unknown())),
 });
 

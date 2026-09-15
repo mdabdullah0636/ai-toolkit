@@ -7,9 +7,14 @@ export class StructuredObjectStore<RESULT> {
   error = $state<Error>();
 }
 
-export class KeyedStructuredObjectStore extends KeyedStore<StructuredObjectStore<unknown>> {
+export class KeyedStructuredObjectStore extends KeyedStore<
+  StructuredObjectStore<unknown>
+> {
   constructor(
-    value?: Iterable<readonly [string, StructuredObjectStore<unknown>]> | null | undefined,
+    value?:
+      | Iterable<readonly [string, StructuredObjectStore<unknown>]>
+      | null
+      | undefined,
   ) {
     super(StructuredObjectStore, value);
   }

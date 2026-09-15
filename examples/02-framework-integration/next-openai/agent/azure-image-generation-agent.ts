@@ -19,4 +19,6 @@ export const azureImageGenerationAgent = new ToolLoopAgent({
   },
 });
 
-export type AzureImageGenerationMessage = InferAgentUIMessage<typeof azureImageGenerationAgent>;
+export type AzureImageGenerationMessage = InferAgentUIMessage<
+  typeof azureImageGenerationAgent
+>;

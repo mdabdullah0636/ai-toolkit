@@ -1,16 +1,21 @@
 'use client';
 
 import { useChat } from '@ai-toolkit/react';
-import { DefaultChatTransport, lastAssistantMessageIsCompleteWithApprovalResponses } from 'ai-toolkit';
+import {
+  DefaultChatTransport,
+  lastAssistantMessageIsCompleteWithApprovalResponses,
+} from 'ai-toolkit';
 import ChatInput from '@/components/chat-input';
 import { WeatherValibotAgentUIMessage } from '@/agent/weather-valibot-agent';
 import WeatherValibotView from '@/components/tool/weather-valibot-view';
 
 export default function TestWeatherValibot() {
-  const { status, sendMessage, messages } = useChat<WeatherValibotAgentUIMessage>({
-    transport: new DefaultChatTransport({ api: '/api/chat-weather-valibot' }),
-    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
-  });
+  const { status, sendMessage, messages } =
+    useChat<WeatherValibotAgentUIMessage>({
+      transport: new DefaultChatTransport({ api: '/api/chat-weather-valibot' }),
+      sendAutomaticallyWhen:
+        lastAssistantMessageIsCompleteWithApprovalResponses,
+    });
 
   console.log(structuredClone(messages));
 

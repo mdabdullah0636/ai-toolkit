@@ -1,7 +1,15 @@
-import { AbstractChat, ChatInit as BaseChatInit, ChatState, ChatStatus, UIMessage } from 'ai-toolkit';
+import {
+  AbstractChat,
+  ChatInit as BaseChatInit,
+  ChatState,
+  ChatStatus,
+  UIMessage,
+} from 'ai-toolkit';
 import { Ref, ref } from 'vue';
 
-class VueChatState<UI_MESSAGE extends UIMessage> implements ChatState<UI_MESSAGE> {
+class VueChatState<UI_MESSAGE extends UIMessage>
+  implements ChatState<UI_MESSAGE>
+{
   private messagesRef: Ref<UI_MESSAGE[]>;
   private statusRef = ref<ChatStatus>('ready');
   private errorRef = ref<Error | undefined>(undefined);
@@ -50,7 +58,9 @@ class VueChatState<UI_MESSAGE extends UIMessage> implements ChatState<UI_MESSAGE
   snapshot = <T>(value: T): T => value;
 }
 
-export class Chat<UI_MESSAGE extends UIMessage> extends AbstractChat<UI_MESSAGE> {
+export class Chat<
+  UI_MESSAGE extends UIMessage,
+> extends AbstractChat<UI_MESSAGE> {
   constructor({ messages, ...init }: BaseChatInit<UI_MESSAGE>) {
     super({
       ...init,

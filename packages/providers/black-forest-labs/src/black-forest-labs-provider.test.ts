@@ -66,7 +66,9 @@ describe('BlackForestLabs provider', () => {
       providerOptions: {},
     });
 
-    expect(server.calls[0].requestUrl).toBe('https://api.example.com/v1/flux-pro-1.1');
+    expect(server.calls[0].requestUrl).toBe(
+      'https://api.example.com/v1/flux-pro-1.1',
+    );
     expect(server.calls[0].requestMethod).toBe('POST');
     expect(server.calls[0].requestHeaders['x-key']).toBe('test-api-key');
     expect(server.calls[0].requestHeaders['x-extra-header']).toBe('extra');
@@ -75,13 +77,21 @@ describe('BlackForestLabs provider', () => {
       aspect_ratio: '1:1',
     });
 
-    expect(server.calls[0].requestUserAgent).toContain('ai-toolkit/black-forest-labs/');
-    expect(server.calls[1].requestUserAgent).toContain('ai-toolkit/black-forest-labs/');
-    expect(server.calls[2].requestUserAgent).toContain('ai-toolkit/black-forest-labs/');
+    expect(server.calls[0].requestUserAgent).toContain(
+      'ai-toolkit/black-forest-labs/',
+    );
+    expect(server.calls[1].requestUserAgent).toContain(
+      'ai-toolkit/black-forest-labs/',
+    );
+    expect(server.calls[2].requestUserAgent).toContain(
+      'ai-toolkit/black-forest-labs/',
+    );
   });
 
   it('uses provider polling options for timeout behavior', async () => {
-    server.urls['https://api.example.com/poll'].response = ({ callNumber }) => ({
+    server.urls['https://api.example.com/poll'].response = ({
+      callNumber,
+    }) => ({
       type: 'json-value',
       body: { status: 'Pending', callNumber },
     });
@@ -109,7 +119,9 @@ describe('BlackForestLabs provider', () => {
     ).rejects.toThrow('Black Forest Labs generation timed out.');
 
     const pollCalls = server.calls.filter(
-      c => c.requestMethod === 'GET' && c.requestUrl.startsWith('https://api.example.com/poll'),
+      c =>
+        c.requestMethod === 'GET' &&
+        c.requestUrl.startsWith('https://api.example.com/poll'),
     );
     expect(pollCalls.length).toBe(3);
   });
@@ -117,7 +129,11 @@ describe('BlackForestLabs provider', () => {
   it('throws NoSuchModelError for unsupported model types', () => {
     const provider = createBlackForestLabs();
 
-    expect(() => provider.languageModel('some-id')).toThrowError('No such languageModel');
-    expect(() => provider.embeddingModel('some-id')).toThrowError('No such embeddingModel');
+    expect(() => provider.languageModel('some-id')).toThrowError(
+      'No such languageModel',
+    );
+    expect(() => provider.embeddingModel('some-id')).toThrowError(
+      'No such embeddingModel',
+    );
   });
 });

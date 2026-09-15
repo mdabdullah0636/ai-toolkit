@@ -16,14 +16,16 @@ describe('parseJSON', () => {
   });
 
   it('should throw JSONParseError for invalid JSON', async () => {
-    await expect(() => parseJSON({ text: 'invalid json' })).rejects.toThrow(JSONParseError);
+    await expect(() => parseJSON({ text: 'invalid json' })).rejects.toThrow(
+      JSONParseError,
+    );
   });
 
   it('should throw TypeValidationError for schema validation failures', async () => {
     const schema = z.object({ foo: z.number() });
-    await expect(() => parseJSON({ text: '{"foo": "bar"}', schema })).rejects.toThrow(
-      TypeValidationError,
-    );
+    await expect(() =>
+      parseJSON({ text: '{"foo": "bar"}', schema }),
+    ).rejects.toThrow(TypeValidationError);
   });
 });
 

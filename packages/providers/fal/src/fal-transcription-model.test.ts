@@ -15,22 +15,28 @@ const server = createTestServer({
 });
 
 describe('doGenerate', () => {
-  function prepareJsonResponse({ headers }: { headers?: Record<string, string> } = {}) {
+  function prepareJsonResponse({
+    headers,
+  }: { headers?: Record<string, string> } = {}) {
     server.urls['https://queue.fal.run/fal-ai/wizper'].response = {
       type: 'json-value',
       headers,
       body: {
         status: 'COMPLETED',
         request_id: 'test-id',
-        response_url: 'https://queue.fal.run/fal-ai/wizper/requests/test-id/result',
+        response_url:
+          'https://queue.fal.run/fal-ai/wizper/requests/test-id/result',
         status_url: 'https://queue.fal.run/fal-ai/wizper/requests/test-id',
-        cancel_url: 'https://queue.fal.run/fal-ai/wizper/requests/test-id/cancel',
+        cancel_url:
+          'https://queue.fal.run/fal-ai/wizper/requests/test-id/cancel',
         logs: null,
         metrics: {},
         queue_position: 0,
       },
     };
-    server.urls['https://queue.fal.run/fal-ai/wizper/requests/test-id'].response = {
+    server.urls[
+      'https://queue.fal.run/fal-ai/wizper/requests/test-id'
+    ].response = {
       type: 'json-value',
       headers,
       body: {

@@ -13,7 +13,11 @@ export default defineConfig({
   test: {
     environment: 'edge-runtime',
     include: ['**/*.test.ts{,x}'],
-    exclude: ['**/*.ui.test.ts{,x}', '**/*.e2e.test.ts{,x}', '**/node_modules/**'],
+    exclude: [
+      '**/*.ui.test.ts{,x}',
+      '**/*.e2e.test.ts{,x}',
+      '**/node_modules/**',
+    ],
     typecheck: {
       enabled: true,
     },

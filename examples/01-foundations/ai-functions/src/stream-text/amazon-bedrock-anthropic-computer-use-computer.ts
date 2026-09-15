@@ -17,7 +17,9 @@ run(async () => {
           if (action === 'screenshot') {
             return {
               type: 'image',
-              data: fs.readFileSync('./data/screenshot-editor.png').toString('base64'),
+              data: fs
+                .readFileSync('./data/screenshot-editor.png')
+                .toString('base64'),
             };
           }
 

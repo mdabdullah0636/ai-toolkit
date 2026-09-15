@@ -5,7 +5,13 @@
     "rootDir": "src",
     "outDir": "dist"
   },
-  "exclude": ["dist", "build", "node_modules", "tsup.config.ts", "anthropic/index.d.ts"],
+  "exclude": [
+    "dist",
+    "build",
+    "node_modules",
+    "tsup.config.ts",
+    "anthropic/index.d.ts"
+  ],
   "references": [
     {
       "path": "../../core/provider-utils"

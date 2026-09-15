@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   Commit,
@@ -17,31 +17,31 @@ import {
   CommitHeader,
   CommitInfo,
   CommitMessage,
-} from "./commit";
+} from './commit';
 
 const mockCommit = {
-  author: "John Doe",
+  author: 'John Doe',
   files: [
     {
       additions: 10,
       deletions: 0,
-      path: "src/index.ts",
-      status: "added" as const,
+      path: 'src/index.ts',
+      status: 'added' as const,
     },
     {
       additions: 5,
       deletions: 3,
-      path: "src/utils.ts",
-      status: "modified" as const,
+      path: 'src/utils.ts',
+      status: 'modified' as const,
     },
   ],
-  hash: "a1b2c3d4e5f6g7h8i9j0",
-  message: "feat: Add new feature",
-  timestamp: new Date("2024-01-15T10:00:00Z"),
+  hash: 'a1b2c3d4e5f6g7h8i9j0',
+  message: 'feat: Add new feature',
+  timestamp: new Date('2024-01-15T10:00:00Z'),
 };
 
-describe("commit", () => {
-  it("renders commit message", () => {
+describe('commit', () => {
+  it('renders commit message', () => {
     render(
       <Commit>
         <CommitHeader>
@@ -49,21 +49,21 @@ describe("commit", () => {
             <CommitMessage>{mockCommit.message}</CommitMessage>
           </CommitInfo>
         </CommitHeader>
-      </Commit>
+      </Commit>,
     );
-    expect(screen.getByText("feat: Add new feature")).toBeInTheDocument();
+    expect(screen.getByText('feat: Add new feature')).toBeInTheDocument();
   });
 
-  it("renders children", () => {
+  it('renders children', () => {
     render(<Commit>Test Content</Commit>);
-    expect(screen.getByText("Test Content")).toBeInTheDocument();
+    expect(screen.getByText('Test Content')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <Commit className="custom-class">Test</Commit>
+      <Commit className="custom-class">Test</Commit>,
     );
-    expect(container.firstChild).toHaveClass("custom-class");
+    expect(container.firstChild).toHaveClass('custom-class');
   });
 });
 
@@ -71,27 +71,27 @@ const setupCopyButtonTests = () => {
   vi.clearAllMocks();
 };
 
-describe("commitCopyButton", () => {
-  it("copies hash to clipboard", async () => {
+describe('commitCopyButton', () => {
+  it('copies hash to clipboard', async () => {
     setupCopyButtonTests();
     const user = userEvent.setup();
-    const writeTextSpy = vi.spyOn(navigator.clipboard, "writeText");
+    const writeTextSpy = vi.spyOn(navigator.clipboard, 'writeText');
 
     render(
       <Commit>
         <CommitActions>
           <CommitCopyButton hash={mockCommit.hash} />
         </CommitActions>
-      </Commit>
+      </Commit>,
     );
 
-    const copyButton = screen.getByRole("button");
+    const copyButton = screen.getByRole('button');
     await user.click(copyButton);
 
     expect(writeTextSpy).toHaveBeenCalledWith(mockCommit.hash);
   });
 
-  it("calls onCopy callback", async () => {
+  it('calls onCopy callback', async () => {
     const onCopy = vi.fn();
     const user = userEvent.setup();
 
@@ -100,77 +100,77 @@ describe("commitCopyButton", () => {
         <CommitActions>
           <CommitCopyButton hash={mockCommit.hash} onCopy={onCopy} />
         </CommitActions>
-      </Commit>
+      </Commit>,
     );
 
-    const copyButton = screen.getByRole("button");
+    const copyButton = screen.getByRole('button');
     await user.click(copyButton);
 
     expect(onCopy).toHaveBeenCalled();
   });
 });
 
-describe("commitFile", () => {
-  it("renders file path", () => {
+describe('commitFile', () => {
+  it('renders file path', () => {
     render(
       <CommitFile>
         <CommitFileInfo>
           <CommitFilePath>src/test.ts</CommitFilePath>
         </CommitFileInfo>
-      </CommitFile>
+      </CommitFile>,
     );
-    expect(screen.getByText("src/test.ts")).toBeInTheDocument();
+    expect(screen.getByText('src/test.ts')).toBeInTheDocument();
   });
 
-  it("renders added status", () => {
+  it('renders added status', () => {
     render(
       <CommitFile>
         <CommitFileInfo>
           <CommitFileStatus status="added" />
         </CommitFileInfo>
-      </CommitFile>
+      </CommitFile>,
     );
-    expect(screen.getByText("A")).toBeInTheDocument();
+    expect(screen.getByText('A')).toBeInTheDocument();
   });
 
-  it("renders modified status", () => {
+  it('renders modified status', () => {
     render(
       <CommitFile>
         <CommitFileInfo>
           <CommitFileStatus status="modified" />
         </CommitFileInfo>
-      </CommitFile>
+      </CommitFile>,
     );
-    expect(screen.getByText("M")).toBeInTheDocument();
+    expect(screen.getByText('M')).toBeInTheDocument();
   });
 
-  it("renders deleted status", () => {
+  it('renders deleted status', () => {
     render(
       <CommitFile>
         <CommitFileInfo>
           <CommitFileStatus status="deleted" />
         </CommitFileInfo>
-      </CommitFile>
+      </CommitFile>,
     );
-    expect(screen.getByText("D")).toBeInTheDocument();
+    expect(screen.getByText('D')).toBeInTheDocument();
   });
 
-  it("renders additions and deletions", () => {
+  it('renders additions and deletions', () => {
     render(
       <CommitFile>
         <CommitFileChanges>
           <CommitFileAdditions count={10} />
           <CommitFileDeletions count={5} />
         </CommitFileChanges>
-      </CommitFile>
+      </CommitFile>,
     );
-    expect(screen.getByText("10")).toBeInTheDocument();
-    expect(screen.getByText("5")).toBeInTheDocument();
+    expect(screen.getByText('10')).toBeInTheDocument();
+    expect(screen.getByText('5')).toBeInTheDocument();
   });
 });
 
-describe("commitFiles", () => {
-  it("renders all files", async () => {
+describe('commitFiles', () => {
+  it('renders all files', async () => {
     const user = userEvent.setup();
     const { container } = render(
       <Commit>
@@ -179,7 +179,7 @@ describe("commitFiles", () => {
         </CommitHeader>
         <CommitContent>
           <CommitFiles>
-            {mockCommit.files.map((file) => (
+            {mockCommit.files.map(file => (
               <CommitFile key={file.path}>
                 <CommitFileInfo>
                   <CommitFileStatus status={file.status} />
@@ -189,17 +189,17 @@ describe("commitFiles", () => {
             ))}
           </CommitFiles>
         </CommitContent>
-      </Commit>
+      </Commit>,
     );
 
     // Expand collapsible to show files
     const trigger = container.querySelector(
-      "[data-slot='collapsible-trigger']"
+      "[data-slot='collapsible-trigger']",
     );
     expect(trigger).toBeInTheDocument();
     await user.click(trigger as Element);
 
-    expect(screen.getByText("src/index.ts")).toBeInTheDocument();
-    expect(screen.getByText("src/utils.ts")).toBeInTheDocument();
+    expect(screen.getByText('src/index.ts')).toBeInTheDocument();
+    expect(screen.getByText('src/utils.ts')).toBeInTheDocument();
   });
 });

@@ -1,4 +1,8 @@
-import { createProviderToolFactory, lazySchema, zodSchema } from '@ai-toolkit/provider-utils';
+import {
+  createProviderToolFactory,
+  lazySchema,
+  zodSchema,
+} from '@ai-toolkit/provider-utils';
 import { z } from 'zod/v4';
 
 const computer_20241022InputSchema = lazySchema(() =>

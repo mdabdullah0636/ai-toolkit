@@ -1,5 +1,10 @@
 import { vertexAnthropic } from '@ai-toolkit/google-vertex/anthropic';
-import { streamText, ModelMessage, ToolCallPart, ToolResultPart } from 'ai-toolkit';
+import {
+  streamText,
+  ModelMessage,
+  ToolCallPart,
+  ToolResultPart,
+} from 'ai-toolkit';
 import { weatherTool } from '../tools/weather-tool';
 import { run } from '../lib/run';
 
@@ -15,7 +20,8 @@ run(async () => {
       weather: weatherTool,
     },
     toolChoice: 'required',
-    prompt: 'What is the weather in San Francisco and what attractions should I visit?',
+    prompt:
+      'What is the weather in San Francisco and what attractions should I visit?',
   });
 
   let fullResponse = '';
@@ -33,7 +39,9 @@ run(async () => {
       case 'tool-call': {
         toolCalls.push(delta);
 
-        process.stdout.write(`\nTool call: '${delta.toolName}' ${JSON.stringify(delta.input)}`);
+        process.stdout.write(
+          `\nTool call: '${delta.toolName}' ${JSON.stringify(delta.input)}`,
+        );
         break;
       }
 

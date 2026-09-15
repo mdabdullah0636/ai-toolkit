@@ -19,7 +19,9 @@ export const cohereEmbeddingOptions = z.object({
    * - "classification": Used for embeddings passed through a text classifier.
    * - "clustering": Used for embeddings run through a clustering algorithm.
    */
-  inputType: z.enum(['search_document', 'search_query', 'classification', 'clustering']).optional(),
+  inputType: z
+    .enum(['search_document', 'search_query', 'classification', 'clustering'])
+    .optional(),
 
   /**
    * Specifies how the API will handle inputs longer than the maximum token length.

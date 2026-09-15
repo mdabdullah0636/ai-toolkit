@@ -71,7 +71,8 @@ run(async () => {
   });
 
   const result = await parentAgent.stream({
-    prompt: 'Please ask the child agent to process some data and call the simple_tool a few times.',
+    prompt:
+      'Please ask the child agent to process some data and call the simple_tool a few times.',
   });
 
   console.log(await result.text);

@@ -5,7 +5,9 @@ Timeout configuration for API calls. Can be specified as:
 - An object with `stepMs` property for the timeout of each step in milliseconds
 - An object with `chunkMs` property for the timeout between stream chunks (streaming only)
  */
-export type TimeoutConfiguration = number | { totalMs?: number; stepMs?: number; chunkMs?: number };
+export type TimeoutConfiguration =
+  | number
+  | { totalMs?: number; stepMs?: number; chunkMs?: number };
 
 /**
 Extracts the total timeout value in milliseconds from a TimeoutConfiguration.
@@ -13,7 +15,9 @@ Extracts the total timeout value in milliseconds from a TimeoutConfiguration.
 @param timeout - The timeout configuration.
 @returns The total timeout in milliseconds, or undefined if no timeout is configured.
  */
-export function getTotalTimeoutMs(timeout: TimeoutConfiguration | undefined): number | undefined {
+export function getTotalTimeoutMs(
+  timeout: TimeoutConfiguration | undefined,
+): number | undefined {
   if (timeout == null) {
     return undefined;
   }
@@ -29,7 +33,9 @@ Extracts the step timeout value in milliseconds from a TimeoutConfiguration.
 @param timeout - The timeout configuration.
 @returns The step timeout in milliseconds, or undefined if no step timeout is configured.
  */
-export function getStepTimeoutMs(timeout: TimeoutConfiguration | undefined): number | undefined {
+export function getStepTimeoutMs(
+  timeout: TimeoutConfiguration | undefined,
+): number | undefined {
   if (timeout == null || typeof timeout === 'number') {
     return undefined;
   }
@@ -43,7 +49,9 @@ This timeout is for streaming only - it aborts if no new chunk is received withi
 @param timeout - The timeout configuration.
 @returns The chunk timeout in milliseconds, or undefined if no chunk timeout is configured.
  */
-export function getChunkTimeoutMs(timeout: TimeoutConfiguration | undefined): number | undefined {
+export function getChunkTimeoutMs(
+  timeout: TimeoutConfiguration | undefined,
+): number | undefined {
   if (timeout == null || typeof timeout === 'number') {
     return undefined;
   }

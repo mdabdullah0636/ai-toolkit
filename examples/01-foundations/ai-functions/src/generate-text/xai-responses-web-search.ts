@@ -8,7 +8,8 @@ run(async () => {
     tools: {
       web_search: xai.tools.webSearch(),
     },
-    prompt: 'What are the latest developments in AI from the past week? Search and summarize.',
+    prompt:
+      'What are the latest developments in AI from the past week? Search and summarize.',
   });
 
   console.log('Text:', result.text);

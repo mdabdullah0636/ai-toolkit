@@ -21,7 +21,11 @@ export function CommandRow({ command }: { command: string }) {
         onClick={copy}
         className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
       >
-        {copied ? <Check className="size-3.5 text-primary" /> : <Copy className="size-3.5" />}
+        {copied ? (
+          <Check className="size-3.5 text-primary" />
+        ) : (
+          <Copy className="size-3.5" />
+        )}
         {copied ? 'Copied' : 'Copy'}
       </button>
     </div>

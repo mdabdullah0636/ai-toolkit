@@ -7,13 +7,20 @@ export interface DataFileStatusProps {
   size?: string;
 }
 
-export function DataFileStatus({ filename, operation, status, size }: DataFileStatusProps) {
+export function DataFileStatus({
+  filename,
+  operation,
+  status,
+  size,
+}: DataFileStatusProps) {
   const isCompleted = status === 'completed';
 
   return (
     <div
       className={`p-3 rounded-lg border text-sm ${
-        isCompleted ? 'bg-purple-500/10 border-purple-500/30' : 'bg-gray-500/10 border-gray-500/30'
+        isCompleted
+          ? 'bg-purple-500/10 border-purple-500/30'
+          : 'bg-gray-500/10 border-gray-500/30'
       }`}
     >
       <div className="flex items-center gap-2">
@@ -32,9 +39,12 @@ export function DataFileStatus({ filename, operation, status, size }: DataFileSt
         </svg>
         <div className="flex-1">
           <span className="font-medium text-[var(--foreground)]">
-            {operation.charAt(0).toUpperCase() + operation.slice(1)}ing: {filename}
+            {operation.charAt(0).toUpperCase() + operation.slice(1)}ing:{' '}
+            {filename}
           </span>
-          {isCompleted && size && <span className="ml-2 text-xs text-purple-400">({size})</span>}
+          {isCompleted && size && (
+            <span className="ml-2 text-xs text-purple-400">({size})</span>
+          )}
         </div>
         {isCompleted && (
           <svg
@@ -43,7 +53,12 @@ export function DataFileStatus({ filename, operation, status, size }: DataFileSt
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
           </svg>
         )}
       </div>

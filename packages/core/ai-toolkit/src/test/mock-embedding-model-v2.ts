@@ -20,7 +20,9 @@ export class MockEmbeddingModelV2<VALUE> implements EmbeddingModelV2<VALUE> {
   }: {
     provider?: EmbeddingModelV2<VALUE>['provider'];
     modelId?: EmbeddingModelV2<VALUE>['modelId'];
-    maxEmbeddingsPerCall?: EmbeddingModelV2<VALUE>['maxEmbeddingsPerCall'] | null;
+    maxEmbeddingsPerCall?:
+      | EmbeddingModelV2<VALUE>['maxEmbeddingsPerCall']
+      | null;
     supportsParallelCalls?: EmbeddingModelV2<VALUE>['supportsParallelCalls'];
     doEmbed?: EmbeddingModelV2<VALUE>['doEmbed'];
   } = {}) {

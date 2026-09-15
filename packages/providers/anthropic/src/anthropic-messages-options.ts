@@ -53,7 +53,9 @@ export const anthropicFilePartProviderOptions = z.object({
   context: z.string().optional(),
 });
 
-export type AnthropicFilePartProviderOptions = z.infer<typeof anthropicFilePartProviderOptions>;
+export type AnthropicFilePartProviderOptions = z.infer<
+  typeof anthropicFilePartProviderOptions
+>;
 
 export const anthropicProviderOptions = z.object({
   /**

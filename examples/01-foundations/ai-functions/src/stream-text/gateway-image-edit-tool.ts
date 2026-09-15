@@ -8,7 +8,8 @@ run(async () => {
   console.log('Generating base image of an echidna...');
   const baseResult = streamText({
     model: 'openai/gpt-5-nano',
-    prompt: 'Generate an image of an echidna swimming across the Mozambique channel.',
+    prompt:
+      'Generate an image of an echidna swimming across the Mozambique channel.',
     tools: {
       image_generation: openai.tools.imageGeneration({
         outputFormat: 'webp',

@@ -1,7 +1,13 @@
 import { delay } from '@ai-toolkit/provider-utils';
 import { JSONRPCMessage } from './json-rpc-message';
 import { MCPTransport } from './mcp-transport';
-import { MCPTool, MCPResource, MCPPrompt, GetPromptResult, CallToolResult } from './types';
+import {
+  MCPTool,
+  MCPResource,
+  MCPPrompt,
+  GetPromptResult,
+  CallToolResult,
+} from './types';
 
 const DEFAULT_TOOLS: MCPTool[] = [
   {
@@ -53,8 +59,11 @@ export class MockMCPTransport implements MCPTransport {
       {
         name: 'code_review',
         title: 'Request Code Review',
-        description: 'Asks the LLM to analyze code quality and suggest improvements',
-        arguments: [{ name: 'code', description: 'The code to review', required: true }],
+        description:
+          'Asks the LLM to analyze code quality and suggest improvements',
+        arguments: [
+          { name: 'code', description: 'The code to review', required: true },
+        ],
       } satisfies MCPPrompt,
     ],
     promptResults = {
@@ -177,7 +186,9 @@ export class MockMCPTransport implements MCPTransport {
       if (message.method === 'resources/read') {
         await delay(10);
         const uri = message.params?.uri;
-        const contents = this.resourceContents.filter(content => content.uri === uri);
+        const contents = this.resourceContents.filter(
+          content => content.uri === uri,
+        );
 
         if (contents.length === 0) {
           this.onmessage?.({

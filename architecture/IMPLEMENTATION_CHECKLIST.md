@@ -260,22 +260,22 @@ This milestone establishes the authoritative architecture baseline for the repo.
 
 ## Cross-references
 
-| This document | Related document                                      | Connection                                                          |
-| ------------- | ----------------------------------------------------- | ------------------------------------------------------------------- |
-| Phase 0       | `architecture/PACKAGE_INVENTORY.md`                   | Authoritative package registry                                      |
-| Phase 0       | `architecture/DEPENDENCY_RULES.md`                    | Layer dependency rules                                              |
-| Phase 0       | `architecture/domain-mapping.md`                      | Canonical package-to-domain mapping (source of truth for inventory) |
-| Phase 1       | `tools/scripts/check-dependency-direction.mjs`        | Validates cross-layer deps + import scanning per DEPENDENCY_RULES.md|
-| Phase 1       | `tools/scripts/validate-structure.mjs`                | Existing enforcement tool; structure + ADR-004/006/007/008 checks |
-| Phase 1       | `tools/scripts/arch-inspect.mjs`                      | `pnpm arch:inspect` — outputs package registry, layer classification, capability matrix |
-| Phase 2a      | `tools/scripts/generate-capability-matrix.mjs`        | Machine-generated capability matrix → `build/capability-matrix.json` |
-| Phase 2a      | `architecture/model-capabilities.md`                  | Capability matrix (now references generated output)               |
-| Phase 2a      | `architecture/provider-abstraction.md`                | Provider lifecycle and model types                                  |
-| Phase 2b      | `packages/validation/provider/src/conformance/`       | Provider conformance test suite                                     |
-| Phase 3       | `architecture/runtime-support.md`                     | Runtime support matrix                                              |
-| Phase 4       | `architecture/ARCHITECTURE_REFINEMENT_PLAN.md`        | Gateway policy model (Phase 3 of refinement plan)                   |
-| Phase 5       | `ARCHITECTURE_QUICK_REFERENCE.md`                     | Integration dependency overview                                     |
-| Quality gates | `AGENTS.md`                                           | ADR-004, ADR-006, ADR-007, ADR-008 requirements                     |
+| This document | Related document                                | Connection                                                                              |
+| ------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Phase 0       | `architecture/PACKAGE_INVENTORY.md`             | Authoritative package registry                                                          |
+| Phase 0       | `architecture/DEPENDENCY_RULES.md`              | Layer dependency rules                                                                  |
+| Phase 0       | `architecture/domain-mapping.md`                | Canonical package-to-domain mapping (source of truth for inventory)                     |
+| Phase 1       | `tools/scripts/check-dependency-direction.mjs`  | Validates cross-layer deps + import scanning per DEPENDENCY_RULES.md                    |
+| Phase 1       | `tools/scripts/validate-structure.mjs`          | Existing enforcement tool; structure + ADR-004/006/007/008 checks                       |
+| Phase 1       | `tools/scripts/arch-inspect.mjs`                | `pnpm arch:inspect` — outputs package registry, layer classification, capability matrix |
+| Phase 2a      | `tools/scripts/generate-capability-matrix.mjs`  | Machine-generated capability matrix → `build/capability-matrix.json`                    |
+| Phase 2a      | `architecture/model-capabilities.md`            | Capability matrix (now references generated output)                                     |
+| Phase 2a      | `architecture/provider-abstraction.md`          | Provider lifecycle and model types                                                      |
+| Phase 2b      | `packages/validation/provider/src/conformance/` | Provider conformance test suite                                                         |
+| Phase 3       | `architecture/runtime-support.md`               | Runtime support matrix                                                                  |
+| Phase 4       | `architecture/ARCHITECTURE_REFINEMENT_PLAN.md`  | Gateway policy model (Phase 3 of refinement plan)                                       |
+| Phase 5       | `ARCHITECTURE_QUICK_REFERENCE.md`               | Integration dependency overview                                                         |
+| Quality gates | `AGENTS.md`                                     | ADR-004, ADR-006, ADR-007, ADR-008 requirements                                         |
 
 ## Current Owners
 

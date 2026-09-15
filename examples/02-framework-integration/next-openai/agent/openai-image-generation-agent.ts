@@ -15,4 +15,6 @@ export const openaiImageGenerationAgent = new ToolLoopAgent({
   },
 });
 
-export type OpenAIImageGenerationMessage = InferAgentUIMessage<typeof openaiImageGenerationAgent>;
+export type OpenAIImageGenerationMessage = InferAgentUIMessage<
+  typeof openaiImageGenerationAgent
+>;

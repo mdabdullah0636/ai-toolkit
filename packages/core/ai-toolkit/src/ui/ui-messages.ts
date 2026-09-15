@@ -1,4 +1,9 @@
-import { InferToolInput, InferToolOutput, Tool, ToolCall } from '@ai-toolkit/provider-utils';
+import {
+  InferToolInput,
+  InferToolOutput,
+  Tool,
+  ToolCall,
+} from '@ai-toolkit/provider-utils';
 import { ToolSet } from '../generate-text';
 import { ProviderMetadata } from '../types/provider-metadata';
 import { DeepPartial } from '../util/deep-partial';
@@ -67,7 +72,10 @@ Assistant messages can have text, reasoning, tool invocation, and file parts.
   parts: Array<UIMessagePart<DATA_PARTS, TOOLS>>;
 }
 
-export type UIMessagePart<DATA_TYPES extends UIDataTypes, TOOLS extends UITools> =
+export type UIMessagePart<
+  DATA_TYPES extends UIDataTypes,
+  TOOLS extends UITools,
+> =
   | TextUIPart
   | ReasoningUIPart
   | ToolUIPart<TOOLS>
@@ -190,7 +198,9 @@ export type DataUIPart<DATA_TYPES extends UIDataTypes> = ValueOf<{
   };
 }>;
 
-type asUITool<TOOL extends UITool | Tool> = TOOL extends Tool ? InferUITool<TOOL> : TOOL;
+type asUITool<TOOL extends UITool | Tool> = TOOL extends Tool
+  ? InferUITool<TOOL>
+  : TOOL;
 
 /**
  * Check if a message part is a data part.
@@ -405,14 +415,18 @@ export type DynamicToolUIPart = {
 /**
  * Type guard to check if a message part is a text part.
  */
-export function isTextUIPart(part: UIMessagePart<UIDataTypes, UITools>): part is TextUIPart {
+export function isTextUIPart(
+  part: UIMessagePart<UIDataTypes, UITools>,
+): part is TextUIPart {
   return part.type === 'text';
 }
 
 /**
  * Type guard to check if a message part is a file part.
  */
-export function isFileUIPart(part: UIMessagePart<UIDataTypes, UITools>): part is FileUIPart {
+export function isFileUIPart(
+  part: UIMessagePart<UIDataTypes, UITools>,
+): part is FileUIPart {
   return part.type === 'file';
 }
 
@@ -470,7 +484,9 @@ export const isToolOrDynamicToolUIPart = isToolUIPart;
  *
  * The possible values are the keys of the tool set.
  */
-export function getStaticToolName<TOOLS extends UITools>(part: ToolUIPart<TOOLS>): keyof TOOLS {
+export function getStaticToolName<TOOLS extends UITools>(
+  part: ToolUIPart<TOOLS>,
+): keyof TOOLS {
   return part.type.split('-').slice(1).join('-') as keyof TOOLS;
 }
 
@@ -480,7 +496,9 @@ export function getStaticToolName<TOOLS extends UITools>(part: ToolUIPart<TOOLS>
  * This function will not restrict the name to the keys of the tool set.
  * If you need to restrict the name to the keys of the tool set, use `getStaticToolName` instead.
  */
-export function getToolName(part: ToolUIPart<UITools> | DynamicToolUIPart): string {
+export function getToolName(
+  part: ToolUIPart<UITools> | DynamicToolUIPart,
+): string {
   return isDynamicToolUIPart(part) ? part.toolName : getStaticToolName(part);
 }
 
@@ -489,21 +507,14 @@ export function getToolName(part: ToolUIPart<UITools> | DynamicToolUIPart): stri
  */
 export const getToolOrDynamicToolName = getToolName;
 
-export type InferUIMessageMetadata<T extends UIMessage> = T extends UIMessage<infer METADATA>
-  ? METADATA
-  : unknown;
+export type InferUIMessageMetadata<T extends UIMessage> =
+  T extends UIMessage<infer METADATA> ? METADATA : unknown;
 
-export type InferUIMessageData<T extends UIMessage> = T extends UIMessage<unknown, infer DATA_TYPES>
-  ? DATA_TYPES
-  : UIDataTypes;
+export type InferUIMessageData<T extends UIMessage> =
+  T extends UIMessage<unknown, infer DATA_TYPES> ? DATA_TYPES : UIDataTypes;
 
-export type InferUIMessageTools<T extends UIMessage> = T extends UIMessage<
-  unknown,
-  UIDataTypes,
-  infer TOOLS
->
-  ? TOOLS
-  : UITools;
+export type InferUIMessageTools<T extends UIMessage> =
+  T extends UIMessage<unknown, UIDataTypes, infer TOOLS> ? TOOLS : UITools;
 
 export type InferUIMessageToolOutputs<UI_MESSAGE extends UIMessage> =
   InferUIMessageTools<UI_MESSAGE>[keyof InferUIMessageTools<UI_MESSAGE>]['output'];
@@ -512,7 +523,9 @@ export type InferUIMessageToolCall<UI_MESSAGE extends UIMessage> =
   | ValueOf<{
       [NAME in keyof InferUIMessageTools<UI_MESSAGE>]: ToolCall<
         NAME & string,
-        InferUIMessageTools<UI_MESSAGE>[NAME] extends { input: infer INPUT } ? INPUT : never
+        InferUIMessageTools<UI_MESSAGE>[NAME] extends { input: infer INPUT }
+          ? INPUT
+          : never
       > & { dynamic?: false };
     }>
   | (ToolCall<string, unknown> & { dynamic: true });

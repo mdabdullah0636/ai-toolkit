@@ -17,7 +17,10 @@ import {
   ToolResultOutput,
   ToolResultPart,
 } from '@ai-toolkit/provider-utils';
-import { detectMediaType, imageMediaTypeSignatures } from '../util/detect-media-type';
+import {
+  detectMediaType,
+  imageMediaTypeSignatures,
+} from '../util/detect-media-type';
 import {
   createDefaultDownloadFunction,
   DownloadFunction,
@@ -37,14 +40,25 @@ export async function convertToLanguageModelPrompt({
   supportedUrls: Record<string, RegExp[]>;
   download: DownloadFunction | undefined;
 }): Promise<LanguageModelV3Prompt> {
-  const downloadedAssets = await downloadAssets(prompt.messages, download, supportedUrls);
+  const downloadedAssets = await downloadAssets(
+    prompt.messages,
+    download,
+    supportedUrls,
+  );
 
   const approvalIdToToolCallId = new Map<string, string>();
   for (const message of prompt.messages) {
     if (message.role === 'assistant' && Array.isArray(message.content)) {
       for (const part of message.content) {
-        if (part.type === 'tool-approval-request' && 'approvalId' in part && 'toolCallId' in part) {
-          approvalIdToToolCallId.set(part.approvalId as string, part.toolCallId as string);
+        if (
+          part.type === 'tool-approval-request' &&
+          'approvalId' in part &&
+          'toolCallId' in part
+        ) {
+          approvalIdToToolCallId.set(
+            part.approvalId as string,
+            part.toolCallId as string,
+          );
         }
       }
     }
@@ -74,7 +88,9 @@ export async function convertToLanguageModelPrompt({
             providerOptions: message.providerOptions,
           }))
       : []),
-    ...prompt.messages.map(message => convertToLanguageModelMessage({ message, downloadedAssets })),
+    ...prompt.messages.map(message =>
+      convertToLanguageModelMessage({ message, downloadedAssets }),
+    ),
   ];
 
   // combine consecutive tool messages into a single tool message
@@ -159,7 +175,10 @@ export function convertToLanguageModelMessage({
   downloadedAssets,
 }: {
   message: ModelMessage;
-  downloadedAssets: Record<string, { mediaType: string | undefined; data: Uint8Array }>;
+  downloadedAssets: Record<
+    string,
+    { mediaType: string | undefined; data: Uint8Array }
+  >;
 }): LanguageModelV3Message {
   const role = message.role;
   switch (role) {
@@ -204,18 +223,29 @@ export function convertToLanguageModelMessage({
         content: message.content
           .filter(
             // remove empty text parts (no text, and no provider options):
-            part => part.type !== 'text' || part.text !== '' || part.providerOptions != null,
+            part =>
+              part.type !== 'text' ||
+              part.text !== '' ||
+              part.providerOptions != null,
           )
           .filter(
-            (part): part is TextPart | FilePart | ReasoningPart | ToolCallPart | ToolResultPart =>
-              part.type !== 'tool-approval-request',
+            (
+              part,
+            ): part is
+              | TextPart
+              | FilePart
+              | ReasoningPart
+              | ToolCallPart
+              | ToolResultPart => part.type !== 'tool-approval-request',
           )
           .map(part => {
             const providerOptions = part.providerOptions;
 
             switch (part.type) {
               case 'file': {
-                const { data, mediaType } = convertToLanguageModelV3DataContent(part.data);
+                const { data, mediaType } = convertToLanguageModelV3DataContent(
+                  part.data,
+                );
                 return {
                   type: 'file',
                   data,
@@ -269,7 +299,8 @@ export function convertToLanguageModelMessage({
         content: message.content
           .filter(
             // Only include tool-approval-response for provider-executed tools
-            part => part.type !== 'tool-approval-response' || part.providerExecuted,
+            part =>
+              part.type !== 'tool-approval-response' || part.providerExecuted,
           )
           .map(part => {
             switch (part.type) {
@@ -310,15 +341,23 @@ async function downloadAssets(
   messages: ModelMessage[],
   download: DownloadFunction,
   supportedUrls: Record<string, RegExp[]>,
-): Promise<Record<string, { mediaType: string | undefined; data: Uint8Array }>> {
+): Promise<
+  Record<string, { mediaType: string | undefined; data: Uint8Array }>
+> {
   const plannedDownloads = messages
     .filter(message => message.role === 'user')
     .map(message => message.content)
-    .filter((content): content is Array<TextPart | ImagePart | FilePart> => Array.isArray(content))
+    .filter((content): content is Array<TextPart | ImagePart | FilePart> =>
+      Array.isArray(content),
+    )
     .flat()
-    .filter((part): part is ImagePart | FilePart => part.type === 'image' || part.type === 'file')
+    .filter(
+      (part): part is ImagePart | FilePart =>
+        part.type === 'image' || part.type === 'file',
+    )
     .map(part => {
-      const mediaType = part.mediaType ?? (part.type === 'image' ? 'image/*' : undefined);
+      const mediaType =
+        part.mediaType ?? (part.type === 'image' ? 'image/*' : undefined);
 
       let data = part.type === 'image' ? part.image : part.data;
       if (typeof data === 'string') {
@@ -331,7 +370,8 @@ async function downloadAssets(
     })
 
     .filter(
-      (part): part is { mediaType: string | undefined; data: URL } => part.data instanceof URL,
+      (part): part is { mediaType: string | undefined; data: URL } =>
+        part.data instanceof URL,
     )
     .map(part => ({
       url: part.data,
@@ -371,7 +411,10 @@ async function downloadAssets(
  */
 function convertPartToLanguageModelPart(
   part: TextPart | ImagePart | FilePart,
-  downloadedAssets: Record<string, { mediaType: string | undefined; data: Uint8Array }>,
+  downloadedAssets: Record<
+    string,
+    { mediaType: string | undefined; data: Uint8Array }
+  >,
 ): LanguageModelV3TextPart | LanguageModelV3FilePart {
   if (part.type === 'text') {
     return {
@@ -418,7 +461,9 @@ function convertPartToLanguageModelPart(
       // to deal with incorrect media type inputs.
       // When detection fails, use provided media type.
       if (data instanceof Uint8Array || typeof data === 'string') {
-        mediaType = detectMediaType({ data, signatures: imageMediaTypeSignatures }) ?? mediaType;
+        mediaType =
+          detectMediaType({ data, signatures: imageMediaTypeSignatures }) ??
+          mediaType;
       }
 
       return {
@@ -447,7 +492,9 @@ function convertPartToLanguageModelPart(
   }
 }
 
-function mapToolResultOutput(output: ToolResultOutput): LanguageModelV3ToolResultOutput {
+function mapToolResultOutput(
+  output: ToolResultOutput,
+): LanguageModelV3ToolResultOutput {
   if (output.type !== 'content') {
     return output;
   }

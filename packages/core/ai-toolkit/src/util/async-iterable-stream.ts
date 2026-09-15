@@ -12,7 +12,9 @@ export type AsyncIterableStream<T> = AsyncIterable<T> & ReadableStream<T>;
  * @param source The source ReadableStream to wrap.
  * @returns An AsyncIterableStream that can be used as both a ReadableStream and an AsyncIterable.
  */
-export function createAsyncIterableStream<T>(source: ReadableStream<T>): AsyncIterableStream<T> {
+export function createAsyncIterableStream<T>(
+  source: ReadableStream<T>,
+): AsyncIterableStream<T> {
   // Pipe through a TransformStream to ensure a fresh, unlocked stream.
   const stream = source.pipeThrough(new TransformStream<T, T>());
 

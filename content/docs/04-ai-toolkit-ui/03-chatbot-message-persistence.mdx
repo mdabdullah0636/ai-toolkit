@@ -451,7 +451,11 @@ const {
 On the server, you can then load the previous messages and append the new message to the previous messages. If your messages contain tools, metadata, or custom data parts, you should validate them:
 
 ```tsx filename="app/api/chat/route.ts" highlight="2-11,14-18"
-import { convertToModelMessages, UIMessage, validateUIMessages } from 'ai-toolkit';
+import {
+  convertToModelMessages,
+  UIMessage,
+  validateUIMessages,
+} from 'ai-toolkit';
 // import your tools and schemas
 
 export async function POST(req: Request) {

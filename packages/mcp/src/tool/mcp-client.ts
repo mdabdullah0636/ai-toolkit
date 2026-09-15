@@ -77,7 +77,9 @@ export interface MCPClientConfig {
   capabilities?: ClientCapabilities;
 }
 
-export async function createMCPClient(config: MCPClientConfig): Promise<MCPClient> {
+export async function createMCPClient(
+  config: MCPClientConfig,
+): Promise<MCPClient> {
   const client = new DefaultMCPClient(config);
   await client.init();
   return client;
@@ -93,7 +95,10 @@ export interface MCPClient {
     options?: RequestOptions;
   }): Promise<ListResourcesResult>;
 
-  readResource(args: { uri: string; options?: RequestOptions }): Promise<ReadResourceResult>;
+  readResource(args: {
+    uri: string;
+    options?: RequestOptions;
+  }): Promise<ReadResourceResult>;
 
   listResourceTemplates(options?: {
     options?: RequestOptions;
@@ -112,7 +117,9 @@ export interface MCPClient {
 
   onElicitationRequest(
     schema: typeof ElicitationRequestSchema,
-    handler: (request: ElicitationRequest) => Promise<ElicitResult> | ElicitResult,
+    handler: (
+      request: ElicitationRequest,
+    ) => Promise<ElicitResult> | ElicitResult,
   ): void;
 
   close: () => Promise<void>;
@@ -140,7 +147,10 @@ class DefaultMCPClient implements MCPClient {
   private clientInfo: ClientConfiguration;
   private clientCapabilities: ClientCapabilities;
   private requestMessageId = 0;
-  private responseHandlers: Map<number, (response: JSONRPCResponse | Error) => void> = new Map();
+  private responseHandlers: Map<
+    number,
+    (response: JSONRPCResponse | Error) => void
+  > = new Map();
   private serverCapabilities: ServerCapabilities = {};
   private isClosed = true;
   private elicitationRequestHandler?: (
@@ -505,9 +515,13 @@ class DefaultMCPClient implements MCPClient {
         }
 
         const self = this;
-        const outputSchema = schemas !== 'automatic' ? schemas[name]?.outputSchema : undefined;
+        const outputSchema =
+          schemas !== 'automatic' ? schemas[name]?.outputSchema : undefined;
 
-        const execute = async (args: any, options: ToolExecutionOptions): Promise<unknown> => {
+        const execute = async (
+          args: any,
+          options: ToolExecutionOptions,
+        ): Promise<unknown> => {
           options?.abortSignal?.throwIfAborted();
           const result = await self.callTool({ name, args, options });
 
@@ -648,11 +662,14 @@ class DefaultMCPClient implements MCPClient {
 
   onElicitationRequest(
     schema: typeof ElicitationRequestSchema,
-    handler: (request: ElicitationRequest) => Promise<ElicitResult> | ElicitResult,
+    handler: (
+      request: ElicitationRequest,
+    ) => Promise<ElicitResult> | ElicitResult,
   ): void {
     if (schema !== ElicitationRequestSchema) {
       throw new MCPClientError({
-        message: 'Unsupported request schema. Only ElicitationRequestSchema is supported.',
+        message:
+          'Unsupported request schema. Only ElicitationRequestSchema is supported.',
       });
     }
 
@@ -719,7 +736,9 @@ class DefaultMCPClient implements MCPClient {
           error: {
             code: -32603,
             message:
-              error instanceof Error ? error.message : 'Failed to handle elicitation request',
+              error instanceof Error
+                ? error.message
+                : 'Failed to handle elicitation request',
           },
         });
         this.onError(error);

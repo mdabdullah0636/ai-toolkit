@@ -1,4 +1,7 @@
-import { createTestServer, TestResponseController } from '@ai-toolkit/test-server/with-vitest';
+import {
+  createTestServer,
+  TestResponseController,
+} from '@ai-toolkit/test-server/with-vitest';
 import '@testing-library/jest-dom/vitest';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -24,25 +27,29 @@ describe('text stream', () => {
     headers?: Record<string, string> | Headers;
     credentials?: RequestCredentials;
   }) => {
-    const { object, error, submit, isLoading, stop, clear } = experimental_useObject({
-      api: '/api/use-object',
-      schema: z.object({ content: z.string() }),
-      onError(error) {
-        onErrorResult = error;
-      },
-      onFinish(event) {
-        onFinishCalls.push(event);
-      },
-      headers,
-      credentials,
-    });
+    const { object, error, submit, isLoading, stop, clear } =
+      experimental_useObject({
+        api: '/api/use-object',
+        schema: z.object({ content: z.string() }),
+        onError(error) {
+          onErrorResult = error;
+        },
+        onFinish(event) {
+          onFinishCalls.push(event);
+        },
+        headers,
+        credentials,
+      });
 
     return (
       <div>
         <div data-testid="loading">{isLoading.toString()}</div>
         <div data-testid="object">{JSON.stringify(object)}</div>
         <div data-testid="error">{error?.toString()}</div>
-        <button data-testid="submit-button" onClick={() => submit('test-input')}>
+        <button
+          data-testid="submit-button"
+          onClick={() => submit('test-input')}
+        >
           Generate
         </button>
         <button data-testid="stop-button" onClick={stop}>
@@ -140,7 +147,9 @@ describe('text stream', () => {
         expect(screen.getByTestId('loading')).toHaveTextContent('true');
       });
       await waitFor(() => {
-        expect(screen.getByTestId('object')).toHaveTextContent('{"content":"h"}');
+        expect(screen.getByTestId('object')).toHaveTextContent(
+          '{"content":"h"}',
+        );
       });
 
       // click stop button:
@@ -157,7 +166,9 @@ describe('text stream', () => {
 
       // should only show start of object:
       await waitFor(() => {
-        expect(screen.getByTestId('object')).toHaveTextContent('{"content":"h"}');
+        expect(screen.getByTestId('object')).toHaveTextContent(
+          '{"content":"h"}',
+        );
       });
     });
 
@@ -175,7 +186,9 @@ describe('text stream', () => {
         expect(screen.getByTestId('loading')).toHaveTextContent('true');
       });
       await waitFor(() => {
-        expect(screen.getByTestId('object')).toHaveTextContent('{"content":"h"}');
+        expect(screen.getByTestId('object')).toHaveTextContent(
+          '{"content":"h"}',
+        );
       });
 
       await userEvent.click(screen.getByTestId('clear-button'));
@@ -229,7 +242,9 @@ describe('text stream', () => {
 
         await userEvent.click(screen.getByTestId('submit-button'));
 
-        expect(onFinishCalls).toStrictEqual([{ object: undefined, error: expect.any(Error) }]);
+        expect(onFinishCalls).toStrictEqual([
+          { object: undefined, error: expect.any(Error) },
+        ]);
       });
     });
   });
@@ -279,7 +294,10 @@ describe('text stream', () => {
       });
 
       return (
-        <button data-testid="submit-async-headers" onClick={() => submit('test-input')}>
+        <button
+          data-testid="submit-async-headers"
+          onClick={() => submit('test-input')}
+        >
           Submit
         </button>
       );
@@ -314,7 +332,10 @@ describe('text stream', () => {
       });
 
       return (
-        <button data-testid="submit-sync-headers" onClick={() => submit('test-input')}>
+        <button
+          data-testid="submit-sync-headers"
+          onClick={() => submit('test-input')}
+        >
           Submit
         </button>
       );

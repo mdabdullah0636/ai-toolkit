@@ -1,5 +1,10 @@
 import { openai } from '@ai-toolkit/openai';
-import { addToolInputExamplesMiddleware, generateText, tool, wrapLanguageModel } from 'ai-toolkit';
+import {
+  addToolInputExamplesMiddleware,
+  generateText,
+  tool,
+  wrapLanguageModel,
+} from 'ai-toolkit';
 import { z } from 'zod';
 import { run } from '../lib/run';
 
@@ -9,7 +14,8 @@ run(async () => {
       model: openai('gpt-4o'),
       middleware: addToolInputExamplesMiddleware({
         prefix: 'Examples:',
-        format: (example, index) => `${index + 1}. ${JSON.stringify(example.input)}`,
+        format: (example, index) =>
+          `${index + 1}. ${JSON.stringify(example.input)}`,
         remove: true,
       }),
     }),

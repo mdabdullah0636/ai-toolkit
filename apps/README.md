@@ -5,11 +5,11 @@ sites as sub-build directories. Each site keeps its own `next.config.*`,
 `tsconfig.json`, `postcss.config.*`, and Tailwind setup so it stays
 independently deployable to Vercel.
 
-| Site   | Dir           | Stack                                                               | Routes                                                            | Vercel root dir |
-| ------ | ------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------- | --------------- |
+| Site   | Dir           | Stack                                                             | Routes                                                            | Vercel root dir |
+| ------ | ------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | --------------- |
 | Docs   | `apps/docs`   | Next 16 · React 19 · Tailwind v4 · Fumadocs / `@vercel/geistdocs` | `/[lang]/{docs,providers,cookbook}`, llms/agents/rss/api          | `apps/docs`     |
-| www    | `apps/www`    | Next 16 · React 19 · Tailwind v4 · `@ai-toolkit/design`             | `/`, `/providers`, `/gateways`, `/resources/*`, `/playground`     | `apps/www`      |
-| Studio | `apps/studio` | Next 16 · React 19 · Tailwind v4 · `@ai-toolkit/design`             | `/`, `/gateways`, `/models`, `/providers`, `/tools`, `/templates` | `apps/studio`   |
+| www    | `apps/www`    | Next 16 · React 19 · Tailwind v4 · `@ai-toolkit/design`           | `/`, `/providers`, `/gateways`, `/resources/*`, `/playground`     | `apps/www`      |
+| Studio | `apps/studio` | Next 16 · React 19 · Tailwind v4 · `@ai-toolkit/design`           | `/`, `/gateways`, `/models`, `/providers`, `/tools`, `/templates` | `apps/studio`   |
 
 ## Commands (run from repo root or `apps/`)
 

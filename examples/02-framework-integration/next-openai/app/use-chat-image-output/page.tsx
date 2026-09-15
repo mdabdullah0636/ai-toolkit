@@ -17,7 +17,10 @@ export default function Chat() {
           {message.parts.map((part, index) => {
             if (part.type === 'text') {
               return <div key={index}>{part.text}</div>;
-            } else if (part.type === 'file' && part.mediaType.startsWith('image/')) {
+            } else if (
+              part.type === 'file' &&
+              part.mediaType.startsWith('image/')
+            ) {
               return (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img key={index} src={part.url} alt="Generated image" />

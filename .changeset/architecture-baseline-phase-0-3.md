@@ -26,6 +26,7 @@ peerDependencies to support type-only imports. The schema type definitions use
 `ZodSchema`, making them compatible across Zod v3 and v4.
 
 The conformance test suite has been piloted on 4 providers:
+
 - OpenAI: 7/7 tests pass
 - Anthropic: 4/4 tests pass (chat only; no embeddings/images)
 - Google: 6/7 pass (1 skipped: batch embedding due to MSW URL matching)

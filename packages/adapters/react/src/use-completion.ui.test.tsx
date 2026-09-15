@@ -1,4 +1,7 @@
-import { createTestServer, TestResponseController } from '@ai-toolkit/test-server/with-vitest';
+import {
+  createTestServer,
+  TestResponseController,
+} from '@ai-toolkit/test-server/with-vitest';
 import '@testing-library/jest-dom/vitest';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -19,7 +22,14 @@ describe('stream data stream', () => {
   let onFinishResult: { prompt: string; completion: string } | undefined;
 
   setupTestComponent(() => {
-    const { completion, handleSubmit, error, handleInputChange, input, isLoading } = useCompletion({
+    const {
+      completion,
+      handleSubmit,
+      error,
+      handleInputChange,
+      input,
+      isLoading,
+    } = useCompletion({
       onFinish(prompt, completion) {
         onFinishResult = { prompt, completion };
       },
@@ -62,7 +72,9 @@ describe('stream data stream', () => {
 
     it('should render stream', async () => {
       await waitFor(() => {
-        expect(screen.getByTestId('completion')).toHaveTextContent('Hello, world.');
+        expect(screen.getByTestId('completion')).toHaveTextContent(
+          'Hello, world.',
+        );
       });
     });
 
@@ -87,7 +99,9 @@ describe('stream data stream', () => {
 
       await userEvent.type(screen.getByTestId('input'), 'hi{enter}');
 
-      controller.write(formatChunk({ type: 'text-delta', id: '0', delta: 'Hello' }));
+      controller.write(
+        formatChunk({ type: 'text-delta', id: '0', delta: 'Hello' }),
+      );
 
       await waitFor(() => {
         expect(screen.getByTestId('loading')).toHaveTextContent('true');
@@ -117,9 +131,10 @@ describe('stream data stream', () => {
 
 describe('text stream', () => {
   setupTestComponent(() => {
-    const { completion, handleSubmit, handleInputChange, input } = useCompletion({
-      streamProtocol: 'text',
-    });
+    const { completion, handleSubmit, handleInputChange, input } =
+      useCompletion({
+        streamProtocol: 'text',
+      });
 
     return (
       <div>
@@ -145,6 +160,8 @@ describe('text stream', () => {
     await userEvent.type(screen.getByTestId('input-text-stream'), 'hi{enter}');
 
     await screen.findByTestId('completion-text-stream');
-    expect(screen.getByTestId('completion-text-stream')).toHaveTextContent('Hello, world.');
+    expect(screen.getByTestId('completion-text-stream')).toHaveTextContent(
+      'Hello, world.',
+    );
   });
 });

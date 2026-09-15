@@ -694,7 +694,9 @@ describe('toResponseMessages', () => {
             input: {
               query: 'San Francisco major news events June 22 2025',
             },
-            output: [{ url: 'https://patch.com/california/san-francisco/calendar' }],
+            output: [
+              { url: 'https://patch.com/california/san-francisco/calendar' },
+            ],
             providerExecuted: true,
           },
           {

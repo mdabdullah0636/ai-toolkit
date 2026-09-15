@@ -22,7 +22,8 @@ run(async () => {
               anthropic: {
                 citations: { enabled: true },
                 title: 'AI Handbook',
-                context: 'Technical documentation about AI models and embeddings',
+                context:
+                  'Technical documentation about AI models and embeddings',
               },
             },
           },

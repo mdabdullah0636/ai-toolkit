@@ -1,5 +1,14 @@
-import { SystemMessage, BaseMessage, AIMessageChunk } from '@langchain/core/messages';
-import { type UIMessage, type UIMessageChunk, convertToModelMessages, type ModelMessage } from 'ai-toolkit';
+import {
+  SystemMessage,
+  BaseMessage,
+  AIMessageChunk,
+} from '@langchain/core/messages';
+import {
+  type UIMessage,
+  type UIMessageChunk,
+  convertToModelMessages,
+  type ModelMessage,
+} from 'ai-toolkit';
 import {
   convertToolResultPart,
   convertAssistantContent,
@@ -31,7 +40,9 @@ import { type StreamCallbacks } from './stream-callbacks';
  * const response = await model.invoke(langchainMessages);
  * ```
  */
-export async function toBaseMessages(messages: UIMessage[]): Promise<BaseMessage[]> {
+export async function toBaseMessages(
+  messages: UIMessage[],
+): Promise<BaseMessage[]> {
   const modelMessages = await convertToModelMessages(messages);
   return convertModelMessages(modelMessages);
 }
@@ -42,7 +53,9 @@ export async function toBaseMessages(messages: UIMessage[]): Promise<BaseMessage
  * @param modelMessages - Array of ModelMessage objects from convertToModelMessages.
  * @returns Array of LangChain BaseMessage objects.
  */
-export function convertModelMessages(modelMessages: ModelMessage[]): BaseMessage[] {
+export function convertModelMessages(
+  modelMessages: ModelMessage[],
+): BaseMessage[] {
   const result: BaseMessage[] = [];
 
   for (const message of modelMessages) {
@@ -193,7 +206,10 @@ function processStreamEventsEvent(
               ? content
                   .filter(
                     (c): c is { type: 'text'; text: string } =>
-                      typeof c === 'object' && c !== null && 'type' in c && c.type === 'text',
+                      typeof c === 'object' &&
+                      c !== null &&
+                      'type' in c &&
+                      c.type === 'text',
                   )
                   .map(c => c.text)
                   .join('')
@@ -343,7 +359,10 @@ export function toUIMessageStream(
     emittedImages: new Set<string>(),
     emittedReasoningIds: new Set<string>(),
     messageReasoningIds: {} as Record<string, string>,
-    toolCallInfoByIndex: {} as Record<string, Record<number, { id: string; name: string }>>,
+    toolCallInfoByIndex: {} as Record<
+      string,
+      Record<number, { id: string; name: string }>
+    >,
     currentStep: null as number | null,
     emittedToolCallsByKey: new Map<string, string>(),
   };
@@ -429,7 +448,11 @@ export function toUIMessageStream(
            * Process based on detected type
            */
           if (streamType === 'model') {
-            processModelChunk(value as AIMessageChunk, modelState, wrappedController);
+            processModelChunk(
+              value as AIMessageChunk,
+              modelState,
+              wrappedController,
+            );
           } else if (streamType === 'streamEvents') {
             processStreamEventsEvent(
               value as {
@@ -442,7 +465,11 @@ export function toUIMessageStream(
               wrappedController,
             );
           } else {
-            processLangGraphEvent(value as unknown[], langGraphState, wrappedController);
+            processLangGraphEvent(
+              value as unknown[],
+              langGraphState,
+              wrappedController,
+            );
           }
         }
 

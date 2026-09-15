@@ -1,58 +1,58 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
-import type { Experimental_TranscriptionResult as TranscriptionResult } from "ai-toolkit";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import type { Experimental_TranscriptionResult as TranscriptionResult } from 'ai-toolkit';
 
-import { Transcription, TranscriptionSegment } from "./transcription";
+import { Transcription, TranscriptionSegment } from './transcription';
 
-const mockSegments: TranscriptionResult["segments"] = [
+const mockSegments: TranscriptionResult['segments'] = [
   {
     endSecond: 1,
     startSecond: 0,
-    text: "Hello",
+    text: 'Hello',
   },
   {
     endSecond: 2,
     startSecond: 1,
-    text: "world",
+    text: 'world',
   },
   {
     endSecond: 3,
     startSecond: 2,
-    text: "from",
+    text: 'from',
   },
   {
     endSecond: 4,
     startSecond: 3,
-    text: "AI",
+    text: 'AI',
   },
 ];
 
-const mockSegmentsWithEmpty: TranscriptionResult["segments"] = [
+const mockSegmentsWithEmpty: TranscriptionResult['segments'] = [
   {
     endSecond: 1,
     startSecond: 0,
-    text: "Hello",
+    text: 'Hello',
   },
   {
     endSecond: 1.5,
     startSecond: 1,
-    text: "   ",
+    text: '   ',
   },
   {
     endSecond: 2,
     startSecond: 1.5,
-    text: "",
+    text: '',
   },
   {
     endSecond: 3,
     startSecond: 2,
-    text: "world",
+    text: 'world',
   },
 ];
 
-describe("transcription", () => {
-  describe("transcriptionComponent", () => {
-    it("renders with render props children", () => {
+describe('transcription', () => {
+  describe('transcriptionComponent', () => {
+    it('renders with render props children', () => {
       render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -62,16 +62,16 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      expect(screen.getByText("Hello")).toBeInTheDocument();
-      expect(screen.getByText("world")).toBeInTheDocument();
-      expect(screen.getByText("from")).toBeInTheDocument();
-      expect(screen.getByText("AI")).toBeInTheDocument();
+      expect(screen.getByText('Hello')).toBeInTheDocument();
+      expect(screen.getByText('world')).toBeInTheDocument();
+      expect(screen.getByText('from')).toBeInTheDocument();
+      expect(screen.getByText('AI')).toBeInTheDocument();
     });
 
-    it("applies custom className", () => {
+    it('applies custom className', () => {
       const { container } = render(
         <Transcription className="custom-transcription" segments={mockSegments}>
           {(segment, index) => (
@@ -81,16 +81,16 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       const transcription = container.querySelector(
-        '[data-slot="transcription"]'
+        '[data-slot="transcription"]',
       );
-      expect(transcription).toHaveClass("custom-transcription");
+      expect(transcription).toHaveClass('custom-transcription');
     });
 
-    it("applies default flex layout classes", () => {
+    it('applies default flex layout classes', () => {
       const { container } = render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -100,22 +100,22 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       const transcription = container.querySelector(
-        '[data-slot="transcription"]'
+        '[data-slot="transcription"]',
       );
       expect(transcription).toHaveClass(
-        "flex",
-        "flex-wrap",
-        "gap-1",
-        "text-sm",
-        "leading-relaxed"
+        'flex',
+        'flex-wrap',
+        'gap-1',
+        'text-sm',
+        'leading-relaxed',
       );
     });
 
-    it("has correct data-slot attribute", () => {
+    it('has correct data-slot attribute', () => {
       const { container } = render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -125,15 +125,15 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       expect(
-        container.querySelector('[data-slot="transcription"]')
+        container.querySelector('[data-slot="transcription"]'),
       ).toBeInTheDocument();
     });
 
-    it("filters out empty segments", () => {
+    it('filters out empty segments', () => {
       render(
         <Transcription segments={mockSegmentsWithEmpty}>
           {(segment, index) => (
@@ -143,18 +143,18 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      expect(screen.getByText("Hello")).toBeInTheDocument();
-      expect(screen.getByText("world")).toBeInTheDocument();
+      expect(screen.getByText('Hello')).toBeInTheDocument();
+      expect(screen.getByText('world')).toBeInTheDocument();
 
       // Should only render 2 segments (empty ones filtered out)
-      const buttons = screen.getAllByRole("button");
+      const buttons = screen.getAllByRole('button');
       expect(buttons).toHaveLength(2);
     });
 
-    it("uses controlled currentTime when provided", () => {
+    it('uses controlled currentTime when provided', () => {
       const { container } = render(
         <Transcription currentTime={1.5} segments={mockSegments}>
           {(segment, index) => (
@@ -164,16 +164,16 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       // Second segment (1-2s) should be active at 1.5s
       const activeSegment = container.querySelector('[data-active="true"]');
       expect(activeSegment).toBeInTheDocument();
-      expect(activeSegment).toHaveTextContent("world");
+      expect(activeSegment).toHaveTextContent('world');
     });
 
-    it("defaults to 0 when currentTime not provided", () => {
+    it('defaults to 0 when currentTime not provided', () => {
       const { container } = render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -183,16 +183,16 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       // First segment (0-1s) should be active at time 0
       const activeSegment = container.querySelector('[data-active="true"]');
       expect(activeSegment).toBeInTheDocument();
-      expect(activeSegment).toHaveTextContent("Hello");
+      expect(activeSegment).toHaveTextContent('Hello');
     });
 
-    it("calls onSeek when provided", async () => {
+    it('calls onSeek when provided', async () => {
       const user = userEvent.setup();
       const onSeek = vi.fn();
 
@@ -205,16 +205,16 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const secondSegment = screen.getByText("world");
+      const secondSegment = screen.getByText('world');
       await user.click(secondSegment);
 
       expect(onSeek).toHaveBeenCalledWith(1);
     });
 
-    it("updates currentTime via useControllableState", async () => {
+    it('updates currentTime via useControllableState', async () => {
       const user = userEvent.setup();
       const onSeek = vi.fn();
 
@@ -227,11 +227,11 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       // Click third segment (2-3s)
-      const thirdSegment = screen.getByText("from");
+      const thirdSegment = screen.getByText('from');
       await user.click(thirdSegment);
 
       expect(onSeek).toHaveBeenCalledWith(2);
@@ -250,17 +250,17 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       // Third segment should now be active
-      expect(thirdSegment.closest("button")).toHaveAttribute(
-        "data-active",
-        "true"
+      expect(thirdSegment.closest('button')).toHaveAttribute(
+        'data-active',
+        'true',
       );
     });
 
-    it("renders all segments with render function", () => {
+    it('renders all segments with render function', () => {
       render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -268,18 +268,18 @@ describe("transcription", () => {
               {segment.text}
             </div>
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      expect(screen.getByTestId("segment-0")).toHaveTextContent("Hello");
-      expect(screen.getByTestId("segment-1")).toHaveTextContent("world");
-      expect(screen.getByTestId("segment-2")).toHaveTextContent("from");
-      expect(screen.getByTestId("segment-3")).toHaveTextContent("AI");
+      expect(screen.getByTestId('segment-0')).toHaveTextContent('Hello');
+      expect(screen.getByTestId('segment-1')).toHaveTextContent('world');
+      expect(screen.getByTestId('segment-2')).toHaveTextContent('from');
+      expect(screen.getByTestId('segment-3')).toHaveTextContent('AI');
     });
   });
 
-  describe("transcriptionSegment", () => {
-    it("renders segment text", () => {
+  describe('transcriptionSegment', () => {
+    it('renders segment text', () => {
       render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -289,14 +289,14 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const segment = screen.getByText("Hello");
+      const segment = screen.getByText('Hello');
       expect(segment).toBeInTheDocument();
     });
 
-    it("renders as button element", () => {
+    it('renders as button element', () => {
       render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -306,14 +306,14 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const buttons = screen.getAllByRole("button");
+      const buttons = screen.getAllByRole('button');
       expect(buttons.length).toBeGreaterThan(0);
     });
 
-    it("has correct data-slot attribute", () => {
+    it('has correct data-slot attribute', () => {
       const { container } = render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -323,15 +323,15 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       expect(
-        container.querySelector('[data-slot="transcription-segment"]')
+        container.querySelector('[data-slot="transcription-segment"]'),
       ).toBeInTheDocument();
     });
 
-    it("has data-index attribute", () => {
+    it('has data-index attribute', () => {
       const { container } = render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -341,18 +341,18 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       const segments = container.querySelectorAll(
-        '[data-slot="transcription-segment"]'
+        '[data-slot="transcription-segment"]',
       );
-      expect(segments[0]).toHaveAttribute("data-index", "0");
-      expect(segments[1]).toHaveAttribute("data-index", "1");
-      expect(segments[2]).toHaveAttribute("data-index", "2");
+      expect(segments[0]).toHaveAttribute('data-index', '0');
+      expect(segments[1]).toHaveAttribute('data-index', '1');
+      expect(segments[2]).toHaveAttribute('data-index', '2');
     });
 
-    it("applies active styling when current", () => {
+    it('applies active styling when current', () => {
       const { container } = render(
         <Transcription currentTime={2.5} segments={mockSegments}>
           {(segment, index) => (
@@ -362,16 +362,16 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       const activeSegment = container.querySelector('[data-active="true"]');
-      expect(activeSegment).toHaveClass("text-primary");
+      expect(activeSegment).toHaveClass('text-primary');
       // 2-3s
-      expect(activeSegment).toHaveTextContent("from");
+      expect(activeSegment).toHaveTextContent('from');
     });
 
-    it("applies past styling when segment is past", () => {
+    it('applies past styling when segment is past', () => {
       render(
         <Transcription currentTime={3.5} segments={mockSegments}>
           {(segment, index) => (
@@ -381,14 +381,14 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const firstSegment = screen.getByText("Hello");
-      expect(firstSegment).toHaveClass("text-muted-foreground");
+      const firstSegment = screen.getByText('Hello');
+      expect(firstSegment).toHaveClass('text-muted-foreground');
     });
 
-    it("applies future styling when segment is future", () => {
+    it('applies future styling when segment is future', () => {
       render(
         <Transcription currentTime={0.5} segments={mockSegments}>
           {(segment, index) => (
@@ -398,15 +398,15 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       // 1-2s
-      const futureSegment = screen.getByText("world");
-      expect(futureSegment).toHaveClass("text-muted-foreground/60");
+      const futureSegment = screen.getByText('world');
+      expect(futureSegment).toHaveClass('text-muted-foreground/60');
     });
 
-    it("applies pointer cursor when onSeek provided", () => {
+    it('applies pointer cursor when onSeek provided', () => {
       render(
         <Transcription onSeek={vi.fn()} segments={mockSegments}>
           {(segment, index) => (
@@ -416,14 +416,14 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const segment = screen.getByText("Hello");
-      expect(segment).toHaveClass("cursor-pointer");
+      const segment = screen.getByText('Hello');
+      expect(segment).toHaveClass('cursor-pointer');
     });
 
-    it("applies default cursor when onSeek not provided", () => {
+    it('applies default cursor when onSeek not provided', () => {
       render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -433,14 +433,14 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const segment = screen.getByText("Hello");
-      expect(segment).toHaveClass("cursor-default");
+      const segment = screen.getByText('Hello');
+      expect(segment).toHaveClass('cursor-default');
     });
 
-    it("calls onSeek with segment start time on click", async () => {
+    it('calls onSeek with segment start time on click', async () => {
       const user = userEvent.setup();
       const onSeek = vi.fn();
 
@@ -453,17 +453,17 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const thirdSegment = screen.getByText("from");
+      const thirdSegment = screen.getByText('from');
       await user.click(thirdSegment);
 
       // startSecond of "from"
       expect(onSeek).toHaveBeenCalledWith(2);
     });
 
-    it("does not call onSeek when not provided", async () => {
+    it('does not call onSeek when not provided', async () => {
       const user = userEvent.setup();
       const onSeek = vi.fn();
 
@@ -476,16 +476,16 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const segment = screen.getByText("Hello");
+      const segment = screen.getByText('Hello');
       await user.click(segment);
 
       expect(onSeek).not.toHaveBeenCalled();
     });
 
-    it("still calls custom onClick when provided", async () => {
+    it('still calls custom onClick when provided', async () => {
       const user = userEvent.setup();
       const onClick = vi.fn();
       const onSeek = vi.fn();
@@ -500,17 +500,17 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const segment = screen.getByText("Hello");
+      const segment = screen.getByText('Hello');
       await user.click(segment);
 
       expect(onSeek).toHaveBeenCalledWith(0);
       expect(onClick).toHaveBeenCalled();
     });
 
-    it("applies custom className", () => {
+    it('applies custom className', () => {
       render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -521,14 +521,14 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const segment = screen.getByText("Hello");
-      expect(segment).toHaveClass("custom-segment");
+      const segment = screen.getByText('Hello');
+      expect(segment).toHaveClass('custom-segment');
     });
 
-    it("has type button", () => {
+    it('has type button', () => {
       render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -538,28 +538,28 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const buttons = screen.getAllByRole("button");
+      const buttons = screen.getAllByRole('button');
       for (const button of buttons) {
-        expect(button).toHaveAttribute("type", "button");
+        expect(button).toHaveAttribute('type', 'button');
       }
     });
 
-    it("throws error when used outside Transcription context", () => {
-      const consoleSpy = vi.spyOn(console, "error").mockImplementation(vi.fn());
+    it('throws error when used outside Transcription context', () => {
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
       expect(() => {
         render(<TranscriptionSegment index={0} segment={mockSegments[0]} />);
-      }).toThrow("Transcription components must be used within Transcription");
+      }).toThrow('Transcription components must be used within Transcription');
 
       consoleSpy.mockRestore();
     });
   });
 
-  describe("integration", () => {
-    it("renders complete transcription with all segments", () => {
+  describe('integration', () => {
+    it('renders complete transcription with all segments', () => {
       render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -569,16 +569,16 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      expect(screen.getByText("Hello")).toBeInTheDocument();
-      expect(screen.getByText("world")).toBeInTheDocument();
-      expect(screen.getByText("from")).toBeInTheDocument();
-      expect(screen.getByText("AI")).toBeInTheDocument();
+      expect(screen.getByText('Hello')).toBeInTheDocument();
+      expect(screen.getByText('world')).toBeInTheDocument();
+      expect(screen.getByText('from')).toBeInTheDocument();
+      expect(screen.getByText('AI')).toBeInTheDocument();
     });
 
-    it("updates active segment as time progresses", () => {
+    it('updates active segment as time progresses', () => {
       const { rerender, container } = render(
         <Transcription currentTime={0.5} segments={mockSegments}>
           {(segment, index) => (
@@ -588,12 +588,12 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       // At 0.5s, first segment should be active
       let activeSegment = container.querySelector('[data-active="true"]');
-      expect(activeSegment).toHaveTextContent("Hello");
+      expect(activeSegment).toHaveTextContent('Hello');
 
       // Update to 1.5s
       rerender(
@@ -605,12 +605,12 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       // Second segment should now be active
       activeSegment = container.querySelector('[data-active="true"]');
-      expect(activeSegment).toHaveTextContent("world");
+      expect(activeSegment).toHaveTextContent('world');
 
       // Update to 3.5s
       rerender(
@@ -622,15 +622,15 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       // Fourth segment should now be active
       activeSegment = container.querySelector('[data-active="true"]');
-      expect(activeSegment).toHaveTextContent("AI");
+      expect(activeSegment).toHaveTextContent('AI');
     });
 
-    it("handles click-to-seek interaction", async () => {
+    it('handles click-to-seek interaction', async () => {
       const user = userEvent.setup();
       const onSeek = vi.fn();
 
@@ -643,29 +643,29 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       // Click each segment and verify correct time is seeked
-      await user.click(screen.getByText("Hello"));
+      await user.click(screen.getByText('Hello'));
       expect(onSeek).toHaveBeenLastCalledWith(0);
 
-      await user.click(screen.getByText("world"));
+      await user.click(screen.getByText('world'));
       expect(onSeek).toHaveBeenLastCalledWith(1);
 
-      await user.click(screen.getByText("from"));
+      await user.click(screen.getByText('from'));
       expect(onSeek).toHaveBeenLastCalledWith(2);
 
-      await user.click(screen.getByText("AI"));
+      await user.click(screen.getByText('AI'));
       expect(onSeek).toHaveBeenLastCalledWith(3);
 
       expect(onSeek).toHaveBeenCalledTimes(4);
     });
 
-    it("works with audio element integration", async () => {
+    it('works with audio element integration', async () => {
       const user = userEvent.setup();
       const audioRef = { current: { currentTime: 0 } };
-      const onSeek = vi.fn((time) => {
+      const onSeek = vi.fn(time => {
         audioRef.current.currentTime = time;
       });
 
@@ -682,16 +682,16 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      await user.click(screen.getByText("from"));
+      await user.click(screen.getByText('from'));
 
       expect(onSeek).toHaveBeenCalledWith(2);
       expect(audioRef.current.currentTime).toBe(2);
     });
 
-    it("handles keyboard navigation", async () => {
+    it('handles keyboard navigation', async () => {
       const user = userEvent.setup();
       const onSeek = vi.fn();
 
@@ -704,20 +704,20 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      const firstSegment = screen.getByText("Hello");
+      const firstSegment = screen.getByText('Hello');
       firstSegment.focus();
 
-      await user.keyboard("{Enter}");
+      await user.keyboard('{Enter}');
       expect(onSeek).toHaveBeenCalledWith(0);
 
-      await user.keyboard("{Space}");
+      await user.keyboard('{Space}');
       expect(onSeek).toHaveBeenCalledWith(0);
     });
 
-    it("renders custom segment layout", () => {
+    it('renders custom segment layout', () => {
       render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -726,16 +726,16 @@ describe("transcription", () => {
               <span data-testid={`text-${index}`}>{segment.text}</span>
             </div>
           )}
-        </Transcription>
+        </Transcription>,
       );
 
-      expect(screen.getByTestId("time-0")).toHaveTextContent("0s");
-      expect(screen.getByTestId("text-0")).toHaveTextContent("Hello");
-      expect(screen.getByTestId("time-1")).toHaveTextContent("1s");
-      expect(screen.getByTestId("text-1")).toHaveTextContent("world");
+      expect(screen.getByTestId('time-0')).toHaveTextContent('0s');
+      expect(screen.getByTestId('text-0')).toHaveTextContent('Hello');
+      expect(screen.getByTestId('time-1')).toHaveTextContent('1s');
+      expect(screen.getByTestId('text-1')).toHaveTextContent('world');
     });
 
-    it("handles empty segments array", () => {
+    it('handles empty segments array', () => {
       const { container } = render(
         <Transcription segments={[]}>
           {(segment, index) => (
@@ -745,17 +745,17 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       const transcription = container.querySelector(
-        '[data-slot="transcription"]'
+        '[data-slot="transcription"]',
       );
       expect(transcription).toBeInTheDocument();
       expect(transcription?.children.length).toBe(0);
     });
 
-    it("works in uncontrolled mode", () => {
+    it('works in uncontrolled mode', () => {
       const { container } = render(
         <Transcription segments={mockSegments}>
           {(segment, index) => (
@@ -765,15 +765,15 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       const activeSegment = container.querySelector('[data-active="true"]');
       // Default 0
-      expect(activeSegment).toHaveTextContent("Hello");
+      expect(activeSegment).toHaveTextContent('Hello');
     });
 
-    it("works in controlled mode", () => {
+    it('works in controlled mode', () => {
       const { container } = render(
         <Transcription currentTime={2.5} segments={mockSegments}>
           {(segment, index) => (
@@ -783,12 +783,12 @@ describe("transcription", () => {
               segment={segment}
             />
           )}
-        </Transcription>
+        </Transcription>,
       );
 
       const activeSegment = container.querySelector('[data-active="true"]');
       // Controlled 2.5s
-      expect(activeSegment).toHaveTextContent("from");
+      expect(activeSegment).toHaveTextContent('from');
     });
   });
 });

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
 import { Button, cn } from '@ai-toolkit/shadcn-ui';
-import Ansi from "ansi-to-react";
-import { CheckIcon, CopyIcon, TerminalIcon, Trash2Icon } from "lucide-react";
-import type { ComponentProps, HTMLAttributes } from "react";
+import Ansi from 'ansi-to-react';
+import { CheckIcon, CopyIcon, TerminalIcon, Trash2Icon } from 'lucide-react';
+import type { ComponentProps, HTMLAttributes } from 'react';
 import {
   createContext,
   useCallback,
@@ -12,7 +12,7 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
+} from 'react';
 
 interface TerminalContextType {
   output: string;
@@ -24,7 +24,7 @@ interface TerminalContextType {
 const TerminalContext = createContext<TerminalContextType>({
   autoScroll: true,
   isStreaming: false,
-  output: "",
+  output: '',
 });
 
 export type TerminalHeaderProps = HTMLAttributes<HTMLDivElement>;
@@ -36,8 +36,8 @@ export const TerminalHeader = ({
 }: TerminalHeaderProps) => (
   <div
     className={cn(
-      "flex items-center justify-between border-zinc-800 border-b px-4 py-2",
-      className
+      'flex items-center justify-between border-zinc-800 border-b px-4 py-2',
+      className,
     )}
     {...props}
   >
@@ -53,11 +53,11 @@ export const TerminalTitle = ({
   ...props
 }: TerminalTitleProps) => (
   <div
-    className={cn("flex items-center gap-2 text-sm text-zinc-400", className)}
+    className={cn('flex items-center gap-2 text-sm text-zinc-400', className)}
     {...props}
   >
     <TerminalIcon className="size-4" />
-    {children ?? "Terminal"}
+    {children ?? 'Terminal'}
   </div>
 );
 
@@ -76,7 +76,7 @@ export const TerminalStatus = ({
 
   return (
     <div
-      className={cn("flex items-center gap-2 text-xs text-zinc-400", className)}
+      className={cn('flex items-center gap-2 text-xs text-zinc-400', className)}
       {...props}
     >
       {children}
@@ -91,7 +91,7 @@ export const TerminalActions = ({
   children,
   ...props
 }: TerminalActionsProps) => (
-  <div className={cn("flex items-center gap-1", className)} {...props}>
+  <div className={cn('flex items-center gap-1', className)} {...props}>
     {children}
   </div>
 );
@@ -115,8 +115,8 @@ export const TerminalCopyButton = ({
   const { output } = useContext(TerminalContext);
 
   const copyToClipboard = useCallback(async () => {
-    if (typeof window === "undefined" || !navigator?.clipboard?.writeText) {
-      onError?.(new Error("Clipboard API not available"));
+    if (typeof window === 'undefined' || !navigator?.clipboard?.writeText) {
+      onError?.(new Error('Clipboard API not available'));
       return;
     }
 
@@ -134,7 +134,7 @@ export const TerminalCopyButton = ({
     () => () => {
       window.clearTimeout(timeoutRef.current);
     },
-    []
+    [],
   );
 
   const Icon = isCopied ? CheckIcon : CopyIcon;
@@ -142,8 +142,8 @@ export const TerminalCopyButton = ({
   return (
     <Button
       className={cn(
-        "size-7 shrink-0 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100",
-        className
+        'size-7 shrink-0 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100',
+        className,
       )}
       onClick={copyToClipboard}
       size="icon"
@@ -171,8 +171,8 @@ export const TerminalClearButton = ({
   return (
     <Button
       className={cn(
-        "size-7 shrink-0 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100",
-        className
+        'size-7 shrink-0 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100',
+        className,
       )}
       onClick={onClear}
       size="icon"
@@ -203,8 +203,8 @@ export const TerminalContent = ({
   return (
     <div
       className={cn(
-        "max-h-96 overflow-auto p-4 font-mono text-sm leading-relaxed",
-        className
+        'max-h-96 overflow-auto p-4 font-mono text-sm leading-relaxed',
+        className,
       )}
       ref={containerRef}
       {...props}
@@ -239,15 +239,15 @@ export const Terminal = ({
 }: TerminalProps) => {
   const contextValue = useMemo(
     () => ({ autoScroll, isStreaming, onClear, output }),
-    [autoScroll, isStreaming, onClear, output]
+    [autoScroll, isStreaming, onClear, output],
   );
 
   return (
     <TerminalContext.Provider value={contextValue}>
       <div
         className={cn(
-          "flex flex-col overflow-hidden rounded-lg border bg-zinc-950 text-zinc-100",
-          className
+          'flex flex-col overflow-hidden rounded-lg border bg-zinc-950 text-zinc-100',
+          className,
         )}
         {...props}
       >

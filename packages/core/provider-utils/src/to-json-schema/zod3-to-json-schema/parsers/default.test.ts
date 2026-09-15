@@ -27,7 +27,10 @@ describe('default', () => {
   });
 
   it('should be possible to use default on primitives', () => {
-    const parsedSchema = parseDefaultDef(z.string().default('default')._def, getRefs());
+    const parsedSchema = parseDefaultDef(
+      z.string().default('default')._def,
+      getRefs(),
+    );
 
     expect(parsedSchema).toStrictEqual({
       type: 'string',

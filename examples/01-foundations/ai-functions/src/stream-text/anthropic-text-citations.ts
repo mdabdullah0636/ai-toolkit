@@ -38,7 +38,10 @@ run(async () => {
         break;
 
       case 'source':
-        if (part.sourceType === 'document' && part.providerMetadata?.anthropic) {
+        if (
+          part.sourceType === 'document' &&
+          part.providerMetadata?.anthropic
+        ) {
           const meta = part.providerMetadata.anthropic;
           console.log(
             `\n\n[${++citationCount}] "${meta.citedText}" (chars: ${meta.startCharIndex}-${meta.endCharIndex})`,

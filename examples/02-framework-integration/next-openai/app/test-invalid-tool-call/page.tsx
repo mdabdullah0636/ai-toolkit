@@ -33,7 +33,11 @@ export default function Chat() {
                 switch (part.state) {
                   // example of pre-rendering streaming tool calls:
                   case 'input-streaming':
-                    return <pre key={index}>{JSON.stringify(part.input, null, 2)}</pre>;
+                    return (
+                      <pre key={index}>
+                        {JSON.stringify(part.input, null, 2)}
+                      </pre>
+                    );
                   case 'input-available':
                     return (
                       <div key={index} className="text-gray-500">

@@ -20,7 +20,10 @@ export interface LangGraphEventState {
   /** Maps message IDs to their reasoning block IDs (for chunks that don't include the ID) */
   messageReasoningIds: Record<string, string>;
   /** Maps message ID + tool call index to tool call info (for streaming chunks without ID) */
-  toolCallInfoByIndex: Record<string, Record<number, { id: string; name: string }>>;
+  toolCallInfoByIndex: Record<
+    string,
+    Record<number, { id: string; name: string }>
+  >;
   /** Tracks the current LangGraph step for start-step/finish-step events */
   currentStep: number | null;
   /** Maps tool call key (name:argsJson) to tool call ID for HITL interrupt handling */

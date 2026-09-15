@@ -1,4 +1,7 @@
-import type { JSONObject, SharedV4ProviderMetadata } from '@ai-toolkit/provider';
+import type {
+  JSONObject,
+  SharedV4ProviderMetadata,
+} from '@ai-toolkit/provider';
 import type { AsyncIterableStream } from '../util/async-iterable-stream';
 import type { TranscriptionModelResponseMetadata } from '../types/transcription-model-response-metadata';
 import type { Warning } from '../types/warning';

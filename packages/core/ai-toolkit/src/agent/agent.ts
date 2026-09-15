@@ -67,7 +67,9 @@ export type AgentStreamParameters<
    * They are applied in the order they are provided.
    * The stream transformations must maintain the stream structure for streamText to work correctly.
    */
-  experimental_transform?: StreamTextTransform<TOOLS> | Array<StreamTextTransform<TOOLS>>;
+  experimental_transform?:
+    | StreamTextTransform<TOOLS>
+    | Array<StreamTextTransform<TOOLS>>;
 };
 
 /**

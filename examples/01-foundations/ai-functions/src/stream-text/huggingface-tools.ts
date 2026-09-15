@@ -41,7 +41,9 @@ run(async () => {
         execute: async ({ location }) => ({
           location,
           temperature: 72 + Math.floor(Math.random() * 21) - 10,
-          condition: ['sunny', 'cloudy', 'rainy', 'snowy'][Math.floor(Math.random() * 4)],
+          condition: ['sunny', 'cloudy', 'rainy', 'snowy'][
+            Math.floor(Math.random() * 4)
+          ],
           humidity: Math.floor(Math.random() * 100),
         }),
       }),
@@ -57,12 +59,16 @@ run(async () => {
       }
 
       case 'tool-call': {
-        console.log(`TOOL CALL ${chunk.toolName} ${JSON.stringify(chunk.input)}`);
+        console.log(
+          `TOOL CALL ${chunk.toolName} ${JSON.stringify(chunk.input)}`,
+        );
         break;
       }
 
       case 'tool-result': {
-        console.log(`TOOL RESULT ${chunk.toolName} ${JSON.stringify(chunk.output)}`);
+        console.log(
+          `TOOL RESULT ${chunk.toolName} ${JSON.stringify(chunk.output)}`,
+        );
         break;
       }
 

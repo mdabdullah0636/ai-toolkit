@@ -1,5 +1,10 @@
 import { createOpenAICompatible } from '@ai-toolkit/openai-compatible';
-import { streamText, ModelMessage, ToolCallPart, ToolResultPart } from 'ai-toolkit';
+import {
+  streamText,
+  ModelMessage,
+  ToolCallPart,
+  ToolResultPart,
+} from 'ai-toolkit';
 import { weatherTool } from '../tools/weather-tool';
 import { run } from '../lib/run';
 
@@ -15,7 +20,9 @@ run(async () => {
       Authorization: `Bearer ${process.env.TOGETHER_AI_API_KEY}`,
     },
   });
-  const model = togetherai.chatModel('meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo');
+  const model = togetherai.chatModel(
+    'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+  );
   const result = streamText({
     model,
     maxOutputTokens: 512,
@@ -23,7 +30,8 @@ run(async () => {
       weather: weatherTool,
     },
     toolChoice: 'required',
-    prompt: 'What is the weather in San Francisco and what attractions should I visit?',
+    prompt:
+      'What is the weather in San Francisco and what attractions should I visit?',
   });
 
   let fullResponse = '';
@@ -41,7 +49,9 @@ run(async () => {
       case 'tool-call': {
         toolCalls.push(delta);
 
-        process.stdout.write(`\nTool call: '${delta.toolName}' ${JSON.stringify(delta.input)}`);
+        process.stdout.write(
+          `\nTool call: '${delta.toolName}' ${JSON.stringify(delta.input)}`,
+        );
         break;
       }
 

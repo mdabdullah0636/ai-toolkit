@@ -1,5 +1,8 @@
 import { UIMessageChunk } from '../ui-message-stream/ui-message-chunks';
-import { HttpChatTransport, HttpChatTransportInitOptions } from './http-chat-transport';
+import {
+  HttpChatTransport,
+  HttpChatTransportInitOptions,
+} from './http-chat-transport';
 import { transformTextToUiMessageStream } from './transform-text-to-ui-message-stream';
 import { UIMessage } from './ui-messages';
 

@@ -44,11 +44,15 @@ export const imageMediaTypeSignatures = [
   },
   {
     mediaType: 'image/avif' as const,
-    bytesPrefix: [0x00, 0x00, 0x00, 0x20, 0x66, 0x74, 0x79, 0x70, 0x61, 0x76, 0x69, 0x66],
+    bytesPrefix: [
+      0x00, 0x00, 0x00, 0x20, 0x66, 0x74, 0x79, 0x70, 0x61, 0x76, 0x69, 0x66,
+    ],
   },
   {
     mediaType: 'image/heic' as const,
-    bytesPrefix: [0x00, 0x00, 0x00, 0x20, 0x66, 0x74, 0x79, 0x70, 0x68, 0x65, 0x69, 0x63],
+    bytesPrefix: [
+      0x00, 0x00, 0x00, 0x20, 0x66, 0x74, 0x79, 0x70, 0x68, 0x65, 0x69, 0x63,
+    ],
   },
 ] as const;
 
@@ -117,7 +121,8 @@ export const audioMediaTypeSignatures = [
 ] as const;
 
 const stripID3 = (data: Uint8Array | string) => {
-  const bytes = typeof data === 'string' ? convertBase64ToUint8Array(data) : data;
+  const bytes =
+    typeof data === 'string' ? convertBase64ToUint8Array(data) : data;
   const id3Size =
     ((bytes[6] & 0x7f) << 21) |
     ((bytes[7] & 0x7f) << 14) |
@@ -159,13 +164,17 @@ export function detectMediaType({
   // Convert the first ~18 bytes (24 base64 chars) for consistent detection logic:
   const bytes =
     typeof processedData === 'string'
-      ? convertBase64ToUint8Array(processedData.substring(0, Math.min(processedData.length, 24)))
+      ? convertBase64ToUint8Array(
+          processedData.substring(0, Math.min(processedData.length, 24)),
+        )
       : processedData;
 
   for (const signature of signatures) {
     if (
       bytes.length >= signature.bytesPrefix.length &&
-      signature.bytesPrefix.every((byte, index) => byte === null || bytes[index] === byte)
+      signature.bytesPrefix.every(
+        (byte, index) => byte === null || bytes[index] === byte,
+      )
     ) {
       return signature.mediaType;
     }

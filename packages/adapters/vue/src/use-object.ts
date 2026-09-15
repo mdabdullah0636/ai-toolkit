@@ -1,4 +1,8 @@
-import { isAbortError, safeValidateTypes, type FetchFunction } from '@ai-toolkit/provider-utils';
+import {
+  isAbortError,
+  safeValidateTypes,
+  type FetchFunction,
+} from '@ai-toolkit/provider-utils';
 import {
   asSchema,
   isDeepEqualData,
@@ -13,7 +17,10 @@ import { ref, type Ref } from 'vue';
 // use function to allow for mocking in tests
 const getOriginalFetch = () => fetch;
 
-export type Experimental_UseObjectOptions<SCHEMA extends FlexibleSchema, RESULT> = {
+export type Experimental_UseObjectOptions<
+  SCHEMA extends FlexibleSchema,
+  RESULT,
+> = {
   /** API endpoint that streams JSON chunks matching the schema */
   api: string;
 
@@ -68,7 +75,7 @@ export type Experimental_UseObjectHelpers<RESULT, INPUT> = {
 let uniqueId = 0;
 
 // @ts-expect-error - some issues with the default export of useSWRV
-const useSWRV = (swrv.default as typeof import('swrv')['default']) || swrv;
+const useSWRV = (swrv.default as (typeof import('swrv'))['default']) || swrv;
 const store: Record<string, any> = {};
 
 export const experimental_useObject = function useObject<
@@ -85,14 +92,17 @@ export const experimental_useObject = function useObject<
   onFinish,
   headers,
   credentials,
-}: Experimental_UseObjectOptions<SCHEMA, RESULT>): Experimental_UseObjectHelpers<RESULT, INPUT> {
+}: Experimental_UseObjectOptions<
+  SCHEMA,
+  RESULT
+>): Experimental_UseObjectHelpers<RESULT, INPUT> {
   // Generate an unique id for the object if not provided.
   const completionId = id || `completion-${uniqueId++}`;
 
   const key = `${api}|${completionId}`;
-  const { data, mutate: originalMutate } = useSWRV<DeepPartial<RESULT> | undefined>(key, () =>
-    key in store ? store[key] : initialValue,
-  );
+  const { data, mutate: originalMutate } = useSWRV<
+    DeepPartial<RESULT> | undefined
+  >(key, () => (key in store ? store[key] : initialValue));
 
   const { data: isLoading, mutate: mutateLoading } = useSWRV<boolean>(
     `${completionId}-loading`,
@@ -156,7 +166,9 @@ export const experimental_useObject = function useObject<
       });
 
       if (!response.ok) {
-        throw new Error((await response.text()) || 'Failed to fetch the response.');
+        throw new Error(
+          (await response.text()) || 'Failed to fetch the response.',
+        );
       }
 
       if (!response.body) {

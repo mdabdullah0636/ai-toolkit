@@ -24,7 +24,9 @@ export class MockLanguageModelV2 implements LanguageModelV2 {
   }: {
     provider?: LanguageModelV2['provider'];
     modelId?: LanguageModelV2['modelId'];
-    supportedUrls?: LanguageModelV2['supportedUrls'] | (() => LanguageModelV2['supportedUrls']);
+    supportedUrls?:
+      | LanguageModelV2['supportedUrls']
+      | (() => LanguageModelV2['supportedUrls']);
     doGenerate?:
       | LanguageModelV2['doGenerate']
       | Awaited<ReturnType<LanguageModelV2['doGenerate']>>
@@ -59,7 +61,9 @@ export class MockLanguageModelV2 implements LanguageModelV2 {
       }
     };
     this._supportedUrls =
-      typeof supportedUrls === 'function' ? supportedUrls : async () => supportedUrls;
+      typeof supportedUrls === 'function'
+        ? supportedUrls
+        : async () => supportedUrls;
   }
 
   get supportedUrls() {

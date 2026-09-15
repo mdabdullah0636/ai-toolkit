@@ -25,7 +25,10 @@ run(async () => {
   // switch to generate (output irrelevant)
   const result2 = await generateText({
     model: openai.responses('gpt-5-mini'),
-    messages: [...messages, { role: 'user', content: 'Summarize in 2 sentences.' }],
+    messages: [
+      ...messages,
+      { role: 'user', content: 'Summarize in 2 sentences.' },
+    ],
   });
 
   console.log(JSON.stringify(result2, null, 2));

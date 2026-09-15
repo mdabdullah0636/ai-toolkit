@@ -31,7 +31,9 @@ export async function executeShellCommand(
     return {
       stdout: error?.stdout ?? '',
       stderr: error?.stderr ?? String(error),
-      outcome: timedOut ? { type: 'timeout' } : { type: 'exit', exitCode: exitCode ?? 1 },
+      outcome: timedOut
+        ? { type: 'timeout' }
+        : { type: 'exit', exitCode: exitCode ?? 1 },
     };
   }
 }

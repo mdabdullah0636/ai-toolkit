@@ -37,7 +37,8 @@ async function main() {
         console.log(`STEP RESULTS: ${JSON.stringify(toolResults, null, 2)}`);
       },
       system: 'You are an expert in Pokemon',
-      prompt: 'Which Pokemon could best defeat Feebas? Choose one and share details about it.',
+      prompt:
+        'Which Pokemon could best defeat Feebas? Choose one and share details about it.',
     });
 
     console.log(`FINAL ANSWER: ${answer}`);

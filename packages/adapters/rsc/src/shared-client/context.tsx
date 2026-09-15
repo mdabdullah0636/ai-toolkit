@@ -39,7 +39,10 @@ export function InternalAIProvider({
     : undefined;
   initialAIState = React.useMemo(() => {
     if (resolvedInitialAIStatePatch) {
-      return jsondiffpatch.patch(jsondiffpatch.clone(initialAIState), resolvedInitialAIStatePatch);
+      return jsondiffpatch.patch(
+        jsondiffpatch.clone(initialAIState),
+        resolvedInitialAIStatePatch,
+      );
     }
     return initialAIState;
   }, [initialAIState, resolvedInitialAIStatePatch]);
@@ -59,11 +62,19 @@ export function InternalAIProvider({
           key,
           async (...args: any) => {
             const aiStateSnapshot = aiStateRef.current;
-            const [aiStateDelta, result] = await action(aiStateSnapshot, ...args);
+            const [aiStateDelta, result] = await action(
+              aiStateSnapshot,
+              ...args,
+            );
             (async () => {
               const delta = await aiStateDelta;
               if (delta !== undefined) {
-                aiState[1](jsondiffpatch.patch(jsondiffpatch.clone(aiStateSnapshot), delta));
+                aiState[1](
+                  jsondiffpatch.patch(
+                    jsondiffpatch.clone(aiStateSnapshot),
+                    delta,
+                  ),
+                );
               }
             })();
             return result;
@@ -80,7 +91,8 @@ export function InternalAIProvider({
 
     return async () => {
       const aiStateSnapshot = aiStateRef.current;
-      const [aiStateDelta, uiState] = await wrappedSyncUIState!(aiStateSnapshot);
+      const [aiStateDelta, uiState] =
+        await wrappedSyncUIState!(aiStateSnapshot);
 
       if (uiState !== undefined) {
         setUIState(uiState);
@@ -88,7 +100,10 @@ export function InternalAIProvider({
 
       const delta = await aiStateDelta;
       if (delta !== undefined) {
-        const patchedAiState = jsondiffpatch.patch(jsondiffpatch.clone(aiStateSnapshot), delta);
+        const patchedAiState = jsondiffpatch.patch(
+          jsondiffpatch.clone(aiStateSnapshot),
+          delta,
+        );
         setAIState(patchedAiState);
       }
     };
@@ -98,7 +113,9 @@ export function InternalAIProvider({
     <InternalAIStateProvider.Provider value={aiState}>
       <InternalUIStateProvider.Provider value={uiState}>
         <InternalActionProvider.Provider value={clientWrappedActions}>
-          <InternalSyncUIStateProvider.Provider value={clientWrappedSyncUIStateAction}>
+          <InternalSyncUIStateProvider.Provider
+            value={clientWrappedSyncUIStateAction}
+          >
             {children}
           </InternalSyncUIStateProvider.Provider>
         </InternalActionProvider.Provider>
@@ -110,9 +127,9 @@ export function InternalAIProvider({
 export function useUIState<AI extends AIProvider = any>() {
   type T = InferUIState<AI, any>;
 
-  const state = React.useContext<[T, (v: T | ((v_: T) => T)) => void] | null | undefined>(
-    InternalUIStateProvider,
-  );
+  const state = React.useContext<
+    [T, (v: T | ((v_: T) => T)) => void] | null | undefined
+  >(InternalUIStateProvider);
   if (state === null) {
     throw new Error('`useUIState` must be used inside an <AI> provider.');
   }
@@ -120,7 +137,9 @@ export function useUIState<AI extends AIProvider = any>() {
     throw new Error('Invalid state');
   }
   if (state[0] === undefined) {
-    throw new Error('`initialUIState` must be provided to `createAI` or `<AI>`');
+    throw new Error(
+      '`initialUIState` must be provided to `createAI` or `<AI>`',
+    );
   }
   return state;
 }
@@ -137,12 +156,14 @@ function useAIState<AI extends AIProvider = any>(
   InferAIState<AI, any>[typeof key],
   (newState: ValueOrUpdater<InferAIState<AI, any>[typeof key]>) => void,
 ];
-function useAIState<AI extends AIProvider = any>(...args: [] | [keyof InferAIState<AI, any>]) {
+function useAIState<AI extends AIProvider = any>(
+  ...args: [] | [keyof InferAIState<AI, any>]
+) {
   type T = InferAIState<AI, any>;
 
-  const state = React.useContext<[T, (newState: ValueOrUpdater<T>) => void] | null | undefined>(
-    InternalAIStateProvider,
-  );
+  const state = React.useContext<
+    [T, (newState: ValueOrUpdater<T>) => void] | null | undefined
+  >(InternalAIStateProvider);
   if (state === null) {
     throw new Error('`useAIState` must be used inside an <AI> provider.');
   }
@@ -150,10 +171,14 @@ function useAIState<AI extends AIProvider = any>(...args: [] | [keyof InferAISta
     throw new Error('Invalid state');
   }
   if (state[0] === undefined) {
-    throw new Error('`initialAIState` must be provided to `createAI` or `<AI>`');
+    throw new Error(
+      '`initialAIState` must be provided to `createAI` or `<AI>`',
+    );
   }
   if (args.length >= 1 && typeof state[0] !== 'object') {
-    throw new Error('When using `useAIState` with a key, the AI state must be an object.');
+    throw new Error(
+      'When using `useAIState` with a key, the AI state must be an object.',
+    );
   }
 
   const key = args[0];
@@ -187,7 +212,9 @@ export function useActions<AI extends AIProvider = any>() {
 }
 
 export function useSyncUIState() {
-  const syncUIState = React.useContext<() => Promise<void>>(InternalSyncUIStateProvider);
+  const syncUIState = React.useContext<() => Promise<void>>(
+    InternalSyncUIStateProvider,
+  );
 
   if (syncUIState === null) {
     throw new Error('`useSyncUIState` must be used inside an <AI> provider.');

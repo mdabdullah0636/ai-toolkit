@@ -1,6 +1,6 @@
-import type { ReactFlowProps } from "@xyflow/react";
-import { Background, ReactFlow } from "@xyflow/react";
-import type { ReactNode } from "react";
+import type { ReactFlowProps } from '@xyflow/react';
+import { Background, ReactFlow } from '@xyflow/react';
+import type { ReactNode } from 'react';
 
 // NOTE: The @xyflow/react stylesheet is NOT imported here so the package can
 // be consumed from both ESM and CJS without bundler CSS handling. Consumers
@@ -10,7 +10,7 @@ type CanvasProps = ReactFlowProps & {
   children?: ReactNode;
 };
 
-const deleteKeyCode = ["Backspace", "Delete"];
+const deleteKeyCode = ['Backspace', 'Delete'];
 
 export const Canvas = ({ children, ...props }: CanvasProps) => (
   <ReactFlow

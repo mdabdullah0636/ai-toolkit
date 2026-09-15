@@ -1,9 +1,15 @@
 import { z } from 'zod/v4';
-import { lazySchema, safeValidateTypes, zodSchema } from '@ai-toolkit/provider-utils';
+import {
+  lazySchema,
+  safeValidateTypes,
+  zodSchema,
+} from '@ai-toolkit/provider-utils';
 
 export const GATEWAY_AUTH_METHOD_HEADER = 'ai-gateway-auth-method' as const;
 
-export async function parseAuthMethod(headers: Record<string, string | undefined>) {
+export async function parseAuthMethod(
+  headers: Record<string, string | undefined>,
+) {
   const result = await safeValidateTypes({
     value: headers[GATEWAY_AUTH_METHOD_HEADER],
     schema: gatewayAuthMethodSchema,

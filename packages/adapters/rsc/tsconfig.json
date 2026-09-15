@@ -7,13 +7,7 @@
     "composite": true,
     "outDir": "dist"
   },
-  "exclude": [
-    "dist",
-    "build",
-    "node_modules",
-    "*.config.ts",
-    "tests"
-  ],
+  "exclude": ["dist", "build", "node_modules", "*.config.ts", "tests"],
   "references": [
     {
       "path": "../../core/ai-toolkit"

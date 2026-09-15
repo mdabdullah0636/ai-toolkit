@@ -17,15 +17,18 @@ export default function ChatAnthropicProgrammaticToolCalling() {
 
   return (
     <div className="flex flex-col py-24 mx-auto w-full max-w-md stretch">
-      <h1 className="mb-4 text-xl font-bold">Anthropic Programmatic Tool Calling</h1>
+      <h1 className="mb-4 text-xl font-bold">
+        Anthropic Programmatic Tool Calling
+      </h1>
       <p className="mb-4 text-sm text-gray-600">
-        This example demonstrates programmatic tool calling, where Claude can write code that calls
-        tools programmatically within a code execution container.
+        This example demonstrates programmatic tool calling, where Claude can
+        write code that calls tools programmatically within a code execution
+        container.
       </p>
       <p className="mb-4 text-sm text-gray-500">
-        Try: &quot;Two players are playing a dice game. Each round both players roll a die. The
-        player with the higher roll wins the round. The first player to win 3 rounds wins the
-        game.&quot;
+        Try: &quot;Two players are playing a dice game. Each round both players
+        roll a die. The player with the higher roll wins the round. The first
+        player to win 3 rounds wins the game.&quot;
       </p>
 
       {messages.map(message => (
@@ -37,7 +40,9 @@ export default function ChatAnthropicProgrammaticToolCalling() {
                 return <Response key={index}>{part.text}</Response>;
               }
               case 'tool-code_execution': {
-                return <AnthropicCodeExecutionView invocation={part} key={index} />;
+                return (
+                  <AnthropicCodeExecutionView invocation={part} key={index} />
+                );
               }
               case 'tool-rollDie': {
                 return (

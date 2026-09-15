@@ -1,4 +1,8 @@
-import { ImageModelV3, ImageModelV3File, SharedV3Warning } from '@ai-toolkit/provider';
+import {
+  ImageModelV3,
+  ImageModelV3File,
+  SharedV3Warning,
+} from '@ai-toolkit/provider';
 import {
   FetchFunction,
   Resolvable,
@@ -9,7 +13,10 @@ import {
   postJsonToApi,
   resolve,
 } from '@ai-toolkit/provider-utils';
-import { BedrockImageModelId, modelMaxImagesPerCall } from './bedrock-image-settings';
+import {
+  BedrockImageModelId,
+  modelMaxImagesPerCall,
+} from './bedrock-image-settings';
 import { BedrockErrorSchema } from './bedrock-error';
 import { z } from 'zod/v4';
 
@@ -65,8 +72,12 @@ export class BedrockImageModel implements ImageModelV3 {
       ...(height ? { height } : {}),
       ...(seed ? { seed } : {}),
       ...(n ? { numberOfImages: n } : {}),
-      ...(providerOptions?.bedrock?.quality ? { quality: providerOptions.bedrock.quality } : {}),
-      ...(providerOptions?.bedrock?.cfgScale ? { cfgScale: providerOptions.bedrock.cfgScale } : {}),
+      ...(providerOptions?.bedrock?.quality
+        ? { quality: providerOptions.bedrock.quality }
+        : {}),
+      ...(providerOptions?.bedrock?.cfgScale
+        ? { cfgScale: providerOptions.bedrock.cfgScale }
+        : {}),
     };
 
     let args: Record<string, unknown>;
@@ -158,7 +169,8 @@ export class BedrockImageModel implements ImageModelV3 {
               : {}),
             ...(providerOptions?.bedrock?.similarityStrength != null
               ? {
-                  similarityStrength: providerOptions.bedrock.similarityStrength,
+                  similarityStrength:
+                    providerOptions.bedrock.similarityStrength,
                 }
               : {}),
           };
@@ -199,20 +211,25 @@ export class BedrockImageModel implements ImageModelV3 {
       warnings.push({
         type: 'unsupported',
         feature: 'aspectRatio',
-        details: 'This model does not support aspect ratio. Use `size` instead.',
+        details:
+          'This model does not support aspect ratio. Use `size` instead.',
       });
     }
 
     const currentDate = this.config._internal?.currentDate?.() ?? new Date();
     const { value: response, responseHeaders } = await postJsonToApi({
       url: this.getUrl(this.modelId),
-      headers: await resolve(combineHeaders(await resolve(this.config.headers), headers)),
+      headers: await resolve(
+        combineHeaders(await resolve(this.config.headers), headers),
+      ),
       body: args,
       failedResponseHandler: createJsonErrorResponseHandler({
         errorSchema: BedrockErrorSchema,
         errorToMessage: error => `${error.type}: ${error.message}`,
       }),
-      successfulResponseHandler: createJsonResponseHandler(bedrockImageResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        bedrockImageResponseSchema,
+      ),
       abortSignal,
       fetch: this.config.fetch,
     });
@@ -220,8 +237,12 @@ export class BedrockImageModel implements ImageModelV3 {
     // Handle moderated/blocked requests
     if (response.status === 'Request Moderated') {
       const moderationReasons = response.details?.['Moderation Reasons'];
-      const reasons = Array.isArray(moderationReasons) ? moderationReasons : ['Unknown'];
-      throw new Error(`Amazon Bedrock request was moderated: ${reasons.join(', ')}`);
+      const reasons = Array.isArray(moderationReasons)
+        ? moderationReasons
+        : ['Unknown'];
+      throw new Error(
+        `Amazon Bedrock request was moderated: ${reasons.join(', ')}`,
+      );
     }
 
     // Check if images are present

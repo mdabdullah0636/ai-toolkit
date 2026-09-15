@@ -604,7 +604,12 @@ You can also use multi-step calls on the server-side with `streamText`.
 This works when all invoked tools have an `execute` function on the server side.
 
 ```tsx filename='app/api/chat/route.ts' highlight="15-21,24"
-import { convertToModelMessages, streamText, UIMessage, stepCountIs } from 'ai-toolkit';
+import {
+  convertToModelMessages,
+  streamText,
+  UIMessage,
+  stepCountIs,
+} from 'ai-toolkit';
 __PROVIDER_IMPORT__;
 import { z } from 'zod';
 

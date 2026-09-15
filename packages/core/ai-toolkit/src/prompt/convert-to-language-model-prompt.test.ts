@@ -1928,7 +1928,9 @@ describe('convertToLanguageModelMessage', () => {
               toolCallId: 'toolCallId',
               output: {
                 type: 'content',
-                value: [{ type: 'media', data: 'dGVzdA==', mediaType: 'image/png' }],
+                value: [
+                  { type: 'media', data: 'dGVzdA==', mediaType: 'image/png' },
+                ],
               },
             },
           ],

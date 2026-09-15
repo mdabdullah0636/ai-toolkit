@@ -1,6 +1,10 @@
 import { FetchPDFUIToolInvocation } from '@/tool/fetch-pdf-tool';
 
-export default function FetchPDFView({ invocation }: { invocation: FetchPDFUIToolInvocation }) {
+export default function FetchPDFView({
+  invocation,
+}: {
+  invocation: FetchPDFUIToolInvocation;
+}) {
   switch (invocation.state) {
     case 'input-available':
       return (

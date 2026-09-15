@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 
 import {
   PackageInfo,
@@ -10,95 +10,95 @@ import {
   PackageInfoHeader,
   PackageInfoName,
   PackageInfoVersion,
-} from "./package-info";
+} from './package-info';
 
-describe("packageInfo", () => {
-  it("renders package name", () => {
+describe('packageInfo', () => {
+  it('renders package name', () => {
     render(<PackageInfo name="react" />);
-    expect(screen.getByText("react")).toBeInTheDocument();
+    expect(screen.getByText('react')).toBeInTheDocument();
   });
 
-  it("renders with version change", () => {
+  it('renders with version change', () => {
     render(
-      <PackageInfo currentVersion="18.0.0" name="react" newVersion="19.0.0" />
+      <PackageInfo currentVersion="18.0.0" name="react" newVersion="19.0.0" />,
     );
-    expect(screen.getByText("18.0.0")).toBeInTheDocument();
-    expect(screen.getByText("19.0.0")).toBeInTheDocument();
+    expect(screen.getByText('18.0.0')).toBeInTheDocument();
+    expect(screen.getByText('19.0.0')).toBeInTheDocument();
   });
 
-  it("renders with change type badge", () => {
+  it('renders with change type badge', () => {
     render(<PackageInfo changeType="major" name="react" />);
-    expect(screen.getByText("major")).toBeInTheDocument();
+    expect(screen.getByText('major')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <PackageInfo className="custom-class" name="react" />
+      <PackageInfo className="custom-class" name="react" />,
     );
-    expect(container.firstChild).toHaveClass("custom-class");
+    expect(container.firstChild).toHaveClass('custom-class');
   });
 });
 
-describe("packageInfoChangeType", () => {
-  it("renders major change type", () => {
+describe('packageInfoChangeType', () => {
+  it('renders major change type', () => {
     render(
       <PackageInfo changeType="major" name="test">
         <PackageInfoChangeType />
-      </PackageInfo>
+      </PackageInfo>,
     );
-    expect(screen.getByText("major")).toBeInTheDocument();
+    expect(screen.getByText('major')).toBeInTheDocument();
   });
 
-  it("renders minor change type", () => {
+  it('renders minor change type', () => {
     render(
       <PackageInfo changeType="minor" name="test">
         <PackageInfoChangeType />
-      </PackageInfo>
+      </PackageInfo>,
     );
-    expect(screen.getByText("minor")).toBeInTheDocument();
+    expect(screen.getByText('minor')).toBeInTheDocument();
   });
 
-  it("renders patch change type", () => {
+  it('renders patch change type', () => {
     render(
       <PackageInfo changeType="patch" name="test">
         <PackageInfoChangeType />
-      </PackageInfo>
+      </PackageInfo>,
     );
-    expect(screen.getByText("patch")).toBeInTheDocument();
+    expect(screen.getByText('patch')).toBeInTheDocument();
   });
 
-  it("renders added change type", () => {
+  it('renders added change type', () => {
     render(
       <PackageInfo changeType="added" name="test">
         <PackageInfoChangeType />
-      </PackageInfo>
+      </PackageInfo>,
     );
-    expect(screen.getByText("added")).toBeInTheDocument();
+    expect(screen.getByText('added')).toBeInTheDocument();
   });
 
-  it("renders removed change type", () => {
+  it('renders removed change type', () => {
     render(
       <PackageInfo changeType="removed" name="test">
         <PackageInfoChangeType />
-      </PackageInfo>
+      </PackageInfo>,
     );
-    expect(screen.getByText("removed")).toBeInTheDocument();
+    expect(screen.getByText('removed')).toBeInTheDocument();
   });
 });
 
-describe("packageInfoDescription", () => {
-  it("renders description", () => {
+describe('packageInfoDescription', () => {
+  it('renders description', () => {
     render(
       <PackageInfo name="react">
         <PackageInfoDescription>A JS library</PackageInfoDescription>
-      </PackageInfo>
+      </PackageInfo>,
     );
-    expect(screen.getByText("A JS library")).toBeInTheDocument();
+    expect(screen.getByText('A JS library')).toBeInTheDocument();
   });
 });
 
-describe("packageInfoDependencies", () => {
-  it("renders dependencies list", () => {
+describe('packageInfoDependencies', () => {
+  it('renders dependencies list', () => {
     render(
       <PackageInfo name="react">
         <PackageInfoContent>
@@ -107,16 +107,16 @@ describe("packageInfoDependencies", () => {
             <PackageInfoDependency name="scheduler" version="^0.24.0" />
           </PackageInfoDependencies>
         </PackageInfoContent>
-      </PackageInfo>
+      </PackageInfo>,
     );
-    expect(screen.getByText("react-dom")).toBeInTheDocument();
-    expect(screen.getByText("^19.0.0")).toBeInTheDocument();
-    expect(screen.getByText("scheduler")).toBeInTheDocument();
+    expect(screen.getByText('react-dom')).toBeInTheDocument();
+    expect(screen.getByText('^19.0.0')).toBeInTheDocument();
+    expect(screen.getByText('scheduler')).toBeInTheDocument();
   });
 });
 
-describe("composability", () => {
-  it("renders with custom children", () => {
+describe('composability', () => {
+  it('renders with custom children', () => {
     render(
       <PackageInfo
         changeType="major"
@@ -129,11 +129,11 @@ describe("composability", () => {
           <PackageInfoChangeType />
         </PackageInfoHeader>
         <PackageInfoVersion />
-      </PackageInfo>
+      </PackageInfo>,
     );
-    expect(screen.getByText("react")).toBeInTheDocument();
-    expect(screen.getByText("major")).toBeInTheDocument();
-    expect(screen.getByText("18.0.0")).toBeInTheDocument();
-    expect(screen.getByText("19.0.0")).toBeInTheDocument();
+    expect(screen.getByText('react')).toBeInTheDocument();
+    expect(screen.getByText('major')).toBeInTheDocument();
+    expect(screen.getByText('18.0.0')).toBeInTheDocument();
+    expect(screen.getByText('19.0.0')).toBeInTheDocument();
   });
 });

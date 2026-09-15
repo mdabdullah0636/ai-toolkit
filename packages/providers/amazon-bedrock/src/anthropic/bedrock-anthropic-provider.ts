@@ -1,4 +1,8 @@
-import { LanguageModelV3, NoSuchModelError, ProviderV3 } from '@ai-toolkit/provider';
+import {
+  LanguageModelV3,
+  NoSuchModelError,
+  ProviderV3,
+} from '@ai-toolkit/provider';
 import {
   FetchFunction,
   loadOptionalSetting,
@@ -8,7 +12,10 @@ import {
   withoutTrailingSlash,
   withUserAgentSuffix,
 } from '@ai-toolkit/provider-utils';
-import { anthropicTools, AnthropicMessagesLanguageModel } from '@ai-toolkit/anthropic/internal';
+import {
+  anthropicTools,
+  AnthropicMessagesLanguageModel,
+} from '@ai-toolkit/anthropic/internal';
 import {
   BedrockCredentials,
   createApiKeyFetchFunction,
@@ -136,7 +143,8 @@ export function createBedrockAnthropic(
   });
 
   // Only use API key if it's a non-empty, non-whitespace string
-  const apiKey = rawApiKey && rawApiKey.trim().length > 0 ? rawApiKey.trim() : undefined;
+  const apiKey =
+    rawApiKey && rawApiKey.trim().length > 0 ? rawApiKey.trim() : undefined;
 
   // Use API key authentication if available, otherwise fall back to SigV4
   const baseFetchFunction = apiKey
@@ -157,7 +165,8 @@ export function createBedrockAnthropic(
               region,
             };
           } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : String(error);
+            const errorMessage =
+              error instanceof Error ? error.message : String(error);
             throw new Error(
               `AWS credential provider failed: ${errorMessage}. ` +
                 'Please ensure your credential provider returns valid AWS credentials ' +
@@ -187,8 +196,12 @@ export function createBedrockAnthropic(
             }),
           };
         } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : String(error);
-          if (errorMessage.includes('AWS_ACCESS_KEY_ID') || errorMessage.includes('accessKeyId')) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          if (
+            errorMessage.includes('AWS_ACCESS_KEY_ID') ||
+            errorMessage.includes('accessKeyId')
+          ) {
             throw new Error(
               'AWS SigV4 authentication requires AWS credentials. Please provide either:\n' +
                 '1. Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables\n' +
@@ -228,7 +241,10 @@ export function createBedrockAnthropic(
 
   const getHeaders = async () => {
     const baseHeaders = (await resolve(options.headers)) ?? {};
-    return withUserAgentSuffix(baseHeaders, `ai-toolkit/amazon-bedrock/${VERSION}`);
+    return withUserAgentSuffix(
+      baseHeaders,
+      `ai-toolkit/amazon-bedrock/${VERSION}`,
+    );
   };
 
   const createChatModel = (modelId: BedrockAnthropicModelId) =>
@@ -260,12 +276,16 @@ export function createBedrockAnthropic(
 
           if (toolType && toolType in BEDROCK_TOOL_VERSION_MAP) {
             const newType =
-              BEDROCK_TOOL_VERSION_MAP[toolType as keyof typeof BEDROCK_TOOL_VERSION_MAP];
+              BEDROCK_TOOL_VERSION_MAP[
+                toolType as keyof typeof BEDROCK_TOOL_VERSION_MAP
+              ];
             if (newType in BEDROCK_TOOL_BETA_MAP) {
               requiredBetas.add(BEDROCK_TOOL_BETA_MAP[newType]);
             }
             const newName =
-              newType in BEDROCK_TOOL_NAME_MAP ? BEDROCK_TOOL_NAME_MAP[newType] : tool.name;
+              newType in BEDROCK_TOOL_NAME_MAP
+                ? BEDROCK_TOOL_NAME_MAP[newType]
+                : tool.name;
             return {
               ...tool,
               type: newType,
@@ -290,8 +310,12 @@ export function createBedrockAnthropic(
         return {
           ...rest,
           ...(transformedTools != null ? { tools: transformedTools } : {}),
-          ...(transformedToolChoice != null ? { tool_choice: transformedToolChoice } : {}),
-          ...(requiredBetas.size > 0 ? { anthropic_beta: Array.from(requiredBetas) } : {}),
+          ...(transformedToolChoice != null
+            ? { tool_choice: transformedToolChoice }
+            : {}),
+          ...(requiredBetas.size > 0
+            ? { anthropic_beta: Array.from(requiredBetas) }
+            : {}),
           anthropic_version: 'bedrock-2023-05-31',
         };
       },

@@ -1,12 +1,17 @@
 import { FetchFunction, safeParseJSON } from '@ai-toolkit/provider-utils';
 import { createBedrockEventStreamDecoder } from '../bedrock-event-stream-decoder';
 
-export function createBedrockAnthropicFetch(baseFetch: FetchFunction): FetchFunction {
+export function createBedrockAnthropicFetch(
+  baseFetch: FetchFunction,
+): FetchFunction {
   return async (url, options) => {
     const response = await baseFetch(url, options);
 
     const contentType = response.headers.get('content-type');
-    if (contentType?.includes('application/vnd.amazon.eventstream') && response.body != null) {
+    if (
+      contentType?.includes('application/vnd.amazon.eventstream') &&
+      response.body != null
+    ) {
       const transformedBody = transformBedrockEventStreamToSSE(response.body);
 
       return new Response(transformedBody, {
@@ -48,7 +53,9 @@ function transformBedrockEventStreamToSSE(
       }
     } else if (event.messageType === 'exception') {
       controller.enqueue(
-        textEncoder.encode(`data: ${JSON.stringify({ type: 'error', error: event.data })}\n\n`),
+        textEncoder.encode(
+          `data: ${JSON.stringify({ type: 'error', error: event.data })}\n\n`,
+        ),
       );
     }
   });

@@ -1,5 +1,11 @@
 import { openai, OpenAIResponsesProviderOptions } from '@ai-toolkit/openai';
-import { stepCountIs, ModelMessage, streamText, tool, APICallError } from 'ai-toolkit';
+import {
+  stepCountIs,
+  ModelMessage,
+  streamText,
+  tool,
+  APICallError,
+} from 'ai-toolkit';
 import * as readline from 'node:readline/promises';
 import { z } from 'zod';
 import { run } from '../lib/run';
@@ -25,7 +31,9 @@ run(async () => {
         weather: tool({
           description: 'Get the weather in a location',
           inputSchema: z.object({
-            location: z.string().describe('The location to get the weather for'),
+            location: z
+              .string()
+              .describe('The location to get the weather for'),
           }),
           execute: async ({ location }) => ({
             location,

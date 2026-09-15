@@ -1,7 +1,9 @@
 import { ImageModelV2, ImageModelV3 } from '@ai-toolkit/provider';
 import { logV2CompatibilityWarning } from '../util/log-v2-compatibility-warning';
 
-export function asImageModelV3(model: ImageModelV2 | ImageModelV3): ImageModelV3 {
+export function asImageModelV3(
+  model: ImageModelV2 | ImageModelV3,
+): ImageModelV3 {
   if (model.specificationVersion === 'v3') {
     return model;
   }

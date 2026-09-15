@@ -11,7 +11,9 @@ run(async () => {
         description: 'Navigate to a URL',
         inputSchema: z.object({
           url: z.string().describe('URL to navigate to'),
-          launchOptions: z.object({}).describe('Browser launch options as key-value pairs'),
+          launchOptions: z
+            .object({})
+            .describe('Browser launch options as key-value pairs'),
         }),
       }),
     },

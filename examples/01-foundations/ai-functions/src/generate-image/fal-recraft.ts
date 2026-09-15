@@ -6,7 +6,8 @@ import { run } from '../lib/run';
 run(async () => {
   const { images } = await generateImage({
     model: fal.image('fal-ai/recraft/v3/text-to-image'),
-    prompt: 'A Sumatran rhino meandering through a dense forest among fireflies at dusk',
+    prompt:
+      'A Sumatran rhino meandering through a dense forest among fireflies at dusk',
   });
   await presentImages(images);
 });

@@ -1,4 +1,7 @@
-import { createTestServer, TestResponseController } from '@ai-toolkit/test-server/with-vitest';
+import {
+  createTestServer,
+  TestResponseController,
+} from '@ai-toolkit/test-server/with-vitest';
 import { mockId } from '@ai-toolkit/provider-utils/test';
 import { createResolvablePromise } from '../util/create-resolvable-promise';
 import { AbstractChat, ChatInit, ChatState, ChatStatus } from './chat';
@@ -10,7 +13,9 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { delay } from '@ai-toolkit/provider-utils';
 import { lastAssistantMessageIsCompleteWithApprovalResponses } from './last-assistant-message-is-complete-with-approval-responses';
 
-class TestChatState<UI_MESSAGE extends UIMessage> implements ChatState<UI_MESSAGE> {
+class TestChatState<UI_MESSAGE extends UIMessage>
+  implements ChatState<UI_MESSAGE>
+{
   history: UI_MESSAGE[][] = [];
 
   status: ChatStatus = 'ready';
@@ -33,7 +38,11 @@ class TestChatState<UI_MESSAGE extends UIMessage> implements ChatState<UI_MESSAG
   };
 
   replaceMessage = (index: number, message: UI_MESSAGE) => {
-    this.messages = [...this.messages.slice(0, index), message, ...this.messages.slice(index + 1)];
+    this.messages = [
+      ...this.messages.slice(0, index),
+      message,
+      ...this.messages.slice(index + 1),
+    ];
     this.history.push(structuredClone(this.messages));
   };
 
@@ -461,7 +470,9 @@ describe('Chat', () => {
       controller.write(formatChunk({ type: 'start' }));
       controller.write(formatChunk({ type: 'start-step' }));
       controller.write(formatChunk({ type: 'text-start', id: 'text-1' }));
-      controller.write(formatChunk({ type: 'text-delta', id: 'text-1', delta: 'Hello' }));
+      controller.write(
+        formatChunk({ type: 'text-delta', id: 'text-1', delta: 'Hello' }),
+      );
 
       // wait until the stream is consumed before sending the error
       while ((chat.messages[1]?.parts[1] as any)?.text !== 'Hello') {
@@ -2282,7 +2293,9 @@ describe('Chat', () => {
 
       // UI should be in error state
       expect(chat.status).toBe('error');
-      expect(chat.error).toMatchInlineSnapshot(`[Error: Internal Server Error]`);
+      expect(chat.error).toMatchInlineSnapshot(
+        `[Error: Internal Server Error]`,
+      );
     });
   });
 
@@ -2462,7 +2475,8 @@ describe('Chat', () => {
               ],
             },
           ],
-          sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
+          sendAutomaticallyWhen:
+            lastAssistantMessageIsCompleteWithApprovalResponses,
           onFinish: () => {
             onFinishPromise.resolve();
           },

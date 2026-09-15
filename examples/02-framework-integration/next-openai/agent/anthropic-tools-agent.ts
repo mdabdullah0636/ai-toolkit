@@ -9,4 +9,6 @@ export const anthropicToolsAgent = new ToolLoopAgent({
   },
 });
 
-export type AnthropicToolsAgentMessage = InferAgentUIMessage<typeof anthropicToolsAgent>;
+export type AnthropicToolsAgentMessage = InferAgentUIMessage<
+  typeof anthropicToolsAgent
+>;

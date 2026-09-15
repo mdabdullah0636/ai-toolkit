@@ -16,7 +16,9 @@ export function createUIMessageStream<UI_MESSAGE extends UIMessage>({
   onFinish,
   generateId = generateIdFunc,
 }: {
-  execute: (options: { writer: UIMessageStreamWriter<UI_MESSAGE> }) => Promise<void> | void;
+  execute: (options: {
+    writer: UIMessageStreamWriter<UI_MESSAGE>;
+  }) => Promise<void> | void;
   onError?: (error: unknown) => string;
 
   /**
@@ -29,7 +31,9 @@ export function createUIMessageStream<UI_MESSAGE extends UIMessage>({
 
   generateId?: IdGenerator;
 }): ReadableStream<InferUIMessageChunk<UI_MESSAGE>> {
-  let controller!: ReadableStreamDefaultController<InferUIMessageChunk<UI_MESSAGE>>;
+  let controller!: ReadableStreamDefaultController<
+    InferUIMessageChunk<UI_MESSAGE>
+  >;
 
   const ongoingStreamPromises: Promise<void>[] = [];
 

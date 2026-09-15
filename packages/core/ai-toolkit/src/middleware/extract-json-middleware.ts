@@ -1,4 +1,7 @@
-import type { LanguageModelV3Content, LanguageModelV3StreamPart } from '@ai-toolkit/provider';
+import type {
+  LanguageModelV3Content,
+  LanguageModelV3StreamPart,
+} from '@ai-toolkit/provider';
 import { LanguageModelMiddleware } from '../types/language-model-middleware';
 
 /**
@@ -71,7 +74,10 @@ export function extractJsonMiddleware(options?: {
 
       return {
         stream: stream.pipeThrough(
-          new TransformStream<LanguageModelV3StreamPart, LanguageModelV3StreamPart>({
+          new TransformStream<
+            LanguageModelV3StreamPart,
+            LanguageModelV3StreamPart
+          >({
             transform: (chunk, controller) => {
               if (chunk.type === 'text-start') {
                 textBlocks[chunk.id] = {
@@ -100,15 +106,21 @@ export function extractJsonMiddleware(options?: {
 
                 if (block.phase === 'prefix') {
                   // Check if we can determine prefix status
-                  if (block.buffer.length > 0 && !block.buffer.startsWith('`')) {
+                  if (
+                    block.buffer.length > 0 &&
+                    !block.buffer.startsWith('`')
+                  ) {
                     block.phase = 'streaming';
                     controller.enqueue(block.startEvent);
                   } else if (block.buffer.startsWith('```')) {
                     // Only strip prefix when we have a newline (fence is complete)
                     if (block.buffer.includes('\n')) {
-                      const prefixMatch = block.buffer.match(/^```(?:json)?\s*\n/);
+                      const prefixMatch =
+                        block.buffer.match(/^```(?:json)?\s*\n/);
                       if (prefixMatch) {
-                        block.buffer = block.buffer.slice(prefixMatch[0].length);
+                        block.buffer = block.buffer.slice(
+                          prefixMatch[0].length,
+                        );
                         block.prefixStripped = true;
                         block.phase = 'streaming';
                         controller.enqueue(block.startEvent);
@@ -119,14 +131,20 @@ export function extractJsonMiddleware(options?: {
                       }
                     }
                     // else keep buffering until we see a newline
-                  } else if (block.buffer.length >= 3 && !block.buffer.startsWith('```')) {
+                  } else if (
+                    block.buffer.length >= 3 &&
+                    !block.buffer.startsWith('```')
+                  ) {
                     block.phase = 'streaming';
                     controller.enqueue(block.startEvent);
                   }
                 }
 
                 // Stream content
-                if (block.phase === 'streaming' && block.buffer.length > SUFFIX_BUFFER_SIZE) {
+                if (
+                  block.phase === 'streaming' &&
+                  block.buffer.length > SUFFIX_BUFFER_SIZE
+                ) {
                   const toStream = block.buffer.slice(0, -SUFFIX_BUFFER_SIZE);
                   block.buffer = block.buffer.slice(-SUFFIX_BUFFER_SIZE);
                   controller.enqueue({

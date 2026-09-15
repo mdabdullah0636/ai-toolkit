@@ -20,7 +20,9 @@ export default function Page() {
           <div key={message.id} className="flex flex-row gap-2">
             <div className="flex-shrink-0 w-24 text-zinc-500">{`${message.role}: `}</div>
             <div className="flex flex-col gap-2">
-              {message.parts.map(part => (part.type === 'text' ? part.text : '')).join('')}
+              {message.parts
+                .map(part => (part.type === 'text' ? part.text : ''))
+                .join('')}
             </div>
           </div>
         ))}

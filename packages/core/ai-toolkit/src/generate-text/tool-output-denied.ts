@@ -17,4 +17,5 @@ export type StaticToolOutputDenied<TOOLS extends ToolSet> = ValueOf<{
 /**
  * Tool output when the tool execution has been denied.
  */
-export type TypedToolOutputDenied<TOOLS extends ToolSet> = StaticToolOutputDenied<TOOLS>;
+export type TypedToolOutputDenied<TOOLS extends ToolSet> =
+  StaticToolOutputDenied<TOOLS>;

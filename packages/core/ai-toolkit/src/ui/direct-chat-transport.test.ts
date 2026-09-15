@@ -81,13 +81,17 @@ describe('DirectChatTransport', () => {
       // Check for text streaming chunks
       const textChunks = chunks.filter(
         (chunk: any) =>
-          chunk.type === 'text-start' || chunk.type === 'text-delta' || chunk.type === 'text-end',
+          chunk.type === 'text-start' ||
+          chunk.type === 'text-delta' ||
+          chunk.type === 'text-end',
       );
 
       expect(textChunks.length).toBeGreaterThan(0);
 
       // Check we got text deltas with content
-      const textDeltas = chunks.filter((chunk: any) => chunk.type === 'text-delta');
+      const textDeltas = chunks.filter(
+        (chunk: any) => chunk.type === 'text-delta',
+      );
       expect(textDeltas).toMatchObject([
         { type: 'text-delta', delta: 'Hello' },
         { type: 'text-delta', delta: ', ' },

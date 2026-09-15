@@ -18,7 +18,9 @@ export function forwardAnthropicContainerIdFromLastStep({
   // Search backwards through steps to find the most recent container ID
   for (let i = steps.length - 1; i >= 0; i--) {
     const containerId = (
-      steps[i].providerMetadata?.anthropic as AnthropicMessageMetadata | undefined
+      steps[i].providerMetadata?.anthropic as
+        | AnthropicMessageMetadata
+        | undefined
     )?.container?.id;
 
     if (containerId) {

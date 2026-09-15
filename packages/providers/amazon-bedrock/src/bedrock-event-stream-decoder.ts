@@ -43,7 +43,8 @@ export function createBedrockEventStreamDecoder<T>(
 
             buffer = buffer.slice(totalLength);
 
-            const messageType = decoded.headers[':message-type']?.value as string;
+            const messageType = decoded.headers[':message-type']
+              ?.value as string;
             const eventType = decoded.headers[':event-type']?.value as string;
             const data = textDecoder.decode(decoded.body);
 

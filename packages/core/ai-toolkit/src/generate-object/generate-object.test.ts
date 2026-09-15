@@ -1,8 +1,20 @@
-import { JSONParseError, SharedV3Warning, TypeValidationError } from '@ai-toolkit/provider';
+import {
+  JSONParseError,
+  SharedV3Warning,
+  TypeValidationError,
+} from '@ai-toolkit/provider';
 import { jsonSchema } from '@ai-toolkit/provider-utils';
 import { convertReadableStreamToArray } from '@ai-toolkit/provider-utils/test';
 import assert, { fail } from 'node:assert';
-import { afterEach, beforeEach, describe, expect, it, vitest, vi } from 'vitest';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vitest,
+  vi,
+} from 'vitest';
 import { z } from 'zod/v4';
 import { verifyNoObjectGeneratedError as originalVerifyNoObjectGeneratedError } from '../error/verify-no-object-generated-error';
 import * as logWarningsModule from '../logger/log-warnings';
@@ -39,7 +51,9 @@ describe('generateObject', () => {
   let logWarningsSpy: ReturnType<typeof vitest.spyOn>;
 
   beforeEach(() => {
-    logWarningsSpy = vitest.spyOn(logWarningsModule, 'logWarnings').mockImplementation(() => {});
+    logWarningsSpy = vitest
+      .spyOn(logWarningsModule, 'logWarnings')
+      .mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -129,7 +143,9 @@ describe('generateObject', () => {
 
               return {
                 ...dummyResponseValues,
-                content: [{ type: 'text', text: '{ "content": "Hello, world!" }' }],
+                content: [
+                  { type: 'text', text: '{ "content": "Hello, world!" }' },
+                ],
               };
             },
           }),
@@ -229,7 +245,9 @@ describe('generateObject', () => {
           model: new MockLanguageModelV3({
             doGenerate: async () => ({
               ...dummyResponseValues,
-              content: [{ type: 'text', text: '{ "content": "Hello, world!" }' }],
+              content: [
+                { type: 'text', text: '{ "content": "Hello, world!" }' },
+              ],
               request: {
                 body: 'test body',
               },
@@ -251,7 +269,9 @@ describe('generateObject', () => {
           model: new MockLanguageModelV3({
             doGenerate: async () => ({
               ...dummyResponseValues,
-              content: [{ type: 'text', text: '{ "content": "Hello, world!" }' }],
+              content: [
+                { type: 'text', text: '{ "content": "Hello, world!" }' },
+              ],
               response: {
                 id: 'test-id-from-model',
                 timestamp: new Date(10000),
@@ -353,7 +373,10 @@ describe('generateObject', () => {
         const result = await generateObject({
           model,
           schema: z.object({
-            content: z.preprocess(val => (typeof val === 'number' ? String(val) : val), z.string()),
+            content: z.preprocess(
+              val => (typeof val === 'number' ? String(val) : val),
+              z.string(),
+            ),
           }),
           prompt: 'prompt',
         });
@@ -467,7 +490,9 @@ describe('generateObject', () => {
           model: new MockLanguageModelV3({
             doGenerate: async ({}) => ({
               ...dummyResponseValues,
-              content: [{ type: 'text', text: '{ "content": "Hello, world!" }' }],
+              content: [
+                { type: 'text', text: '{ "content": "Hello, world!" }' },
+              ],
             }),
           }),
           schema: z.object({ content: z.string() }),
@@ -477,10 +502,15 @@ describe('generateObject', () => {
         const response = result.toJsonResponse();
 
         assert.strictEqual(response.status, 200);
-        assert.strictEqual(response.headers.get('Content-Type'), 'application/json; charset=utf-8');
+        assert.strictEqual(
+          response.headers.get('Content-Type'),
+          'application/json; charset=utf-8',
+        );
 
         assert.deepStrictEqual(
-          await convertReadableStreamToArray(response.body!.pipeThrough(new TextDecoderStream())),
+          await convertReadableStreamToArray(
+            response.body!.pipeThrough(new TextDecoderStream()),
+          ),
           ['{"content":"Hello, world!"}'],
         );
       });
@@ -492,7 +522,9 @@ describe('generateObject', () => {
           model: new MockLanguageModelV3({
             doGenerate: async ({}) => ({
               ...dummyResponseValues,
-              content: [{ type: 'text', text: '{ "content": "Hello, world!" }' }],
+              content: [
+                { type: 'text', text: '{ "content": "Hello, world!" }' },
+              ],
               providerMetadata: {
                 exampleProvider: {
                   a: 10,
@@ -526,7 +558,9 @@ describe('generateObject', () => {
 
               return {
                 ...dummyResponseValues,
-                content: [{ type: 'text', text: '{ "content": "headers test" }' }],
+                content: [
+                  { type: 'text', text: '{ "content": "headers test" }' },
+                ],
               };
             },
           }),
@@ -559,7 +593,9 @@ describe('generateObject', () => {
           prompt: 'prompt',
           experimental_repairText: async ({ text, error }) => {
             expect(error).toBeInstanceOf(JSONParseError);
-            expect(text).toStrictEqual('{ "content": "provider metadata test" ');
+            expect(text).toStrictEqual(
+              '{ "content": "provider metadata test" ',
+            );
             return text + '}';
           },
         });
@@ -588,7 +624,9 @@ describe('generateObject', () => {
           prompt: 'prompt',
           experimental_repairText: async ({ text, error }) => {
             expect(error).toBeInstanceOf(TypeValidationError);
-            expect(text).toStrictEqual('{ "content-a": "provider metadata test" }');
+            expect(text).toStrictEqual(
+              '{ "content-a": "provider metadata test" }',
+            );
             return `{ "content": "provider metadata test" }`;
           },
         });
@@ -617,12 +655,16 @@ describe('generateObject', () => {
           prompt: 'prompt',
           experimental_repairText: async ({ text, error }) => {
             expect(error).toBeInstanceOf(TypeValidationError);
-            expect(text).toStrictEqual('{ "content-a": "provider metadata test" }');
+            expect(text).toStrictEqual(
+              '{ "content-a": "provider metadata test" }',
+            );
             return null;
           },
         });
 
-        expect(result).rejects.toThrow('No object generated: response did not match schema.');
+        expect(result).rejects.toThrow(
+          'No object generated: response did not match schema.',
+        );
       });
     });
 
@@ -660,7 +702,10 @@ describe('generateObject', () => {
     });
 
     describe('error handling', () => {
-      function verifyNoObjectGeneratedError(error: unknown, { message }: { message: string }) {
+      function verifyNoObjectGeneratedError(
+        error: unknown,
+        { message }: { message: string },
+      ) {
         originalVerifyNoObjectGeneratedError(error, {
           message,
           response: {
@@ -768,7 +813,8 @@ describe('generateObject', () => {
           fail('must throw error');
         } catch (error) {
           verifyNoObjectGeneratedError(error, {
-            message: 'No object generated: the model did not return a response.',
+            message:
+              'No object generated: the model did not return a response.',
           });
         }
       });
@@ -1077,12 +1123,17 @@ describe('generateObject', () => {
               supportedUrlsCalled = true;
               // Reference 'this' to verify context
               return this.modelId === 'mock-model-id'
-                ? ({ 'image/*': [/^https:\/\/.*$/] } as Record<string, RegExp[]>)
+                ? ({ 'image/*': [/^https:\/\/.*$/] } as Record<
+                    string,
+                    RegExp[]
+                  >)
                 : {};
             },
             doGenerate: async () => ({
               ...dummyResponseValues,
-              content: [{ type: 'text', text: '{ "content": "Hello, world!" }' }],
+              content: [
+                { type: 'text', text: '{ "content": "Hello, world!" }' },
+              ],
             }),
           });
         }

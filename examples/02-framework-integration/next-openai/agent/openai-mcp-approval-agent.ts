@@ -18,4 +18,6 @@ export const openaiMCPApprovalAgent = new ToolLoopAgent({
   },
 });
 
-export type OpenAIMCPApprovalAgentUIMessage = InferAgentUIMessage<typeof openaiMCPApprovalAgent>;
+export type OpenAIMCPApprovalAgentUIMessage = InferAgentUIMessage<
+  typeof openaiMCPApprovalAgent
+>;

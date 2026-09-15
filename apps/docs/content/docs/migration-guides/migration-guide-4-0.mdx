@@ -3,7 +3,6 @@ title: Migrate AI TOOLKIT 3.4 to 4.0
 description: Learn how to upgrade AI TOOLKIT 3.4 to 4.0.
 ---
 
-
 <Note>
   Check out the [AI TOOLKIT 4.0 release blog
   post](https://vercel.com/blog/ai-toolkit-4-0) for more information about the
@@ -409,7 +408,12 @@ import {
 ```
 
 ```ts title="AI TOOLKIT 4.0"
-import { generateText, streamText, generateObject, streamObject } from 'ai-toolkit';
+import {
+  generateText,
+  streamText,
+  generateObject,
+  streamObject,
+} from 'ai-toolkit';
 ```
 
 ### Removed AI-stream related methods from `streamText`
@@ -473,7 +477,11 @@ been renamed to `LanguageModelUsage` (for the first two) and
 `EmbeddingModelUsage` (for the last).
 
 ```ts title="AI TOOLKIT 3.4"
-import { TokenUsage, CompletionTokenUsage, EmbeddingTokenUsage } from 'ai-toolkit';
+import {
+  TokenUsage,
+  CompletionTokenUsage,
+  EmbeddingTokenUsage,
+} from 'ai-toolkit';
 ```
 
 ```ts title="AI TOOLKIT 4.0"
@@ -505,7 +513,10 @@ The `experimental_Provider` interface, `experimental_ProviderRegistry` interface
 Please use the `Provider` interface instead.
 
 ```ts title="AI TOOLKIT 3.4"
-import { experimental_Provider, experimental_ProviderRegistry } from 'ai-toolkit';
+import {
+  experimental_Provider,
+  experimental_ProviderRegistry,
+} from 'ai-toolkit';
 ```
 
 ```ts title="AI TOOLKIT 4.0"

@@ -23,7 +23,9 @@ describe('DeepSeekChatLanguageModel', () => {
     function prepareJsonFixtureResponse(filename: string) {
       server.urls['https://api.deepseek.com/chat/completions'].response = {
         type: 'json-value',
-        body: JSON.parse(fs.readFileSync(`src/chat/__fixtures__/${filename}.json`, 'utf8')),
+        body: JSON.parse(
+          fs.readFileSync(`src/chat/__fixtures__/${filename}.json`, 'utf8'),
+        ),
       };
       return;
     }
@@ -463,7 +465,9 @@ describe('DeepSeekChatLanguageModel', () => {
           prompt: TEST_PROMPT,
         });
 
-        expect(await convertReadableStreamToArray(result.stream)).toMatchSnapshot();
+        expect(
+          await convertReadableStreamToArray(result.stream),
+        ).toMatchSnapshot();
       });
     });
 
@@ -477,7 +481,9 @@ describe('DeepSeekChatLanguageModel', () => {
           prompt: TEST_PROMPT,
         });
 
-        expect(await convertReadableStreamToArray(result.stream)).toMatchSnapshot();
+        expect(
+          await convertReadableStreamToArray(result.stream),
+        ).toMatchSnapshot();
       });
     });
 
@@ -509,7 +515,9 @@ describe('DeepSeekChatLanguageModel', () => {
           },
         });
 
-        expect(await convertReadableStreamToArray(result.stream)).toMatchSnapshot();
+        expect(
+          await convertReadableStreamToArray(result.stream),
+        ).toMatchSnapshot();
       });
     });
   });

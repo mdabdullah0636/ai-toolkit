@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 
 import {
   AudioPlayer,
@@ -12,75 +12,75 @@ import {
   AudioPlayerTimeDisplay,
   AudioPlayerTimeRange,
   AudioPlayerVolumeRange,
-} from "./audio-player";
+} from './audio-player';
 
-describe("audioPlayer", () => {
-  it("renders as MediaController", () => {
+describe('audioPlayer', () => {
+  it('renders as MediaController', () => {
     const { container } = render(
       <AudioPlayer>
         <div>Audio Content</div>
-      </AudioPlayer>
+      </AudioPlayer>,
     );
-    expect(container.firstChild).toHaveAttribute("data-slot", "audio-player");
+    expect(container.firstChild).toHaveAttribute('data-slot', 'audio-player');
   });
 
-  it("renders children", () => {
+  it('renders children', () => {
     render(
       <AudioPlayer>
         <div data-testid="audio-content">Audio Content</div>
-      </AudioPlayer>
+      </AudioPlayer>,
     );
-    expect(screen.getByTestId("audio-content")).toBeInTheDocument();
+    expect(screen.getByTestId('audio-content')).toBeInTheDocument();
   });
 
-  it("accepts custom className prop", () => {
+  it('accepts custom className prop', () => {
     const { container } = render(
       <AudioPlayer className="custom-player">
         <div>Content</div>
-      </AudioPlayer>
+      </AudioPlayer>,
     );
     const player = container.querySelector('[data-slot="audio-player"]');
     // Verify component renders with className prop accepted
     expect(player).toBeInTheDocument();
   });
 
-  it("applies custom styles", () => {
-    const customStyles = { "--custom-color": "red" } as React.CSSProperties;
+  it('applies custom styles', () => {
+    const customStyles = { '--custom-color': 'red' } as React.CSSProperties;
     const { container } = render(
       <AudioPlayer style={customStyles}>
         <div>Content</div>
-      </AudioPlayer>
+      </AudioPlayer>,
     );
     const player = container.querySelector('[data-slot="audio-player"]');
-    expect(player).toHaveAttribute("style");
+    expect(player).toHaveAttribute('style');
   });
 
-  it("sets audio attribute to true", () => {
+  it('sets audio attribute to true', () => {
     const { container } = render(
       <AudioPlayer>
         <div>Content</div>
-      </AudioPlayer>
+      </AudioPlayer>,
     );
     const player = container.querySelector('[data-slot="audio-player"]');
-    expect(player).toHaveAttribute("audio");
+    expect(player).toHaveAttribute('audio');
   });
 });
 
-describe("audioPlayerElement", () => {
-  it("renders audio element with remote src", () => {
+describe('audioPlayerElement', () => {
+  it('renders audio element with remote src', () => {
     const { container } = render(
-      <AudioPlayerElement src="https://example.com/audio.mp3" />
+      <AudioPlayerElement src="https://example.com/audio.mp3" />,
     );
     const audio = container.querySelector('[data-slot="audio-player-element"]');
     expect(audio).toBeInTheDocument();
-    expect(audio).toHaveAttribute("src", "https://example.com/audio.mp3");
+    expect(audio).toHaveAttribute('src', 'https://example.com/audio.mp3');
   });
 
-  it("renders audio element with base64 data", () => {
+  it('renders audio element with base64 data', () => {
     const mockData = {
-      base64: "SGVsbG8gV29ybGQ=",
-      format: "mp3" as const,
-      mediaType: "audio/mpeg",
+      base64: 'SGVsbG8gV29ybGQ=',
+      format: 'mp3' as const,
+      mediaType: 'audio/mpeg',
       uint8Array: new Uint8Array([72, 101, 108, 108, 111]),
     };
 
@@ -88,252 +88,252 @@ describe("audioPlayerElement", () => {
     const audio = container.querySelector('[data-slot="audio-player-element"]');
     expect(audio).toBeInTheDocument();
     expect(audio).toHaveAttribute(
-      "src",
-      "data:audio/mpeg;base64,SGVsbG8gV29ybGQ="
+      'src',
+      'data:audio/mpeg;base64,SGVsbG8gV29ybGQ=',
     );
   });
 
-  it("has slot attribute set to media", () => {
+  it('has slot attribute set to media', () => {
     const { container } = render(
-      <AudioPlayerElement src="https://example.com/audio.mp3" />
+      <AudioPlayerElement src="https://example.com/audio.mp3" />,
     );
     const audio = container.querySelector('[data-slot="audio-player-element"]');
-    expect(audio).toHaveAttribute("slot", "media");
+    expect(audio).toHaveAttribute('slot', 'media');
   });
 
-  it("accepts additional audio props", () => {
+  it('accepts additional audio props', () => {
     const { container } = render(
-      <AudioPlayerElement autoPlay loop src="https://example.com/audio.mp3" />
+      <AudioPlayerElement autoPlay loop src="https://example.com/audio.mp3" />,
     );
     const audio = container.querySelector('[data-slot="audio-player-element"]');
-    expect(audio).toHaveAttribute("autoplay");
-    expect(audio).toHaveAttribute("loop");
+    expect(audio).toHaveAttribute('autoplay');
+    expect(audio).toHaveAttribute('loop');
   });
 });
 
-describe("audioPlayerControlBar", () => {
-  it("renders control bar with ButtonGroup", () => {
+describe('audioPlayerControlBar', () => {
+  it('renders control bar with ButtonGroup', () => {
     const { container } = render(
       <AudioPlayerControlBar>
         <div data-testid="controls">Controls</div>
-      </AudioPlayerControlBar>
+      </AudioPlayerControlBar>,
     );
     const controlBar = container.querySelector(
-      '[data-slot="audio-player-control-bar"]'
+      '[data-slot="audio-player-control-bar"]',
     );
     expect(controlBar).toBeInTheDocument();
-    expect(screen.getByTestId("controls")).toBeInTheDocument();
+    expect(screen.getByTestId('controls')).toBeInTheDocument();
   });
 
-  it("renders children inside ButtonGroup", () => {
+  it('renders children inside ButtonGroup', () => {
     render(
       <AudioPlayerControlBar>
         <button type="button">Control 1</button>
         <button type="button">Control 2</button>
-      </AudioPlayerControlBar>
+      </AudioPlayerControlBar>,
     );
-    expect(screen.getByText("Control 1")).toBeInTheDocument();
-    expect(screen.getByText("Control 2")).toBeInTheDocument();
+    expect(screen.getByText('Control 1')).toBeInTheDocument();
+    expect(screen.getByText('Control 2')).toBeInTheDocument();
   });
 });
 
-describe("audioPlayerPlayButton", () => {
-  it("renders play button", () => {
+describe('audioPlayerPlayButton', () => {
+  it('renders play button', () => {
     const { container } = render(<AudioPlayerPlayButton />);
     const button = container.querySelector(
-      '[data-slot="audio-player-play-button"]'
+      '[data-slot="audio-player-play-button"]',
     );
     expect(button).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <AudioPlayerPlayButton className="custom-play" />
+      <AudioPlayerPlayButton className="custom-play" />,
     );
     const button = container.querySelector(
-      '[data-slot="audio-player-play-button"]'
+      '[data-slot="audio-player-play-button"]',
     );
-    expect(button).toHaveClass("custom-play");
+    expect(button).toHaveClass('custom-play');
   });
 
-  it("has transparent background", () => {
+  it('has transparent background', () => {
     const { container } = render(<AudioPlayerPlayButton />);
     const button = container.querySelector(
-      '[data-slot="audio-player-play-button"]'
+      '[data-slot="audio-player-play-button"]',
     );
-    expect(button).toHaveClass("bg-transparent");
+    expect(button).toHaveClass('bg-transparent');
   });
 });
 
-describe("audioPlayerSeekBackwardButton", () => {
-  it("renders seek backward button", () => {
+describe('audioPlayerSeekBackwardButton', () => {
+  it('renders seek backward button', () => {
     const { container } = render(<AudioPlayerSeekBackwardButton />);
     const button = container.querySelector(
-      '[data-slot="audio-player-seek-backward-button"]'
+      '[data-slot="audio-player-seek-backward-button"]',
     );
     expect(button).toBeInTheDocument();
   });
 
-  it("uses default seek offset of 10", () => {
+  it('uses default seek offset of 10', () => {
     const { container } = render(<AudioPlayerSeekBackwardButton />);
     const button = container.querySelector(
-      '[data-slot="audio-player-seek-backward-button"]'
+      '[data-slot="audio-player-seek-backward-button"]',
     );
-    expect(button).toHaveAttribute("seekoffset", "10");
+    expect(button).toHaveAttribute('seekoffset', '10');
   });
 
-  it("accepts custom seek offset", () => {
+  it('accepts custom seek offset', () => {
     const { container } = render(
-      <AudioPlayerSeekBackwardButton seekOffset={30} />
+      <AudioPlayerSeekBackwardButton seekOffset={30} />,
     );
     const button = container.querySelector(
-      '[data-slot="audio-player-seek-backward-button"]'
+      '[data-slot="audio-player-seek-backward-button"]',
     );
-    expect(button).toHaveAttribute("seekoffset", "30");
+    expect(button).toHaveAttribute('seekoffset', '30');
   });
 });
 
-describe("audioPlayerSeekForwardButton", () => {
-  it("renders seek forward button", () => {
+describe('audioPlayerSeekForwardButton', () => {
+  it('renders seek forward button', () => {
     const { container } = render(<AudioPlayerSeekForwardButton />);
     const button = container.querySelector(
-      '[data-slot="audio-player-seek-forward-button"]'
+      '[data-slot="audio-player-seek-forward-button"]',
     );
     expect(button).toBeInTheDocument();
   });
 
-  it("uses default seek offset of 10", () => {
+  it('uses default seek offset of 10', () => {
     const { container } = render(<AudioPlayerSeekForwardButton />);
     const button = container.querySelector(
-      '[data-slot="audio-player-seek-forward-button"]'
+      '[data-slot="audio-player-seek-forward-button"]',
     );
-    expect(button).toHaveAttribute("seekoffset", "10");
+    expect(button).toHaveAttribute('seekoffset', '10');
   });
 
-  it("accepts custom seek offset", () => {
+  it('accepts custom seek offset', () => {
     const { container } = render(
-      <AudioPlayerSeekForwardButton seekOffset={15} />
+      <AudioPlayerSeekForwardButton seekOffset={15} />,
     );
     const button = container.querySelector(
-      '[data-slot="audio-player-seek-forward-button"]'
+      '[data-slot="audio-player-seek-forward-button"]',
     );
-    expect(button).toHaveAttribute("seekoffset", "15");
+    expect(button).toHaveAttribute('seekoffset', '15');
   });
 });
 
-describe("audioPlayerTimeDisplay", () => {
-  it("renders time display", () => {
+describe('audioPlayerTimeDisplay', () => {
+  it('renders time display', () => {
     const { container } = render(<AudioPlayerTimeDisplay />);
     const display = container.querySelector(
-      '[data-slot="audio-player-time-display"]'
+      '[data-slot="audio-player-time-display"]',
     );
     expect(display).toBeInTheDocument();
   });
 
-  it("has tabular-nums class", () => {
+  it('has tabular-nums class', () => {
     const { container } = render(<AudioPlayerTimeDisplay />);
     const display = container.querySelector(
-      '[data-slot="audio-player-time-display"]'
+      '[data-slot="audio-player-time-display"]',
     );
-    expect(display).toHaveClass("tabular-nums");
+    expect(display).toHaveClass('tabular-nums');
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <AudioPlayerTimeDisplay className="custom-time" />
+      <AudioPlayerTimeDisplay className="custom-time" />,
     );
     const display = container.querySelector(
-      '[data-slot="audio-player-time-display"]'
+      '[data-slot="audio-player-time-display"]',
     );
-    expect(display).toHaveClass("custom-time");
+    expect(display).toHaveClass('custom-time');
   });
 });
 
-describe("audioPlayerTimeRange", () => {
-  it("renders time range slider", () => {
+describe('audioPlayerTimeRange', () => {
+  it('renders time range slider', () => {
     const { container } = render(<AudioPlayerTimeRange />);
     const range = container.querySelector(
-      '[data-slot="audio-player-time-range"]'
+      '[data-slot="audio-player-time-range"]',
     );
     expect(range).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <AudioPlayerTimeRange className="custom-range" />
+      <AudioPlayerTimeRange className="custom-range" />,
     );
     const range = container.querySelector(
-      '[data-slot="audio-player-time-range"]'
+      '[data-slot="audio-player-time-range"]',
     );
-    expect(range).toHaveClass("custom-range");
+    expect(range).toHaveClass('custom-range');
   });
 });
 
-describe("audioPlayerDurationDisplay", () => {
-  it("renders duration display", () => {
+describe('audioPlayerDurationDisplay', () => {
+  it('renders duration display', () => {
     const { container } = render(<AudioPlayerDurationDisplay />);
     const display = container.querySelector(
-      '[data-slot="audio-player-duration-display"]'
+      '[data-slot="audio-player-duration-display"]',
     );
     expect(display).toBeInTheDocument();
   });
 
-  it("has tabular-nums class", () => {
+  it('has tabular-nums class', () => {
     const { container } = render(<AudioPlayerDurationDisplay />);
     const display = container.querySelector(
-      '[data-slot="audio-player-duration-display"]'
+      '[data-slot="audio-player-duration-display"]',
     );
-    expect(display).toHaveClass("tabular-nums");
+    expect(display).toHaveClass('tabular-nums');
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <AudioPlayerDurationDisplay className="custom-duration" />
+      <AudioPlayerDurationDisplay className="custom-duration" />,
     );
     const display = container.querySelector(
-      '[data-slot="audio-player-duration-display"]'
+      '[data-slot="audio-player-duration-display"]',
     );
-    expect(display).toHaveClass("custom-duration");
+    expect(display).toHaveClass('custom-duration');
   });
 });
 
-describe("audioPlayerMuteButton", () => {
-  it("renders mute button", () => {
+describe('audioPlayerMuteButton', () => {
+  it('renders mute button', () => {
     const { container } = render(<AudioPlayerMuteButton />);
     const button = container.querySelector(
-      '[data-slot="audio-player-mute-button"]'
+      '[data-slot="audio-player-mute-button"]',
     );
     expect(button).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <AudioPlayerMuteButton className="custom-mute" />
+      <AudioPlayerMuteButton className="custom-mute" />,
     );
     const button = container.querySelector(
-      '[data-slot="audio-player-mute-button"]'
+      '[data-slot="audio-player-mute-button"]',
     );
-    expect(button).toHaveClass("custom-mute");
+    expect(button).toHaveClass('custom-mute');
   });
 });
 
-describe("audioPlayerVolumeRange", () => {
-  it("renders volume range slider", () => {
+describe('audioPlayerVolumeRange', () => {
+  it('renders volume range slider', () => {
     const { container } = render(<AudioPlayerVolumeRange />);
     const range = container.querySelector(
-      '[data-slot="audio-player-volume-range"]'
+      '[data-slot="audio-player-volume-range"]',
     );
     expect(range).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <AudioPlayerVolumeRange className="custom-volume" />
+      <AudioPlayerVolumeRange className="custom-volume" />,
     );
     const range = container.querySelector(
-      '[data-slot="audio-player-volume-range"]'
+      '[data-slot="audio-player-volume-range"]',
     );
-    expect(range).toHaveClass("custom-volume");
+    expect(range).toHaveClass('custom-volume');
   });
 });
 
@@ -351,68 +351,70 @@ const renderCompleteAudioPlayer = () =>
         <AudioPlayerMuteButton />
         <AudioPlayerVolumeRange />
       </AudioPlayerControlBar>
-    </AudioPlayer>
+    </AudioPlayer>,
   );
 
-describe("integration tests", () => {
-  it("renders audio player and element", () => {
+describe('integration tests', () => {
+  it('renders audio player and element', () => {
     const { container } = renderCompleteAudioPlayer();
     expect(
-      container.querySelector('[data-slot="audio-player"]')
+      container.querySelector('[data-slot="audio-player"]'),
     ).toBeInTheDocument();
     expect(
-      container.querySelector('[data-slot="audio-player-element"]')
+      container.querySelector('[data-slot="audio-player-element"]'),
     ).toBeInTheDocument();
   });
 
-  it("renders control bar and play button", () => {
+  it('renders control bar and play button', () => {
     const { container } = renderCompleteAudioPlayer();
     expect(
-      container.querySelector('[data-slot="audio-player-control-bar"]')
+      container.querySelector('[data-slot="audio-player-control-bar"]'),
     ).toBeInTheDocument();
     expect(
-      container.querySelector('[data-slot="audio-player-play-button"]')
+      container.querySelector('[data-slot="audio-player-play-button"]'),
     ).toBeInTheDocument();
   });
 
-  it("renders seek buttons", () => {
+  it('renders seek buttons', () => {
     const { container } = renderCompleteAudioPlayer();
     expect(
-      container.querySelector('[data-slot="audio-player-seek-backward-button"]')
+      container.querySelector(
+        '[data-slot="audio-player-seek-backward-button"]',
+      ),
     ).toBeInTheDocument();
     expect(
-      container.querySelector('[data-slot="audio-player-seek-forward-button"]')
+      container.querySelector('[data-slot="audio-player-seek-forward-button"]'),
     ).toBeInTheDocument();
   });
 
-  it("renders time and duration displays", () => {
+  it('renders time and duration displays', () => {
     const { container } = renderCompleteAudioPlayer();
     expect(
-      container.querySelector('[data-slot="audio-player-time-display"]')
+      container.querySelector('[data-slot="audio-player-time-display"]'),
     ).toBeInTheDocument();
     expect(
-      container.querySelector('[data-slot="audio-player-time-range"]')
+      container.querySelector('[data-slot="audio-player-time-range"]'),
     ).toBeInTheDocument();
     expect(
-      container.querySelector('[data-slot="audio-player-duration-display"]')
+      container.querySelector('[data-slot="audio-player-duration-display"]'),
     ).toBeInTheDocument();
   });
 
-  it("renders mute button and volume range", () => {
+  it('renders mute button and volume range', () => {
     const { container } = renderCompleteAudioPlayer();
     expect(
-      container.querySelector('[data-slot="audio-player-mute-button"]')
+      container.querySelector('[data-slot="audio-player-mute-button"]'),
     ).toBeInTheDocument();
     expect(
-      container.querySelector('[data-slot="audio-player-volume-range"]')
+      container.querySelector('[data-slot="audio-player-volume-range"]'),
     ).toBeInTheDocument();
   });
 
-  it("handles AI SDK speech result data format", () => {
+  it('handles AI SDK speech result data format', () => {
     const mockSpeechData = {
-      base64: "dGVzdA==",
-      format: "mp3" as const,
-      mediaType: "audio/mpeg",
+      base64: 'dGVzdA==',
+      format: 'mp3' as const,
+      mediaType: 'audio/mpeg',
       uint8Array: new Uint8Array([116, 101, 115, 116]),
     };
 
@@ -422,24 +424,24 @@ describe("integration tests", () => {
         <AudioPlayerControlBar>
           <AudioPlayerPlayButton />
         </AudioPlayerControlBar>
-      </AudioPlayer>
+      </AudioPlayer>,
     );
 
     const audio = container.querySelector('[data-slot="audio-player-element"]');
-    expect(audio).toHaveAttribute("src", "data:audio/mpeg;base64,dGVzdA==");
+    expect(audio).toHaveAttribute('src', 'data:audio/mpeg;base64,dGVzdA==');
   });
 
-  it("handles remote audio URL format", () => {
+  it('handles remote audio URL format', () => {
     const { container } = render(
       <AudioPlayer>
         <AudioPlayerElement src="https://example.com/audio.mp3" />
         <AudioPlayerControlBar>
           <AudioPlayerPlayButton />
         </AudioPlayerControlBar>
-      </AudioPlayer>
+      </AudioPlayer>,
     );
 
     const audio = container.querySelector('[data-slot="audio-player-element"]');
-    expect(audio).toHaveAttribute("src", "https://example.com/audio.mp3");
+    expect(audio).toHaveAttribute('src', 'https://example.com/audio.mp3');
   });
 });

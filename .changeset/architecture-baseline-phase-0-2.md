@@ -10,16 +10,16 @@ Architecture baseline: Phase 0-2 implementation
 
 All 64 packages are now classified into a 6-layer architectural model:
 
-| Layer          | Packages | Description                            |
-|----------------|----------|----------------------------------------|
-| Foundation (L0) | 3        | `@ai-toolkit/provider`, `@ai-toolkit/runtime`, `@ai-toolkit/capabilities` |
-| Runtime (L1)    | 4        | `ai-toolkit`, `@ai-toolkit/provider-utils`, `@ai-toolkit/gateway`, `@ai-toolkit/valibot` |
-| Protocol (L2)   | 1        | `@ai-toolkit/mcp`                      |
-| Gateway (L3)    | 1        | `@ai-toolkit/khulnasoft`               |
-| Provider (L1.5) | 41       | All provider packages                  |
-| Integration (L5) | 7       | Framework adapters + ecosystem bridges |
-| Experience/Tooling | 6     | UI, devtools, codemods, platform       |
-| Infrastructure   | 1        | `@ai-toolkit/test-server` (internal)   |
+| Layer              | Packages | Description                                                                              |
+| ------------------ | -------- | ---------------------------------------------------------------------------------------- |
+| Foundation (L0)    | 3        | `@ai-toolkit/provider`, `@ai-toolkit/runtime`, `@ai-toolkit/capabilities`                |
+| Runtime (L1)       | 4        | `ai-toolkit`, `@ai-toolkit/provider-utils`, `@ai-toolkit/gateway`, `@ai-toolkit/valibot` |
+| Protocol (L2)      | 1        | `@ai-toolkit/mcp`                                                                        |
+| Gateway (L3)       | 1        | `@ai-toolkit/khulnasoft`                                                                 |
+| Provider (L1.5)    | 41       | All provider packages                                                                    |
+| Integration (L5)   | 7        | Framework adapters + ecosystem bridges                                                   |
+| Experience/Tooling | 6        | UI, devtools, codemods, platform                                                         |
+| Infrastructure     | 1        | `@ai-toolkit/test-server` (internal)                                                     |
 
 **Phase 1 — Dependency-Direction Validation (complete)**
 
@@ -52,6 +52,7 @@ A provider conformance test suite has been added to
 `@ai-toolkit/provider/src/conformance/`. It covers text generation,
 streaming, embedding, image generation, error handling, and abort signal
 propagation. Providers can run the tests via the `./conformance` export:
+
 ```ts
 import { runConformanceTests } from '@ai-toolkit/provider/conformance';
 ```

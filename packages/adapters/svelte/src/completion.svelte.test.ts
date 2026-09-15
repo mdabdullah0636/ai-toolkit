@@ -1,4 +1,7 @@
-import { createTestServer, TestResponseController } from '@ai-toolkit/test-server/with-vitest';
+import {
+  createTestServer,
+  TestResponseController,
+} from '@ai-toolkit/test-server/with-vitest';
 import { render } from '@testing-library/svelte';
 import type { UIMessageChunk } from 'ai-toolkit';
 import { Completion } from './completion.svelte.js';
@@ -164,7 +167,9 @@ describe('synchronization', () => {
     });
 
     controller.write(formatChunk({ type: 'text-start', id: '0' }));
-    controller.write(formatChunk({ type: 'text-delta', id: '0', delta: 'Hello' }));
+    controller.write(
+      formatChunk({ type: 'text-delta', id: '0', delta: 'Hello' }),
+    );
     controller.write(formatChunk({ type: 'text-end', id: '0' }));
     await vi.waitFor(() => {
       expect(completion1.completion).toBe('Hello');

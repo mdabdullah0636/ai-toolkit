@@ -10,7 +10,8 @@ import {
 import { FireworksImageModel } from './fireworks-image-model';
 
 // Add type assertion for the mocked class
-const OpenAICompatibleChatLanguageModelMock = OpenAICompatibleChatLanguageModel as unknown as Mock;
+const OpenAICompatibleChatLanguageModelMock =
+  OpenAICompatibleChatLanguageModel as unknown as Mock;
 
 vi.mock('@ai-toolkit/openai-compatible', () => {
   // Create mock constructor functions that behave like classes
@@ -29,8 +30,12 @@ vi.mock('@ai-toolkit/openai-compatible', () => {
 
   return {
     OpenAICompatibleChatLanguageModel: createMockConstructor('fireworks.chat'),
-    OpenAICompatibleCompletionLanguageModel: createMockConstructor('fireworks.completion'),
-    OpenAICompatibleEmbeddingModel: createMockConstructor('fireworks.embedding'),
+    OpenAICompatibleCompletionLanguageModel: createMockConstructor(
+      'fireworks.completion',
+    ),
+    OpenAICompatibleEmbeddingModel: createMockConstructor(
+      'fireworks.embedding',
+    ),
   };
 });
 
@@ -70,7 +75,8 @@ describe('FireworksProvider', () => {
       const model = provider('model-id');
 
       // Use the mocked version
-      const constructorCall = OpenAICompatibleChatLanguageModelMock.mock.calls[0];
+      const constructorCall =
+        OpenAICompatibleChatLanguageModelMock.mock.calls[0];
       const config = constructorCall[1];
       config.headers();
 
@@ -90,7 +96,8 @@ describe('FireworksProvider', () => {
       const provider = createFireworks(options);
       const model = provider('model-id');
 
-      const constructorCall = OpenAICompatibleChatLanguageModelMock.mock.calls[0];
+      const constructorCall =
+        OpenAICompatibleChatLanguageModelMock.mock.calls[0];
       const config = constructorCall[1];
       config.headers();
 
@@ -167,7 +174,10 @@ describe('FireworksProvider', () => {
       const model = provider.image(modelId);
 
       expect(model).toBeInstanceOf(FireworksImageModel);
-      expect(FireworksImageModel).toHaveBeenCalledWith(modelId, expect.any(Object));
+      expect(FireworksImageModel).toHaveBeenCalledWith(
+        modelId,
+        expect.any(Object),
+      );
     });
 
     it('should respect custom baseURL', () => {

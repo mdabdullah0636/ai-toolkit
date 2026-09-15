@@ -33,7 +33,9 @@ describe('downloadBlob()', () => {
       statusText: 'Not Found',
     });
 
-    await expect(downloadBlob('https://example.com/not-found.png')).rejects.toThrow(DownloadError);
+    await expect(
+      downloadBlob('https://example.com/not-found.png'),
+    ).rejects.toThrow(DownloadError);
 
     try {
       await downloadBlob('https://example.com/not-found.png');
@@ -54,9 +56,9 @@ describe('downloadBlob()', () => {
     const networkError = new Error('Network error');
     globalThis.fetch = vi.fn().mockRejectedValue(networkError);
 
-    await expect(downloadBlob('https://example.com/network-error.png')).rejects.toThrow(
-      DownloadError,
-    );
+    await expect(
+      downloadBlob('https://example.com/network-error.png'),
+    ).rejects.toThrow(DownloadError);
 
     try {
       await downloadBlob('https://example.com/network-error.png');
@@ -103,7 +105,9 @@ describe('DownloadError', () => {
     expect(error.url).toBe('https://example.com/test.png');
     expect(error.statusCode).toBe(403);
     expect(error.statusText).toBe('Forbidden');
-    expect(error.message).toBe('Failed to download https://example.com/test.png: 403 Forbidden');
+    expect(error.message).toBe(
+      'Failed to download https://example.com/test.png: 403 Forbidden',
+    );
   });
 
   it('should create error with cause', () => {

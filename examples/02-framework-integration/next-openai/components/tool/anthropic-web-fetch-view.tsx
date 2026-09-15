@@ -4,7 +4,9 @@ import { UIToolInvocation } from 'ai-toolkit';
 export default function AnthropicWebFetchView({
   invocation,
 }: {
-  invocation: UIToolInvocation<ReturnType<typeof anthropic.tools.webFetch_20250910>>;
+  invocation: UIToolInvocation<
+    ReturnType<typeof anthropic.tools.webFetch_20250910>
+  >;
 }) {
   switch (invocation.state) {
     case 'input-streaming':

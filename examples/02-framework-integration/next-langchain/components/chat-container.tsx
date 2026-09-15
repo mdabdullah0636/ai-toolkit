@@ -43,7 +43,9 @@ export function ChatContainer({
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="flex-shrink-0 p-6 border-b border-[var(--border)] rounded-t-xl">
-        <h1 className="text-2xl font-semibold text-[var(--foreground)] mb-2">{title}</h1>
+        <h1 className="text-2xl font-semibold text-[var(--foreground)] mb-2">
+          {title}
+        </h1>
         {description && (
           <div className="text-sm text-[var(--foreground-secondary)] leading-relaxed">
             {description}
@@ -71,7 +73,9 @@ export function ChatContainer({
             {messages.map(message => (
               <ChatMessage key={message.id} message={message} />
             ))}
-            <ThinkingIndicator isStreaming={status === 'submitted' || status === 'streaming'} />
+            <ThinkingIndicator
+              isStreaming={status === 'submitted' || status === 'streaming'}
+            />
             <div ref={messagesEndRef} />
           </>
         )}

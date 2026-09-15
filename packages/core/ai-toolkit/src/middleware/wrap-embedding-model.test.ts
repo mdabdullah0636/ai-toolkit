@@ -1,4 +1,7 @@
-import { EmbeddingModelV3CallOptions, EmbeddingModelV3Middleware } from '@ai-toolkit/provider';
+import {
+  EmbeddingModelV3CallOptions,
+  EmbeddingModelV3Middleware,
+} from '@ai-toolkit/provider';
 import { wrapEmbeddingModel } from '../middleware/wrap-embedding-model';
 import { describe, it, expect, vi } from 'vitest';
 import { MockEmbeddingModelV3 } from '../test/mock-embedding-model-v3';
@@ -282,15 +285,19 @@ describe('wrapEmbeddingModel', () => {
         doEmbed: vi.fn().mockResolvedValue('final generate result'),
       });
 
-      const wrapEmbed1 = vi.fn().mockImplementation(async ({ doEmbed, params, model }) => {
-        const result = await doEmbed();
-        return `wrapEmbed1(${result})`;
-      });
+      const wrapEmbed1 = vi
+        .fn()
+        .mockImplementation(async ({ doEmbed, params, model }) => {
+          const result = await doEmbed();
+          return `wrapEmbed1(${result})`;
+        });
 
-      const wrapEmbed2 = vi.fn().mockImplementation(async ({ doEmbed, params, model }) => {
-        const result = await doEmbed();
-        return `wrapEmbed2(${result})`;
-      });
+      const wrapEmbed2 = vi
+        .fn()
+        .mockImplementation(async ({ doEmbed, params, model }) => {
+          const result = await doEmbed();
+          return `wrapEmbed2(${result})`;
+        });
 
       const wrappedModel = wrapEmbeddingModel({
         model: mockModel,
@@ -333,7 +340,10 @@ describe('wrapEmbeddingModel', () => {
         wrapStream: vi.fn(),
       };
 
-      const middlewares = [middleware1, middleware2] as EmbeddingModelV3Middleware[];
+      const middlewares = [
+        middleware1,
+        middleware2,
+      ] as EmbeddingModelV3Middleware[];
 
       wrapEmbeddingModel({
         model: new MockEmbeddingModelV3(),

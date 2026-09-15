@@ -4,7 +4,9 @@ import { UIToolInvocation } from 'ai-toolkit';
 export default function AnthropicWebSearchView({
   invocation,
 }: {
-  invocation: UIToolInvocation<ReturnType<typeof anthropic.tools.webSearch_20250305>>;
+  invocation: UIToolInvocation<
+    ReturnType<typeof anthropic.tools.webSearch_20250305>
+  >;
 }) {
   switch (invocation.state) {
     case 'input-available': {

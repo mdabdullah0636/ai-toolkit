@@ -14,7 +14,8 @@ run(async () => {
         inputSchema: z.object({ city: z.string() }),
       }),
     },
-    prompt: 'What is the weather in San Francisco and what attractions should I visit?',
+    prompt:
+      'What is the weather in San Francisco and what attractions should I visit?',
   });
 
   // typed tool calls:

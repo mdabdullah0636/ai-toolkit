@@ -5,7 +5,11 @@ import * as path from 'path';
 
 // based on
 // https://github.com/anthropics/anthropic-sdk-typescript/blob/main/examples/tools-helpers-memory.ts
-export const anthropicLocalFsMemoryTool = ({ basePath = './memory' }: { basePath: string }) => {
+export const anthropicLocalFsMemoryTool = ({
+  basePath = './memory',
+}: {
+  basePath: string;
+}) => {
   const memoryRoot = path.join(basePath, 'memories');
 
   if (!fsSync.existsSync(memoryRoot)) {
@@ -17,8 +21,12 @@ export const anthropicLocalFsMemoryTool = ({ basePath = './memory' }: { basePath
       throw new Error(`Path must start with /memories, got: ${memoryPath}`);
     }
 
-    const relativePath = memoryPath.slice('/memories'.length).replace(/^\//, '');
-    const fullPath = relativePath ? path.join(memoryRoot, relativePath) : memoryRoot;
+    const relativePath = memoryPath
+      .slice('/memories'.length)
+      .replace(/^\//, '');
+    const fullPath = relativePath
+      ? path.join(memoryRoot, relativePath)
+      : memoryRoot;
 
     const resolvedPath = path.resolve(fullPath);
     const resolvedRoot = path.resolve(memoryRoot);
@@ -61,7 +69,10 @@ export const anthropicLocalFsMemoryTool = ({ basePath = './memory' }: { basePath
               items.push(itemStat.isDirectory() ? `${item}/` : item);
             }
 
-            return `Directory: ${action.path}\n` + items.map(item => `- ${item}`).join('\n');
+            return (
+              `Directory: ${action.path}\n` +
+              items.map(item => `- ${item}`).join('\n')
+            );
           } else if (stat.isFile()) {
             const content = await fs.readFile(fullPath, 'utf-8');
             const lines = content.split('\n');
@@ -71,7 +82,10 @@ export const anthropicLocalFsMemoryTool = ({ basePath = './memory' }: { basePath
 
             if (action.view_range && action.view_range.length === 2) {
               const startLine = Math.max(1, action.view_range[0]!) - 1;
-              const endLine = action.view_range[1] === -1 ? lines.length : action.view_range[1];
+              const endLine =
+                action.view_range[1] === -1
+                  ? lines.length
+                  : action.view_range[1];
               displayLines = lines.slice(startLine, endLine);
               startNum = startLine + 1;
             }
@@ -116,7 +130,9 @@ export const anthropicLocalFsMemoryTool = ({ basePath = './memory' }: { basePath
           if (count === 0) {
             throw new Error(`Text not found in ${action.path}`);
           } else if (count > 1) {
-            throw new Error(`Text appears ${count} times in ${action.path}. Must be unique.`);
+            throw new Error(
+              `Text appears ${count} times in ${action.path}. Must be unique.`,
+            );
           }
 
           const newContent = content.replace(action.old_str, action.new_str);
@@ -140,10 +156,16 @@ export const anthropicLocalFsMemoryTool = ({ basePath = './memory' }: { basePath
           const lines = content.split('\n');
 
           if (action.insert_line < 0 || action.insert_line > lines.length) {
-            throw new Error(`Invalid insert_line ${action.insert_line}. Must be 0-${lines.length}`);
+            throw new Error(
+              `Invalid insert_line ${action.insert_line}. Must be 0-${lines.length}`,
+            );
           }
 
-          lines.splice(action.insert_line, 0, action.insert_text.replace(/\n$/, ''));
+          lines.splice(
+            action.insert_line,
+            0,
+            action.insert_text.replace(/\n$/, ''),
+          );
           await fs.writeFile(fullPath, lines.join('\n'), 'utf-8');
           return `Text inserted at line ${action.insert_line} in ${action.path}`;
         }

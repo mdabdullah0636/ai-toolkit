@@ -23,13 +23,15 @@ const components = [
   {
     id: 'chat-message',
     name: 'ChatMessage',
-    description: 'Display AI and user messages with avatars, timestamps, and status',
+    description:
+      'Display AI and user messages with avatars, timestamps, and status',
     icon: MessageSquare,
   },
   {
     id: 'code-block',
     name: 'CodeBlock',
-    description: 'Syntax-highlighted code with copy button and language selection',
+    description:
+      'Syntax-highlighted code with copy button and language selection',
     icon: Code,
   },
   {
@@ -61,7 +63,8 @@ const components = [
 const features = [
   {
     title: 'Accessible',
-    description: 'WCAG compliant, keyboard navigation, and screen reader support',
+    description:
+      'WCAG compliant, keyboard navigation, and screen reader support',
   },
   {
     title: 'Customizable',
@@ -122,7 +125,10 @@ export default function ElementsPage() {
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedReasoning, setCopiedReasoning] = useState(false);
 
-  const copyToClipboard = async (text: string, setCopied: (v: boolean) => void) => {
+  const copyToClipboard = async (
+    text: string,
+    setCopied: (v: boolean) => void,
+  ) => {
     await navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -178,8 +184,8 @@ export default function ElementsPage() {
             AI Elements For <span className="text-primary">React</span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12">
-            Pre-built, customizable React components specifically designed for AI applications.
-            Build chat interfaces in minutes.
+            Pre-built, customizable React components specifically designed for
+            AI applications. Build chat interfaces in minutes.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="#components">
@@ -207,7 +213,9 @@ export default function ElementsPage() {
                 className="p-6 rounded-xl border bg-card text-card-foreground"
               >
                 <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground text-sm">{feature.description}</p>
+                <p className="text-muted-foreground text-sm">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
@@ -229,10 +237,16 @@ export default function ElementsPage() {
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-sm text-muted-foreground">React</span>
                     <button
-                      onClick={() => copyToClipboard(chatMessageExample, setCopiedChat)}
+                      onClick={() =>
+                        copyToClipboard(chatMessageExample, setCopiedChat)
+                      }
                       className="p-2 rounded hover:bg-accent"
                     >
-                      {copiedChat ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                      {copiedChat ? (
+                        <Check className="w-4 h-4" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
                     </button>
                   </div>
                   <pre className="text-sm overflow-x-auto">
@@ -246,7 +260,9 @@ export default function ElementsPage() {
                         <Bot className="w-4 h-4 text-primary-foreground" />
                       </div>
                       <div className="bg-muted rounded-lg p-3">
-                        <p className="text-sm">Hello! How can I help you today?</p>
+                        <p className="text-sm">
+                          Hello! How can I help you today?
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -265,10 +281,16 @@ export default function ElementsPage() {
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-sm text-muted-foreground">React</span>
                     <button
-                      onClick={() => copyToClipboard(codeBlockExample, setCopiedCode)}
+                      onClick={() =>
+                        copyToClipboard(codeBlockExample, setCopiedCode)
+                      }
                       className="p-2 rounded hover:bg-accent"
                     >
-                      {copiedCode ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                      {copiedCode ? (
+                        <Check className="w-4 h-4" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
                     </button>
                   </div>
                   <pre className="text-sm overflow-x-auto">
@@ -299,7 +321,9 @@ console.log(greet('World'));`}</code>
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-sm text-muted-foreground">React</span>
                     <button
-                      onClick={() => copyToClipboard(reasoningExample, setCopiedReasoning)}
+                      onClick={() =>
+                        copyToClipboard(reasoningExample, setCopiedReasoning)
+                      }
                       className="p-2 rounded hover:bg-accent"
                     >
                       {copiedReasoning ? (
@@ -339,7 +363,9 @@ console.log(greet('World'));`}</code>
       <section id="components" className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">All Components</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              All Components
+            </h2>
             <p className="text-lg text-muted-foreground">
               Ready-to-use components for AI applications
             </p>
@@ -352,7 +378,9 @@ console.log(greet('World'));`}</code>
               >
                 <component.icon className="w-8 h-8 mb-4 text-primary" />
                 <h3 className="font-semibold text-lg mb-2">{component.name}</h3>
-                <p className="text-muted-foreground text-sm">{component.description}</p>
+                <p className="text-muted-foreground text-sm">
+                  {component.description}
+                </p>
               </div>
             ))}
           </div>
@@ -389,7 +417,10 @@ console.log(greet('World'));`}</code>
             </div>
             <p className="text-sm text-muted-foreground">
               Built by{' '}
-              <a href="https://vercel.com" className="underline hover:text-primary">
+              <a
+                href="https://vercel.com"
+                className="underline hover:text-primary"
+              >
                 Vercel
               </a>
               . Open-source under Apache-2.0 license.

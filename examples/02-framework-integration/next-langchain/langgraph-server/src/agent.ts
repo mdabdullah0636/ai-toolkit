@@ -67,7 +67,9 @@ const calculatorTool = tool(
     schema: z.object({
       expression: z
         .string()
-        .describe('The mathematical expression to evaluate (e.g., "2 + 2", "10 * 5")'),
+        .describe(
+          'The mathematical expression to evaluate (e.g., "2 + 2", "10 * 5")',
+        ),
     }),
   },
 );

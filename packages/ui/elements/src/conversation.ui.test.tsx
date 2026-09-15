@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import type { UIMessage } from "ai-toolkit";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import type { UIMessage } from 'ai-toolkit';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   Conversation,
@@ -9,7 +9,7 @@ import {
   ConversationEmptyState,
   ConversationScrollButton,
   messagesToMarkdown,
-} from "./conversation";
+} from './conversation';
 
 // Mock use-stick-to-bottom with module-level state using vi.hoisted
 const {
@@ -47,21 +47,20 @@ const {
   };
 });
 
-vi.mock("use-stick-to-bottom", () => {
-    const MockComponent = StickToBottomMock as typeof StickToBottomMock & {
-      Content: typeof StickToBottomContent;
-    };
-    MockComponent.Content = StickToBottomContent;
+vi.mock('use-stick-to-bottom', () => {
+  const MockComponent = StickToBottomMock as typeof StickToBottomMock & {
+    Content: typeof StickToBottomContent;
+  };
+  MockComponent.Content = StickToBottomContent;
 
-    return {
-      StickToBottom: MockComponent,
-      useStickToBottomContext: () => ({
-        isAtBottom: mockState.isAtBottom,
-        scrollToBottom: mockScrollToBottom,
-      }),
-    };
-  }
-);
+  return {
+    StickToBottom: MockComponent,
+    useStickToBottomContext: () => ({
+      isAtBottom: mockState.isAtBottom,
+      scrollToBottom: mockScrollToBottom,
+    }),
+  };
+});
 
 // Custom format function for messagesToMarkdown test
 const customFormatMessage = (msg: {
@@ -69,89 +68,89 @@ const customFormatMessage = (msg: {
   parts: { type: string; text?: string }[];
 }) => {
   const text = msg.parts
-    .filter((p) => p.type === "text")
-    .map((p) => p.text)
-    .join("");
+    .filter(p => p.type === 'text')
+    .map(p => p.text)
+    .join('');
   return `[${msg.role}]: ${text}`;
 };
 
-describe("conversation", () => {
-  it("renders children", () => {
+describe('conversation', () => {
+  it('renders children', () => {
     render(
       <Conversation>
         <ConversationContent>Messages</ConversationContent>
-      </Conversation>
+      </Conversation>,
     );
-    expect(screen.getByText("Messages")).toBeInTheDocument();
+    expect(screen.getByText('Messages')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <Conversation className="custom">
         <div>Content</div>
-      </Conversation>
+      </Conversation>,
     );
-    expect(container.firstChild).toHaveClass("custom");
+    expect(container.firstChild).toHaveClass('custom');
   });
 
-  it("has role log", () => {
+  it('has role log', () => {
     const { container } = render(
       <Conversation>
         <div>Content</div>
-      </Conversation>
+      </Conversation>,
     );
-    expect(container.firstChild).toHaveAttribute("role", "log");
+    expect(container.firstChild).toHaveAttribute('role', 'log');
   });
 });
 
-describe("conversationContent", () => {
-  it("renders content", () => {
+describe('conversationContent', () => {
+  it('renders content', () => {
     render(
       <Conversation>
         <ConversationContent>Content</ConversationContent>
-      </Conversation>
+      </Conversation>,
     );
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 });
 
-describe("conversationEmptyState", () => {
-  it("renders default empty state", () => {
+describe('conversationEmptyState', () => {
+  it('renders default empty state', () => {
     render(<ConversationEmptyState />);
-    expect(screen.getByText("No messages yet")).toBeInTheDocument();
+    expect(screen.getByText('No messages yet')).toBeInTheDocument();
     expect(
-      screen.getByText("Start a conversation to see messages here")
+      screen.getByText('Start a conversation to see messages here'),
     ).toBeInTheDocument();
   });
 
-  it("renders custom title and description", () => {
+  it('renders custom title and description', () => {
     render(
       <ConversationEmptyState
         description="Custom description"
         title="Custom title"
-      />
+      />,
     );
-    expect(screen.getByText("Custom title")).toBeInTheDocument();
-    expect(screen.getByText("Custom description")).toBeInTheDocument();
+    expect(screen.getByText('Custom title')).toBeInTheDocument();
+    expect(screen.getByText('Custom description')).toBeInTheDocument();
   });
 
-  it("renders icon", () => {
+  it('renders icon', () => {
     render(<ConversationEmptyState icon={<span>Icon</span>} />);
-    expect(screen.getByText("Icon")).toBeInTheDocument();
+    expect(screen.getByText('Icon')).toBeInTheDocument();
   });
 
-  it("renders custom children", () => {
+  it('renders custom children', () => {
     render(
       <ConversationEmptyState>
         <div>Custom content</div>
-      </ConversationEmptyState>
+      </ConversationEmptyState>,
     );
-    expect(screen.getByText("Custom content")).toBeInTheDocument();
+    expect(screen.getByText('Custom content')).toBeInTheDocument();
   });
 });
 
-describe("conversationScrollButton", () => {
-  it("renders scroll button when not at bottom", () => {
+describe('conversationScrollButton', () => {
+  it('renders scroll button when not at bottom', () => {
     mockState.isAtBottom = false;
 
     render(
@@ -160,16 +159,16 @@ describe("conversationScrollButton", () => {
           <div>Content</div>
         </ConversationContent>
         <ConversationScrollButton />
-      </Conversation>
+      </Conversation>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
 
     mockState.isAtBottom = true;
   });
 
-  it("does not render when at bottom", () => {
+  it('does not render when at bottom', () => {
     mockState.isAtBottom = true;
 
     render(
@@ -178,13 +177,13 @@ describe("conversationScrollButton", () => {
           <div>Content</div>
         </ConversationContent>
         <ConversationScrollButton />
-      </Conversation>
+      </Conversation>,
     );
 
-    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
-  it("applies custom className when button renders", () => {
+  it('applies custom className when button renders', () => {
     mockState.isAtBottom = false;
 
     render(
@@ -193,16 +192,16 @@ describe("conversationScrollButton", () => {
           <div>Content</div>
         </ConversationContent>
         <ConversationScrollButton className="custom-scroll-btn" />
-      </Conversation>
+      </Conversation>,
     );
 
-    const button = screen.getByRole("button");
-    expect(button).toHaveClass("custom-scroll-btn");
+    const button = screen.getByRole('button');
+    expect(button).toHaveClass('custom-scroll-btn');
 
     mockState.isAtBottom = true;
   });
 
-  it("calls scrollToBottom when clicked", async () => {
+  it('calls scrollToBottom when clicked', async () => {
     mockState.isAtBottom = false;
     mockScrollToBottom.mockClear();
     const user = userEvent.setup();
@@ -213,10 +212,10 @@ describe("conversationScrollButton", () => {
           <div>Content</div>
         </ConversationContent>
         <ConversationScrollButton />
-      </Conversation>
+      </Conversation>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
     expect(mockScrollToBottom).toHaveBeenCalledWith();
@@ -225,83 +224,83 @@ describe("conversationScrollButton", () => {
   });
 });
 
-const makeMessage = (role: "user" | "assistant" | "system", text: string) => ({
+const makeMessage = (role: 'user' | 'assistant' | 'system', text: string) => ({
   id: `${role}-${text}`,
-  parts: [{ text, type: "text" as const }],
+  parts: [{ text, type: 'text' as const }],
   role,
 });
 
 // Function name as describe title is a valid testing pattern
 // oxlint-disable-next-line eslint-plugin-jest(valid-title)
 describe(messagesToMarkdown, () => {
-  it("converts messages to markdown format", () => {
+  it('converts messages to markdown format', () => {
     const messages = [
-      makeMessage("user", "Hello"),
-      makeMessage("assistant", "Hi there!"),
+      makeMessage('user', 'Hello'),
+      makeMessage('assistant', 'Hi there!'),
     ];
 
     const result = messagesToMarkdown(messages);
 
-    expect(result).toBe("**User:** Hello\n\n**Assistant:** Hi there!");
+    expect(result).toBe('**User:** Hello\n\n**Assistant:** Hi there!');
   });
 
-  it("handles empty messages array", () => {
+  it('handles empty messages array', () => {
     const result = messagesToMarkdown([]);
-    expect(result).toBe("");
+    expect(result).toBe('');
   });
 
-  it("uses custom formatMessage function", () => {
+  it('uses custom formatMessage function', () => {
     const messages = [
-      makeMessage("user", "Hello"),
-      makeMessage("assistant", "Hi"),
+      makeMessage('user', 'Hello'),
+      makeMessage('assistant', 'Hi'),
     ];
 
     const result = messagesToMarkdown(messages, customFormatMessage);
 
-    expect(result).toBe("[user]: Hello\n\n[assistant]: Hi");
+    expect(result).toBe('[user]: Hello\n\n[assistant]: Hi');
   });
 
-  it("handles all role types", () => {
+  it('handles all role types', () => {
     const messages = [
-      makeMessage("user", "User msg"),
-      makeMessage("assistant", "Assistant msg"),
-      makeMessage("system", "System msg"),
+      makeMessage('user', 'User msg'),
+      makeMessage('assistant', 'Assistant msg'),
+      makeMessage('system', 'System msg'),
     ];
 
     const result = messagesToMarkdown(messages);
 
-    expect(result).toContain("**User:** User msg");
-    expect(result).toContain("**Assistant:** Assistant msg");
-    expect(result).toContain("**System:** System msg");
+    expect(result).toContain('**User:** User msg');
+    expect(result).toContain('**Assistant:** Assistant msg');
+    expect(result).toContain('**System:** System msg');
   });
 
-  it("extracts text from multiple parts", () => {
+  it('extracts text from multiple parts', () => {
     const message = {
-      id: "multi",
+      id: 'multi',
       parts: [
-        { text: "Hello ", type: "text" as const },
+        { text: 'Hello ', type: 'text' as const },
         {
           args: {},
           result: {},
-          state: "result" as const,
-          toolInvocationId: "1",
-          toolName: "test",
-          type: "tool-invocation" as const,
+          state: 'result' as const,
+          toolInvocationId: '1',
+          toolName: 'test',
+          type: 'tool-invocation' as const,
         },
-        { text: "world", type: "text" as const },
+        { text: 'world', type: 'text' as const },
       ],
-      role: "assistant" as const,
+      role: 'assistant' as const,
     } as unknown as UIMessage;
 
     const result = messagesToMarkdown([message]);
 
-    expect(result).toBe("**Assistant:** Hello world");
+    expect(result).toBe('**Assistant:** Hello world');
   });
 });
 
 // Helper to setup URL mocks for download tests
 const setupDownloadMocks = () => {
-  const mockCreateObjectURL = vi.fn(() => "blob:test");
+  const mockCreateObjectURL = vi.fn(() => 'blob:test');
   const mockRevokeObjectURL = vi.fn();
   const originalCreateObjectURL = URL.createObjectURL;
   const originalRevokeObjectURL = URL.revokeObjectURL;
@@ -324,9 +323,9 @@ const setupDomClickTracker = () => {
   let linkClicked = false;
   const originalCreateElement = document.createElement.bind(document);
 
-  vi.spyOn(document, "createElement").mockImplementation((tagName: string) => {
+  vi.spyOn(document, 'createElement').mockImplementation((tagName: string) => {
     const element = originalCreateElement(tagName);
-    if (tagName === "a") {
+    if (tagName === 'a') {
       const originalClick = element.click.bind(element);
       element.click = () => {
         linkClicked = true;
@@ -339,53 +338,53 @@ const setupDomClickTracker = () => {
   return { wasLinkClicked: () => linkClicked };
 };
 
-describe("conversationDownload", () => {
+describe('conversationDownload', () => {
   const mockMessages = [
-    makeMessage("user", "Hello"),
-    makeMessage("assistant", "Hi there!"),
+    makeMessage('user', 'Hello'),
+    makeMessage('assistant', 'Hi there!'),
   ];
 
-  it("renders download button", () => {
+  it('renders download button', () => {
     render(
       <Conversation>
         <ConversationContent>
           <div>Content</div>
         </ConversationContent>
         <ConversationDownload messages={mockMessages} />
-      </Conversation>
+      </Conversation>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
   });
 
-  it("renders custom children", () => {
+  it('renders custom children', () => {
     render(
       <Conversation>
         <ConversationDownload messages={mockMessages}>
           Download Chat
         </ConversationDownload>
-      </Conversation>
+      </Conversation>,
     );
 
-    expect(screen.getByText("Download Chat")).toBeInTheDocument();
+    expect(screen.getByText('Download Chat')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(
       <Conversation>
         <ConversationDownload
           className="custom-class"
           messages={mockMessages}
         />
-      </Conversation>
+      </Conversation>,
     );
 
-    const button = screen.getByRole("button");
-    expect(button).toHaveClass("custom-class");
+    const button = screen.getByRole('button');
+    expect(button).toHaveClass('custom-class');
   });
 
-  it("triggers download on click", async () => {
+  it('triggers download on click', async () => {
     const user = userEvent.setup();
     const urlMocks = setupDownloadMocks();
     const domTracker = setupDomClickTracker();
@@ -393,14 +392,14 @@ describe("conversationDownload", () => {
     render(
       <Conversation>
         <ConversationDownload messages={mockMessages} />
-      </Conversation>
+      </Conversation>,
     );
 
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole('button'));
 
     expect(urlMocks.mockCreateObjectURL).toHaveBeenCalledWith(expect.any(Blob));
     expect(domTracker.wasLinkClicked()).toBeTruthy();
-    expect(urlMocks.mockRevokeObjectURL).toHaveBeenCalledWith("blob:test");
+    expect(urlMocks.mockRevokeObjectURL).toHaveBeenCalledWith('blob:test');
 
     urlMocks.restore();
   });

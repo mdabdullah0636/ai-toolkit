@@ -6,7 +6,13 @@
  * Source: https://github.com/TooTallNate/nx.js/blob/main/.github/scripts/cleanup-examples.mjs
  */
 
-import { readFileSync, writeFileSync, unlinkSync, readdirSync, statSync } from 'node:fs';
+import {
+  readFileSync,
+  writeFileSync,
+  unlinkSync,
+  readdirSync,
+  statSync,
+} from 'node:fs';
 import { fileURLToPath } from 'url';
 import { join } from 'path';
 

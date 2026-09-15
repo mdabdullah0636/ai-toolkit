@@ -1,7 +1,10 @@
 'use client';
 
 import { useChat } from '@ai-toolkit/react';
-import { DefaultChatTransport, lastAssistantMessageIsCompleteWithApprovalResponses } from 'ai-toolkit';
+import {
+  DefaultChatTransport,
+  lastAssistantMessageIsCompleteWithApprovalResponses,
+} from 'ai-toolkit';
 import ChatInput from '@/components/chat-input';
 import { OpenAILocalShellMessage } from '@/agent/openai-local-shell-agent';
 import LocalShellView from '@/components/tool/openai-local-shell-view';
@@ -12,14 +15,16 @@ export default function TestOpenAIWebSearch() {
       transport: new DefaultChatTransport({
         api: '/api/chat-openai-local-shell',
       }),
-      sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
+      sendAutomaticallyWhen:
+        lastAssistantMessageIsCompleteWithApprovalResponses,
     });
 
   return (
     <div className="flex flex-col py-24 mx-auto w-full max-w-md stretch">
       <h1 className="mb-2 text-xl font-bold">OpenAI Local Shell Test</h1>
       <h2 className="pb-2 mb-4 border-b">
-        Note: This example requires a Vercel OIDC Token to run the Code Shell with Vercel Sandbox
+        Note: This example requires a Vercel OIDC Token to run the Code Shell
+        with Vercel Sandbox
       </h2>
 
       {messages.map(message => (

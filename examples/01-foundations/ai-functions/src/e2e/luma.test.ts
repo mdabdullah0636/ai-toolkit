@@ -1,7 +1,10 @@
 import { expect } from 'vitest';
 import { luma as provider, LumaErrorData } from '@ai-toolkit/luma';
 import { APICallError } from '@ai-toolkit/provider';
-import { createFeatureTestSuite, createImageModelWithCapabilities } from './feature-test-suite';
+import {
+  createFeatureTestSuite,
+  createImageModelWithCapabilities,
+} from './feature-test-suite';
 import 'dotenv/config';
 
 createFeatureTestSuite({
@@ -16,7 +19,9 @@ createFeatureTestSuite({
   timeout: 30000,
   customAssertions: {
     errorValidator: (error: APICallError) => {
-      expect((error.data as LumaErrorData).detail[0].msg).toMatch(/Input should be/i);
+      expect((error.data as LumaErrorData).detail[0].msg).toMatch(
+        /Input should be/i,
+      );
     },
   },
 })();

@@ -26,7 +26,9 @@ import { secureJsonParse } from './secure-json-parse';
 
 describe('secureJsonParse', () => {
   it('parses object string', () => {
-    expect(secureJsonParse('{"a": 5, "b": 6}')).toStrictEqual(JSON.parse('{"a": 5, "b": 6}'));
+    expect(secureJsonParse('{"a": 5, "b": 6}')).toStrictEqual(
+      JSON.parse('{"a": 5, "b": 6}'),
+    );
   });
 
   it('parses null string', () => {

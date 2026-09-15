@@ -3,7 +3,10 @@ import { UI_MESSAGE_STREAM_HEADERS } from 'ai-toolkit';
 import { after } from 'next/server';
 import { createResumableStreamContext } from 'resumable-stream';
 
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   const { id } = await params;
 
   const chat = await readChat(id);
@@ -17,13 +20,19 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     waitUntil: after,
   });
 
-  return new Response(await streamContext.resumeExistingStream(chat.activeStreamId), {
-    headers: UI_MESSAGE_STREAM_HEADERS,
-  });
+  return new Response(
+    await streamContext.resumeExistingStream(chat.activeStreamId),
+    {
+      headers: UI_MESSAGE_STREAM_HEADERS,
+    },
+  );
 }
 
 // DELETE route to stop the stream
-export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   const { id } = await params;
 
   const chat = await readChat(id);

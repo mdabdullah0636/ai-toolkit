@@ -31,7 +31,9 @@ describe('createStitchableStream', () => {
       addStream(convertArrayToReadableStream([4, 5, 6]));
       close();
 
-      expect(await convertReadableStreamToArray(stream)).toEqual([1, 2, 3, 4, 5, 6]);
+      expect(await convertReadableStreamToArray(stream)).toEqual([
+        1, 2, 3, 4, 5, 6,
+      ]);
     });
 
     it('should return all values from 3 inner streams', async () => {
@@ -42,7 +44,9 @@ describe('createStitchableStream', () => {
       addStream(convertArrayToReadableStream([7, 8, 9]));
       close();
 
-      expect(await convertReadableStreamToArray(stream)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+      expect(await convertReadableStreamToArray(stream)).toEqual([
+        1, 2, 3, 4, 5, 6, 7, 8, 9,
+      ]);
     });
 
     it('should handle empty inner streams', async () => {
@@ -124,7 +128,9 @@ describe('createStitchableStream', () => {
       addStream(convertArrayToReadableStream([3, 4]));
       close();
 
-      await expect(convertReadableStreamToArray(stream)).rejects.toThrow('Test error');
+      await expect(convertReadableStreamToArray(stream)).rejects.toThrow(
+        'Test error',
+      );
     });
   });
 

@@ -3,7 +3,6 @@ title: Next.js Pages Router
 description: Learn how to build your first agent with the AI TOOLKIT and Next.js Pages Router.
 ---
 
-
 The AI TOOLKIT is a powerful TypeScript library designed to help developers build AI-powered applications.
 
 In this quickstart tutorial, you'll build a simple agent with a streaming chat user interface. Along the way, you'll learn key concepts and techniques that are fundamental to using the AI TOOLKIT in your own projects.
@@ -252,7 +251,12 @@ For example, if a user asks about the current weather, without tools, the model 
 Let's start by giving your chatbot a weather tool. Update your Route Handler (`app/api/chat/route.ts`):
 
 ```tsx title="app/api/chat/route.ts"
-import { streamText, UIMessage, convertToModelMessages, tool } from 'ai-toolkit';
+import {
+  streamText,
+  UIMessage,
+  convertToModelMessages,
+  tool,
+} from 'ai-toolkit';
 __PROVIDER_IMPORT__;
 import { z } from 'zod';
 

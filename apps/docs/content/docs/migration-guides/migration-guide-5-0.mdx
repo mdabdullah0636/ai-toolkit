@@ -3,7 +3,6 @@ title: Migrate AI TOOLKIT 4.x to 5.0
 description: Learn how to upgrade AI TOOLKIT 4.x to 5.0.
 ---
 
-
 ## Recommended Migration Process
 
 1. Backup your project. If you use a versioning control system, make sure all previous versions are committed.
@@ -357,7 +356,10 @@ streamData.close();
 ```
 
 ```tsx title="AI TOOLKIT 5.0"
-import { createUIMessageStream, createUIMessageStreamResponse } from 'ai-toolkit';
+import {
+  createUIMessageStream,
+  createUIMessageStreamResponse,
+} from 'ai-toolkit';
 
 const stream = createUIMessageStream({
   execute({ writer }) {

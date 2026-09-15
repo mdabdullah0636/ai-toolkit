@@ -1,43 +1,43 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 
-import { Canvas } from "./canvas";
-import { Panel } from "./panel";
+import { Canvas } from './canvas';
+import { Panel } from './panel';
 
-describe("panel", () => {
-  it("renders children within Canvas", () => {
+describe('panel', () => {
+  it('renders children within Canvas', () => {
     render(
       <Canvas edges={[]} nodes={[]}>
         <Panel>Panel content</Panel>
-      </Canvas>
+      </Canvas>,
     );
-    expect(screen.getByText("Panel content")).toBeInTheDocument();
+    expect(screen.getByText('Panel content')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <Canvas edges={[]} nodes={[]}>
         <Panel className="custom-panel">Content</Panel>
-      </Canvas>
+      </Canvas>,
     );
-    const panel = container.querySelector(".custom-panel");
+    const panel = container.querySelector('.custom-panel');
     expect(panel).toBeInTheDocument();
-    expect(panel).toHaveClass("custom-panel");
+    expect(panel).toHaveClass('custom-panel');
   });
 
-  it("renders with default styles", () => {
+  it('renders with default styles', () => {
     const { container } = render(
       <Canvas edges={[]} nodes={[]}>
         <Panel>Content</Panel>
-      </Canvas>
+      </Canvas>,
     );
-    expect(container.querySelector(".react-flow__panel")).toBeInTheDocument();
+    expect(container.querySelector('.react-flow__panel')).toBeInTheDocument();
   });
 
-  it("passes through additional props", () => {
+  it('passes through additional props', () => {
     const { container } = render(
       <Canvas edges={[]} nodes={[]}>
         <Panel data-testid="test-panel">Content</Panel>
-      </Canvas>
+      </Canvas>,
     );
     const panel = container.querySelector("[data-testid='test-panel']");
     expect(panel).toBeInTheDocument();

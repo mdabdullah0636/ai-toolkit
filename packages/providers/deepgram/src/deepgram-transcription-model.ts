@@ -51,7 +51,9 @@ const deepgramProviderOptionsSchema = z.object({
   fillerWords: z.boolean().nullish(),
 });
 
-export type DeepgramTranscriptionCallOptions = z.infer<typeof deepgramProviderOptionsSchema>;
+export type DeepgramTranscriptionCallOptions = z.infer<
+  typeof deepgramProviderOptionsSchema
+>;
 
 interface DeepgramTranscriptionModelConfig extends DeepgramConfig {
   _internal?: {
@@ -71,7 +73,9 @@ export class DeepgramTranscriptionModel implements TranscriptionModelV3 {
     private readonly config: DeepgramTranscriptionModelConfig,
   ) {}
 
-  private async getArgs({ providerOptions }: Parameters<TranscriptionModelV3['doGenerate']>[0]) {
+  private async getArgs({
+    providerOptions,
+  }: Parameters<TranscriptionModelV3['doGenerate']>[0]) {
     const warnings: SharedV3Warning[] = [];
 
     // Parse provider options
@@ -147,20 +151,24 @@ export class DeepgramTranscriptionModel implements TranscriptionModelV3 {
         values: options.audio,
       },
       failedResponseHandler: deepgramFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(deepgramTranscriptionResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        deepgramTranscriptionResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
 
     return {
-      text: response.results?.channels.at(0)?.alternatives.at(0)?.transcript ?? '',
+      text:
+        response.results?.channels.at(0)?.alternatives.at(0)?.transcript ?? '',
       segments:
         response.results?.channels[0].alternatives[0].words?.map(word => ({
           text: word.word,
           startSecond: word.start,
           endSecond: word.end,
         })) ?? [],
-      language: response.results?.channels.at(0)?.detected_language ?? undefined,
+      language:
+        response.results?.channels.at(0)?.detected_language ?? undefined,
       durationInSeconds: response.metadata?.duration ?? undefined,
       warnings,
       response: {

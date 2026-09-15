@@ -3,7 +3,6 @@ title: extractJsonMiddleware
 description: Middleware that extracts JSON from text content by stripping markdown code fences
 ---
 
-
 `extractJsonMiddleware` is a middleware function that extracts JSON from text content by stripping markdown code fences and other formatting. This is useful when using `Output.object()` with models that wrap JSON responses in markdown code blocks (e.g., ` ```json ... ``` `).
 
 ```ts
@@ -14,7 +13,10 @@ const middleware = extractJsonMiddleware();
 
 ## Import
 
-<Snippet text={`import { extractJsonMiddleware } from "ai-toolkit"`} prompt={false} />
+<Snippet
+  text={`import { extractJsonMiddleware } from "ai-toolkit"`}
+  prompt={false}
+/>
 
 ## API Signature
 

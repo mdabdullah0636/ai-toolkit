@@ -161,7 +161,9 @@ const assemblyaiProviderOptionsSchema = z.object({
   wordBoost: z.array(z.string()).nullish(),
 });
 
-export type AssemblyAITranscriptionCallOptions = z.infer<typeof assemblyaiProviderOptionsSchema>;
+export type AssemblyAITranscriptionCallOptions = z.infer<
+  typeof assemblyaiProviderOptionsSchema
+>;
 
 interface AssemblyAITranscriptionModelConfig extends AssemblyAIConfig {
   _internal?: {
@@ -186,7 +188,9 @@ export class AssemblyAITranscriptionModel implements TranscriptionModelV3 {
     private readonly config: AssemblyAITranscriptionModelConfig,
   ) {}
 
-  private async getArgs({ providerOptions }: Parameters<TranscriptionModelV3['doGenerate']>[0]) {
+  private async getArgs({
+    providerOptions,
+  }: Parameters<TranscriptionModelV3['doGenerate']>[0]) {
     const warnings: SharedV3Warning[] = [];
 
     // Parse provider options
@@ -208,34 +212,44 @@ export class AssemblyAITranscriptionModel implements TranscriptionModelV3 {
       body.auto_highlights = assemblyaiOptions.autoHighlights ?? undefined;
       body.boost_param = (assemblyaiOptions.boostParam as never) ?? undefined;
       body.content_safety = assemblyaiOptions.contentSafety ?? undefined;
-      body.content_safety_confidence = assemblyaiOptions.contentSafetyConfidence ?? undefined;
-      body.custom_spelling = (assemblyaiOptions.customSpelling as never) ?? undefined;
+      body.content_safety_confidence =
+        assemblyaiOptions.contentSafetyConfidence ?? undefined;
+      body.custom_spelling =
+        (assemblyaiOptions.customSpelling as never) ?? undefined;
       body.disfluencies = assemblyaiOptions.disfluencies ?? undefined;
       body.entity_detection = assemblyaiOptions.entityDetection ?? undefined;
       body.filter_profanity = assemblyaiOptions.filterProfanity ?? undefined;
       body.format_text = assemblyaiOptions.formatText ?? undefined;
       body.iab_categories = assemblyaiOptions.iabCategories ?? undefined;
-      body.language_code = (assemblyaiOptions.languageCode as never) ?? undefined;
+      body.language_code =
+        (assemblyaiOptions.languageCode as never) ?? undefined;
       body.language_confidence_threshold =
         assemblyaiOptions.languageConfidenceThreshold ?? undefined;
-      body.language_detection = assemblyaiOptions.languageDetection ?? undefined;
+      body.language_detection =
+        assemblyaiOptions.languageDetection ?? undefined;
       body.multichannel = assemblyaiOptions.multichannel ?? undefined;
       body.punctuate = assemblyaiOptions.punctuate ?? undefined;
       body.redact_pii = assemblyaiOptions.redactPii ?? undefined;
       body.redact_pii_audio = assemblyaiOptions.redactPiiAudio ?? undefined;
       body.redact_pii_audio_quality =
         (assemblyaiOptions.redactPiiAudioQuality as never) ?? undefined;
-      body.redact_pii_policies = (assemblyaiOptions.redactPiiPolicies as never) ?? undefined;
-      body.redact_pii_sub = (assemblyaiOptions.redactPiiSub as never) ?? undefined;
-      body.sentiment_analysis = assemblyaiOptions.sentimentAnalysis ?? undefined;
+      body.redact_pii_policies =
+        (assemblyaiOptions.redactPiiPolicies as never) ?? undefined;
+      body.redact_pii_sub =
+        (assemblyaiOptions.redactPiiSub as never) ?? undefined;
+      body.sentiment_analysis =
+        assemblyaiOptions.sentimentAnalysis ?? undefined;
       body.speaker_labels = assemblyaiOptions.speakerLabels ?? undefined;
       body.speakers_expected = assemblyaiOptions.speakersExpected ?? undefined;
       body.speech_threshold = assemblyaiOptions.speechThreshold ?? undefined;
       body.summarization = assemblyaiOptions.summarization ?? undefined;
-      body.summary_model = (assemblyaiOptions.summaryModel as never) ?? undefined;
+      body.summary_model =
+        (assemblyaiOptions.summaryModel as never) ?? undefined;
       body.summary_type = (assemblyaiOptions.summaryType as never) ?? undefined;
-      body.webhook_auth_header_name = assemblyaiOptions.webhookAuthHeaderName ?? undefined;
-      body.webhook_auth_header_value = assemblyaiOptions.webhookAuthHeaderValue ?? undefined;
+      body.webhook_auth_header_name =
+        assemblyaiOptions.webhookAuthHeaderName ?? undefined;
+      body.webhook_auth_header_value =
+        assemblyaiOptions.webhookAuthHeaderValue ?? undefined;
       body.webhook_url = assemblyaiOptions.webhookUrl ?? undefined;
       body.word_boost = assemblyaiOptions.wordBoost ?? undefined;
     }
@@ -259,7 +273,8 @@ export class AssemblyAITranscriptionModel implements TranscriptionModelV3 {
     transcript: z.infer<typeof assemblyaiTranscriptionResponseSchema>;
     responseHeaders: Record<string, string>;
   }> {
-    const pollingInterval = this.config.pollingInterval ?? this.POLLING_INTERVAL_MS;
+    const pollingInterval =
+      this.config.pollingInterval ?? this.POLLING_INTERVAL_MS;
 
     while (true) {
       if (abortSignal?.aborted) {
@@ -273,7 +288,10 @@ export class AssemblyAITranscriptionModel implements TranscriptionModelV3 {
         }),
         {
           method: 'GET',
-          headers: combineHeaders(this.config.headers(), headers) as HeadersInit,
+          headers: combineHeaders(
+            this.config.headers(),
+            headers,
+          ) as HeadersInit,
           signal: abortSignal,
         },
       );
@@ -289,7 +307,9 @@ export class AssemblyAITranscriptionModel implements TranscriptionModelV3 {
         });
       }
 
-      const transcript = assemblyaiTranscriptionResponseSchema.parse(await response.json());
+      const transcript = assemblyaiTranscriptionResponseSchema.parse(
+        await response.json(),
+      );
 
       if (transcript.status === 'completed') {
         return {
@@ -299,7 +319,9 @@ export class AssemblyAITranscriptionModel implements TranscriptionModelV3 {
       }
 
       if (transcript.status === 'error') {
-        throw new Error(`Transcription failed: ${transcript.error ?? 'Unknown error'}`);
+        throw new Error(
+          `Transcription failed: ${transcript.error ?? 'Unknown error'}`,
+        );
       }
 
       await new Promise(resolve => setTimeout(resolve, pollingInterval));
@@ -325,7 +347,9 @@ export class AssemblyAITranscriptionModel implements TranscriptionModelV3 {
         values: options.audio,
       },
       failedResponseHandler: assemblyaiFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(assemblyaiUploadResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        assemblyaiUploadResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -343,7 +367,9 @@ export class AssemblyAITranscriptionModel implements TranscriptionModelV3 {
         audio_url: uploadResponse.upload_url,
       },
       failedResponseHandler: assemblyaiFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(assemblyaiSubmitResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        assemblyaiSubmitResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -363,7 +389,8 @@ export class AssemblyAITranscriptionModel implements TranscriptionModelV3 {
           endSecond: word.end,
         })) ?? [],
       language: transcript.language_code ?? undefined,
-      durationInSeconds: transcript.audio_duration ?? transcript.words?.at(-1)?.end ?? undefined,
+      durationInSeconds:
+        transcript.audio_duration ?? transcript.words?.at(-1)?.end ?? undefined,
       warnings,
       response: {
         timestamp: currentDate,

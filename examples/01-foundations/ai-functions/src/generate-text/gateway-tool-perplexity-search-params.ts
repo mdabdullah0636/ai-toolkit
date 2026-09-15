@@ -24,7 +24,10 @@ async function main() {
   console.log();
   console.log('Token usage:', result.usage);
   console.log('Finish reason:', result.finishReason);
-  console.log('Provider metadata:', JSON.stringify(result.providerMetadata, null, 2));
+  console.log(
+    'Provider metadata:',
+    JSON.stringify(result.providerMetadata, null, 2),
+  );
 }
 
 main().catch(console.error);

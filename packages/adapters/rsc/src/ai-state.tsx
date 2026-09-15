@@ -65,12 +65,18 @@ export function sealMutableAIState() {
  * @example const state = getAIState() // Get the entire AI state
  * @example const field = getAIState('key') // Get the value of the key
  */
-function getAIState<AI extends AIProvider = any>(): Readonly<InferAIState<AI, any>>;
+function getAIState<AI extends AIProvider = any>(): Readonly<
+  InferAIState<AI, any>
+>;
 function getAIState<AI extends AIProvider = any>(
   key: keyof InferAIState<AI, any>,
 ): Readonly<InferAIState<AI, any>[typeof key]>;
-function getAIState<AI extends AIProvider = any>(...args: [] | [key: keyof InferAIState<AI, any>]) {
-  const store = getAIStateStoreOrThrow('`getAIState` must be called within an AI Action.');
+function getAIState<AI extends AIProvider = any>(
+  ...args: [] | [key: keyof InferAIState<AI, any>]
+) {
+  const store = getAIStateStoreOrThrow(
+    '`getAIState` must be called within an AI Action.',
+  );
 
   if (args.length > 0) {
     const key = args[0];
@@ -103,7 +109,9 @@ function getAIState<AI extends AIProvider = any>(...args: [] | [key: keyof Infer
  * state.done({ ...state.get(), key: 'value' }) // Done with a new state
  * ```
  */
-function getMutableAIState<AI extends AIProvider = any>(): MutableAIState<InferAIState<AI, any>>;
+function getMutableAIState<AI extends AIProvider = any>(): MutableAIState<
+  InferAIState<AI, any>
+>;
 function getMutableAIState<AI extends AIProvider = any>(
   key: keyof InferAIState<AI, any>,
 ): MutableAIState<InferAIState<AI, any>[typeof key]>;
@@ -116,7 +124,9 @@ function getMutableAIState<AI extends AIProvider = any>(
     : AIState;
   type NewStateOrUpdater = ValueOrUpdater<AIStateWithKey>;
 
-  const store = getAIStateStoreOrThrow('`getMutableAIState` must be called within an AI Action.');
+  const store = getAIStateStoreOrThrow(
+    '`getMutableAIState` must be called within an AI Action.',
+  );
 
   if (store.sealed) {
     throw new Error(

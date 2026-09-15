@@ -79,7 +79,9 @@ export class FalImageModel implements ImageModelV3 {
 
       if (useMultipleImages) {
         // Use image_urls array for models that support multiple images (e.g., flux-2/edit)
-        requestBody.image_urls = files.map(file => convertImageModelFileToDataUri(file));
+        requestBody.image_urls = files.map(file =>
+          convertImageModelFileToDataUri(file),
+        );
       } else {
         // Use single image_url for standard image editing models
         requestBody.image_url = convertImageModelFileToDataUri(files[0]);
@@ -103,14 +105,18 @@ export class FalImageModel implements ImageModelV3 {
 
     if (falOptions) {
       const deprecatedKeys =
-        '__deprecatedKeys' in falOptions ? (falOptions.__deprecatedKeys as string[]) : undefined;
+        '__deprecatedKeys' in falOptions
+          ? (falOptions.__deprecatedKeys as string[])
+          : undefined;
 
       if (deprecatedKeys && deprecatedKeys.length > 0) {
         warnings.push({
           type: 'other',
           message: `The following provider options use deprecated snake_case and will be removed in @ai-toolkit/fal v2.0. Please use camelCase instead: ${deprecatedKeys
             .map(key => {
-              const camelCase = key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+              const camelCase = key.replace(/_([a-z])/g, (_, letter) =>
+                letter.toUpperCase(),
+              );
               return `'${key}' (use '${camelCase}')`;
             })
             .join(', ')}`,
@@ -150,10 +156,15 @@ export class FalImageModel implements ImageModelV3 {
     const currentDate = this.config._internal?.currentDate?.() ?? new Date();
     const { value, responseHeaders } = await postJsonToApi({
       url: `${this.config.baseURL}/${this.modelId}`,
-      headers: combineHeaders(await resolve(this.config.headers), options.headers),
+      headers: combineHeaders(
+        await resolve(this.config.headers),
+        options.headers,
+      ),
       body: requestBody,
       failedResponseHandler: falFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(falImageResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        falImageResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -171,7 +182,9 @@ export class FalImageModel implements ImageModelV3 {
 
     // download the images:
     const downloadedImages = await Promise.all(
-      targetImages.map(image => this.downloadImage(image.url, options.abortSignal)),
+      targetImages.map(image =>
+        this.downloadImage(image.url, options.abortSignal),
+      ),
     );
 
     return {
@@ -194,7 +207,8 @@ export class FalImageModel implements ImageModelV3 {
               ...imageMetaData
             } = image;
 
-            const nsfw = has_nsfw_concepts?.[index] ?? nsfw_content_detected?.[index];
+            const nsfw =
+              has_nsfw_concepts?.[index] ?? nsfw_content_detected?.[index];
 
             return {
               ...imageMetaData,
@@ -231,7 +245,9 @@ export class FalImageModel implements ImageModelV3 {
 }
 
 function removeOnlyUndefined<T extends Record<string, unknown>>(obj: T) {
-  return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined)) as Partial<T>;
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, v]) => v !== undefined),
+  ) as Partial<T>;
 }
 
 /**
@@ -239,7 +255,9 @@ Converts an aspect ratio to an image size compatible with fal.ai APIs.
 @param aspectRatio - The aspect ratio to convert.
 @returns The image size.
  */
-function convertAspectRatioToSize(aspectRatio: `${number}:${number}`): FalImageSize | undefined {
+function convertAspectRatioToSize(
+  aspectRatio: `${number}:${number}`,
+): FalImageSize | undefined {
   switch (aspectRatio) {
     case '1:1':
       return 'square_hd';
@@ -325,7 +343,10 @@ const commonResponseSchema = z.object({
 // with a single image, e.g. https://fal.ai/models/easel-ai/easel-avatar/api#schema-output
 const base = z.looseObject(commonResponseSchema.shape);
 const falImageResponseSchema = z
-  .union([base.extend({ images: z.array(falImageSchema) }), base.extend({ image: falImageSchema })])
+  .union([
+    base.extend({ images: z.array(falImageSchema) }),
+    base.extend({ image: falImageSchema }),
+  ])
   .transform(v => ('images' in v ? v : { ...v, images: [v.image] }))
   .pipe(base.extend({ images: z.array(falImageSchema) }));
 
@@ -337,7 +358,9 @@ const falFailedResponseHandler = createJsonErrorResponseHandler({
   errorSchema: falErrorSchema,
   errorToMessage: error => {
     if (isValidationError(error)) {
-      return error.detail.map(detail => `${detail.loc.join('.')}: ${detail.msg}`).join('\n');
+      return error.detail
+        .map(detail => `${detail.loc.join('.')}: ${detail.msg}`)
+        .join('\n');
     }
     return error.message ?? 'Unknown fal error';
   },

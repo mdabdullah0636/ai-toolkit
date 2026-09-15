@@ -1,6 +1,3 @@
 {
-  "pages": [
-    "langchain",
-    "llamaindex"
-  ]
+  "pages": ["langchain", "llamaindex"]
 }

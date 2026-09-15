@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
-import type { ComponentProps } from "react";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import type { ComponentProps } from 'react';
 
 import {
   InlineCitation,
@@ -17,207 +17,211 @@ import {
   InlineCitationQuote,
   InlineCitationSource,
   InlineCitationText,
-} from "./inline-citation";
+} from './inline-citation';
 
 // The index component tracks count/current from the carousel API but also
 // passes unknown props through to its root <div> as DOM attributes.
 const indexAttrs = (
   attrs: { count: number; current: number } & { className?: string },
-) => attrs as ComponentProps<"div">;
+) => attrs as ComponentProps<'div'>;
 
 const EXAMPLE_COM_PLUS_TWO_REGEX = /example\.com \+2/;
 const PREVIOUS_REGEX = /previous/i;
 const NEXT_REGEX = /next/i;
 
-describe("inlineCitation", () => {
-  it("renders children", () => {
+describe('inlineCitation', () => {
+  it('renders children', () => {
     render(<InlineCitation>Citation content</InlineCitation>);
-    expect(screen.getByText("Citation content")).toBeInTheDocument();
+    expect(screen.getByText('Citation content')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <InlineCitation className="custom">Text</InlineCitation>
+      <InlineCitation className="custom">Text</InlineCitation>,
     );
-    expect(container.firstChild).toHaveClass("custom");
+    expect(container.firstChild).toHaveClass('custom');
   });
 });
 
-describe("inlineCitationText", () => {
-  it("renders text content", () => {
+describe('inlineCitationText', () => {
+  it('renders text content', () => {
     render(<InlineCitationText>Cited text</InlineCitationText>);
-    expect(screen.getByText("Cited text")).toBeInTheDocument();
+    expect(screen.getByText('Cited text')).toBeInTheDocument();
   });
 
-  it("has group hover effect class", () => {
+  it('has group hover effect class', () => {
     const { container } = render(<InlineCitationText>Text</InlineCitationText>);
-    expect(container.firstChild).toHaveClass("transition-colors");
+    expect(container.firstChild).toHaveClass('transition-colors');
   });
 });
 
-describe("inlineCitationCard", () => {
-  it("renders card", () => {
+describe('inlineCitationCard', () => {
+  it('renders card', () => {
     render(
       <InlineCitationCard>
         <div>Card content</div>
-      </InlineCitationCard>
+      </InlineCitationCard>,
     );
-    expect(screen.getByText("Card content")).toBeInTheDocument();
+    expect(screen.getByText('Card content')).toBeInTheDocument();
   });
 });
 
-describe("inlineCitationCardTrigger", () => {
-  it("renders single source hostname", () => {
+describe('inlineCitationCardTrigger', () => {
+  it('renders single source hostname', () => {
     render(
       <InlineCitationCard>
-        <InlineCitationCardTrigger sources={["https://example.com/page"]} />
-      </InlineCitationCard>
+        <InlineCitationCardTrigger sources={['https://example.com/page']} />
+      </InlineCitationCard>,
     );
-    expect(screen.getByText("example.com")).toBeInTheDocument();
+    expect(screen.getByText('example.com')).toBeInTheDocument();
   });
 
-  it("renders multiple sources count", () => {
+  it('renders multiple sources count', () => {
     render(
       <InlineCitationCard>
         <InlineCitationCardTrigger
           sources={[
-            "https://example.com",
-            "https://test.com",
-            "https://demo.com",
+            'https://example.com',
+            'https://test.com',
+            'https://demo.com',
           ]}
         />
-      </InlineCitationCard>
+      </InlineCitationCard>,
     );
     expect(screen.getByText(EXAMPLE_COM_PLUS_TWO_REGEX)).toBeInTheDocument();
   });
 
-  it("renders unknown for empty sources", () => {
+  it('renders unknown for empty sources', () => {
     render(
       <InlineCitationCard>
         <InlineCitationCardTrigger sources={[]} />
-      </InlineCitationCard>
+      </InlineCitationCard>,
     );
-    expect(screen.getByText("unknown")).toBeInTheDocument();
+    expect(screen.getByText('unknown')).toBeInTheDocument();
   });
 });
 
-describe("inlineCitationCardBody", () => {
-  it("renders body content", () => {
+describe('inlineCitationCardBody', () => {
+  it('renders body content', () => {
     render(
       <InlineCitationCard defaultOpen>
-        <InlineCitationCardTrigger sources={["https://example.com"]} />
+        <InlineCitationCardTrigger sources={['https://example.com']} />
         <InlineCitationCardBody>Body</InlineCitationCardBody>
-      </InlineCitationCard>
+      </InlineCitationCard>,
     );
-    expect(screen.getByText("Body")).toBeInTheDocument();
+    expect(screen.getByText('Body')).toBeInTheDocument();
   });
 });
 
-describe("inlineCitationCarousel", () => {
-  it("renders carousel", () => {
+describe('inlineCitationCarousel', () => {
+  it('renders carousel', () => {
     render(
       <InlineCitationCarousel>
         <InlineCitationCarouselContent>
           <InlineCitationCarouselItem>Item 1</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
-    expect(screen.getByText("Item 1")).toBeInTheDocument();
+    expect(screen.getByText('Item 1')).toBeInTheDocument();
   });
 });
 
-describe("inlineCitationCarouselHeader", () => {
-  it("renders header", () => {
+describe('inlineCitationCarouselHeader', () => {
+  it('renders header', () => {
     render(<InlineCitationCarouselHeader>Header</InlineCitationCarouselHeader>);
-    expect(screen.getByText("Header")).toBeInTheDocument();
+    expect(screen.getByText('Header')).toBeInTheDocument();
   });
 });
 
-describe("inlineCitationSource", () => {
-  it("renders source with all props", () => {
+describe('inlineCitationSource', () => {
+  it('renders source with all props', () => {
     render(
       <InlineCitationSource
         description="Description text"
         title="Source Title"
         url="https://example.com"
-      />
+      />,
     );
-    expect(screen.getByText("Source Title")).toBeInTheDocument();
-    expect(screen.getByText("https://example.com")).toBeInTheDocument();
-    expect(screen.getByText("Description text")).toBeInTheDocument();
+    expect(screen.getByText('Source Title')).toBeInTheDocument();
+    expect(screen.getByText('https://example.com')).toBeInTheDocument();
+    expect(screen.getByText('Description text')).toBeInTheDocument();
   });
 
-  it("renders custom children", () => {
+  it('renders custom children', () => {
     render(<InlineCitationSource>Custom content</InlineCitationSource>);
-    expect(screen.getByText("Custom content")).toBeInTheDocument();
+    expect(screen.getByText('Custom content')).toBeInTheDocument();
   });
 });
 
-describe("inlineCitationQuote", () => {
-  it("renders quote", () => {
+describe('inlineCitationQuote', () => {
+  it('renders quote', () => {
     render(<InlineCitationQuote>Quote text</InlineCitationQuote>);
-    expect(screen.getByText("Quote text")).toBeInTheDocument();
+    expect(screen.getByText('Quote text')).toBeInTheDocument();
   });
 
-  it("renders as blockquote element", () => {
+  it('renders as blockquote element', () => {
     const { container } = render(
-      <InlineCitationQuote>Quote</InlineCitationQuote>
+      <InlineCitationQuote>Quote</InlineCitationQuote>,
     );
-    expect(container.querySelector("blockquote")).toBeInTheDocument();
+    expect(container.querySelector('blockquote')).toBeInTheDocument();
   });
 });
 
-describe("inlineCitationCarouselIndex", () => {
-  it("renders index component", () => {
+describe('inlineCitationCarouselIndex', () => {
+  it('renders index component', () => {
     const { container } = render(
       <InlineCitationCarousel>
         <InlineCitationCarouselHeader>
-          <InlineCitationCarouselIndex {...indexAttrs({ count: 5, current: 2 })} />
+          <InlineCitationCarouselIndex
+            {...indexAttrs({ count: 5, current: 2 })}
+          />
         </InlineCitationCarouselHeader>
         <InlineCitationCarouselContent>
           <InlineCitationCarouselItem>Item</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
     const indexDiv = container.querySelector("[count='5'][current='2']");
     expect(indexDiv).toBeInTheDocument();
   });
 
-  it("renders custom children", () => {
+  it('renders custom children', () => {
     render(
       <InlineCitationCarousel>
         <InlineCitationCarouselHeader>
-          <InlineCitationCarouselIndex {...indexAttrs({ count: 5, current: 2 })}>
+          <InlineCitationCarouselIndex
+            {...indexAttrs({ count: 5, current: 2 })}
+          >
             Custom Index
           </InlineCitationCarouselIndex>
         </InlineCitationCarouselHeader>
         <InlineCitationCarouselContent>
           <InlineCitationCarouselItem>Item</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
-    expect(screen.getByText("Custom Index")).toBeInTheDocument();
+    expect(screen.getByText('Custom Index')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <InlineCitationCarousel>
         <InlineCitationCarouselHeader>
           <InlineCitationCarouselIndex
-            {...indexAttrs({ className: "custom-index", count: 3, current: 1 })}
+            {...indexAttrs({ className: 'custom-index', count: 3, current: 1 })}
           />
         </InlineCitationCarouselHeader>
         <InlineCitationCarouselContent>
           <InlineCitationCarouselItem>Item</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
-    expect(container.querySelector(".custom-index")).toBeInTheDocument();
+    expect(container.querySelector('.custom-index')).toBeInTheDocument();
   });
 });
 
-describe("inlineCitationCarouselPrev", () => {
-  it("renders previous button", () => {
+describe('inlineCitationCarouselPrev', () => {
+  it('renders previous button', () => {
     render(
       <InlineCitationCarousel>
         <InlineCitationCarouselHeader>
@@ -226,14 +230,14 @@ describe("inlineCitationCarouselPrev", () => {
         <InlineCitationCarouselContent>
           <InlineCitationCarouselItem>Item</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
     expect(
-      screen.getByRole("button", { name: PREVIOUS_REGEX })
+      screen.getByRole('button', { name: PREVIOUS_REGEX }),
     ).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(
       <InlineCitationCarousel>
         <InlineCitationCarouselHeader>
@@ -242,13 +246,13 @@ describe("inlineCitationCarouselPrev", () => {
         <InlineCitationCarouselContent>
           <InlineCitationCarouselItem>Item</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
-    const button = screen.getByRole("button", { name: PREVIOUS_REGEX });
-    expect(button).toHaveClass("custom-prev");
+    const button = screen.getByRole('button', { name: PREVIOUS_REGEX });
+    expect(button).toHaveClass('custom-prev');
   });
 
-  it("renders ArrowLeftIcon", () => {
+  it('renders ArrowLeftIcon', () => {
     const { container } = render(
       <InlineCitationCarousel>
         <InlineCitationCarouselHeader>
@@ -257,13 +261,13 @@ describe("inlineCitationCarouselPrev", () => {
         <InlineCitationCarouselContent>
           <InlineCitationCarouselItem>Item</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
-    const icon = container.querySelector("svg");
+    const icon = container.querySelector('svg');
     expect(icon).toBeInTheDocument();
   });
 
-  it("navigates to previous item when clicked", async () => {
+  it('navigates to previous item when clicked', async () => {
     const user = userEvent.setup();
 
     render(
@@ -275,10 +279,10 @@ describe("inlineCitationCarouselPrev", () => {
           <InlineCitationCarouselItem>Item 1</InlineCitationCarouselItem>
           <InlineCitationCarouselItem>Item 2</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
 
-    const button = screen.getByRole("button", { name: PREVIOUS_REGEX });
+    const button = screen.getByRole('button', { name: PREVIOUS_REGEX });
     await user.click(button);
 
     // Button should be clickable without errors
@@ -286,8 +290,8 @@ describe("inlineCitationCarouselPrev", () => {
   });
 });
 
-describe("inlineCitationCarouselNext", () => {
-  it("renders next button", () => {
+describe('inlineCitationCarouselNext', () => {
+  it('renders next button', () => {
     render(
       <InlineCitationCarousel>
         <InlineCitationCarouselHeader>
@@ -296,14 +300,14 @@ describe("inlineCitationCarouselNext", () => {
         <InlineCitationCarouselContent>
           <InlineCitationCarouselItem>Item</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
     expect(
-      screen.getByRole("button", { name: NEXT_REGEX })
+      screen.getByRole('button', { name: NEXT_REGEX }),
     ).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(
       <InlineCitationCarousel>
         <InlineCitationCarouselHeader>
@@ -312,13 +316,13 @@ describe("inlineCitationCarouselNext", () => {
         <InlineCitationCarouselContent>
           <InlineCitationCarouselItem>Item</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
-    const button = screen.getByRole("button", { name: NEXT_REGEX });
-    expect(button).toHaveClass("custom-next");
+    const button = screen.getByRole('button', { name: NEXT_REGEX });
+    expect(button).toHaveClass('custom-next');
   });
 
-  it("renders ArrowRightIcon", () => {
+  it('renders ArrowRightIcon', () => {
     const { container } = render(
       <InlineCitationCarousel>
         <InlineCitationCarouselHeader>
@@ -327,13 +331,13 @@ describe("inlineCitationCarouselNext", () => {
         <InlineCitationCarouselContent>
           <InlineCitationCarouselItem>Item</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
-    const icon = container.querySelector("svg");
+    const icon = container.querySelector('svg');
     expect(icon).toBeInTheDocument();
   });
 
-  it("navigates to next item when clicked", async () => {
+  it('navigates to next item when clicked', async () => {
     const user = userEvent.setup();
 
     render(
@@ -345,10 +349,10 @@ describe("inlineCitationCarouselNext", () => {
           <InlineCitationCarouselItem>Item 1</InlineCitationCarouselItem>
           <InlineCitationCarouselItem>Item 2</InlineCitationCarouselItem>
         </InlineCitationCarouselContent>
-      </InlineCitationCarousel>
+      </InlineCitationCarousel>,
     );
 
-    const button = screen.getByRole("button", { name: NEXT_REGEX });
+    const button = screen.getByRole('button', { name: NEXT_REGEX });
     await user.click(button);
 
     // Button should be clickable without errors

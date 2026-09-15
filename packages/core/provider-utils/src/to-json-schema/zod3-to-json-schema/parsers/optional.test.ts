@@ -27,7 +27,10 @@ describe('Standalone optionals', () => {
   });
 
   it('should not affect object properties', () => {
-    const parsedSchema = parseDef(z.object({ myProperty: z.string().optional() })._def, getRefs());
+    const parsedSchema = parseDef(
+      z.object({ myProperty: z.string().optional() })._def,
+      getRefs(),
+    );
 
     expect(parsedSchema).toStrictEqual({
       type: 'object',
@@ -135,7 +138,10 @@ describe('Standalone optionals', () => {
       type: 'array',
       minItems: 2,
       maxItems: 2,
-      items: [{ anyOf: [{ not: {} }, { type: 'string' }] }, { $ref: '#/items/0/anyOf/1' }],
+      items: [
+        { anyOf: [{ not: {} }, { type: 'string' }] },
+        { $ref: '#/items/0/anyOf/1' },
+      ],
     } satisfies JSONSchema7);
   });
 });

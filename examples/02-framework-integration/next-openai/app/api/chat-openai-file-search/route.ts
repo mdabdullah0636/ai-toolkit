@@ -17,7 +17,11 @@ const tools = {
   }),
 } satisfies ToolSet;
 
-export type OpenAIFileSearchMessage = UIMessage<never, UIDataTypes, InferUITools<typeof tools>>;
+export type OpenAIFileSearchMessage = UIMessage<
+  never,
+  UIDataTypes,
+  InferUITools<typeof tools>
+>;
 
 export async function POST(req: Request) {
   const { messages } = await req.json();

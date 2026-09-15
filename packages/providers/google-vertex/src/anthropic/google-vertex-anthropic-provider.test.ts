@@ -1,11 +1,16 @@
-import { createVertexAnthropic, vertexAnthropicTools } from './google-vertex-anthropic-provider';
+import {
+  createVertexAnthropic,
+  vertexAnthropicTools,
+} from './google-vertex-anthropic-provider';
 import { NoSuchModelError } from '@ai-toolkit/provider';
 import { AnthropicMessagesLanguageModel } from '@ai-toolkit/anthropic/internal';
 import { vi, describe, beforeEach, it, expect } from 'vitest';
 
 // Mock the imported modules
 vi.mock('@ai-toolkit/provider-utils', () => ({
-  loadOptionalSetting: vi.fn().mockImplementation(({ settingValue }) => settingValue),
+  loadOptionalSetting: vi
+    .fn()
+    .mockImplementation(({ settingValue }) => settingValue),
   withoutTrailingSlash: vi.fn().mockImplementation(url => url),
   createJsonErrorResponseHandler: vi.fn(),
   createProviderToolFactory: vi.fn(),
@@ -15,7 +20,9 @@ vi.mock('@ai-toolkit/provider-utils', () => ({
 }));
 
 vi.mock('@ai-toolkit/anthropic/internal', async () => {
-  const originalModule = await vi.importActual('@ai-toolkit/anthropic/internal');
+  const originalModule = await vi.importActual(
+    '@ai-toolkit/anthropic/internal',
+  );
   return {
     ...originalModule,
     AnthropicMessagesLanguageModel: vi.fn(),
@@ -77,7 +84,9 @@ describe('google-vertex-anthropic-provider', () => {
   it('should throw NoSuchModelError for textEmbeddingModel', () => {
     const provider = createVertexAnthropic({ project: 'test-project' });
 
-    expect(() => provider.embeddingModel('invalid-model-id')).toThrow(NoSuchModelError);
+    expect(() => provider.embeddingModel('invalid-model-id')).toThrow(
+      NoSuchModelError,
+    );
   });
 
   it('should include vertexAnthropicTools (subset of anthropicTools)', () => {
@@ -138,9 +147,8 @@ describe('google-vertex-anthropic-provider', () => {
     );
 
     // Get the actual config passed to the constructor
-    const constructorCall = vi.mocked(AnthropicMessagesLanguageModel).mock.calls[
-      vi.mocked(AnthropicMessagesLanguageModel).mock.calls.length - 1
-    ];
+    const constructorCall = vi.mocked(AnthropicMessagesLanguageModel).mock
+      .calls[vi.mocked(AnthropicMessagesLanguageModel).mock.calls.length - 1];
     const config = constructorCall[1];
 
     // Verify that supportedUrls returns empty object to force base64 conversion

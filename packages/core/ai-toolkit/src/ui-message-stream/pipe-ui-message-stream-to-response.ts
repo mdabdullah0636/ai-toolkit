@@ -32,7 +32,9 @@ export function pipeUIMessageStreamToResponse({
     response,
     status,
     statusText,
-    headers: Object.fromEntries(prepareHeaders(headers, UI_MESSAGE_STREAM_HEADERS).entries()),
+    headers: Object.fromEntries(
+      prepareHeaders(headers, UI_MESSAGE_STREAM_HEADERS).entries(),
+    ),
     stream: sseStream.pipeThrough(new TextEncoderStream()),
   });
 }

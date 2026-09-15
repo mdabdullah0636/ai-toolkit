@@ -18,7 +18,10 @@ run(async () => {
         console.log('\n\n--- Finish Step ---');
         console.log('Finish reason:', part.finishReason);
         console.log('Usage:', part.usage);
-        console.log('Stop sequence:', part.providerMetadata?.anthropic?.stopSequence);
+        console.log(
+          'Stop sequence:',
+          part.providerMetadata?.anthropic?.stopSequence,
+        );
         break;
     }
   }

@@ -42,7 +42,8 @@ export function readStreamableValue<T = unknown>(
 
   return {
     [Symbol.asyncIterator]() {
-      let row: StreamableValue<T> | Promise<StreamableValue<T>> = streamableValue;
+      let row: StreamableValue<T> | Promise<StreamableValue<T>> =
+        streamableValue;
       let value = row.curr; // the current value
       let isDone = false;
       let isFirstIteration = true;

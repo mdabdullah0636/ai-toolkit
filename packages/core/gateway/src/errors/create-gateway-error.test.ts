@@ -175,7 +175,9 @@ describe('Error response edge cases', () => {
 
     // When the response doesn't pass schema validation, it creates a response error
     expect(error).toBeInstanceOf(GatewayResponseError);
-    expect(error.message).toBe('Invalid error response format: Custom default message');
+    expect(error.message).toBe(
+      'Invalid error response format: Custom default message',
+    );
 
     // Verify debugging information is included
     const responseError = error as GatewayResponseError;
@@ -230,7 +232,9 @@ describe('Malformed responses', () => {
     });
 
     expect(error).toBeInstanceOf(GatewayResponseError);
-    expect(error.message).toBe('Invalid error response format: Gateway request failed');
+    expect(error.message).toBe(
+      'Invalid error response format: Gateway request failed',
+    );
     expect(error.statusCode).toBe(500);
 
     // Verify debugging information is included
@@ -251,7 +255,9 @@ describe('Malformed responses', () => {
     });
 
     expect(error).toBeInstanceOf(GatewayResponseError);
-    expect(error.message).toBe('Invalid error response format: Custom error message');
+    expect(error.message).toBe(
+      'Invalid error response format: Custom error message',
+    );
 
     // Verify debugging information is included
     const responseError = error as GatewayResponseError;
@@ -268,7 +274,9 @@ describe('Malformed responses', () => {
     });
 
     expect(error).toBeInstanceOf(GatewayResponseError);
-    expect(error.message).toBe('Invalid error response format: Gateway request failed');
+    expect(error.message).toBe(
+      'Invalid error response format: Gateway request failed',
+    );
 
     // Verify debugging information is included
     const responseError = error as GatewayResponseError;
@@ -285,7 +293,9 @@ describe('Malformed responses', () => {
     });
 
     expect(error).toBeInstanceOf(GatewayResponseError);
-    expect(error.message).toBe('Invalid error response format: Gateway request failed');
+    expect(error.message).toBe(
+      'Invalid error response format: Gateway request failed',
+    );
 
     // Verify debugging information is included
     const responseError = error as GatewayResponseError;
@@ -302,7 +312,9 @@ describe('Malformed responses', () => {
     });
 
     expect(error).toBeInstanceOf(GatewayResponseError);
-    expect(error.message).toBe('Invalid error response format: Gateway request failed');
+    expect(error.message).toBe(
+      'Invalid error response format: Gateway request failed',
+    );
 
     // Verify debugging information is included
     const responseError = error as GatewayResponseError;
@@ -323,7 +335,9 @@ describe('Object parameter validation', () => {
     });
 
     expect(error).toBeInstanceOf(GatewayResponseError);
-    expect(error.message).toBe('Invalid error response format: Gateway request failed');
+    expect(error.message).toBe(
+      'Invalid error response format: Gateway request failed',
+    );
 
     // Verify debugging information is included
     const responseError = error as GatewayResponseError;

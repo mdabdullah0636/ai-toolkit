@@ -140,7 +140,10 @@ function addKasadaCORSHeaders(response: Response): void {
   response.headers.append('access-control-allow-headers', kasadaHeaders);
 }
 
-export async function kasadaHandler(request: NextRequest, ev: NextFetchEvent): Promise<Response> {
+export async function kasadaHandler(
+  request: NextRequest,
+  ev: NextFetchEvent,
+): Promise<Response> {
   // If the request is an OPTIONS request we don't send it to Kasada
   // but we do add the necessary CORS headers.
   if (request.method === 'OPTIONS') {
@@ -165,7 +168,10 @@ export async function kasadaHandler(request: NextRequest, ev: NextFetchEvent): P
 
   // If the request is a Bad Bot and we're in Protect mode, we'll block this request
   // and add the Kasada headers to the response for the Client-side SDKs
-  if (metadata.classification === 'BAD-BOT' && metadata.application.mode === 'PROTECT') {
+  if (
+    metadata.classification === 'BAD-BOT' &&
+    metadata.application.mode === 'PROTECT'
+  ) {
     const blockResponse = new Response(undefined, {
       status: 429,
     });

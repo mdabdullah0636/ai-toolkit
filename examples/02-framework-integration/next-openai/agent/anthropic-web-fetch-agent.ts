@@ -13,4 +13,6 @@ export const anthropicWebFetchAgent = new ToolLoopAgent({
   },
 });
 
-export type AnthropicWebFetchMessage = InferAgentUIMessage<typeof anthropicWebFetchAgent>;
+export type AnthropicWebFetchMessage = InferAgentUIMessage<
+  typeof anthropicWebFetchAgent
+>;

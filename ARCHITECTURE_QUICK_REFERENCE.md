@@ -84,13 +84,13 @@ pnpm generate example --level=01-foundations --name=my-example
 
 ## Ownership & Review
 
-| Area                             | Owner                          | Review              |
-| -------------------------------- | ------------------------------ | ------------------- |
+| Area                             | Owner                              | Review              |
+| -------------------------------- | ---------------------------------- | ------------------- |
 | `packages/core/`                 | @khulnasoft/ai-toolkit-core        | 2 approvals         |
-| `packages/providers/{provider}/` | Provider team                  | 1 approval + 1 core |
-| `packages/adapters/`             | Framework teams                | 1 approval          |
+| `packages/providers/{provider}/` | Provider team                      | 1 approval + 1 core |
+| `packages/adapters/`             | Framework teams                    | 1 approval          |
 | `examples/`                      | @khulnasoft/ai-toolkit-developers  | 1 approval          |
-| `.github/`                       | @khulnasoft/devops-team        | 1 approval          |
+| `.github/`                       | @khulnasoft/devops-team            | 1 approval          |
 | Root configs                     | @khulnasoft/ai-toolkit-maintainers | 1 approval          |
 
 **See**: `CODEOWNERS` file for complete mapping
@@ -362,16 +362,16 @@ cat CODEOWNERS
 
 ## Useful Files
 
-| File                        | Purpose                                 |
-| --------------------------- | --------------------------------------- |
-| `AGENTS.md` + `architecture/`   | Architecture overview + domain docs     |
-| `CONTRIBUTOR_ONBOARDING.md` | New contributor guide                   |
-| `MIGRATION_PLAN.md`         | Migration implementation guide          |
-| `CODEOWNERS`                | Package ownership & review requirements |
-| `ADR/`                      | Architecture decisions                  |
-| `turbo.json`                | Monorepo task configuration             |
-| `pnpm-workspace.yaml`       | Workspace definition                    |
-| `tsconfig.json`             | TypeScript project references           |
+| File                          | Purpose                                 |
+| ----------------------------- | --------------------------------------- |
+| `AGENTS.md` + `architecture/` | Architecture overview + domain docs     |
+| `CONTRIBUTOR_ONBOARDING.md`   | New contributor guide                   |
+| `MIGRATION_PLAN.md`           | Migration implementation guide          |
+| `CODEOWNERS`                  | Package ownership & review requirements |
+| `ADR/`                        | Architecture decisions                  |
+| `turbo.json`                  | Monorepo task configuration             |
+| `pnpm-workspace.yaml`         | Workspace definition                    |
+| `tsconfig.json`               | TypeScript project references           |
 
 ---
 

@@ -3,7 +3,6 @@ title: Message
 description: Renders UIMessage with role-based alignment
 ---
 
-
 Renders a `UIMessage` with role-based alignment (user right, assistant left). Text, reasoning, tool-invocation, source, and file parts have default renderings; override any part with `renderPart`, add an `avatar`.
 
 ## Import
@@ -20,11 +19,11 @@ import { Message } from '@ai-toolkit/elements';
 
 ## Props
 
-| Prop | Type | Description |
-| ---- | ---- | ----------- |
-| `message` | `UIMessage` | The message data to render. Required. |
-| `className` | `string` | Tailwind class name override. |
-| `avatar` | `React.ReactNode` | Custom avatar component. |
+| Prop        | Type              | Description                           |
+| ----------- | ----------------- | ------------------------------------- |
+| `message`   | `UIMessage`       | The message data to render. Required. |
+| `className` | `string`          | Tailwind class name override.         |
+| `avatar`    | `React.ReactNode` | Custom avatar component.              |
 
 ## Example
 
@@ -35,10 +34,6 @@ import { Message } from '@ai-toolkit/elements';
 export function Chat() {
   const { messages, sendMessage, status } = useChat();
 
-  return (
-    <Message
-      message={messages[messages.length - 1]}
-    />
-  );
+  return <Message message={messages[messages.length - 1]} />;
 }
 ```

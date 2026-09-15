@@ -94,7 +94,9 @@ export class StructuredObject<
     {} as Experimental_StructuredObjectOptions<SCHEMA, RESULT>;
   readonly #id = $derived(this.#options.id ?? generateId());
   readonly #keyedStore = $state<KeyedStructuredObjectStore>()!;
-  readonly #store = $derived(this.#keyedStore.get(this.#id)) as StructuredObjectStore<RESULT>;
+  readonly #store = $derived(
+    this.#keyedStore.get(this.#id),
+  ) as StructuredObjectStore<RESULT>;
   #abortController: AbortController | undefined;
 
   /**
@@ -168,7 +170,9 @@ export class StructuredObject<
       });
 
       if (!response.ok) {
-        throw new Error((await response.text()) ?? 'Failed to fetch the response.');
+        throw new Error(
+          (await response.text()) ?? 'Failed to fetch the response.',
+        );
       }
 
       if (response.body == null) {
@@ -220,7 +224,8 @@ export class StructuredObject<
         return;
       }
 
-      const coalescedError = error instanceof Error ? error : new Error(String(error));
+      const coalescedError =
+        error instanceof Error ? error : new Error(String(error));
       if (this.#options.onError) {
         this.#options.onError(coalescedError);
       }

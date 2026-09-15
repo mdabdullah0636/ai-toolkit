@@ -3,7 +3,6 @@ title: Chatbot Tool Usage
 description: Learn how to use tools with the useChat hook.
 ---
 
-
 With [`useChat`](/docs/reference/ai-toolkit-ui/use-chat) and [`streamText`](/docs/reference/ai-toolkit-core/stream-text), you can use tools in your chatbot application.
 The AI TOOLKIT supports three types of tools in this context:
 
@@ -603,7 +602,12 @@ You can also use multi-step calls on the server-side with `streamText`.
 This works when all invoked tools have an `execute` function on the server side.
 
 ```tsx title='app/api/chat/route.ts' {15-21,24}
-import { convertToModelMessages, streamText, UIMessage, stepCountIs } from 'ai-toolkit';
+import {
+  convertToModelMessages,
+  streamText,
+  UIMessage,
+  stepCountIs,
+} from 'ai-toolkit';
 __PROVIDER_IMPORT__;
 import { z } from 'zod';
 

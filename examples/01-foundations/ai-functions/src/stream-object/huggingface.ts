@@ -15,7 +15,8 @@ run(async () => {
         }),
       ),
     }),
-    prompt: 'Generate a list of 3 major cities with their populations. IN JSON FORMAT',
+    prompt:
+      'Generate a list of 3 major cities with their populations. IN JSON FORMAT',
   });
 
   // Stream partial objects

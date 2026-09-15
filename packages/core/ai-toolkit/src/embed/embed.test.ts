@@ -287,7 +287,9 @@ function mockEmbed(
     headers: {},
     body: {},
   },
-  providerMetadata?: Awaited<ReturnType<EmbeddingModelV3['doEmbed']>>['providerMetadata'],
+  providerMetadata?: Awaited<
+    ReturnType<EmbeddingModelV3['doEmbed']>
+  >['providerMetadata'],
 ): EmbeddingModelV3['doEmbed'] {
   return async ({ values }) => {
     assert.deepStrictEqual(expectedValues, values);

@@ -6,7 +6,10 @@ import { JSONSchema7 } from '@ai-toolkit/provider';
 
 describe('effects', () => {
   it('should be possible to use refine', () => {
-    const parsedSchema = parseEffectsDef(z.number().refine(x => x + 1)._def, getRefs());
+    const parsedSchema = parseEffectsDef(
+      z.number().refine(x => x + 1)._def,
+      getRefs(),
+    );
 
     expect(parsedSchema).toStrictEqual({
       type: 'number',

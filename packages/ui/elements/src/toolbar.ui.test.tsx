@@ -1,15 +1,15 @@
-import { render } from "@testing-library/react";
+import { render } from '@testing-library/react';
 
-import { Canvas } from "./canvas";
-import { Toolbar } from "./toolbar";
+import { Canvas } from './canvas';
+import { Toolbar } from './toolbar';
 
-describe("toolbar", () => {
-  it("renders within Canvas context", () => {
+describe('toolbar', () => {
+  it('renders within Canvas context', () => {
     const { container } = render(
       <Canvas
         edges={[]}
         nodes={[
-          { data: { label: "Node 1" }, id: "1", position: { x: 0, y: 0 } },
+          { data: { label: 'Node 1' }, id: '1', position: { x: 0, y: 0 } },
         ]}
         nodeTypes={{
           custom: () => (
@@ -20,21 +20,21 @@ describe("toolbar", () => {
         }}
       >
         <div>Canvas content</div>
-      </Canvas>
+      </Canvas>,
     );
-    expect(container.querySelector(".react-flow")).toBeInTheDocument();
+    expect(container.querySelector('.react-flow')).toBeInTheDocument();
   });
 
-  it("renders with custom className", () => {
+  it('renders with custom className', () => {
     const { container } = render(
       <Canvas
         edges={[]}
         nodes={[
           {
-            data: { label: "Node 1" },
-            id: "1",
+            data: { label: 'Node 1' },
+            id: '1',
             position: { x: 0, y: 0 },
-            type: "custom",
+            type: 'custom',
           },
         ]}
         nodeTypes={{
@@ -46,21 +46,21 @@ describe("toolbar", () => {
         }}
       >
         <div>Canvas content</div>
-      </Canvas>
+      </Canvas>,
     );
-    expect(container.querySelector(".react-flow")).toBeInTheDocument();
+    expect(container.querySelector('.react-flow')).toBeInTheDocument();
   });
 
-  it("renders with additional props", () => {
+  it('renders with additional props', () => {
     const { container } = render(
       <Canvas
         edges={[]}
         nodes={[
           {
-            data: { label: "Node 1" },
-            id: "1",
+            data: { label: 'Node 1' },
+            id: '1',
             position: { x: 0, y: 0 },
-            type: "custom",
+            type: 'custom',
           },
         ]}
         nodeTypes={{
@@ -72,8 +72,8 @@ describe("toolbar", () => {
         }}
       >
         <div>Canvas content</div>
-      </Canvas>
+      </Canvas>,
     );
-    expect(container.querySelector(".react-flow")).toBeInTheDocument();
+    expect(container.querySelector('.react-flow')).toBeInTheDocument();
   });
 });

@@ -13,5 +13,8 @@ run(async () => {
 
   await presentImages(result.images);
 
-  console.log('Provider metadata:', JSON.stringify(result.providerMetadata, null, 2));
+  console.log(
+    'Provider metadata:',
+    JSON.stringify(result.providerMetadata, null, 2),
+  );
 });

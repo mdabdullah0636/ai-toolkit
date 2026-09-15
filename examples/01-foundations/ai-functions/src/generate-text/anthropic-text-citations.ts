@@ -33,7 +33,10 @@ run(async () => {
 
   const citations = result.content.filter(part => part.type === 'source');
   citations.forEach((citation, i) => {
-    if (citation.sourceType === 'document' && citation.providerMetadata?.anthropic) {
+    if (
+      citation.sourceType === 'document' &&
+      citation.providerMetadata?.anthropic
+    ) {
       const meta = citation.providerMetadata.anthropic;
       console.log(
         `\n[${i + 1}] "${meta.citedText}" (chars: ${meta.startCharIndex}-${meta.endCharIndex})`,

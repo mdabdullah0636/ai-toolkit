@@ -1,5 +1,8 @@
 import { openai } from '@ai-toolkit/openai';
-import { ChatAddToolApproveResponseFunction, UIToolInvocation } from 'ai-toolkit';
+import {
+  ChatAddToolApproveResponseFunction,
+  UIToolInvocation,
+} from 'ai-toolkit';
 
 export default function LocalShellView({
   invocation,
@@ -61,7 +64,9 @@ export default function LocalShellView({
 
           <div className="p-6">
             <div className="mb-3">
-              <div className="mb-2 text-sm font-medium text-blue-400">Command:</div>
+              <div className="mb-2 text-sm font-medium text-blue-400">
+                Command:
+              </div>
               <pre className="overflow-x-auto p-4 text-sm text-gray-100 whitespace-pre-wrap bg-black rounded-lg">
                 {command}
               </pre>
@@ -69,7 +74,9 @@ export default function LocalShellView({
 
             {action?.workingDirectory && (
               <div className="mb-3">
-                <div className="mb-2 text-sm font-medium text-gray-400">Working Directory:</div>
+                <div className="mb-2 text-sm font-medium text-gray-400">
+                  Working Directory:
+                </div>
                 <div className="p-3 font-mono text-sm text-gray-300 bg-black rounded-lg">
                   {action.workingDirectory}
                 </div>
@@ -78,11 +85,15 @@ export default function LocalShellView({
 
             {invocation.state === 'output-available' && (
               <div className="mb-3">
-                <div className="mb-2 text-sm font-medium text-yellow-400">Output:</div>
+                <div className="mb-2 text-sm font-medium text-yellow-400">
+                  Output:
+                </div>
                 <div className="space-y-2">
                   <div className="p-3 bg-black rounded-lg">
                     <div className="font-mono text-sm text-green-300">
-                      <span className="whitespace-pre-wrap">{invocation.output.output}</span>
+                      <span className="whitespace-pre-wrap">
+                        {invocation.output.output}
+                      </span>
                     </div>
                   </div>
                 </div>

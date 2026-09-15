@@ -24,7 +24,13 @@ import {
   X,
 } from 'lucide-react';
 
-type Section = 'Playground' | 'Recipes' | 'Tools Registry' | 'Templates' | 'Showcase' | 'Providers';
+type Section =
+  | 'Playground'
+  | 'Recipes'
+  | 'Tools Registry'
+  | 'Templates'
+  | 'Showcase'
+  | 'Providers';
 
 const sections: { label: Section; icon: typeof Sparkles; count?: string }[] = [
   { label: 'Playground', icon: Sparkles },
@@ -83,7 +89,8 @@ const catalog: Record<
     cards: [
       {
         title: 'RAG with reranking',
-        description: 'Search, rerank, and stream grounded answers with citations.',
+        description:
+          'Search, rerank, and stream grounded answers with citations.',
         tag: 'RAG',
         meta: 'Next.js · 12 min',
       },
@@ -173,7 +180,8 @@ const catalog: Record<
       },
       {
         title: 'Replit Agent',
-        description: 'Turn ideas into software with an autonomous coding agent.',
+        description:
+          'Turn ideas into software with an autonomous coding agent.',
         tag: 'CODING',
         meta: 'Featured',
       },
@@ -248,7 +256,9 @@ function ModelPanel({
     <div className="flex min-h-[355px] flex-col border-b border-border lg:border-b-0 lg:border-r last:border-0">
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="font-mono text-[10px] text-muted-foreground">MODEL {index + 1}</span>
+          <span className="font-mono text-[10px] text-muted-foreground">
+            MODEL {index + 1}
+          </span>
           <span className={`size-2 rounded-full ${model.color}`} />
         </div>
         <button className="text-muted-foreground hover:text-foreground">
@@ -301,7 +311,9 @@ export default function HomePage() {
   const [mobileNav, setMobileNav] = useState(false);
   const [modelA, setModelA] = useState(models[0].id);
   const [modelB, setModelB] = useState(models[1].id);
-  const [prompt, setPrompt] = useState('Explain how streaming responses work in the AI SDK.');
+  const [prompt, setPrompt] = useState(
+    'Explain how streaming responses work in the AI SDK.',
+  );
   const [responses, setResponses] = useState(['', '']);
   const [running, setRunning] = useState(false);
   const [query, setQuery] = useState('');
@@ -347,9 +359,16 @@ export default function HomePage() {
               onClick={() => setMobileNav(!mobileNav)}
               className="rounded-md p-2 hover:bg-muted lg:hidden"
             >
-              {mobileNav ? <X className="size-4" /> : <Menu className="size-4" />}
+              {mobileNav ? (
+                <X className="size-4" />
+              ) : (
+                <Menu className="size-4" />
+              )}
             </button>
-            <a href="#" className="flex items-center gap-2 font-semibold tracking-tight">
+            <a
+              href="#"
+              className="flex items-center gap-2 font-semibold tracking-tight"
+            >
               <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
                 <Sparkles className="size-4" />
               </span>
@@ -399,11 +418,17 @@ export default function HomePage() {
                 className={`flex items-center justify-between rounded-md px-3 py-2.5 text-left text-sm ${active === label ? 'bg-muted font-medium text-foreground' : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'}`}
               >
                 <span className="flex items-center gap-3">
-                  <Icon className={active === label ? 'size-4 text-primary' : 'size-4'} />
+                  <Icon
+                    className={
+                      active === label ? 'size-4 text-primary' : 'size-4'
+                    }
+                  />
                   {label}
                 </span>
                 {count && (
-                  <span className="font-mono text-[10px] text-muted-foreground">{count}</span>
+                  <span className="font-mono text-[10px] text-muted-foreground">
+                    {count}
+                  </span>
                 )}
               </button>
             ))}
@@ -445,8 +470,8 @@ export default function HomePage() {
                     Playground
                   </h1>
                   <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
-                    Experiment with models, prompts, and settings before you write a line of
-                    production code.
+                    Experiment with models, prompts, and settings before you
+                    write a line of production code.
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -463,8 +488,8 @@ export default function HomePage() {
                   <ZapIcon />
                 </span>
                 <span>
-                  <b className="text-foreground">AI Gateway</b> gives you access to 100+ models from
-                  one API key.
+                  <b className="text-foreground">AI Gateway</b> gives you access
+                  to 100+ models from one API key.
                 </span>
                 <a
                   href="#"
@@ -522,7 +547,9 @@ export default function HomePage() {
                       <button className="rounded-md p-1.5 hover:bg-muted">
                         <Plus className="size-4" />
                       </button>
-                      <span className="hidden sm:inline">Add context or tools</span>
+                      <span className="hidden sm:inline">
+                        Add context or tools
+                      </span>
                       <span className="font-mono text-[10px]">⌘ ↵ to run</span>
                     </div>
                     <button
@@ -539,21 +566,28 @@ export default function HomePage() {
               <div className="mt-8 grid gap-4 sm:grid-cols-3">
                 <div className="rounded-md border border-border p-4">
                   <Code2 className="size-4 text-primary" />
-                  <p className="mt-4 text-sm font-medium">Write less glue code</p>
+                  <p className="mt-4 text-sm font-medium">
+                    Write less glue code
+                  </p>
                   <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                    One API for every provider, with typed primitives for your app.
+                    One API for every provider, with typed primitives for your
+                    app.
                   </p>
                 </div>
                 <div className="rounded-md border border-border p-4">
                   <Wrench className="size-4 text-primary" />
-                  <p className="mt-4 text-sm font-medium">Tools that just work</p>
+                  <p className="mt-4 text-sm font-medium">
+                    Tools that just work
+                  </p>
                   <p className="mt-1 text-xs leading-5 text-muted-foreground">
                     Give your agents capabilities with a few lines of code.
                   </p>
                 </div>
                 <div className="rounded-md border border-border p-4">
                   <Layers3 className="size-4 text-primary" />
-                  <p className="mt-4 text-sm font-medium">Ship with confidence</p>
+                  <p className="mt-4 text-sm font-medium">
+                    Ship with confidence
+                  </p>
                   <p className="mt-1 text-xs leading-5 text-muted-foreground">
                     Start from recipes and templates built by the community.
                   </p>
@@ -596,7 +630,9 @@ export default function HomePage() {
                       </span>
                       <ArrowUpRight className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
                     </div>
-                    <h2 className="mt-8 text-lg font-medium tracking-tight">{card.title}</h2>
+                    <h2 className="mt-8 text-lg font-medium tracking-tight">
+                      {card.title}
+                    </h2>
                     <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">
                       {card.description}
                     </p>

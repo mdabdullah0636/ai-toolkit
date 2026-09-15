@@ -24,7 +24,10 @@ run(async () => {
   process.stdout.write('\x1b[0m');
   console.log(await result1.text);
   console.log();
-  console.log('Request body:', JSON.stringify((await result1.request).body, null, 2));
+  console.log(
+    'Request body:',
+    JSON.stringify((await result1.request).body, null, 2),
+  );
 
   const result2 = streamText({
     model: openai.responses('o3-mini'),
@@ -41,7 +44,8 @@ run(async () => {
       ...(await result1.response).messages, // Need to pass all previous messages to the follow-up request
       {
         role: 'user',
-        content: 'Based on your previous analysis, what security recommendations would you make?',
+        content:
+          'Based on your previous analysis, what security recommendations would you make?',
       } satisfies UserModelMessage,
     ],
     providerOptions: {
@@ -68,5 +72,8 @@ run(async () => {
   process.stdout.write('\x1b[0m');
   console.log(await result2.text);
   console.log();
-  console.log('Request body:', JSON.stringify((await result2.request).body, null, 2));
+  console.log(
+    'Request body:',
+    JSON.stringify((await result2.request).body, null, 2),
+  );
 });

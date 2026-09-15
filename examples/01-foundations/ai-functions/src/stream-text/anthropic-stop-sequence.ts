@@ -16,5 +16,8 @@ run(async () => {
   console.log();
   console.log('Token usage:', await result.usage);
   console.log('Finish reason:', await result.finishReason);
-  console.log('Stop sequence:', (await result.providerMetadata)?.anthropic?.stopSequence);
+  console.log(
+    'Stop sequence:',
+    (await result.providerMetadata)?.anthropic?.stopSequence,
+  );
 });

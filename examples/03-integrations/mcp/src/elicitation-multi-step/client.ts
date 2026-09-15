@@ -25,12 +25,18 @@ async function getInputFromUser(
       console.log('Schema:', JSON.stringify(schema, null, 2));
     }
 
-    const actionInput = (await rl.question('Action (accept/decline/cancel) [accept]: '))
+    const actionInput = (
+      await rl.question('Action (accept/decline/cancel) [accept]: ')
+    )
       .trim()
       .toLowerCase();
 
     const action: ElicitationAction =
-      actionInput === 'decline' ? 'decline' : actionInput === 'cancel' ? 'cancel' : 'accept';
+      actionInput === 'decline'
+        ? 'decline'
+        : actionInput === 'cancel'
+          ? 'cancel'
+          : 'accept';
 
     if (action !== 'accept') {
       return { action };
@@ -53,13 +59,17 @@ async function getInputFromUser(
       };
       const requiredFields = new Set(objectSchema.required ?? []);
 
-      for (const [key, propertySchema] of Object.entries(objectSchema.properties)) {
+      for (const [key, propertySchema] of Object.entries(
+        objectSchema.properties,
+      )) {
         const title =
           propertySchema && typeof propertySchema === 'object'
             ? (propertySchema.title ?? key)
             : key;
 
-        const label = requiredFields.has(key) ? `${title} (required)` : `${title} (optional)`;
+        const label = requiredFields.has(key)
+          ? `${title} (required)`
+          : `${title} (optional)`;
 
         const rawValue = (await rl.question(`${label}: `)).trim();
 
@@ -68,7 +78,9 @@ async function getInputFromUser(
         }
 
         const propertyType =
-          propertySchema && typeof propertySchema === 'object' ? propertySchema.type : undefined;
+          propertySchema && typeof propertySchema === 'object'
+            ? propertySchema.type
+            : undefined;
 
         if (propertyType === 'number' || propertyType === 'integer') {
           const parsed = Number(rawValue);
@@ -78,13 +90,17 @@ async function getInputFromUser(
           }
           data[key] = parsed;
         } else if (propertyType === 'boolean') {
-          data[key] = ['true', '1', 'yes', 'y'].includes(rawValue.toLowerCase());
+          data[key] = ['true', '1', 'yes', 'y'].includes(
+            rawValue.toLowerCase(),
+          );
         } else {
           data[key] = rawValue;
         }
       }
     } else {
-      const rawPayload = await rl.question('Enter JSON payload for response (empty to decline): ');
+      const rawPayload = await rl.question(
+        'Enter JSON payload for response (empty to decline): ',
+      );
       if (rawPayload.trim() === '') {
         return { action: 'decline' };
       }

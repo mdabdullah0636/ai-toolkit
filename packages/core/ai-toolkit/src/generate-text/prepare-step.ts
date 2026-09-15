@@ -20,39 +20,42 @@ import { StepResult } from './step-result';
  * @returns An object that contains the settings for the step.
  * If you return undefined (or for undefined settings), the settings from the outer level will be used.
  */
-export type PrepareStepFunction<TOOLS extends Record<string, Tool> = Record<string, Tool>> =
-  (options: {
-    /**
-     * The steps that have been executed so far.
-     */
-    steps: Array<StepResult<NoInfer<TOOLS>>>;
+export type PrepareStepFunction<
+  TOOLS extends Record<string, Tool> = Record<string, Tool>,
+> = (options: {
+  /**
+   * The steps that have been executed so far.
+   */
+  steps: Array<StepResult<NoInfer<TOOLS>>>;
 
-    /**
-     * The number of the step that is being executed.
-     */
-    stepNumber: number;
+  /**
+   * The number of the step that is being executed.
+   */
+  stepNumber: number;
 
-    /**
-     * The model instance that is being used for this step.
-     */
-    model: LanguageModel;
+  /**
+   * The model instance that is being used for this step.
+   */
+  model: LanguageModel;
 
-    /**
-     * The messages that will be sent to the model for the current step.
-     */
-    messages: Array<ModelMessage>;
+  /**
+   * The messages that will be sent to the model for the current step.
+   */
+  messages: Array<ModelMessage>;
 
-    /**
-     * The context passed via the experimental_context setting (experimental).
-     */
-    experimental_context: unknown;
-  }) => PromiseLike<PrepareStepResult<TOOLS>> | PrepareStepResult<TOOLS>;
+  /**
+   * The context passed via the experimental_context setting (experimental).
+   */
+  experimental_context: unknown;
+}) => PromiseLike<PrepareStepResult<TOOLS>> | PrepareStepResult<TOOLS>;
 
 /**
  * The result type returned by a {@link PrepareStepFunction},
  * allowing per-step overrides of model, tools, or messages.
  */
-export type PrepareStepResult<TOOLS extends Record<string, Tool> = Record<string, Tool>> =
+export type PrepareStepResult<
+  TOOLS extends Record<string, Tool> = Record<string, Tool>,
+> =
   | {
       /**
        * Optionally override which LanguageModel instance is used for this step.

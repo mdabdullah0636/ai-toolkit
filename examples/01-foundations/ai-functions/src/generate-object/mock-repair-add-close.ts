@@ -22,7 +22,9 @@ run(async () => {
         },
         warnings: [],
         finishReason: { raw: undefined, unified: 'tool-calls' },
-        content: [{ type: 'text', text: `{ "content": "provider metadata test"` }],
+        content: [
+          { type: 'text', text: `{ "content": "provider metadata test"` },
+        ],
       }),
     }),
     schema: z.object({ content: z.string() }),

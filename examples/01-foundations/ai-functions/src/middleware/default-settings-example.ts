@@ -1,5 +1,9 @@
 import { openai } from '@ai-toolkit/openai';
-import { defaultSettingsMiddleware, generateText, wrapLanguageModel } from 'ai-toolkit';
+import {
+  defaultSettingsMiddleware,
+  generateText,
+  wrapLanguageModel,
+} from 'ai-toolkit';
 import { run } from '../lib/run';
 
 run(async () => {

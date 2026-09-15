@@ -1,5 +1,8 @@
 import { groq as provider } from '@ai-toolkit/groq';
-import { createFeatureTestSuite, createLanguageModelWithCapabilities } from './feature-test-suite';
+import {
+  createFeatureTestSuite,
+  createLanguageModelWithCapabilities,
+} from './feature-test-suite';
 import 'dotenv/config';
 
 const createChatModel = (modelId: string) =>

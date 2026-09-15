@@ -59,7 +59,10 @@ export class DirectChatTransport<
 {
   private readonly agent: Agent<CALL_OPTIONS, TOOLS, OUTPUT>;
   private readonly agentOptions: CALL_OPTIONS | undefined;
-  private readonly uiMessageStreamOptions: Omit<UIMessageStreamOptions<UI_MESSAGE>, 'onFinish'>;
+  private readonly uiMessageStreamOptions: Omit<
+    UIMessageStreamOptions<UI_MESSAGE>,
+    'onFinish'
+  >;
 
   constructor({
     agent,
@@ -92,7 +95,9 @@ export class DirectChatTransport<
     const result = await this.agent.stream({
       prompt: modelMessages,
       abortSignal,
-      ...(this.agentOptions !== undefined ? { options: this.agentOptions } : {}),
+      ...(this.agentOptions !== undefined
+        ? { options: this.agentOptions }
+        : {}),
     } as Parameters<Agent<CALL_OPTIONS, TOOLS, OUTPUT>['stream']>[0]);
 
     // Return the UI message stream

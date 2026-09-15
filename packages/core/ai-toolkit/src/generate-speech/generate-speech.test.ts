@@ -1,10 +1,21 @@
 import { JSONObject, SpeechModelV3 } from '@ai-toolkit/provider';
-import { afterEach, beforeEach, describe, expect, it, vi, vitest } from 'vitest';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+  vitest,
+} from 'vitest';
 import * as logWarningsModule from '../logger/log-warnings';
 import { MockSpeechModelV3 } from '../test/mock-speech-model-v3';
 import { Warning } from '../types/warning';
 import { generateSpeech } from './generate-speech';
-import { DefaultGeneratedAudioFile, GeneratedAudioFile } from './generated-audio-file';
+import {
+  DefaultGeneratedAudioFile,
+  GeneratedAudioFile,
+} from './generated-audio-file';
 
 const audio = new Uint8Array([1, 2, 3, 4]); // Sample audio data
 const testDate = new Date(2024, 0, 1);
@@ -43,7 +54,9 @@ describe('generateSpeech', () => {
   let logWarningsSpy: ReturnType<typeof vitest.spyOn>;
 
   beforeEach(() => {
-    logWarningsSpy = vitest.spyOn(logWarningsModule, 'logWarnings').mockImplementation(() => {});
+    logWarningsSpy = vitest
+      .spyOn(logWarningsModule, 'logWarnings')
+      .mockImplementation(() => {});
   });
 
   afterEach(() => {

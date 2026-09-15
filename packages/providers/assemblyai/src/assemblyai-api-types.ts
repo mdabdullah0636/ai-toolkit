@@ -332,7 +332,12 @@ export type AssemblyAITranscriptionAPITypes = {
   /**
    * The type of summary
    */
-  summary_type?: 'bullets' | 'bullets_verbose' | 'gist' | 'headline' | 'paragraph';
+  summary_type?:
+    | 'bullets'
+    | 'bullets_verbose'
+    | 'gist'
+    | 'headline'
+    | 'paragraph';
 
   /**
    * The header name to be sent with the transcript completed or failed webhook requests

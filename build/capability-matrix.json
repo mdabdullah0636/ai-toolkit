@@ -5,56 +5,37 @@
     {
       "name": "@ai-toolkit/amazon-bedrock",
       "dir": "providers/amazon-bedrock",
-      "capabilities": [
-        "chat",
-        "embedding",
-        "image",
-        "reranker"
-      ],
+      "capabilities": ["chat", "embedding", "image", "reranker"],
       "source": "packages/providers/amazon-bedrock/src/bedrock-provider.ts"
     },
     {
       "name": "@ai-toolkit/anthropic",
       "dir": "providers/anthropic",
-      "capabilities": [
-        "chat"
-      ],
+      "capabilities": ["chat"],
       "source": "packages/providers/anthropic/src/anthropic-provider.ts"
     },
     {
       "name": "@ai-toolkit/assemblyai",
       "dir": "providers/assemblyai",
-      "capabilities": [
-        "speech"
-      ],
+      "capabilities": ["speech"],
       "source": "packages/providers/assemblyai/src/assemblyai-provider.ts"
     },
     {
       "name": "@ai-toolkit/azure",
       "dir": "providers/azure",
-      "capabilities": [
-        "chat",
-        "embedding",
-        "image",
-        "speech"
-      ],
+      "capabilities": ["chat", "embedding", "image", "speech"],
       "source": "packages/providers/azure/src/azure-openai-provider.ts"
     },
     {
       "name": "@ai-toolkit/baseten",
       "dir": "providers/baseten",
-      "capabilities": [
-        "chat",
-        "embedding"
-      ],
+      "capabilities": ["chat", "embedding"],
       "source": "packages/providers/baseten/src/baseten-provider.ts"
     },
     {
       "name": "@ai-toolkit/black-forest-labs",
       "dir": "providers/black-forest-labs",
-      "capabilities": [
-        "image"
-      ],
+      "capabilities": ["image"],
       "source": "packages/providers/black-forest-labs/src/black-forest-labs-provider.ts"
     },
     {
@@ -66,118 +47,79 @@
     {
       "name": "@ai-toolkit/cerebras",
       "dir": "providers/cerebras",
-      "capabilities": [
-        "chat"
-      ],
+      "capabilities": ["chat"],
       "source": "packages/providers/cerebras/src/cerebras-provider.ts"
     },
     {
       "name": "@ai-toolkit/cohere",
       "dir": "providers/cohere",
-      "capabilities": [
-        "chat",
-        "embedding",
-        "reranker"
-      ],
+      "capabilities": ["chat", "embedding", "reranker"],
       "source": "packages/providers/cohere/src/cohere-provider.ts"
     },
     {
       "name": "@ai-toolkit/deepgram",
       "dir": "providers/deepgram",
-      "capabilities": [
-        "speech"
-      ],
+      "capabilities": ["speech"],
       "source": "packages/providers/deepgram/src/deepgram-provider.ts"
     },
     {
       "name": "@ai-toolkit/deepinfra",
       "dir": "providers/deepinfra",
-      "capabilities": [
-        "chat",
-        "embedding",
-        "image"
-      ],
+      "capabilities": ["chat", "embedding", "image"],
       "source": "packages/providers/deepinfra/src/deepinfra-provider.ts"
     },
     {
       "name": "@ai-toolkit/deepseek",
       "dir": "providers/deepseek",
-      "capabilities": [
-        "chat"
-      ],
+      "capabilities": ["chat"],
       "source": "packages/providers/deepseek/src/deepseek-provider.ts"
     },
     {
       "name": "@ai-toolkit/elevenlabs",
       "dir": "providers/elevenlabs",
-      "capabilities": [
-        "speech"
-      ],
+      "capabilities": ["speech"],
       "source": "packages/providers/elevenlabs/src/elevenlabs-provider.ts"
     },
     {
       "name": "@ai-toolkit/fal",
       "dir": "providers/fal",
-      "capabilities": [
-        "image",
-        "speech"
-      ],
+      "capabilities": ["image", "speech"],
       "source": "packages/providers/fal/src/fal-provider.ts"
     },
     {
       "name": "@ai-toolkit/fireworks",
       "dir": "providers/fireworks",
-      "capabilities": [
-        "chat",
-        "embedding",
-        "image"
-      ],
+      "capabilities": ["chat", "embedding", "image"],
       "source": "packages/providers/fireworks/src/fireworks-provider.ts"
     },
     {
       "name": "@ai-toolkit/gateway",
       "dir": "core/gateway",
-      "capabilities": [
-        "chat",
-        "embedding",
-        "image"
-      ],
+      "capabilities": ["chat", "embedding", "image"],
       "source": "packages/core/gateway/src/gateway-provider.ts"
     },
     {
       "name": "@ai-toolkit/gladia",
       "dir": "providers/gladia",
-      "capabilities": [
-        "speech"
-      ],
+      "capabilities": ["speech"],
       "source": "packages/providers/gladia/src/gladia-provider.ts"
     },
     {
       "name": "@ai-toolkit/google",
       "dir": "providers/google",
-      "capabilities": [
-        "chat",
-        "embedding",
-        "image"
-      ],
+      "capabilities": ["chat", "embedding", "image"],
       "source": "packages/providers/google/src/google-provider.ts"
     },
     {
       "name": "@ai-toolkit/google-vertex",
       "dir": "providers/google-vertex",
-      "capabilities": [
-        "chat",
-        "image"
-      ],
+      "capabilities": ["chat", "image"],
       "source": "packages/providers/google-vertex/src/google-vertex-provider.ts"
     },
     {
       "name": "@ai-toolkit/groq",
       "dir": "providers/groq",
-      "capabilities": [
-        "chat",
-        "speech"
-      ],
+      "capabilities": ["chat", "speech"],
       "source": "packages/providers/groq/src/groq-provider.ts"
     },
     {
@@ -237,87 +179,61 @@
     {
       "name": "@ai-toolkit/huggingface",
       "dir": "providers/huggingface",
-      "capabilities": [
-        "chat"
-      ],
+      "capabilities": ["chat"],
       "source": "packages/providers/huggingface/src/huggingface-provider.ts"
     },
     {
       "name": "@ai-toolkit/hume",
       "dir": "providers/hume",
-      "capabilities": [
-        "speech"
-      ],
+      "capabilities": ["speech"],
       "source": "packages/providers/hume/src/hume-provider.ts"
     },
     {
       "name": "@ai-toolkit/khulnasoft",
       "dir": "special/khulnasoft",
-      "capabilities": [
-        "chat"
-      ],
+      "capabilities": ["chat"],
       "source": "packages/special/khulnasoft/src/khulnasoft-provider.ts"
     },
     {
       "name": "@ai-toolkit/lmnt",
       "dir": "providers/lmnt",
-      "capabilities": [
-        "speech"
-      ],
+      "capabilities": ["speech"],
       "source": "packages/providers/lmnt/src/lmnt-provider.ts"
     },
     {
       "name": "@ai-toolkit/luma",
       "dir": "providers/luma",
-      "capabilities": [
-        "image"
-      ],
+      "capabilities": ["image"],
       "source": "packages/providers/luma/src/luma-provider.ts"
     },
     {
       "name": "@ai-toolkit/mistral",
       "dir": "providers/mistral",
-      "capabilities": [
-        "chat",
-        "embedding"
-      ],
+      "capabilities": ["chat", "embedding"],
       "source": "packages/providers/mistral/src/mistral-provider.ts"
     },
     {
       "name": "@ai-toolkit/openai",
       "dir": "providers/openai",
-      "capabilities": [
-        "chat",
-        "embedding",
-        "image",
-        "speech"
-      ],
+      "capabilities": ["chat", "embedding", "image", "speech"],
       "source": "packages/providers/openai/src/openai-provider.ts"
     },
     {
       "name": "@ai-toolkit/openai-compatible",
       "dir": "providers/openai-compatible",
-      "capabilities": [
-        "chat",
-        "embedding",
-        "image"
-      ],
+      "capabilities": ["chat", "embedding", "image"],
       "source": "packages/providers/openai-compatible/src/openai-compatible-provider.ts"
     },
     {
       "name": "@ai-toolkit/perplexity",
       "dir": "providers/perplexity",
-      "capabilities": [
-        "chat"
-      ],
+      "capabilities": ["chat"],
       "source": "packages/providers/perplexity/src/perplexity-provider.ts"
     },
     {
       "name": "@ai-toolkit/prodia",
       "dir": "providers/prodia",
-      "capabilities": [
-        "image"
-      ],
+      "capabilities": ["image"],
       "source": "packages/providers/prodia/src/prodia-provider.ts"
     },
     {
@@ -329,29 +245,19 @@
     {
       "name": "@ai-toolkit/revai",
       "dir": "providers/revai",
-      "capabilities": [
-        "speech"
-      ],
+      "capabilities": ["speech"],
       "source": "packages/providers/revai/src/revai-provider.ts"
     },
     {
       "name": "@ai-toolkit/togetherai",
       "dir": "providers/togetherai",
-      "capabilities": [
-        "chat",
-        "embedding",
-        "image",
-        "reranker"
-      ],
+      "capabilities": ["chat", "embedding", "image", "reranker"],
       "source": "packages/providers/togetherai/src/togetherai-provider.ts"
     },
     {
       "name": "@ai-toolkit/xai",
       "dir": "providers/xai",
-      "capabilities": [
-        "chat",
-        "image"
-      ],
+      "capabilities": ["chat", "image"],
       "source": "packages/providers/xai/src/xai-provider.ts"
     }
   ],

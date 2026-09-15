@@ -4,7 +4,6 @@ description: Build a chatbot that renders and memoizes Markdown responses with N
 tags: ['next', 'streaming', 'chatbot', 'markdown']
 ---
 
-
 When building a chatbot with Next.js and the AI TOOLKIT, you'll likely want to render the model's responses in Markdown format using a library like `react-markdown`. However, this can have negative performance implications as the Markdown is re-rendered on each new token received from the streaming response.
 
 As conversations get longer and more complex, this performance impact becomes exponentially worse since the entire conversation history is re-rendered with each new token.

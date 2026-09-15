@@ -48,7 +48,9 @@ describe('createEventSourceResponseHandler', () => {
         ':message-type': { value: 'event' },
         ':event-type': { value: 'chunk' },
       },
-      body: new TextEncoder().encode(JSON.stringify({ content: 'test message' })),
+      body: new TextEncoder().encode(
+        JSON.stringify({ content: 'test message' }),
+      ),
     };
 
     // Create a frame that properly encapsulates the message.
@@ -180,7 +182,9 @@ describe('createEventSourceResponseHandler', () => {
         ':message-type': { value: 'event' },
         ':event-type': { value: 'chunk' },
       },
-      body: new TextEncoder().encode(JSON.stringify({ content: 'complete message' })),
+      body: new TextEncoder().encode(
+        JSON.stringify({ content: 'complete message' }),
+      ),
     };
 
     const dummyPayload1 = new Uint8Array([13, 14]); // too short, part of a frame

@@ -21,7 +21,9 @@ export function Reasoning({ text, state }: ReasoningProps) {
         className="w-full px-3 py-2 flex items-center gap-2 text-sm text-gray-400 hover:bg-gray-500/10 transition-colors"
       >
         <Brain className="w-4 h-4" />
-        <span className="font-medium">{state === 'streaming' ? 'Thinking...' : 'Reasoning'}</span>
+        <span className="font-medium">
+          {state === 'streaming' ? 'Thinking...' : 'Reasoning'}
+        </span>
         {state === 'streaming' && (
           <span className="ml-1 flex gap-0.5">
             <span
@@ -39,7 +41,11 @@ export function Reasoning({ text, state }: ReasoningProps) {
           </span>
         )}
         <span className="ml-auto">
-          {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+          {isExpanded ? (
+            <ChevronDown className="w-4 h-4" />
+          ) : (
+            <ChevronRight className="w-4 h-4" />
+          )}
         </span>
       </button>
       {isExpanded && (

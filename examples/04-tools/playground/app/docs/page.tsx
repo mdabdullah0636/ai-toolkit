@@ -175,7 +175,8 @@ export default function DocsPage() {
             <div className="mb-8">
               <h1 className="text-4xl font-bold mb-4">AI Gateway Docs</h1>
               <p className="text-xl text-muted-foreground">
-                Learn how to use AI Gateway to access 50+ models with a single API
+                Learn how to use AI Gateway to access 50+ models with a single
+                API
               </p>
             </div>
 
@@ -203,7 +204,8 @@ export default function DocsPage() {
               </div>
               <p className="text-muted-foreground mb-4">
                 Configure your API keys in your environment variables. Create a{' '}
-                <code className="bg-muted px-2 py-1 rounded">.env.local</code> file:
+                <code className="bg-muted px-2 py-1 rounded">.env.local</code>{' '}
+                file:
               </p>
               <div className="rounded-lg border bg-card p-4">
                 <pre className="text-sm overflow-x-auto">
@@ -214,10 +216,12 @@ export default function DocsPage() {
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5" />
                   <div>
-                    <p className="font-medium text-blue-900 dark:text-blue-100">Security Note</p>
+                    <p className="font-medium text-blue-900 dark:text-blue-100">
+                      Security Note
+                    </p>
                     <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                      Never commit API keys to version control. Use environment variables or a
-                      secrets manager.
+                      Never commit API keys to version control. Use environment
+                      variables or a secrets manager.
                     </p>
                   </div>
                 </div>
@@ -231,8 +235,9 @@ export default function DocsPage() {
                 <h2 className="text-2xl font-bold">Basic Usage</h2>
               </div>
               <p className="text-muted-foreground mb-4">
-                Use the <code className="bg-muted px-2 py-1 rounded">gateway</code> function to
-                select any model:
+                Use the{' '}
+                <code className="bg-muted px-2 py-1 rounded">gateway</code>{' '}
+                function to select any model:
               </p>
               <div className="rounded-lg border bg-card p-4">
                 <pre className="text-sm overflow-x-auto">
@@ -258,8 +263,8 @@ export default function DocsPage() {
                 <h2 className="text-2xl font-bold">Models</h2>
               </div>
               <p className="text-muted-foreground mb-4">
-                AI Gateway supports 50+ models across 8 providers. Browse the complete model
-                catalog:
+                AI Gateway supports 50+ models across 8 providers. Browse the
+                complete model catalog:
               </p>
               <Link href="/models">
                 <Button className="mt-2">
@@ -279,22 +284,22 @@ export default function DocsPage() {
                 <div className="p-4 rounded-lg border">
                   <h3 className="font-semibold mb-2">API Key Management</h3>
                   <p className="text-muted-foreground text-sm">
-                    API keys are loaded from environment variables at runtime. The gateway never
-                    stores or logs your keys.
+                    API keys are loaded from environment variables at runtime.
+                    The gateway never stores or logs your keys.
                   </p>
                 </div>
                 <div className="p-4 rounded-lg border">
                   <h3 className="font-semibold mb-2">Rate Limiting</h3>
                   <p className="text-muted-foreground text-sm">
-                    Configure rate limits per model or provider to prevent quota exhaustion and
-                    manage costs.
+                    Configure rate limits per model or provider to prevent quota
+                    exhaustion and manage costs.
                   </p>
                 </div>
                 <div className="p-4 rounded-lg border">
                   <h3 className="font-semibold mb-2">Request Logging</h3>
                   <p className="text-muted-foreground text-sm">
-                    Enable detailed logging for debugging and audit trails while keeping PII
-                    protected.
+                    Enable detailed logging for debugging and audit trails while
+                    keeping PII protected.
                   </p>
                 </div>
               </div>
@@ -308,7 +313,8 @@ export default function DocsPage() {
                   <div className="p-4 rounded-lg border hover:shadow-lg transition-shadow cursor-pointer">
                     <h3 className="font-semibold mb-2">Try the Playground</h3>
                     <p className="text-sm text-muted-foreground">
-                      Experiment with different models in an interactive interface
+                      Experiment with different models in an interactive
+                      interface
                     </p>
                   </div>
                 </Link>
@@ -338,7 +344,10 @@ export default function DocsPage() {
             </div>
             <p className="text-sm text-muted-foreground">
               Built by{' '}
-              <a href="https://vercel.com" className="underline hover:text-primary">
+              <a
+                href="https://vercel.com"
+                className="underline hover:text-primary"
+              >
                 Vercel
               </a>
               . Open-source under Apache-2.0 license.

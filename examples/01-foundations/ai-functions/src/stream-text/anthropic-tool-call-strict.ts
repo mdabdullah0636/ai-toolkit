@@ -27,13 +27,15 @@ run(async () => {
           temperature: z.number(),
         }),
         execute: async ({ location }) => {
-          const condition = conditions[Math.floor(Math.random() * conditions.length)];
+          const condition =
+            conditions[Math.floor(Math.random() * conditions.length)];
           return {
             location,
             condition: condition.name,
             temperature:
               Math.floor(
-                Math.random() * (condition.maxTemperature - condition.minTemperature + 1),
+                Math.random() *
+                  (condition.maxTemperature - condition.minTemperature + 1),
               ) + condition.minTemperature,
           };
         },

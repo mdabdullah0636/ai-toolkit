@@ -4,7 +4,10 @@ import { JsonSchema7Type } from '../parse-types';
 import { Refs } from '../refs';
 import { parseAnyDef } from './any';
 
-export const parseOptionalDef = (def: ZodOptionalDef, refs: Refs): JsonSchema7Type | undefined => {
+export const parseOptionalDef = (
+  def: ZodOptionalDef,
+  refs: Refs,
+): JsonSchema7Type | undefined => {
   if (refs.currentPath.toString() === refs.propertyPath?.toString()) {
     return parseDef(def.innerType._def, refs);
   }
@@ -14,5 +17,7 @@ export const parseOptionalDef = (def: ZodOptionalDef, refs: Refs): JsonSchema7Ty
     currentPath: [...refs.currentPath, 'anyOf', '1'],
   });
 
-  return innerSchema ? { anyOf: [{ not: parseAnyDef() }, innerSchema] } : parseAnyDef();
+  return innerSchema
+    ? { anyOf: [{ not: parseAnyDef() }, innerSchema] }
+    : parseAnyDef();
 };

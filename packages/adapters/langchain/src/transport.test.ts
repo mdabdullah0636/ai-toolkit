@@ -34,8 +34,8 @@ describe('LangSmithDeploymentTransport', () => {
       url: 'https://test.langsmith.app',
     });
 
-    await expect(transport.reconnectToStream({ chatId: 'chat-1' })).rejects.toThrow(
-      'Method not implemented.',
-    );
+    await expect(
+      transport.reconnectToStream({ chatId: 'chat-1' }),
+    ).rejects.toThrow('Method not implemented.');
   });
 });

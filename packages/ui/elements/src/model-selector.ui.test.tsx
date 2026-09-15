@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   ModelSelector,
@@ -16,28 +16,28 @@ import {
   ModelSelectorSeparator,
   ModelSelectorShortcut,
   ModelSelectorTrigger,
-} from "./model-selector";
+} from './model-selector';
 
-describe("modelSelector", () => {
-  it("renders as a Dialog component", () => {
+describe('modelSelector', () => {
+  it('renders as a Dialog component', () => {
     const { container } = render(
       <ModelSelector>
         <div>Dialog Content</div>
-      </ModelSelector>
+      </ModelSelector>,
     );
     expect(container.firstChild).toBeInTheDocument();
   });
 
-  it("accepts open prop to control visibility", () => {
+  it('accepts open prop to control visibility', () => {
     const { rerender } = render(
       <ModelSelector open={false}>
         <ModelSelectorTrigger>Open</ModelSelectorTrigger>
         <ModelSelectorContent aria-describedby="test-description">
           <div>Content</div>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.queryByText("Content")).not.toBeInTheDocument();
+    expect(screen.queryByText('Content')).not.toBeInTheDocument();
 
     rerender(
       <ModelSelector open={true}>
@@ -45,12 +45,12 @@ describe("modelSelector", () => {
         <ModelSelectorContent aria-describedby="test-description">
           <div>Content</div>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("handles onOpenChange callback", async () => {
+  it('handles onOpenChange callback', async () => {
     const user = userEvent.setup();
     const handleOpenChange = vi.fn();
     render(
@@ -59,71 +59,71 @@ describe("modelSelector", () => {
         <ModelSelectorContent aria-describedby="test-description">
           <div>Content</div>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
 
-    await user.click(screen.getByText("Open Selector"));
+    await user.click(screen.getByText('Open Selector'));
     expect(handleOpenChange).toHaveBeenCalledWith(true);
   });
 });
 
-describe("modelSelectorTrigger", () => {
-  it("renders trigger button with children", () => {
+describe('modelSelectorTrigger', () => {
+  it('renders trigger button with children', () => {
     render(
       <ModelSelector>
         <ModelSelectorTrigger>Select a model</ModelSelectorTrigger>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByText("Select a model")).toBeInTheDocument();
+    expect(screen.getByText('Select a model')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(
       <ModelSelector>
         <ModelSelectorTrigger className="custom-trigger">
           Select
         </ModelSelectorTrigger>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByText("Select")).toHaveClass("custom-trigger");
+    expect(screen.getByText('Select')).toHaveClass('custom-trigger');
   });
 
-  it("can be disabled", () => {
+  it('can be disabled', () => {
     render(
       <ModelSelector>
         <ModelSelectorTrigger disabled>Select</ModelSelectorTrigger>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByText("Select")).toBeDisabled();
+    expect(screen.getByText('Select')).toBeDisabled();
   });
 });
 
-describe("modelSelectorContent", () => {
-  it("renders content with Command wrapper", () => {
+describe('modelSelectorContent', () => {
+  it('renders content with Command wrapper', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
           <div data-testid="content-child">Content</div>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByTestId("content-child")).toBeInTheDocument();
+    expect(screen.getByTestId('content-child')).toBeInTheDocument();
   });
 
-  it("applies default padding class", () => {
+  it('applies default padding class', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
           <div data-testid="inner-content">Content</div>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
     // Check that the dialog content is rendered
-    const innerContent = screen.getByTestId("inner-content");
+    const innerContent = screen.getByTestId('inner-content');
     expect(innerContent).toBeInTheDocument();
   });
 
-  it("merges custom className with default", () => {
+  it('merges custom className with default', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent
@@ -132,95 +132,95 @@ describe("modelSelectorContent", () => {
         >
           <div data-testid="inner-content">Content</div>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
     // Check that the dialog content is rendered with custom content
-    const innerContent = screen.getByTestId("inner-content");
+    const innerContent = screen.getByTestId('inner-content');
     expect(innerContent).toBeInTheDocument();
   });
 });
 
-describe("modelSelectorDialog", () => {
-  it("renders as CommandDialog", () => {
+describe('modelSelectorDialog', () => {
+  it('renders as CommandDialog', () => {
     render(
       <ModelSelectorDialog open={true}>
         <div>Dialog Content</div>
-      </ModelSelectorDialog>
+      </ModelSelectorDialog>,
     );
-    expect(screen.getByText("Dialog Content")).toBeInTheDocument();
+    expect(screen.getByText('Dialog Content')).toBeInTheDocument();
   });
 
-  it("handles open state", () => {
+  it('handles open state', () => {
     const { rerender } = render(
       <ModelSelectorDialog open={false}>
         <div>Dialog Content</div>
-      </ModelSelectorDialog>
+      </ModelSelectorDialog>,
     );
-    expect(screen.queryByText("Dialog Content")).not.toBeInTheDocument();
+    expect(screen.queryByText('Dialog Content')).not.toBeInTheDocument();
 
     rerender(
       <ModelSelectorDialog open={true}>
         <div>Dialog Content</div>
-      </ModelSelectorDialog>
+      </ModelSelectorDialog>,
     );
-    expect(screen.getByText("Dialog Content")).toBeInTheDocument();
+    expect(screen.getByText('Dialog Content')).toBeInTheDocument();
   });
 });
 
-describe("modelSelectorInput", () => {
-  it("renders search input", () => {
+describe('modelSelectorInput', () => {
+  it('renders search input', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
           <ModelSelectorInput placeholder="Search models..." />
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByPlaceholderText("Search models...")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search models...')).toBeInTheDocument();
   });
 
-  it("applies custom height styling", () => {
+  it('applies custom height styling', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
           <ModelSelectorInput placeholder="Search" />
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    const input = screen.getByPlaceholderText("Search");
-    expect(input).toHaveClass("h-auto", "py-3.5");
+    const input = screen.getByPlaceholderText('Search');
+    expect(input).toHaveClass('h-auto', 'py-3.5');
   });
 
-  it("accepts custom className", () => {
+  it('accepts custom className', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
           <ModelSelectorInput className="custom-input" placeholder="Search" />
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    const input = screen.getByPlaceholderText("Search");
-    expect(input).toHaveClass("custom-input");
+    const input = screen.getByPlaceholderText('Search');
+    expect(input).toHaveClass('custom-input');
   });
 
-  it("handles user input", async () => {
+  it('handles user input', async () => {
     const user = userEvent.setup();
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
           <ModelSelectorInput placeholder="Search models..." />
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
 
-    const input = screen.getByPlaceholderText("Search models...");
-    await user.type(input, "gpt-4");
-    expect(input).toHaveValue("gpt-4");
+    const input = screen.getByPlaceholderText('Search models...');
+    await user.type(input, 'gpt-4');
+    expect(input).toHaveValue('gpt-4');
   });
 });
 
-describe("modelSelectorList", () => {
-  it("renders list container", () => {
+describe('modelSelectorList', () => {
+  it('renders list container', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
@@ -228,14 +228,14 @@ describe("modelSelectorList", () => {
             <div data-testid="list-content">Items</div>
           </ModelSelectorList>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByTestId("list-content")).toBeInTheDocument();
+    expect(screen.getByTestId('list-content')).toBeInTheDocument();
   });
 });
 
-describe("modelSelectorEmpty", () => {
-  it("renders empty state message", () => {
+describe('modelSelectorEmpty', () => {
+  it('renders empty state message', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
@@ -243,14 +243,14 @@ describe("modelSelectorEmpty", () => {
             <ModelSelectorEmpty>No models found</ModelSelectorEmpty>
           </ModelSelectorList>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByText("No models found")).toBeInTheDocument();
+    expect(screen.getByText('No models found')).toBeInTheDocument();
   });
 });
 
-describe("modelSelectorGroup", () => {
-  it("renders group with heading", () => {
+describe('modelSelectorGroup', () => {
+  it('renders group with heading', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
@@ -260,12 +260,12 @@ describe("modelSelectorGroup", () => {
             </ModelSelectorGroup>
           </ModelSelectorList>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByText("Popular Models")).toBeInTheDocument();
+    expect(screen.getByText('Popular Models')).toBeInTheDocument();
   });
 
-  it("renders group children", () => {
+  it('renders group children', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
@@ -275,14 +275,14 @@ describe("modelSelectorGroup", () => {
             </ModelSelectorGroup>
           </ModelSelectorList>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByTestId("group-content")).toBeInTheDocument();
+    expect(screen.getByTestId('group-content')).toBeInTheDocument();
   });
 });
 
-describe("modelSelectorItem", () => {
-  it("renders selectable item", () => {
+describe('modelSelectorItem', () => {
+  it('renders selectable item', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
@@ -290,12 +290,12 @@ describe("modelSelectorItem", () => {
             <ModelSelectorItem value="gpt-4">GPT-4</ModelSelectorItem>
           </ModelSelectorList>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByText("GPT-4")).toBeInTheDocument();
+    expect(screen.getByText('GPT-4')).toBeInTheDocument();
   });
 
-  it("handles click events", async () => {
+  it('handles click events', async () => {
     const user = userEvent.setup();
     const handleSelect = vi.fn();
     render(
@@ -307,14 +307,14 @@ describe("modelSelectorItem", () => {
             </ModelSelectorItem>
           </ModelSelectorList>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
 
-    await user.click(screen.getByText("GPT-4"));
-    expect(handleSelect).toHaveBeenCalledWith("gpt-4");
+    await user.click(screen.getByText('GPT-4'));
+    expect(handleSelect).toHaveBeenCalledWith('gpt-4');
   });
 
-  it("can be disabled", () => {
+  it('can be disabled', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
@@ -324,18 +324,18 @@ describe("modelSelectorItem", () => {
             </ModelSelectorItem>
           </ModelSelectorList>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    const item = screen.getByText("GPT-4");
+    const item = screen.getByText('GPT-4');
     expect(item.closest('[role="option"]')).toHaveAttribute(
-      "aria-disabled",
-      "true"
+      'aria-disabled',
+      'true',
     );
   });
 });
 
-describe("modelSelectorShortcut", () => {
-  it("renders keyboard shortcut", () => {
+describe('modelSelectorShortcut', () => {
+  it('renders keyboard shortcut', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
@@ -346,14 +346,14 @@ describe("modelSelectorShortcut", () => {
             </ModelSelectorItem>
           </ModelSelectorList>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
-    expect(screen.getByText("⌘K")).toBeInTheDocument();
+    expect(screen.getByText('⌘K')).toBeInTheDocument();
   });
 });
 
-describe("modelSelectorSeparator", () => {
-  it("renders separator", () => {
+describe('modelSelectorSeparator', () => {
+  it('renders separator', () => {
     render(
       <ModelSelector open={true}>
         <ModelSelectorContent aria-describedby="test-description">
@@ -363,135 +363,135 @@ describe("modelSelectorSeparator", () => {
             <ModelSelectorItem value="item-2">Item 2</ModelSelectorItem>
           </ModelSelectorList>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
     // Verify that items are rendered (separator is between them)
-    expect(screen.getByText("Item 1")).toBeInTheDocument();
-    expect(screen.getByText("Item 2")).toBeInTheDocument();
+    expect(screen.getByText('Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Item 2')).toBeInTheDocument();
   });
 });
 
-describe("modelSelectorLogo", () => {
-  it("renders logo image with correct attributes", () => {
+describe('modelSelectorLogo', () => {
+  it('renders logo image with correct attributes', () => {
     render(<ModelSelectorLogo provider="openai" />);
-    const logo = screen.getByAltText("openai logo");
+    const logo = screen.getByAltText('openai logo');
     expect(logo).toBeInTheDocument();
-    expect(logo).toHaveAttribute("src", "https://models.dev/logos/openai.svg");
-    expect(logo).toHaveAttribute("width", "12");
-    expect(logo).toHaveAttribute("height", "12");
+    expect(logo).toHaveAttribute('src', 'https://models.dev/logos/openai.svg');
+    expect(logo).toHaveAttribute('width', '12');
+    expect(logo).toHaveAttribute('height', '12');
   });
 
-  it("applies default size class", () => {
+  it('applies default size class', () => {
     render(<ModelSelectorLogo provider="anthropic" />);
-    const logo = screen.getByAltText("anthropic logo");
-    expect(logo).toHaveClass("size-3");
+    const logo = screen.getByAltText('anthropic logo');
+    expect(logo).toHaveClass('size-3');
   });
 
-  it("accepts custom className", () => {
+  it('accepts custom className', () => {
     render(
-      <ModelSelectorLogo className="custom-logo-size" provider="google" />
+      <ModelSelectorLogo className="custom-logo-size" provider="google" />,
     );
-    const logo = screen.getByAltText("google logo");
-    expect(logo).toHaveClass("custom-logo-size");
+    const logo = screen.getByAltText('google logo');
+    expect(logo).toHaveClass('custom-logo-size');
   });
 
-  it("supports all known providers", () => {
+  it('supports all known providers', () => {
     const providers = [
-      "openai",
-      "anthropic",
-      "google",
-      "mistral",
-      "groq",
-      "perplexity",
+      'openai',
+      'anthropic',
+      'google',
+      'mistral',
+      'groq',
+      'perplexity',
     ];
 
     for (const provider of providers) {
       const { unmount } = render(<ModelSelectorLogo provider={provider} />);
       const logo = screen.getByAltText(`${provider} logo`);
       expect(logo).toHaveAttribute(
-        "src",
-        `https://models.dev/logos/${provider}.svg`
+        'src',
+        `https://models.dev/logos/${provider}.svg`,
       );
       unmount();
     }
   });
 
-  it("supports custom string providers", () => {
+  it('supports custom string providers', () => {
     render(<ModelSelectorLogo provider="custom-provider" />);
-    const logo = screen.getByAltText("custom-provider logo");
+    const logo = screen.getByAltText('custom-provider logo');
     expect(logo).toHaveAttribute(
-      "src",
-      "https://models.dev/logos/custom-provider.svg"
+      'src',
+      'https://models.dev/logos/custom-provider.svg',
     );
   });
 
-  it("accepts additional img props", () => {
+  it('accepts additional img props', () => {
     render(<ModelSelectorLogo loading="lazy" provider="openai" />);
-    const logo = screen.getByAltText("openai logo");
-    expect(logo).toHaveAttribute("loading", "lazy");
+    const logo = screen.getByAltText('openai logo');
+    expect(logo).toHaveAttribute('loading', 'lazy');
   });
 });
 
-describe("modelSelectorLogoGroup", () => {
-  it("renders multiple logos in a group", () => {
+describe('modelSelectorLogoGroup', () => {
+  it('renders multiple logos in a group', () => {
     render(
       <ModelSelectorLogoGroup>
         <ModelSelectorLogo provider="openai" />
         <ModelSelectorLogo provider="anthropic" />
         <ModelSelectorLogo provider="google" />
-      </ModelSelectorLogoGroup>
+      </ModelSelectorLogoGroup>,
     );
-    expect(screen.getByAltText("openai logo")).toBeInTheDocument();
-    expect(screen.getByAltText("anthropic logo")).toBeInTheDocument();
-    expect(screen.getByAltText("google logo")).toBeInTheDocument();
+    expect(screen.getByAltText('openai logo')).toBeInTheDocument();
+    expect(screen.getByAltText('anthropic logo')).toBeInTheDocument();
+    expect(screen.getByAltText('google logo')).toBeInTheDocument();
   });
 
-  it("applies styling classes for logo group", () => {
+  it('applies styling classes for logo group', () => {
     const { container } = render(
       <ModelSelectorLogoGroup>
         <ModelSelectorLogo provider="openai" />
-      </ModelSelectorLogoGroup>
+      </ModelSelectorLogoGroup>,
     );
     const group = container.firstChild as HTMLElement;
-    expect(group).toHaveClass("-space-x-1", "flex", "shrink-0");
+    expect(group).toHaveClass('-space-x-1', 'flex', 'shrink-0');
   });
 
-  it("accepts custom className", () => {
+  it('accepts custom className', () => {
     const { container } = render(
       <ModelSelectorLogoGroup className="custom-group">
         <ModelSelectorLogo provider="openai" />
-      </ModelSelectorLogoGroup>
+      </ModelSelectorLogoGroup>,
     );
     const group = container.firstChild as HTMLElement;
-    expect(group).toHaveClass("custom-group");
+    expect(group).toHaveClass('custom-group');
   });
 });
 
-describe("modelSelectorName", () => {
-  it("renders model name text", () => {
+describe('modelSelectorName', () => {
+  it('renders model name text', () => {
     render(<ModelSelectorName>GPT-4 Turbo</ModelSelectorName>);
-    expect(screen.getByText("GPT-4 Turbo")).toBeInTheDocument();
+    expect(screen.getByText('GPT-4 Turbo')).toBeInTheDocument();
   });
 
-  it("applies text styling classes", () => {
+  it('applies text styling classes', () => {
     render(<ModelSelectorName>Model Name</ModelSelectorName>);
-    const name = screen.getByText("Model Name");
-    expect(name).toHaveClass("flex-1", "truncate", "text-left");
+    const name = screen.getByText('Model Name');
+    expect(name).toHaveClass('flex-1', 'truncate', 'text-left');
   });
 
-  it("accepts custom className", () => {
+  it('accepts custom className', () => {
     render(
-      <ModelSelectorName className="custom-name">Model</ModelSelectorName>
+      <ModelSelectorName className="custom-name">Model</ModelSelectorName>,
     );
-    const name = screen.getByText("Model");
-    expect(name).toHaveClass("custom-name");
+    const name = screen.getByText('Model');
+    expect(name).toHaveClass('custom-name');
   });
 
-  it("truncates long text", () => {
-    const longName = "A very long model name that should be truncated";
+  it('truncates long text', () => {
+    const longName = 'A very long model name that should be truncated';
     render(<ModelSelectorName>{longName}</ModelSelectorName>);
     const name = screen.getByText(longName);
-    expect(name).toHaveClass("truncate");
+    expect(name).toHaveClass('truncate');
   });
 });
 
@@ -523,25 +523,25 @@ const renderCompleteModelSelector = () =>
           <ModelSelectorEmpty>No models found</ModelSelectorEmpty>
         </ModelSelectorList>
       </ModelSelectorContent>
-    </ModelSelector>
+    </ModelSelector>,
   );
 
-describe("integration tests", () => {
-  it("renders search input and OpenAI group", () => {
+describe('integration tests', () => {
+  it('renders search input and OpenAI group', () => {
     renderCompleteModelSelector();
-    expect(screen.getByPlaceholderText("Search models...")).toBeInTheDocument();
-    expect(screen.getByText("OpenAI")).toBeInTheDocument();
-    expect(screen.getByText("GPT-4")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search models...')).toBeInTheDocument();
+    expect(screen.getByText('OpenAI')).toBeInTheDocument();
+    expect(screen.getByText('GPT-4')).toBeInTheDocument();
   });
 
-  it("renders shortcuts and Anthropic group", () => {
+  it('renders shortcuts and Anthropic group', () => {
     renderCompleteModelSelector();
-    expect(screen.getByText("⌘1")).toBeInTheDocument();
-    expect(screen.getByText("Anthropic")).toBeInTheDocument();
-    expect(screen.getByText("Claude")).toBeInTheDocument();
+    expect(screen.getByText('⌘1')).toBeInTheDocument();
+    expect(screen.getByText('Anthropic')).toBeInTheDocument();
+    expect(screen.getByText('Claude')).toBeInTheDocument();
   });
 
-  it("handles model selection flow", async () => {
+  it('handles model selection flow', async () => {
     const user = userEvent.setup();
     const handleSelect = vi.fn();
     const handleOpenChange = vi.fn();
@@ -556,13 +556,13 @@ describe("integration tests", () => {
             </ModelSelectorItem>
           </ModelSelectorList>
         </ModelSelectorContent>
-      </ModelSelector>
+      </ModelSelector>,
     );
 
-    await user.click(screen.getByText("Select Model"));
+    await user.click(screen.getByText('Select Model'));
     expect(handleOpenChange).toHaveBeenCalledWith(true);
 
-    await user.click(screen.getByText("GPT-4"));
-    expect(handleSelect).toHaveBeenCalledWith("gpt-4");
+    await user.click(screen.getByText('GPT-4'));
+    expect(handleSelect).toHaveBeenCalledWith('gpt-4');
   });
 });

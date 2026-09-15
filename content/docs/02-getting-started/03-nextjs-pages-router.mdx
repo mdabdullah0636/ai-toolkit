@@ -253,7 +253,12 @@ For example, if a user asks about the current weather, without tools, the model 
 Let's start by giving your chatbot a weather tool. Update your Route Handler (`app/api/chat/route.ts`):
 
 ```tsx filename="app/api/chat/route.ts"
-import { streamText, UIMessage, convertToModelMessages, tool } from 'ai-toolkit';
+import {
+  streamText,
+  UIMessage,
+  convertToModelMessages,
+  tool,
+} from 'ai-toolkit';
 __PROVIDER_IMPORT__;
 import { z } from 'zod';
 

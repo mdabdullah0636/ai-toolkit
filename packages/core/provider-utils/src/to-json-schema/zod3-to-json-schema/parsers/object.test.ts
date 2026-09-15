@@ -6,7 +6,9 @@ import { JSONSchema7 } from '@ai-toolkit/provider';
 
 describe('object', () => {
   it('should be possible to describe catchAll schema', () => {
-    const schema = z.object({ normalProperty: z.string() }).catchall(z.boolean());
+    const schema = z
+      .object({ normalProperty: z.string() })
+      .catchall(z.boolean());
 
     const parsedSchema = parseObjectDef(schema._def, getRefs());
 
@@ -23,7 +25,9 @@ describe('object', () => {
   });
 
   it('should be possible to use selective partial', () => {
-    const schema = z.object({ foo: z.boolean(), bar: z.number() }).partial({ foo: true });
+    const schema = z
+      .object({ foo: z.boolean(), bar: z.number() })
+      .partial({ foo: true });
 
     const parsedSchema = parseObjectDef(schema._def, getRefs());
 
@@ -56,7 +60,9 @@ describe('object', () => {
       additionalProperties: true,
     } satisfies JSONSchema7);
 
-    const strictSchema = z.object({ foo: z.boolean(), bar: z.number() }).strict();
+    const strictSchema = z
+      .object({ foo: z.boolean(), bar: z.number() })
+      .strict();
 
     const parsedStrictSchema = parseObjectDef(
       strictSchema._def,
@@ -75,7 +81,9 @@ describe('object', () => {
   });
 
   it('should allow additional properties with catchall when removeAdditionalStrategy is strict', () => {
-    const schema = z.object({ foo: z.boolean(), bar: z.number() }).catchall(z.boolean());
+    const schema = z
+      .object({ foo: z.boolean(), bar: z.number() })
+      .catchall(z.boolean());
 
     const parsedSchema = parseObjectDef(
       schema._def,
@@ -96,7 +104,9 @@ describe('object', () => {
   });
 
   it('should be possible to not set additionalProperties at all when allowed', () => {
-    const schema = z.object({ foo: z.boolean(), bar: z.number() }).passthrough();
+    const schema = z
+      .object({ foo: z.boolean(), bar: z.number() })
+      .passthrough();
 
     const parsedSchema = parseObjectDef(
       schema._def,

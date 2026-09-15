@@ -19,7 +19,8 @@ export type AzureWebSearchPreviewMessage = UIMessage<
 >;
 
 export async function POST(req: Request) {
-  const { messages }: { messages: AzureWebSearchPreviewMessage[] } = await req.json();
+  const { messages }: { messages: AzureWebSearchPreviewMessage[] } =
+    await req.json();
 
   const result = streamText({
     model: azure.responses('gpt-4.1-mini'),

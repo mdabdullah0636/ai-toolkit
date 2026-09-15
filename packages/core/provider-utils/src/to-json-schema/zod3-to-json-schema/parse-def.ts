@@ -14,7 +14,12 @@ export function parseDef(
   const seenItem = refs.seen.get(def);
 
   if (refs.override) {
-    const overrideResult = refs.override?.(def, refs, seenItem, forceResolution);
+    const overrideResult = refs.override?.(
+      def,
+      refs,
+      seenItem,
+      forceResolution,
+    );
 
     if (overrideResult !== ignoreOverride) {
       return overrideResult;
@@ -90,7 +95,11 @@ const get$ref = (
   }
 };
 
-const addMeta = (def: ZodTypeDef, refs: Refs, jsonSchema: JsonSchema7Type): JsonSchema7Type => {
+const addMeta = (
+  def: ZodTypeDef,
+  refs: Refs,
+  jsonSchema: JsonSchema7Type,
+): JsonSchema7Type => {
   if (def.description) {
     jsonSchema.description = def.description;
   }

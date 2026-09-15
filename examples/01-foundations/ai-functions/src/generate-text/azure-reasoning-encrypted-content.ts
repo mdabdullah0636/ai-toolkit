@@ -8,7 +8,8 @@ run(async () => {
     model: azure.responses('gpt-5.1-codex-max'),
     tools: {
       calculator: tool({
-        description: 'A minimal calculator for basic arithmetic. Call it once per step.',
+        description:
+          'A minimal calculator for basic arithmetic. Call it once per step.',
         inputSchema: z.object({
           a: z.number().describe('First operand.'),
           b: z.number().describe('Second operand.'),

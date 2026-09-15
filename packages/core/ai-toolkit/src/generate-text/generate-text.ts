@@ -324,8 +324,8 @@ A function that attempts to repair a tool call that failed to parse.
     experimental_toolApprovalSecret?: string | Uint8Array;
 
     /**
-      * Internal. For test use only. May change without notice.
-      */
+     * Internal. For test use only. May change without notice.
+     */
     _internal?: {
       generateId?: IdGenerator;
     };
@@ -410,9 +410,10 @@ A function that attempts to repair a tool call that failed to parse.
           toolApprovalSecret: settings.experimental_toolApprovalSecret,
         });
 
-        const localApprovedToolApprovals = validatedToolApprovals.approvedToolApprovals.filter(
-          toolApproval => !toolApproval.toolCall.providerExecuted,
-        );
+        const localApprovedToolApprovals =
+          validatedToolApprovals.approvedToolApprovals.filter(
+            toolApproval => !toolApproval.toolCall.providerExecuted,
+          );
 
         if (
           validatedToolApprovals.deniedToolApprovals.length > 0 ||

@@ -10,7 +10,8 @@ import { loadApiKey } from '@ai-toolkit/provider-utils';
 import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 
 // Add type assertion for the mocked class
-const OpenAICompatibleChatLanguageModelMock = OpenAICompatibleChatLanguageModel as unknown as Mock;
+const OpenAICompatibleChatLanguageModelMock =
+  OpenAICompatibleChatLanguageModel as unknown as Mock;
 
 vi.mock('@ai-toolkit/openai-compatible', () => ({
   OpenAICompatibleChatLanguageModel: vi.fn(),
@@ -54,7 +55,8 @@ describe('DeepInfraProvider', () => {
       const model = provider('model-id');
 
       // Use the mocked version
-      const constructorCall = OpenAICompatibleChatLanguageModelMock.mock.calls[0];
+      const constructorCall =
+        OpenAICompatibleChatLanguageModelMock.mock.calls[0];
       const config = constructorCall[1];
       config.headers();
 
@@ -74,7 +76,8 @@ describe('DeepInfraProvider', () => {
       const provider = createDeepInfra(options);
       const model = provider('model-id');
 
-      const constructorCall = OpenAICompatibleChatLanguageModelMock.mock.calls[0];
+      const constructorCall =
+        OpenAICompatibleChatLanguageModelMock.mock.calls[0];
       const config = constructorCall[1];
       config.headers();
 
@@ -157,7 +160,10 @@ describe('DeepInfraProvider', () => {
       const model = provider.image(modelId);
 
       expect(model).toBeInstanceOf(DeepInfraImageModel);
-      expect(DeepInfraImageModel).toHaveBeenCalledWith(modelId, expect.any(Object));
+      expect(DeepInfraImageModel).toHaveBeenCalledWith(
+        modelId,
+        expect.any(Object),
+      );
     });
 
     it('should respect custom baseURL', () => {

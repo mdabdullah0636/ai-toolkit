@@ -9,7 +9,9 @@ export function injectJsonInstruction({
   prompt,
   schema,
   schemaPrefix = schema != null ? DEFAULT_SCHEMA_PREFIX : undefined,
-  schemaSuffix = schema != null ? DEFAULT_SCHEMA_SUFFIX : DEFAULT_GENERIC_SUFFIX,
+  schemaSuffix = schema != null
+    ? DEFAULT_SCHEMA_SUFFIX
+    : DEFAULT_GENERIC_SUFFIX,
 }: {
   prompt?: string;
   schema?: JSONSchema7;

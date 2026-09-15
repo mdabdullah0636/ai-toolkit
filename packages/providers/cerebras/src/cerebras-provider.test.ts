@@ -4,7 +4,8 @@ import { loadApiKey } from '@ai-toolkit/provider-utils';
 import { OpenAICompatibleChatLanguageModel } from '@ai-toolkit/openai-compatible';
 
 // Add type assertion for the mocked class
-const OpenAICompatibleChatLanguageModelMock = OpenAICompatibleChatLanguageModel as unknown as Mock;
+const OpenAICompatibleChatLanguageModelMock =
+  OpenAICompatibleChatLanguageModel as unknown as Mock;
 
 vi.mock('@ai-toolkit/openai-compatible', () => ({
   OpenAICompatibleChatLanguageModel: vi.fn(),
@@ -33,7 +34,8 @@ describe('CerebrasProvider', () => {
       const provider = createCerebras();
       const model = provider('model-id');
 
-      const constructorCall = OpenAICompatibleChatLanguageModelMock.mock.calls[0];
+      const constructorCall =
+        OpenAICompatibleChatLanguageModelMock.mock.calls[0];
       const config = constructorCall[1];
       config.headers();
 
@@ -53,7 +55,8 @@ describe('CerebrasProvider', () => {
       const provider = createCerebras(options);
       provider('model-id');
 
-      const constructorCall = OpenAICompatibleChatLanguageModelMock.mock.calls[0];
+      const constructorCall =
+        OpenAICompatibleChatLanguageModelMock.mock.calls[0];
       const config = constructorCall[1];
       config.headers();
 
@@ -65,12 +68,15 @@ describe('CerebrasProvider', () => {
     });
 
     it('should pass header', async () => {
-      const fetchMock = vi.fn().mockResolvedValue(new Response('{}', { status: 200 }));
+      const fetchMock = vi
+        .fn()
+        .mockResolvedValue(new Response('{}', { status: 200 }));
 
       const provider = createCerebras({ fetch: fetchMock });
       provider('model-id');
 
-      const constructorCall = vi.mocked(OpenAICompatibleChatLanguageModel).mock.calls[0];
+      const constructorCall = vi.mocked(OpenAICompatibleChatLanguageModel).mock
+        .calls[0];
       const config = constructorCall[1];
       const headers = config.headers();
 

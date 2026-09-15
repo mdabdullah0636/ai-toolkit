@@ -3,12 +3,14 @@ title: createAgentUIStream
 description: API Reference for the createAgentUIStream utility.
 ---
 
-
 The `createAgentUIStream` function executes an [Agent](/docs/reference/ai-toolkit-core/agent), consumes an array of UI messages, and streams the agent's output as UI message chunks via an async iterable. This enables real-time, incremental rendering of AI assistant output with full access to tool use, intermediate reasoning, and interactive UI features in your own runtime—perfect for building chat APIs, dashboards, or bots powered by agents.
 
 ## Import
 
-<Snippet text={`import { createAgentUIStream } from "ai-toolkit"`} prompt={false} />
+<Snippet
+  text={`import { createAgentUIStream } from "ai-toolkit"`}
+  prompt={false}
+/>
 
 ## Usage
 

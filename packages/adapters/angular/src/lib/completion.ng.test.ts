@@ -1,4 +1,7 @@
-import { createTestServer, TestResponseController } from '@ai-toolkit/test-server/with-vitest';
+import {
+  createTestServer,
+  TestResponseController,
+} from '@ai-toolkit/test-server/with-vitest';
 import { Completion } from './completion.ng';
 import { beforeAll } from 'vitest';
 import { describe, it, expect, vi } from 'vitest';
@@ -101,7 +104,9 @@ describe('Completion', () => {
 
       const completion = new Completion();
       const completionOperation = completion.complete('hi');
-      controller.write(formatStreamPart({ type: 'text-delta', id: '0', delta: 'Hello' }));
+      controller.write(
+        formatStreamPart({ type: 'text-delta', id: '0', delta: 'Hello' }),
+      );
 
       await vi.waitFor(() => {
         expect(completion.loading).toBe(true);

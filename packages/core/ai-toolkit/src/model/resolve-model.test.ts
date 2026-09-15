@@ -6,7 +6,11 @@ import { MockEmbeddingModelV3 } from '../test/mock-embedding-model-v3';
 import { MockLanguageModelV3 } from '../test/mock-language-model-v3';
 import { customProvider } from '../registry/custom-provider';
 import { MockImageModelV2 } from '../test/mock-image-model-v2';
-import { resolveEmbeddingModel, resolveImageModel, resolveLanguageModel } from './resolve-model';
+import {
+  resolveEmbeddingModel,
+  resolveImageModel,
+  resolveLanguageModel,
+} from './resolve-model';
 
 describe('resolveLanguageModel', () => {
   describe('when a language model v3 is provided', () => {
@@ -198,7 +202,9 @@ describe('resolveImageModel', () => {
         }),
       );
 
-      const imageModelSpy = vi.spyOn(gateway, 'imageModel').mockReturnValue(resolvedModel);
+      const imageModelSpy = vi
+        .spyOn(gateway, 'imageModel')
+        .mockReturnValue(resolvedModel);
 
       try {
         const resolvedModel = resolveImageModel('test-model-id');

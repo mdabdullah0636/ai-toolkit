@@ -1,7 +1,18 @@
 import { LanguageModelV3Usage } from '@ai-toolkit/provider';
 import { jsonSchema, tool } from '@ai-toolkit/provider-utils';
-import { convertAsyncIterableToArray, mockId } from '@ai-toolkit/provider-utils/test';
-import { afterEach, beforeEach, describe, expect, it, vi, vitest } from 'vitest';
+import {
+  convertAsyncIterableToArray,
+  mockId,
+} from '@ai-toolkit/provider-utils/test';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+  vitest,
+} from 'vitest';
 import { streamText } from '../generate-text';
 import * as logWarningsModule from '../logger/log-warnings';
 import { wrapLanguageModel } from '../middleware/wrap-language-model';
@@ -36,7 +47,9 @@ describe('simulateStreamingMiddleware', () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2025-01-01'));
-    logWarningsSpy = vitest.spyOn(logWarningsModule, 'logWarnings').mockImplementation(() => {});
+    logWarningsSpy = vitest
+      .spyOn(logWarningsModule, 'logWarnings')
+      .mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -64,7 +77,8 @@ describe('simulateStreamingMiddleware', () => {
       ...DEFAULT_SETTINGs,
     });
 
-    expect(await convertAsyncIterableToArray(result.fullStream)).toMatchInlineSnapshot(`
+    expect(await convertAsyncIterableToArray(result.fullStream))
+      .toMatchInlineSnapshot(`
         [
           {
             "type": "start",
@@ -169,7 +183,8 @@ describe('simulateStreamingMiddleware', () => {
       ...DEFAULT_SETTINGs,
     });
 
-    expect(await convertAsyncIterableToArray(result.fullStream)).toMatchInlineSnapshot(`
+    expect(await convertAsyncIterableToArray(result.fullStream))
+      .toMatchInlineSnapshot(`
         [
           {
             "type": "start",
@@ -301,7 +316,8 @@ describe('simulateStreamingMiddleware', () => {
       ...DEFAULT_SETTINGs,
     });
 
-    expect(await convertAsyncIterableToArray(result.fullStream)).toMatchInlineSnapshot(`
+    expect(await convertAsyncIterableToArray(result.fullStream))
+      .toMatchInlineSnapshot(`
         [
           {
             "type": "start",
@@ -464,7 +480,8 @@ describe('simulateStreamingMiddleware', () => {
       ...DEFAULT_SETTINGs,
     });
 
-    expect(await convertAsyncIterableToArray(result.fullStream)).toMatchInlineSnapshot(`
+    expect(await convertAsyncIterableToArray(result.fullStream))
+      .toMatchInlineSnapshot(`
         [
           {
             "type": "start",
@@ -627,7 +644,8 @@ describe('simulateStreamingMiddleware', () => {
       ...DEFAULT_SETTINGs,
     });
 
-    expect(await convertAsyncIterableToArray(result.fullStream)).toMatchInlineSnapshot(`
+    expect(await convertAsyncIterableToArray(result.fullStream))
+      .toMatchInlineSnapshot(`
         [
           {
             "type": "start",
@@ -748,7 +766,8 @@ describe('simulateStreamingMiddleware', () => {
       ...DEFAULT_SETTINGs,
     });
 
-    expect(await convertAsyncIterableToArray(result.fullStream)).toMatchInlineSnapshot(`
+    expect(await convertAsyncIterableToArray(result.fullStream))
+      .toMatchInlineSnapshot(`
         [
           {
             "type": "start",
@@ -850,7 +869,9 @@ describe('simulateStreamingMiddleware', () => {
       ...DEFAULT_SETTINGs,
     });
 
-    expect(await convertAsyncIterableToArray(result.fullStream)).toMatchSnapshot();
+    expect(
+      await convertAsyncIterableToArray(result.fullStream),
+    ).toMatchSnapshot();
   });
 
   it('should pass through warnings from the model', async () => {
@@ -860,7 +881,9 @@ describe('simulateStreamingMiddleware', () => {
           content: [{ type: 'text', text: 'This is a test response' }],
           finishReason: { unified: 'stop', raw: 'stop' },
           usage: testUsage,
-          warnings: [{ type: 'other', message: 'Test warning', code: 'test_warning' }],
+          warnings: [
+            { type: 'other', message: 'Test warning', code: 'test_warning' },
+          ],
         };
       },
     });

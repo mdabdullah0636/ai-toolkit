@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
-import { CheckIcon, XIcon } from "lucide-react";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { CheckIcon, XIcon } from 'lucide-react';
 
 import {
   Confirmation,
@@ -9,77 +9,77 @@ import {
   ConfirmationActions,
   ConfirmationRejected,
   ConfirmationRequest,
-} from "./confirmation";
+} from './confirmation';
 
-describe("confirmation", () => {
-  it("renders children when approval is present", () => {
+describe('confirmation', () => {
+  it('renders children when approval is present', () => {
     render(
-      <Confirmation approval={{ id: "test-id" }} state="approval-requested">
+      <Confirmation approval={{ id: 'test-id' }} state="approval-requested">
         <div>Approval Content</div>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(screen.getByText("Approval Content")).toBeInTheDocument();
+    expect(screen.getByText('Approval Content')).toBeInTheDocument();
   });
 
-  it("does not render when approval is not present", () => {
+  it('does not render when approval is not present', () => {
     const { container } = render(
       <Confirmation state="input-streaming">
         <div>Approval Content</div>
-      </Confirmation>
+      </Confirmation>,
     );
     expect(container.firstChild).toBeNull();
   });
 
-  it("does not render in input-streaming state", () => {
+  it('does not render in input-streaming state', () => {
     const { container } = render(
-      <Confirmation approval={{ id: "test-id" }} state="input-streaming">
+      <Confirmation approval={{ id: 'test-id' }} state="input-streaming">
         <div>Approval Content</div>
-      </Confirmation>
+      </Confirmation>,
     );
     expect(container.firstChild).toBeNull();
   });
 
-  it("does not render in input-available state", () => {
+  it('does not render in input-available state', () => {
     const { container } = render(
-      <Confirmation approval={{ id: "test-id" }} state="input-available">
+      <Confirmation approval={{ id: 'test-id' }} state="input-available">
         <div>Approval Content</div>
-      </Confirmation>
+      </Confirmation>,
     );
     expect(container.firstChild).toBeNull();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <Confirmation
-        approval={{ id: "test-id" }}
+        approval={{ id: 'test-id' }}
         className="custom-class"
         state="approval-requested"
       >
         <div>Content</div>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(container.firstChild).toHaveClass("custom-class");
+    expect(container.firstChild).toHaveClass('custom-class');
   });
 });
 
-describe("confirmationRequest, ConfirmationAccepted, ConfirmationRejected", () => {
-  it("renders ConfirmationRequest when state is approval-requested", () => {
+describe('confirmationRequest, ConfirmationAccepted, ConfirmationRejected', () => {
+  it('renders ConfirmationRequest when state is approval-requested', () => {
     render(
-      <Confirmation approval={{ id: "test-id" }} state="approval-requested">
+      <Confirmation approval={{ id: 'test-id' }} state="approval-requested">
         <ConfirmationRequest>Custom approval message</ConfirmationRequest>
         <ConfirmationAccepted>Accepted</ConfirmationAccepted>
         <ConfirmationRejected>Rejected</ConfirmationRejected>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(screen.getByText("Custom approval message")).toBeInTheDocument();
-    expect(screen.queryByText("Accepted")).not.toBeInTheDocument();
-    expect(screen.queryByText("Rejected")).not.toBeInTheDocument();
+    expect(screen.getByText('Custom approval message')).toBeInTheDocument();
+    expect(screen.queryByText('Accepted')).not.toBeInTheDocument();
+    expect(screen.queryByText('Rejected')).not.toBeInTheDocument();
   });
 
-  it("renders ConfirmationAccepted when approved and state is approval-responded", () => {
+  it('renders ConfirmationAccepted when approved and state is approval-responded', () => {
     render(
       <Confirmation
-        approval={{ approved: true, id: "test-id" }}
+        approval={{ approved: true, id: 'test-id' }}
         state="approval-responded"
       >
         <ConfirmationRequest>Custom approval message</ConfirmationRequest>
@@ -91,19 +91,19 @@ describe("confirmationRequest, ConfirmationAccepted, ConfirmationRejected", () =
           <XIcon />
           <span>Rejected</span>
         </ConfirmationRejected>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(screen.getByText("Accepted")).toBeInTheDocument();
+    expect(screen.getByText('Accepted')).toBeInTheDocument();
     expect(
-      screen.queryByText("Custom approval message")
+      screen.queryByText('Custom approval message'),
     ).not.toBeInTheDocument();
-    expect(screen.queryByText("Rejected")).not.toBeInTheDocument();
+    expect(screen.queryByText('Rejected')).not.toBeInTheDocument();
   });
 
-  it("renders ConfirmationRejected when not approved and state is output-denied", () => {
+  it('renders ConfirmationRejected when not approved and state is output-denied', () => {
     render(
       <Confirmation
-        approval={{ approved: false, id: "test-id" }}
+        approval={{ approved: false, id: 'test-id' }}
         state="output-denied"
       >
         <ConfirmationRequest>Custom approval message</ConfirmationRequest>
@@ -115,95 +115,95 @@ describe("confirmationRequest, ConfirmationAccepted, ConfirmationRejected", () =
           <XIcon />
           <span>Rejected</span>
         </ConfirmationRejected>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(screen.getByText("Rejected")).toBeInTheDocument();
+    expect(screen.getByText('Rejected')).toBeInTheDocument();
     expect(
-      screen.queryByText("Custom approval message")
+      screen.queryByText('Custom approval message'),
     ).not.toBeInTheDocument();
-    expect(screen.queryByText("Accepted")).not.toBeInTheDocument();
+    expect(screen.queryByText('Accepted')).not.toBeInTheDocument();
   });
 });
 
-describe("confirmationActions", () => {
-  it("renders custom children buttons", () => {
+describe('confirmationActions', () => {
+  it('renders custom children buttons', () => {
     render(
-      <Confirmation approval={{ id: "test-id" }} state="approval-requested">
+      <Confirmation approval={{ id: 'test-id' }} state="approval-requested">
         <ConfirmationActions>
           <ConfirmationAction variant="outline">Reject</ConfirmationAction>
           <ConfirmationAction variant="default">Accept</ConfirmationAction>
         </ConfirmationActions>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(screen.getByText("Accept")).toBeInTheDocument();
-    expect(screen.getByText("Reject")).toBeInTheDocument();
+    expect(screen.getByText('Accept')).toBeInTheDocument();
+    expect(screen.getByText('Reject')).toBeInTheDocument();
   });
 
-  it("hides when state is not approval-requested", () => {
+  it('hides when state is not approval-requested', () => {
     render(
-      <Confirmation approval={{ id: "test-id" }} state="approval-responded">
+      <Confirmation approval={{ id: 'test-id' }} state="approval-responded">
         <ConfirmationActions>
           <ConfirmationAction variant="outline">Reject</ConfirmationAction>
           <ConfirmationAction variant="default">Accept</ConfirmationAction>
         </ConfirmationActions>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(screen.queryByText("Accept")).not.toBeInTheDocument();
-    expect(screen.queryByText("Reject")).not.toBeInTheDocument();
+    expect(screen.queryByText('Accept')).not.toBeInTheDocument();
+    expect(screen.queryByText('Reject')).not.toBeInTheDocument();
   });
 
-  it("shows when state is approval-requested", () => {
+  it('shows when state is approval-requested', () => {
     render(
-      <Confirmation approval={{ id: "test-id" }} state="approval-requested">
+      <Confirmation approval={{ id: 'test-id' }} state="approval-requested">
         <ConfirmationActions>
           <ConfirmationAction variant="outline">Reject</ConfirmationAction>
           <ConfirmationAction variant="default">Accept</ConfirmationAction>
         </ConfirmationActions>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(screen.getByText("Accept")).toBeInTheDocument();
-    expect(screen.getByText("Reject")).toBeInTheDocument();
+    expect(screen.getByText('Accept')).toBeInTheDocument();
+    expect(screen.getByText('Reject')).toBeInTheDocument();
   });
 
-  it("calls onClick when accept button is clicked", async () => {
+  it('calls onClick when accept button is clicked', async () => {
     const user = userEvent.setup();
     const handleAccept = vi.fn();
     render(
-      <Confirmation approval={{ id: "test-id" }} state="approval-requested">
+      <Confirmation approval={{ id: 'test-id' }} state="approval-requested">
         <ConfirmationActions>
           <ConfirmationAction variant="outline">Reject</ConfirmationAction>
           <ConfirmationAction onClick={handleAccept} variant="default">
             Accept
           </ConfirmationAction>
         </ConfirmationActions>
-      </Confirmation>
+      </Confirmation>,
     );
 
-    await user.click(screen.getByText("Accept"));
+    await user.click(screen.getByText('Accept'));
     expect(handleAccept).toHaveBeenCalledOnce();
   });
 
-  it("calls onClick when reject button is clicked", async () => {
+  it('calls onClick when reject button is clicked', async () => {
     const user = userEvent.setup();
     const handleReject = vi.fn();
     render(
-      <Confirmation approval={{ id: "test-id" }} state="approval-requested">
+      <Confirmation approval={{ id: 'test-id' }} state="approval-requested">
         <ConfirmationActions>
           <ConfirmationAction onClick={handleReject} variant="outline">
             Reject
           </ConfirmationAction>
           <ConfirmationAction variant="default">Accept</ConfirmationAction>
         </ConfirmationActions>
-      </Confirmation>
+      </Confirmation>,
     );
 
-    await user.click(screen.getByText("Reject"));
+    await user.click(screen.getByText('Reject'));
     expect(handleReject).toHaveBeenCalledOnce();
   });
 
-  it("disables buttons when disabled prop is true", () => {
+  it('disables buttons when disabled prop is true', () => {
     render(
-      <Confirmation approval={{ id: "test-id" }} state="approval-requested">
+      <Confirmation approval={{ id: 'test-id' }} state="approval-requested">
         <ConfirmationActions>
           <ConfirmationAction disabled variant="outline">
             Reject
@@ -212,31 +212,31 @@ describe("confirmationActions", () => {
             Accept
           </ConfirmationAction>
         </ConfirmationActions>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(screen.getByText("Accept")).toBeDisabled();
-    expect(screen.getByText("Reject")).toBeDisabled();
+    expect(screen.getByText('Accept')).toBeDisabled();
+    expect(screen.getByText('Reject')).toBeDisabled();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     render(
-      <Confirmation approval={{ id: "test-id" }} state="approval-requested">
+      <Confirmation approval={{ id: 'test-id' }} state="approval-requested">
         <ConfirmationActions className="custom-class">
           <ConfirmationAction variant="outline">Reject</ConfirmationAction>
           <ConfirmationAction variant="default">Accept</ConfirmationAction>
         </ConfirmationActions>
-      </Confirmation>
+      </Confirmation>,
     );
-    const actionsContainer = screen.getByText("Accept").parentElement;
-    expect(actionsContainer).toHaveClass("custom-class");
+    const actionsContainer = screen.getByText('Accept').parentElement;
+    expect(actionsContainer).toHaveClass('custom-class');
   });
 });
 
-describe("confirmationAccepted", () => {
-  it("renders accepted status with icon", () => {
+describe('confirmationAccepted', () => {
+  it('renders accepted status with icon', () => {
     render(
       <Confirmation
-        approval={{ approved: true, id: "test-id" }}
+        approval={{ approved: true, id: 'test-id' }}
         state="approval-responded"
       >
         <ConfirmationRequest>Request</ConfirmationRequest>
@@ -245,17 +245,17 @@ describe("confirmationAccepted", () => {
           <span>Accepted</span>
         </ConfirmationAccepted>
         <ConfirmationRejected>Rejected</ConfirmationRejected>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(screen.getByText("Accepted")).toBeInTheDocument();
+    expect(screen.getByText('Accepted')).toBeInTheDocument();
   });
 });
 
-describe("confirmationRejected", () => {
-  it("renders rejected status with icon", () => {
+describe('confirmationRejected', () => {
+  it('renders rejected status with icon', () => {
     render(
       <Confirmation
-        approval={{ approved: false, id: "test-id" }}
+        approval={{ approved: false, id: 'test-id' }}
         state="output-denied"
       >
         <ConfirmationRequest>Request</ConfirmationRequest>
@@ -264,8 +264,8 @@ describe("confirmationRejected", () => {
           <XIcon className="size-4" />
           <span>Rejected</span>
         </ConfirmationRejected>
-      </Confirmation>
+      </Confirmation>,
     );
-    expect(screen.getByText("Rejected")).toBeInTheDocument();
+    expect(screen.getByText('Rejected')).toBeInTheDocument();
   });
 });

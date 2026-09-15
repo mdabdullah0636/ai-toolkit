@@ -5,6 +5,8 @@
  * @param value - The value to check.
  * @returns `true` if the value is neither `null` nor `undefined`, otherwise `false`.
  */
-export function isNonNullable<T>(value: T | undefined | null): value is NonNullable<T> {
+export function isNonNullable<T>(
+  value: T | undefined | null,
+): value is NonNullable<T> {
   return value != null;
 }

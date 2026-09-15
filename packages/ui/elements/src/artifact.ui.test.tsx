@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { XIcon } from "lucide-react";
+import { render, screen } from '@testing-library/react';
+import { XIcon } from 'lucide-react';
 
 import {
   Artifact,
@@ -10,94 +10,94 @@ import {
   ArtifactDescription,
   ArtifactHeader,
   ArtifactTitle,
-} from "./artifact";
+} from './artifact';
 
-describe("artifact", () => {
-  it("renders children", () => {
+describe('artifact', () => {
+  it('renders children', () => {
     render(<Artifact>Content</Artifact>);
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(<Artifact className="custom">Test</Artifact>);
-    expect(container.firstChild).toHaveClass("custom");
+    expect(container.firstChild).toHaveClass('custom');
   });
 });
 
-describe("artifactHeader", () => {
-  it("renders children", () => {
+describe('artifactHeader', () => {
+  it('renders children', () => {
     render(<ArtifactHeader>Header</ArtifactHeader>);
-    expect(screen.getByText("Header")).toBeInTheDocument();
+    expect(screen.getByText('Header')).toBeInTheDocument();
   });
 });
 
-describe("artifactClose", () => {
-  it("renders default close icon", () => {
+describe('artifactClose', () => {
+  it('renders default close icon', () => {
     const { container } = render(<ArtifactClose />);
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it("renders custom children", () => {
+  it('renders custom children', () => {
     render(<ArtifactClose>Custom Close</ArtifactClose>);
-    expect(screen.getByText("Custom Close")).toBeInTheDocument();
+    expect(screen.getByText('Custom Close')).toBeInTheDocument();
   });
 
-  it("has sr-only close text", () => {
+  it('has sr-only close text', () => {
     render(<ArtifactClose />);
-    expect(screen.getByText("Close")).toHaveClass("sr-only");
+    expect(screen.getByText('Close')).toHaveClass('sr-only');
   });
 });
 
-describe("artifactTitle", () => {
-  it("renders title text", () => {
+describe('artifactTitle', () => {
+  it('renders title text', () => {
     render(<ArtifactTitle>My Title</ArtifactTitle>);
-    expect(screen.getByText("My Title")).toBeInTheDocument();
+    expect(screen.getByText('My Title')).toBeInTheDocument();
   });
 });
 
-describe("artifactDescription", () => {
-  it("renders description text", () => {
+describe('artifactDescription', () => {
+  it('renders description text', () => {
     render(<ArtifactDescription>Description text</ArtifactDescription>);
-    expect(screen.getByText("Description text")).toBeInTheDocument();
+    expect(screen.getByText('Description text')).toBeInTheDocument();
   });
 });
 
-describe("artifactActions", () => {
-  it("renders action buttons", () => {
+describe('artifactActions', () => {
+  it('renders action buttons', () => {
     render(
       <ArtifactActions>
         <button type="button">Action 1</button>
-      </ArtifactActions>
+      </ArtifactActions>,
     );
-    expect(screen.getByText("Action 1")).toBeInTheDocument();
+    expect(screen.getByText('Action 1')).toBeInTheDocument();
   });
 });
 
-describe("artifactAction", () => {
-  it("renders with icon", () => {
+describe('artifactAction', () => {
+  it('renders with icon', () => {
     render(<ArtifactAction icon={XIcon} label="Close" />);
-    expect(screen.getByText("Close")).toHaveClass("sr-only");
+    expect(screen.getByText('Close')).toHaveClass('sr-only');
   });
 
-  it("renders with tooltip", () => {
+  it('renders with tooltip', () => {
     render(<ArtifactAction label="Action" tooltip="Help" />);
-    expect(screen.getByText("Action")).toHaveClass("sr-only");
+    expect(screen.getByText('Action')).toHaveClass('sr-only');
   });
 
-  it("renders with tooltip only (no label)", () => {
+  it('renders with tooltip only (no label)', () => {
     render(<ArtifactAction tooltip="Help text">Content</ArtifactAction>);
-    expect(screen.getByText("Help text")).toHaveClass("sr-only");
+    expect(screen.getByText('Help text')).toHaveClass('sr-only');
   });
 
-  it("renders children when no icon", () => {
+  it('renders children when no icon', () => {
     render(<ArtifactAction label="Custom">Content</ArtifactAction>);
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 });
 
-describe("artifactContent", () => {
-  it("renders content", () => {
+describe('artifactContent', () => {
+  it('renders content', () => {
     render(<ArtifactContent>Main content</ArtifactContent>);
-    expect(screen.getByText("Main content")).toBeInTheDocument();
+    expect(screen.getByText('Main content')).toBeInTheDocument();
   });
 });

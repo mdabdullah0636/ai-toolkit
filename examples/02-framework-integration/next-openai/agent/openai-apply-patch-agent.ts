@@ -31,4 +31,6 @@ export const openaiApplyPatchAgent = new ToolLoopAgent({
   },
 });
 
-export type OpenAIApplyPatchMessage = InferAgentUIMessage<typeof openaiApplyPatchAgent>;
+export type OpenAIApplyPatchMessage = InferAgentUIMessage<
+  typeof openaiApplyPatchAgent
+>;

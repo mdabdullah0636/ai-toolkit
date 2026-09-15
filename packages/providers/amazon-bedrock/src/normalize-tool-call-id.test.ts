@@ -18,7 +18,9 @@ describe('isMistralModel', () => {
   });
 
   it('should return false for non-mistral models', () => {
-    expect(isMistralModel('anthropic.claude-3-5-sonnet-20241022-v2:0')).toBe(false);
+    expect(isMistralModel('anthropic.claude-3-5-sonnet-20241022-v2:0')).toBe(
+      false,
+    );
     expect(isMistralModel('amazon.nova-pro-v1:0')).toBe(false);
     expect(isMistralModel('openai.gpt-4o')).toBe(false);
     expect(isMistralModel('meta.llama3-70b-instruct-v1:0')).toBe(false);
@@ -35,7 +37,9 @@ describe('normalizeToolCallId', () => {
     // Bedrock format: tooluse_bpe71yCfRu2b5i-nKGDr5g
     // After removing non-alphanumeric: toolusebpe71yCfRu2b5inKGDr5g
     // First 9 chars: toolusebp
-    expect(normalizeToolCallId('tooluse_bpe71yCfRu2b5i-nKGDr5g', true)).toBe('toolusebp');
+    expect(normalizeToolCallId('tooluse_bpe71yCfRu2b5i-nKGDr5g', true)).toBe(
+      'toolusebp',
+    );
   });
 
   it('should handle IDs with various special characters', () => {
@@ -58,7 +62,10 @@ describe('normalizeToolCallId', () => {
   });
 
   it('should produce valid Mistral tool call IDs (9 alphanumeric chars)', () => {
-    const normalizedId = normalizeToolCallId('tooluse_bpe71yCfRu2b5i-nKGDr5g', true);
+    const normalizedId = normalizeToolCallId(
+      'tooluse_bpe71yCfRu2b5i-nKGDr5g',
+      true,
+    );
     // Verify the ID matches Mistral's requirements: ^[a-zA-Z0-9]{1,9}$
     expect(normalizedId).toMatch(/^[a-zA-Z0-9]{1,9}$/);
   });

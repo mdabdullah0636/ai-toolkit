@@ -12,4 +12,6 @@ export const weatherValibotAgent = new ToolLoopAgent({
   },
 });
 
-export type WeatherValibotAgentUIMessage = InferAgentUIMessage<typeof weatherValibotAgent>;
+export type WeatherValibotAgentUIMessage = InferAgentUIMessage<
+  typeof weatherValibotAgent
+>;

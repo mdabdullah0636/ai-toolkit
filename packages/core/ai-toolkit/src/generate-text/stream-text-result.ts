@@ -18,7 +18,11 @@ import { ErrorHandler } from '../util/error-handler';
 import { ContentPart } from './content-part';
 import { GeneratedFile } from './generated-file';
 import { Output } from './output';
-import { InferCompleteOutput, InferElementOutput, InferPartialOutput } from './output-utils';
+import {
+  InferCompleteOutput,
+  InferElementOutput,
+  InferPartialOutput,
+} from './output-utils';
 import { ReasoningOutput } from './reasoning-output';
 import { ResponseMessage } from './response-message';
 import { StepResult } from './step-result';
@@ -26,7 +30,11 @@ import { ToolApprovalRequestOutput } from './tool-approval-request-output';
 import { DynamicToolCall, StaticToolCall, TypedToolCall } from './tool-call';
 import { TypedToolError } from './tool-error';
 import { StaticToolOutputDenied } from './tool-output-denied';
-import { DynamicToolResult, StaticToolResult, TypedToolResult } from './tool-result';
+import {
+  DynamicToolResult,
+  StaticToolResult,
+  TypedToolResult,
+} from './tool-result';
 import { ToolSet } from './tool-set';
 
 export type UIMessageStreamOptions<UI_MESSAGE extends UIMessage> = {
@@ -98,7 +106,10 @@ export type ConsumeStreamOptions = {
 /**
 A result object for accessing different stream types and additional information.
  */
-export interface StreamTextResult<TOOLS extends ToolSet, OUTPUT extends Output> {
+export interface StreamTextResult<
+  TOOLS extends ToolSet,
+  OUTPUT extends Output,
+> {
   /**
 The content that was generated in the last step.
 
@@ -281,7 +292,9 @@ enables provider-specific results that can be fully encapsulated in the provider
    *
    * @deprecated Use `partialOutputStream` instead.
    */
-  readonly experimental_partialOutputStream: AsyncIterableStream<InferPartialOutput<OUTPUT>>;
+  readonly experimental_partialOutputStream: AsyncIterableStream<
+    InferPartialOutput<OUTPUT>
+  >;
 
   /**
    * A stream of partial parsed outputs. It uses the `output` specification.

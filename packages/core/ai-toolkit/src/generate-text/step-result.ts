@@ -12,7 +12,11 @@ import { ContentPart } from './content-part';
 import { GeneratedFile } from './generated-file';
 import { ResponseMessage } from './response-message';
 import { DynamicToolCall, StaticToolCall, TypedToolCall } from './tool-call';
-import { DynamicToolResult, StaticToolResult, TypedToolResult } from './tool-result';
+import {
+  DynamicToolResult,
+  StaticToolResult,
+  TypedToolResult,
+} from './tool-result';
 import { ToolSet } from './tool-set';
 
 /**
@@ -129,7 +133,9 @@ results that can be fully encapsulated in the provider.
   readonly providerMetadata: ProviderMetadata | undefined;
 };
 
-export class DefaultStepResult<TOOLS extends ToolSet> implements StepResult<TOOLS> {
+export class DefaultStepResult<TOOLS extends ToolSet>
+  implements StepResult<TOOLS>
+{
   readonly content: StepResult<TOOLS>['content'];
   readonly finishReason: StepResult<TOOLS>['finishReason'];
   readonly rawFinishReason: StepResult<TOOLS>['rawFinishReason'];
@@ -180,11 +186,15 @@ export class DefaultStepResult<TOOLS extends ToolSet> implements StepResult<TOOL
   }
 
   get reasoningText() {
-    return this.reasoning.length === 0 ? undefined : this.reasoning.map(part => part.text).join('');
+    return this.reasoning.length === 0
+      ? undefined
+      : this.reasoning.map(part => part.text).join('');
   }
 
   get files() {
-    return this.content.filter(part => part.type === 'file').map(part => part.file);
+    return this.content
+      .filter(part => part.type === 'file')
+      .map(part => part.file);
   }
 
   get sources() {
@@ -197,7 +207,8 @@ export class DefaultStepResult<TOOLS extends ToolSet> implements StepResult<TOOL
 
   get staticToolCalls() {
     return this.toolCalls.filter(
-      (toolCall): toolCall is StaticToolCall<TOOLS> => toolCall.dynamic !== true,
+      (toolCall): toolCall is StaticToolCall<TOOLS> =>
+        toolCall.dynamic !== true,
     );
   }
 
@@ -213,13 +224,15 @@ export class DefaultStepResult<TOOLS extends ToolSet> implements StepResult<TOOL
 
   get staticToolResults() {
     return this.toolResults.filter(
-      (toolResult): toolResult is StaticToolResult<TOOLS> => toolResult.dynamic !== true,
+      (toolResult): toolResult is StaticToolResult<TOOLS> =>
+        toolResult.dynamic !== true,
     );
   }
 
   get dynamicToolResults() {
     return this.toolResults.filter(
-      (toolResult): toolResult is DynamicToolResult => toolResult.dynamic === true,
+      (toolResult): toolResult is DynamicToolResult =>
+        toolResult.dynamic === true,
     );
   }
 }

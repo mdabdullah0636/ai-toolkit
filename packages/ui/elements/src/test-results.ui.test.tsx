@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   Test,
@@ -18,7 +18,7 @@ import {
   TestSuite,
   TestSuiteContent,
   TestSuiteName,
-} from "./test-results";
+} from './test-results';
 
 const PASSED_10_REGEX = /10 passed/;
 const FAILED_2_REGEX = /2 failed/;
@@ -26,8 +26,8 @@ const SKIPPED_1_REGEX = /1 skipped/;
 const PASSED_2_REGEX = /2 passed/;
 const FAILED_1_REGEX = /1 failed/;
 
-describe("testResults", () => {
-  it("renders with summary", () => {
+describe('testResults', () => {
+  it('renders with summary', () => {
     render(
       <TestResults
         summary={{
@@ -42,64 +42,64 @@ describe("testResults", () => {
           <TestResultsSummary />
           <TestResultsDuration />
         </TestResultsHeader>
-      </TestResults>
+      </TestResults>,
     );
 
     expect(screen.getByText(PASSED_10_REGEX)).toBeInTheDocument();
     expect(screen.getByText(FAILED_2_REGEX)).toBeInTheDocument();
     expect(screen.getByText(SKIPPED_1_REGEX)).toBeInTheDocument();
-    expect(screen.getByText("5.00s")).toBeInTheDocument();
+    expect(screen.getByText('5.00s')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <TestResults className="custom-class">
         <div>Content</div>
-      </TestResults>
+      </TestResults>,
     );
-    expect(container.firstChild).toHaveClass("custom-class");
+    expect(container.firstChild).toHaveClass('custom-class');
   });
 });
 
-describe("testResultsProgress", () => {
-  it("renders progress bar", () => {
+describe('testResultsProgress', () => {
+  it('renders progress bar', () => {
     render(
       <TestResults summary={{ failed: 2, passed: 8, skipped: 0, total: 10 }}>
         <TestResultsProgress />
-      </TestResults>
+      </TestResults>,
     );
 
-    expect(screen.getByText("8/10 tests passed")).toBeInTheDocument();
-    expect(screen.getByText("80%")).toBeInTheDocument();
+    expect(screen.getByText('8/10 tests passed')).toBeInTheDocument();
+    expect(screen.getByText('80%')).toBeInTheDocument();
   });
 });
 
-describe("testResultsDuration", () => {
-  it("formats milliseconds", () => {
+describe('testResultsDuration', () => {
+  it('formats milliseconds', () => {
     render(
       <TestResults
         summary={{ duration: 500, failed: 0, passed: 1, skipped: 0, total: 1 }}
       >
         <TestResultsDuration />
-      </TestResults>
+      </TestResults>,
     );
-    expect(screen.getByText("500ms")).toBeInTheDocument();
+    expect(screen.getByText('500ms')).toBeInTheDocument();
   });
 
-  it("formats seconds", () => {
+  it('formats seconds', () => {
     render(
       <TestResults
         summary={{ duration: 3500, failed: 0, passed: 1, skipped: 0, total: 1 }}
       >
         <TestResultsDuration />
-      </TestResults>
+      </TestResults>,
     );
-    expect(screen.getByText("3.50s")).toBeInTheDocument();
+    expect(screen.getByText('3.50s')).toBeInTheDocument();
   });
 });
 
-describe("testSuite", () => {
-  it("renders suite name", () => {
+describe('testSuite', () => {
+  it('renders suite name', () => {
     render(
       <TestResults>
         <TestResultsContent>
@@ -107,12 +107,12 @@ describe("testSuite", () => {
             <TestSuiteName />
           </TestSuite>
         </TestResultsContent>
-      </TestResults>
+      </TestResults>,
     );
-    expect(screen.getByText("Auth Tests")).toBeInTheDocument();
+    expect(screen.getByText('Auth Tests')).toBeInTheDocument();
   });
 
-  it("expands when clicked", async () => {
+  it('expands when clicked', async () => {
     const user = userEvent.setup();
     render(
       <TestResults>
@@ -124,99 +124,99 @@ describe("testSuite", () => {
             </TestSuiteContent>
           </TestSuite>
         </TestResultsContent>
-      </TestResults>
+      </TestResults>,
     );
 
-    expect(screen.queryByText("test 1")).not.toBeInTheDocument();
+    expect(screen.queryByText('test 1')).not.toBeInTheDocument();
 
-    const trigger = screen.getByRole("button");
+    const trigger = screen.getByRole('button');
     await user.click(trigger);
 
-    expect(screen.getByText("test 1")).toBeInTheDocument();
+    expect(screen.getByText('test 1')).toBeInTheDocument();
   });
 });
 
-describe("testCase", () => {
-  it("renders test name and status", () => {
+describe('testCase', () => {
+  it('renders test name and status', () => {
     render(
       <TestResults>
         <TestResultsContent>
           <Test name="should work" status="passed" />
         </TestResultsContent>
-      </TestResults>
+      </TestResults>,
     );
-    expect(screen.getByText("should work")).toBeInTheDocument();
+    expect(screen.getByText('should work')).toBeInTheDocument();
   });
 
-  it("renders duration", () => {
+  it('renders duration', () => {
     render(
       <TestResults>
         <TestResultsContent>
           <Test duration={42} name="test" status="passed" />
         </TestResultsContent>
-      </TestResults>
+      </TestResults>,
     );
-    expect(screen.getByText("42ms")).toBeInTheDocument();
+    expect(screen.getByText('42ms')).toBeInTheDocument();
   });
 
-  it("renders passed status", () => {
+  it('renders passed status', () => {
     const { container } = render(
       <TestResults>
         <Test name="test" status="passed" />
-      </TestResults>
+      </TestResults>,
     );
-    expect(container.querySelector(".text-green-600")).toBeInTheDocument();
+    expect(container.querySelector('.text-green-600')).toBeInTheDocument();
   });
 
-  it("renders failed status", () => {
+  it('renders failed status', () => {
     const { container } = render(
       <TestResults>
         <Test name="test" status="failed" />
-      </TestResults>
+      </TestResults>,
     );
-    expect(container.querySelector(".text-red-600")).toBeInTheDocument();
+    expect(container.querySelector('.text-red-600')).toBeInTheDocument();
   });
 
-  it("renders skipped status", () => {
+  it('renders skipped status', () => {
     const { container } = render(
       <TestResults>
         <Test name="test" status="skipped" />
-      </TestResults>
+      </TestResults>,
     );
-    expect(container.querySelector(".text-yellow-600")).toBeInTheDocument();
+    expect(container.querySelector('.text-yellow-600')).toBeInTheDocument();
   });
 
-  it("renders running status", () => {
+  it('renders running status', () => {
     const { container } = render(
       <TestResults>
         <Test name="test" status="running" />
-      </TestResults>
+      </TestResults>,
     );
-    expect(container.querySelector(".text-blue-600")).toBeInTheDocument();
+    expect(container.querySelector('.text-blue-600')).toBeInTheDocument();
   });
 });
 
-describe("testError", () => {
-  it("renders error message", () => {
+describe('testError', () => {
+  it('renders error message', () => {
     render(
       <TestResults>
         <TestError>
           <TestErrorMessage>Something went wrong</TestErrorMessage>
         </TestError>
-      </TestResults>
+      </TestResults>,
     );
-    expect(screen.getByText("Something went wrong")).toBeInTheDocument();
+    expect(screen.getByText('Something went wrong')).toBeInTheDocument();
   });
 
-  it("renders error stack", () => {
+  it('renders error stack', () => {
     render(
       <TestResults>
         <TestError>
           <TestErrorStack>at test.js:10</TestErrorStack>
         </TestError>
-      </TestResults>
+      </TestResults>,
     );
-    expect(screen.getByText("at test.js:10")).toBeInTheDocument();
+    expect(screen.getByText('at test.js:10')).toBeInTheDocument();
   });
 });
 
@@ -249,30 +249,30 @@ const renderFullTestResults = () =>
           </TestSuiteContent>
         </TestSuite>
       </TestResultsContent>
-    </TestResults>
+    </TestResults>,
   );
 
-describe("composability", () => {
-  it("renders summary counts", () => {
+describe('composability', () => {
+  it('renders summary counts', () => {
     renderFullTestResults();
     expect(screen.getByText(PASSED_2_REGEX)).toBeInTheDocument();
     expect(screen.getByText(FAILED_1_REGEX)).toBeInTheDocument();
   });
 
-  it("renders duration", () => {
+  it('renders duration', () => {
     renderFullTestResults();
-    expect(screen.getByText("1.00s")).toBeInTheDocument();
+    expect(screen.getByText('1.00s')).toBeInTheDocument();
   });
 
-  it("renders suite and test names", () => {
+  it('renders suite and test names', () => {
     renderFullTestResults();
-    expect(screen.getByText("Suite")).toBeInTheDocument();
-    expect(screen.getByText("test 1")).toBeInTheDocument();
-    expect(screen.getByText("test 2")).toBeInTheDocument();
+    expect(screen.getByText('Suite')).toBeInTheDocument();
+    expect(screen.getByText('test 1')).toBeInTheDocument();
+    expect(screen.getByText('test 2')).toBeInTheDocument();
   });
 
-  it("renders error message", () => {
+  it('renders error message', () => {
     renderFullTestResults();
-    expect(screen.getByText("Error!")).toBeInTheDocument();
+    expect(screen.getByText('Error!')).toBeInTheDocument();
   });
 });

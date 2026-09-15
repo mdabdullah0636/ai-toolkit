@@ -92,7 +92,9 @@ describe('ToolLoopAgent', () => {
     it('should pass experimental_download to generateText', async () => {
       const downloadFunction = vi
         .fn()
-        .mockResolvedValue([{ data: new Uint8Array([1, 2, 3]), mediaType: 'image/png' }]);
+        .mockResolvedValue([
+          { data: new Uint8Array([1, 2, 3]), mediaType: 'image/png' },
+        ]);
 
       const agent = new ToolLoopAgent({
         model: mockModel,

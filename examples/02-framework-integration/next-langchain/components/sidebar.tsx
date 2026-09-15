@@ -18,7 +18,9 @@ export function Sidebar() {
         </div>
         <div>
           <h1 className="font-semibold text-[var(--foreground)]">LangChain</h1>
-          <p className="text-xs text-[var(--foreground-muted)]">AI TOOLKIT Examples</p>
+          <p className="text-xs text-[var(--foreground-muted)]">
+            AI TOOLKIT Examples
+          </p>
         </div>
       </div>
 

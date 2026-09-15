@@ -1,46 +1,46 @@
-import { render } from "@testing-library/react";
+import { render } from '@testing-library/react';
 
-import { Canvas } from "./canvas";
-import { Controls } from "./controls";
+import { Canvas } from './canvas';
+import { Controls } from './controls';
 
-describe("controls", () => {
-  it("renders within Canvas", () => {
+describe('controls', () => {
+  it('renders within Canvas', () => {
     const { container } = render(
       <Canvas edges={[]} nodes={[]}>
         <Controls />
-      </Canvas>
+      </Canvas>,
     );
     expect(
-      container.querySelector(".react-flow__controls")
+      container.querySelector('.react-flow__controls'),
     ).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <Canvas edges={[]} nodes={[]}>
         <Controls className="custom-controls" />
-      </Canvas>
+      </Canvas>,
     );
-    const controls = container.querySelector(".custom-controls");
+    const controls = container.querySelector('.custom-controls');
     expect(controls).toBeInTheDocument();
-    expect(controls).toHaveClass("custom-controls");
+    expect(controls).toHaveClass('custom-controls');
   });
 
-  it("renders with default styles", () => {
+  it('renders with default styles', () => {
     const { container } = render(
       <Canvas edges={[]} nodes={[]}>
         <Controls />
-      </Canvas>
+      </Canvas>,
     );
-    const controls = container.querySelector(".react-flow__controls");
+    const controls = container.querySelector('.react-flow__controls');
     expect(controls).toBeInTheDocument();
   });
 
-  it("accepts additional props", () => {
+  it('accepts additional props', () => {
     const { container } = render(
       <Canvas edges={[]} nodes={[]}>
         <Controls data-testid="test-controls" />
-      </Canvas>
+      </Canvas>,
     );
     // Just verify it renders without error
     expect(container).toBeTruthy();

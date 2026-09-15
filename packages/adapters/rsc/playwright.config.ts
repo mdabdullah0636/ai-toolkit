@@ -17,7 +17,9 @@ const config: PlaywrightTestConfig = {
   fullyParallel: false,
   workers: 3,
   retries: 2,
-  reporter: process.env.CI ? [['github'], ['json', { outputFile: 'test-results.json' }]] : 'list',
+  reporter: process.env.CI
+    ? [['github'], ['json', { outputFile: 'test-results.json' }]]
+    : 'list',
   projects: [
     {
       name: 'chromium',

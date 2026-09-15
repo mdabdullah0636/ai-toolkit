@@ -21,7 +21,11 @@ export default function Page() {
         Generate notifications
       </button>
 
-      {error && <div className="mt-4 text-red-500">An error occurred. {error.message}</div>}
+      {error && (
+        <div className="mt-4 text-red-500">
+          An error occurred. {error.message}
+        </div>
+      )}
 
       {isLoading && (
         <div className="mt-4 text-gray-500">
@@ -54,13 +58,17 @@ export default function Page() {
           >
             <div className="flex-1 space-y-1">
               <div className="flex justify-between items-center">
-                <p className="font-medium dark:text-white">{notification?.name}</p>
+                <p className="font-medium dark:text-white">
+                  {notification?.name}
+                </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   {notification?.minutesAgo}
                   {notification?.minutesAgo != null ? ' minutes ago' : ''}
                 </p>
               </div>
-              <p className="text-gray-700 dark:text-gray-300">{notification?.message}</p>
+              <p className="text-gray-700 dark:text-gray-300">
+                {notification?.message}
+              </p>
             </div>
           </div>
         ))}

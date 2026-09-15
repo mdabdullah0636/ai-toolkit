@@ -1,5 +1,8 @@
 import { streamText } from 'ai-toolkit';
-import { convertArrayToReadableStream, MockLanguageModelV3 } from 'ai-toolkit/test';
+import {
+  convertArrayToReadableStream,
+  MockLanguageModelV3,
+} from 'ai-toolkit/test';
 import { run } from '../lib/run';
 
 run(async () => {

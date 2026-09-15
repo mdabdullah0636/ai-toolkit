@@ -10,11 +10,12 @@ import { useChat } from '@ai-toolkit/react';
 import { DefaultChatTransport } from 'ai-toolkit';
 
 export default function TestAnthropicWebFetch() {
-  const { error, status, sendMessage, messages, regenerate } = useChat<AnthropicWebFetchMessage>({
-    transport: new DefaultChatTransport({
-      api: '/api/chat-anthropic-web-fetch',
-    }),
-  });
+  const { error, status, sendMessage, messages, regenerate } =
+    useChat<AnthropicWebFetchMessage>({
+      transport: new DefaultChatTransport({
+        api: '/api/chat-anthropic-web-fetch',
+      }),
+    });
 
   return (
     <div className="flex flex-col py-24 mx-auto w-full max-w-md stretch">
@@ -37,7 +38,9 @@ export default function TestAnthropicWebFetch() {
             }
           })}
 
-          <SourcesView sources={message.parts.filter(part => part.type === 'source-url')} />
+          <SourcesView
+            sources={message.parts.filter(part => part.type === 'source-url')}
+          />
         </div>
       ))}
 

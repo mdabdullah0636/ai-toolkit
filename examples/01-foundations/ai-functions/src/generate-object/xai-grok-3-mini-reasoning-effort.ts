@@ -15,7 +15,8 @@ run(async () => {
     messages: [
       {
         role: 'user',
-        content: 'my name is john doe, i am 35 years old and work as a software engineer',
+        content:
+          'my name is john doe, i am 35 years old and work as a software engineer',
       },
     ],
     providerOptions: {

@@ -200,7 +200,9 @@ describe('result.value', () => {
 });
 
 describe('rsc - streamUI() onFinish callback', () => {
-  let result: Parameters<Required<Parameters<typeof streamUI>[0]>['onFinish']>[0];
+  let result: Parameters<
+    Required<Parameters<typeof streamUI>[0]>['onFinish']
+  >[0];
 
   beforeEach(async () => {
     const ui = await streamUI({

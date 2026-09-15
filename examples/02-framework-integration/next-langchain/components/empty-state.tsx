@@ -13,7 +13,9 @@ export function EmptyState({ onSend, suggestions }: EmptyStateProps) {
       <div className="w-16 h-16 mb-4 rounded-2xl bg-gradient-to-br from-amber-600/20 to-yellow-500/20 flex items-center justify-center">
         <MessageCircle className="w-8 h-8 text-amber-400" strokeWidth={1.5} />
       </div>
-      <h3 className="text-lg font-medium text-[var(--foreground)] mb-2">Start a conversation</h3>
+      <h3 className="text-lg font-medium text-[var(--foreground)] mb-2">
+        Start a conversation
+      </h3>
       <p className="text-sm text-[var(--foreground-secondary)] max-w-xs mb-6">
         Send a message to begin chatting with the AI assistant.
       </p>

@@ -18,8 +18,13 @@ run(async () => {
       get_weather: tool({
         description: 'Get the current weather at a specific location',
         inputSchema: z.object({
-          location: z.string().describe('The city and state, e.g. San Francisco, CA'),
-          unit: z.enum(['celsius', 'fahrenheit']).optional().describe('Temperature unit'),
+          location: z
+            .string()
+            .describe('The city and state, e.g. San Francisco, CA'),
+          unit: z
+            .enum(['celsius', 'fahrenheit'])
+            .optional()
+            .describe('Temperature unit'),
         }),
         execute: async ({ location, unit = 'fahrenheit' }) => ({
           location,
@@ -36,7 +41,10 @@ run(async () => {
         description: 'Search through files in the workspace',
         inputSchema: z.object({
           query: z.string().describe('The search query'),
-          file_types: z.array(z.string()).optional().describe('Filter by file types'),
+          file_types: z
+            .array(z.string())
+            .optional()
+            .describe('Filter by file types'),
         }),
         execute: async ({ query }) => ({
           results: [`Found 3 files matching "${query}"`],

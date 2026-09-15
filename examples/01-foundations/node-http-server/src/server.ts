@@ -1,5 +1,9 @@
 import { openai } from '@ai-toolkit/openai';
-import { createUIMessageStream, pipeUIMessageStreamToResponse, streamText } from 'ai-toolkit';
+import {
+  createUIMessageStream,
+  pipeUIMessageStreamToResponse,
+  streamText,
+} from 'ai-toolkit';
 import 'dotenv/config';
 import { createServer } from 'http';
 

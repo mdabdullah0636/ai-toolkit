@@ -5,9 +5,10 @@ import { describe, it, expect } from 'vitest';
 // This is a workaround to render the Flight response in a test environment.
 async function flightRender(node: React.ReactNode, byChunk?: boolean) {
   const ReactDOM = require('react-dom');
-  ReactDOM.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactDOMCurrentDispatcher = {
-    current: {},
-  };
+  ReactDOM.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactDOMCurrentDispatcher =
+    {
+      current: {},
+    };
 
   const React = require('react');
   React.__SECRET_SERVER_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
@@ -17,7 +18,9 @@ async function flightRender(node: React.ReactNode, byChunk?: boolean) {
     },
   };
 
-  const { renderToReadableStream } = require('react-server-dom-webpack/server.edge');
+  const {
+    renderToReadableStream,
+  } = require('react-server-dom-webpack/server.edge');
 
   const stream = renderToReadableStream(node);
   const reader = stream.getReader();
@@ -141,7 +144,9 @@ describe('rsc - createStreamableUI()', () => {
     ui.update(<div>3</div>);
     ui.done();
 
-    const final = getFinalValueFromResolved(await simulateFlightServerRender(ui.value));
+    const final = getFinalValueFromResolved(
+      await simulateFlightServerRender(ui.value),
+    );
     expect(final).toMatchInlineSnapshot(`
       <div>
         3
@@ -155,7 +160,9 @@ describe('rsc - createStreamableUI()', () => {
     ui.update(<div>3</div>);
     ui.done(<div>4</div>);
 
-    const final = getFinalValueFromResolved(await simulateFlightServerRender(ui.value));
+    const final = getFinalValueFromResolved(
+      await simulateFlightServerRender(ui.value),
+    );
     expect(final).toMatchInlineSnapshot(`
       <div>
         4
@@ -170,7 +177,9 @@ describe('rsc - createStreamableUI()', () => {
     ui.append(<div>4</div>);
     ui.done();
 
-    const final = getFinalValueFromResolved(await simulateFlightServerRender(ui.value));
+    const final = getFinalValueFromResolved(
+      await simulateFlightServerRender(ui.value),
+    );
     expect(final).toMatchInlineSnapshot(`
       <React.Fragment>
         <React.Fragment>
@@ -193,7 +202,8 @@ describe('rsc - createStreamableUI()', () => {
     ui.append(<div>2</div>);
     ui.append(<div>3</div>);
 
-    const currentResolved = (ui.value as React.ReactElement).props.children.props.n;
+    const currentResolved = (ui.value as React.ReactElement).props.children
+      .props.n;
     const tryResolve1 = await Promise.race([currentResolved, delay()]);
     expect(tryResolve1).toBeDefined();
     const tryResolve2 = await Promise.race([tryResolve1.next, delay()]);
@@ -207,7 +217,9 @@ describe('rsc - createStreamableUI()', () => {
     ui.append(<div>4</div>);
     ui.done();
 
-    const final = getFinalValueFromResolved(await simulateFlightServerRender(ui.value));
+    const final = getFinalValueFromResolved(
+      await simulateFlightServerRender(ui.value),
+    );
     expect(final).toMatchInlineSnapshot(`
       <React.Fragment>
         <React.Fragment>
@@ -236,7 +248,9 @@ describe('rsc - createStreamableUI()', () => {
     ui.append(<div>3</div>);
     ui.done(<div>4</div>);
 
-    const final = getFinalValueFromResolved(await simulateFlightServerRender(ui.value));
+    const final = getFinalValueFromResolved(
+      await simulateFlightServerRender(ui.value),
+    );
     expect(final).toMatchInlineSnapshot(`
       <React.Fragment>
         <div>
@@ -255,7 +269,9 @@ describe('rsc - createStreamableUI()', () => {
     ui.append('!');
     ui.done();
 
-    const final = getFinalValueFromResolved(await simulateFlightServerRender(ui.value));
+    const final = getFinalValueFromResolved(
+      await simulateFlightServerRender(ui.value),
+    );
     expect(final).toMatchInlineSnapshot('"hello world!"');
   });
 
@@ -280,7 +296,9 @@ describe('rsc - createStreamableUI()', () => {
       "
     `);
 
-    const final = getFinalValueFromResolved(await simulateFlightServerRender(ui.value));
+    const final = getFinalValueFromResolved(
+      await simulateFlightServerRender(ui.value),
+    );
     expect(final).toStrictEqual('hello world and universe');
   });
 
@@ -290,7 +308,9 @@ describe('rsc - createStreamableUI()', () => {
 
     expect(() => {
       ui.update(<div>3</div>);
-    }).toThrowErrorMatchingInlineSnapshot('[Error: .update(): UI stream is already closed.]');
+    }).toThrowErrorMatchingInlineSnapshot(
+      '[Error: .update(): UI stream is already closed.]',
+    );
   });
 
   it('should avoid sending data again if the same UI is passed', async () => {

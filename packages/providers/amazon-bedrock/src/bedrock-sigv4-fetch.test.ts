@@ -1,4 +1,7 @@
-import { createSigV4FetchFunction, createApiKeyFetchFunction } from './bedrock-sigv4-fetch';
+import {
+  createSigV4FetchFunction,
+  createApiKeyFetchFunction,
+} from './bedrock-sigv4-fetch';
 import { vi, describe, it, expect, afterEach } from 'vitest';
 
 // Mock the version module
@@ -116,9 +119,13 @@ describe('createSigV4FetchFunction', () => {
     expect(headers['custom-header']).toEqual('value');
     expect(headers['empty-header']).toBeUndefined();
     expect(headers['x-amz-date']).toEqual('20240315T000000Z');
-    expect(headers['authorization']).toEqual('AWS4-HMAC-SHA256 Credential=test');
+    expect(headers['authorization']).toEqual(
+      'AWS4-HMAC-SHA256 Credential=test',
+    );
     expect(headers['x-amz-security-token']).toEqual('test-session-token');
-    expect(headers['user-agent']).toEqual('ai-toolkit/amazon-bedrock/0.0.0-test runtime/testenv');
+    expect(headers['user-agent']).toEqual(
+      'ai-toolkit/amazon-bedrock/0.0.0-test runtime/testenv',
+    );
     // Body is left unmodified for a string body.
     expect(calledInit.body).toEqual('{"test": "data"}');
   });
@@ -177,8 +184,12 @@ describe('createSigV4FetchFunction', () => {
     expect(headers['content-type']).toEqual('application/json');
     expect(headers['x-from-request']).toEqual('from-request');
     expect(headers['x-amz-date']).toEqual('20240315T000000Z');
-    expect(headers['authorization']).toEqual('AWS4-HMAC-SHA256 Credential=test');
-    expect(headers['user-agent']).toEqual('ai-toolkit/amazon-bedrock/0.0.0-test runtime/testenv');
+    expect(headers['authorization']).toEqual(
+      'AWS4-HMAC-SHA256 Credential=test',
+    );
+    expect(headers['user-agent']).toEqual(
+      'ai-toolkit/amazon-bedrock/0.0.0-test runtime/testenv',
+    );
   });
 
   it('should handle non-string body by stringifying it', async () => {
@@ -277,11 +288,17 @@ describe('createSigV4FetchFunction', () => {
     expect(dummyFetch).toHaveBeenCalled();
     const calledInit = dummyFetch.mock.calls[0][1] as RequestInit;
     const headers = calledInit.headers as Record<string, string>;
-    expect(headers['array-header'] || headers['Array-Header']).toEqual('array-value');
-    expect(headers['another-header'] || headers['Another-Header']).toEqual('another-value');
+    expect(headers['array-header'] || headers['Array-Header']).toEqual(
+      'array-value',
+    );
+    expect(headers['another-header'] || headers['Another-Header']).toEqual(
+      'another-value',
+    );
     // Also check that the signing headers are included.
     expect(headers['x-amz-date']).toEqual('20240315T000000Z');
-    expect(headers['authorization']).toEqual('AWS4-HMAC-SHA256 Credential=test');
+    expect(headers['authorization']).toEqual(
+      'AWS4-HMAC-SHA256 Credential=test',
+    );
   });
 
   it('should call original fetch if init is undefined', async () => {
@@ -311,7 +328,10 @@ describe('createSigV4FetchFunction', () => {
         sessionToken: 'async-session-token',
       });
 
-    const fetchFn = createSigV4FetchFunction(asyncCredentialsProvider, dummyFetch);
+    const fetchFn = createSigV4FetchFunction(
+      asyncCredentialsProvider,
+      dummyFetch,
+    );
 
     await fetchFn('http://example.com', {
       method: 'POST',
@@ -328,7 +348,9 @@ describe('createSigV4FetchFunction', () => {
 
     // Check that the signing headers were added
     expect(headers['x-amz-date']).toEqual('20240315T000000Z');
-    expect(headers['authorization']).toEqual('AWS4-HMAC-SHA256 Credential=test');
+    expect(headers['authorization']).toEqual(
+      'AWS4-HMAC-SHA256 Credential=test',
+    );
     expect(headers['x-amz-security-token']).toEqual('async-session-token');
     expect(headers['content-type']).toEqual('application/json');
   });
@@ -338,9 +360,13 @@ describe('createSigV4FetchFunction', () => {
     const errorMessage = 'Failed to get credentials';
 
     // Create a function that returns a rejected Promise
-    const failingCredentialsProvider = () => Promise.reject(new Error(errorMessage));
+    const failingCredentialsProvider = () =>
+      Promise.reject(new Error(errorMessage));
 
-    const fetchFn = createSigV4FetchFunction(failingCredentialsProvider, dummyFetch);
+    const fetchFn = createSigV4FetchFunction(
+      failingCredentialsProvider,
+      dummyFetch,
+    );
 
     // The fetch call should propagate the rejection
     await expect(

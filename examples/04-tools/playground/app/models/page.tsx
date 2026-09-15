@@ -322,11 +322,14 @@ const models = [
 
 const capabilityColors: Record<string, string> = {
   chat: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  reasoning: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+  reasoning:
+    'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
   code: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  vision: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+  vision:
+    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
   audio: 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200',
-  embedding: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+  embedding:
+    'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
 };
 
 export default function ModelsPage() {
@@ -341,8 +344,10 @@ export default function ModelsPage() {
       searchQuery === '' ||
       model.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       model.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesProvider = selectedProvider === null || model.provider === selectedProvider;
-    const matchesCategory = selectedCategory === null || model.category === selectedCategory;
+    const matchesProvider =
+      selectedProvider === null || model.provider === selectedProvider;
+    const matchesCategory =
+      selectedCategory === null || model.category === selectedCategory;
     return matchesSearch && matchesProvider && matchesCategory;
   });
 
@@ -389,7 +394,9 @@ export default function ModelsPage() {
       <section className="py-16 bg-gradient-to-b from-background to-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">AI Gateway Models</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              AI Gateway Models
+            </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Browse the complete catalog of models available through AI Gateway
             </p>
@@ -476,7 +483,9 @@ export default function ModelsPage() {
                     }`}
                   >
                     All Categories
-                    <span className="text-muted-foreground">{models.length}</span>
+                    <span className="text-muted-foreground">
+                      {models.length}
+                    </span>
                   </button>
                   {modelCategories.map(category => (
                     <button
@@ -487,7 +496,9 @@ export default function ModelsPage() {
                       }`}
                     >
                       {category.name}
-                      <span className="text-muted-foreground">{category.count}</span>
+                      <span className="text-muted-foreground">
+                        {category.count}
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -516,7 +527,9 @@ export default function ModelsPage() {
               </Button>
             )}
 
-            <span className="ml-auto text-muted-foreground">{filteredModels.length} models</span>
+            <span className="ml-auto text-muted-foreground">
+              {filteredModels.length} models
+            </span>
           </div>
         </div>
       </section>
@@ -526,9 +539,12 @@ export default function ModelsPage() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredModels.map(model => {
-              const provider = modelProviders.find(p => p.id === model.provider);
+              const provider = modelProviders.find(
+                p => p.id === model.provider,
+              );
               const CategoryIcon =
-                modelCategories.find(c => c.id === model.category)?.icon || MessageSquare;
+                modelCategories.find(c => c.id === model.category)?.icon ||
+                MessageSquare;
               return (
                 <div
                   key={model.id}
@@ -547,11 +563,14 @@ export default function ModelsPage() {
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-muted-foreground mb-4">{model.description}</p>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {model.description}
+                  </p>
                   <div className="flex items-center gap-2 flex-wrap">
                     <span
                       className={`px-2 py-1 text-xs rounded-full ${
-                        capabilityColors[model.category] || 'bg-gray-100 text-gray-800'
+                        capabilityColors[model.category] ||
+                        'bg-gray-100 text-gray-800'
                       }`}
                     >
                       {model.category}
@@ -572,7 +591,9 @@ export default function ModelsPage() {
 
           {filteredModels.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">No models found matching your search.</p>
+              <p className="text-muted-foreground">
+                No models found matching your search.
+              </p>
               <Button
                 variant="link"
                 onClick={() => {
@@ -617,7 +638,10 @@ export default function ModelsPage() {
             </div>
             <p className="text-sm text-muted-foreground">
               Built by{' '}
-              <a href="https://vercel.com" className="underline hover:text-primary">
+              <a
+                href="https://vercel.com"
+                className="underline hover:text-primary"
+              >
                 Vercel
               </a>
               . Open-source under Apache-2.0 license.

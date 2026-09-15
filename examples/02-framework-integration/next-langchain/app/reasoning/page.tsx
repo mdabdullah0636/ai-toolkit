@@ -7,7 +7,10 @@ import { ChatContainer } from '../../components/chat-container';
 import { type CustomDataMessage } from '../types';
 
 export default function ReasoningChat() {
-  const transport = useMemo(() => new DefaultChatTransport({ api: '/api/reasoning' }), []);
+  const transport = useMemo(
+    () => new DefaultChatTransport({ api: '/api/reasoning' }),
+    [],
+  );
 
   const { messages, sendMessage, status, error } = useChat<CustomDataMessage>({
     transport,
@@ -18,9 +21,10 @@ export default function ReasoningChat() {
       title="Reasoning Example"
       description={
         <>
-          Uses <code>ChatOpenAI</code> with OpenAI Responses API and reasoning enabled. This streams
-          reasoning summaries before the final response, demonstrating the{' '}
-          <code>@ai-toolkit/langchain</code> adapter&apos;s support for reasoning content.
+          Uses <code>ChatOpenAI</code> with OpenAI Responses API and reasoning
+          enabled. This streams reasoning summaries before the final response,
+          demonstrating the <code>@ai-toolkit/langchain</code> adapter&apos;s
+          support for reasoning content.
         </>
       }
       messages={messages}

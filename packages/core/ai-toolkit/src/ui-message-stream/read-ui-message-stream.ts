@@ -5,7 +5,10 @@ import {
   processUIMessageStream,
   StreamingUIMessageState,
 } from '../ui/process-ui-message-stream';
-import { AsyncIterableStream, createAsyncIterableStream } from '../util/async-iterable-stream';
+import {
+  AsyncIterableStream,
+  createAsyncIterableStream,
+} from '../util/async-iterable-stream';
 import { consumeStream } from '../util/consume-stream';
 
 /**

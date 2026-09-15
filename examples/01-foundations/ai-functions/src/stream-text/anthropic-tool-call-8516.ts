@@ -11,7 +11,9 @@ run(async () => {
     messages: [
       {
         role: 'user',
-        content: [{ type: 'text', text: 'weather for berlin, london and paris' }],
+        content: [
+          { type: 'text', text: 'weather for berlin, london and paris' },
+        ],
       },
       {
         role: 'assistant',

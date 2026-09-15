@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   StackTrace,
@@ -12,7 +12,7 @@ import {
   StackTraceExpandButton,
   StackTraceFrames,
   StackTraceHeader,
-} from "./stack-trace";
+} from './stack-trace';
 
 const RENDER_WITH_HOOKS_REGEX = /renderWithHooks/;
 const BEGIN_WORK_REGEX = /beginWork/;
@@ -32,52 +32,52 @@ const nodeInternalTrace = `Error: ENOENT
     at readFile (node:fs:123:10)
     at internal/modules/cjs/loader.js:50:20`;
 
-describe("stackTrace", () => {
-  it("renders children", () => {
+describe('stackTrace', () => {
+  it('renders children', () => {
     render(<StackTrace trace={sampleStackTrace}>Content</StackTrace>);
-    expect(screen.getByText("Content")).toBeInTheDocument();
+    expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
-  it("throws error when component used outside provider", () => {
-    const spy = vi.spyOn(console, "error").mockImplementation(vi.fn());
+  it('throws error when component used outside provider', () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
 
     expect(() => render(<StackTraceHeader>Test</StackTraceHeader>)).toThrow(
-      "StackTrace components must be used within StackTrace"
+      'StackTrace components must be used within StackTrace',
     );
 
     spy.mockRestore();
   });
 
-  it("starts closed by default", () => {
+  it('starts closed by default', () => {
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceHeader />
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    const content = screen.queryByText("UserList");
+    const content = screen.queryByText('UserList');
     expect(content).not.toBeInTheDocument();
   });
 
-  it("can start open", () => {
+  it('can start open', () => {
     const { container } = render(
       <StackTrace defaultOpen trace={sampleStackTrace}>
         <StackTraceHeader />
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
     // Check content is visible by finding frames container
-    const framesContainer = container.querySelector(".space-y-1");
+    const framesContainer = container.querySelector('.space-y-1');
     expect(framesContainer).toBeVisible();
   });
 
-  it("calls onOpenChange", async () => {
+  it('calls onOpenChange', async () => {
     const onOpenChange = vi.fn();
     const user = userEvent.setup();
 
@@ -87,11 +87,11 @@ describe("stackTrace", () => {
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
     const trigger = container.querySelector(
-      "[data-slot='collapsible-trigger']"
+      "[data-slot='collapsible-trigger']",
     );
     expect(trigger).toBeInTheDocument();
     await user.click(trigger as Element);
@@ -99,33 +99,33 @@ describe("stackTrace", () => {
     expect(onOpenChange).toHaveBeenCalledWith(true);
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
       <StackTrace className="custom-class" trace={sampleStackTrace}>
         Content
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(container.firstChild).toHaveClass("custom-class");
+    expect(container.firstChild).toHaveClass('custom-class');
   });
 });
 
-describe("stackTraceHeader", () => {
-  it("renders as clickable trigger", () => {
+describe('stackTraceHeader', () => {
+  it('renders as clickable trigger', () => {
     const { container } = render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceHeader>Header Content</StackTraceHeader>
-      </StackTrace>
+      </StackTrace>,
     );
 
     const trigger = container.querySelector(
-      "[data-slot='collapsible-trigger']"
+      "[data-slot='collapsible-trigger']",
     );
     expect(trigger).toBeInTheDocument();
-    expect(screen.getByText("Header Content")).toBeInTheDocument();
+    expect(screen.getByText('Header Content')).toBeInTheDocument();
   });
 
-  it("toggles content on click", async () => {
+  it('toggles content on click', async () => {
     const user = userEvent.setup();
 
     const { container } = render(
@@ -134,120 +134,120 @@ describe("stackTraceHeader", () => {
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
     // Check content is not visible initially
-    const framesContainer = container.querySelector(".space-y-1");
+    const framesContainer = container.querySelector('.space-y-1');
     expect(framesContainer).not.toBeInTheDocument();
 
     const trigger = container.querySelector(
-      "[data-slot='collapsible-trigger']"
+      "[data-slot='collapsible-trigger']",
     );
     expect(trigger).toBeInTheDocument();
     await user.click(trigger as Element);
 
     // Now frames container should be visible
-    const visibleFrames = container.querySelector(".space-y-1");
+    const visibleFrames = container.querySelector('.space-y-1');
     expect(visibleFrames).toBeVisible();
   });
 });
 
-describe("stackTraceError", () => {
-  it("renders children", () => {
+describe('stackTraceError', () => {
+  it('renders children', () => {
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceError>Error Info</StackTraceError>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("Error Info")).toBeInTheDocument();
+    expect(screen.getByText('Error Info')).toBeInTheDocument();
   });
 
-  it("renders alert icon", () => {
+  it('renders alert icon', () => {
     const { container } = render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceError>Error</StackTraceError>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 });
 
-describe("stackTraceErrorType", () => {
-  it("renders parsed error type", () => {
+describe('stackTraceErrorType', () => {
+  it('renders parsed error type', () => {
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceErrorType />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("TypeError")).toBeInTheDocument();
+    expect(screen.getByText('TypeError')).toBeInTheDocument();
   });
 
-  it("renders custom children", () => {
+  it('renders custom children', () => {
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceErrorType>CustomError</StackTraceErrorType>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("CustomError")).toBeInTheDocument();
+    expect(screen.getByText('CustomError')).toBeInTheDocument();
   });
 
-  it("handles trace without error type", () => {
-    const traceWithoutType = "Something went wrong\n    at foo (/bar.js:1:1)";
+  it('handles trace without error type', () => {
+    const traceWithoutType = 'Something went wrong\n    at foo (/bar.js:1:1)';
 
     render(
       <StackTrace trace={traceWithoutType}>
         <StackTraceErrorType />
-      </StackTrace>
+      </StackTrace>,
     );
 
     // Should render empty when no error type
-    expect(screen.queryByText("Error")).not.toBeInTheDocument();
+    expect(screen.queryByText('Error')).not.toBeInTheDocument();
   });
 });
 
-describe("stackTraceErrorMessage", () => {
-  it("renders parsed error message", () => {
+describe('stackTraceErrorMessage', () => {
+  it('renders parsed error message', () => {
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceErrorMessage />
-      </StackTrace>
+      </StackTrace>,
     );
 
     expect(
-      screen.getByText("Cannot read properties of undefined (reading 'map')")
+      screen.getByText("Cannot read properties of undefined (reading 'map')"),
     ).toBeInTheDocument();
   });
 
-  it("renders custom children", () => {
+  it('renders custom children', () => {
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceErrorMessage>Custom message</StackTraceErrorMessage>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("Custom message")).toBeInTheDocument();
+    expect(screen.getByText('Custom message')).toBeInTheDocument();
   });
 });
 
-describe("stackTraceActions", () => {
-  it("renders children", () => {
+describe('stackTraceActions', () => {
+  it('renders children', () => {
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceActions>
           <button type="button">Action</button>
         </StackTraceActions>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("Action")).toBeInTheDocument();
+    expect(screen.getByText('Action')).toBeInTheDocument();
   });
 
-  it("stops event propagation on click", async () => {
+  it('stops event propagation on click', async () => {
     const actionClick = vi.fn();
     const user = userEvent.setup();
 
@@ -258,10 +258,10 @@ describe("stackTraceActions", () => {
             Action
           </button>
         </StackTraceActions>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    await user.click(screen.getByText("Action"));
+    await user.click(screen.getByText('Action'));
 
     expect(actionClick).toHaveBeenCalled();
   });
@@ -271,74 +271,74 @@ const setupCopyButtonTests = () => {
   vi.clearAllMocks();
 };
 
-describe("stackTraceCopyButton", () => {
-  it("renders copy button", () => {
+describe('stackTraceCopyButton', () => {
+  it('renders copy button', () => {
     setupCopyButtonTests();
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceCopyButton />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByRole("button")).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  it("copies trace to clipboard", async () => {
+  it('copies trace to clipboard', async () => {
     const user = userEvent.setup();
-    const writeTextSpy = vi.spyOn(navigator.clipboard, "writeText");
+    const writeTextSpy = vi.spyOn(navigator.clipboard, 'writeText');
 
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceCopyButton />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole('button'));
 
     expect(writeTextSpy).toHaveBeenCalledWith(sampleStackTrace);
   });
 
-  it("calls onCopy callback", async () => {
+  it('calls onCopy callback', async () => {
     const onCopy = vi.fn();
     const user = userEvent.setup();
 
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceCopyButton onCopy={onCopy} />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole('button'));
 
     expect(onCopy).toHaveBeenCalled();
   });
 
-  it("calls onError when clipboard fails", async () => {
+  it('calls onError when clipboard fails', async () => {
     const onError = vi.fn();
     const user = userEvent.setup();
-    const error = new Error("Clipboard error");
+    const error = new Error('Clipboard error');
 
-    vi.spyOn(navigator.clipboard, "writeText").mockRejectedValueOnce(error);
+    vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValueOnce(error);
 
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceCopyButton onError={onError} />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole('button'));
 
     await vi.waitFor(() => {
       expect(onError).toHaveBeenCalledWith(error);
     });
   });
 
-  it("calls onError when clipboard API is not available", async () => {
+  it('calls onError when clipboard API is not available', async () => {
     const onError = vi.fn();
     const user = userEvent.setup();
 
     const originalClipboard = navigator.clipboard;
-    Object.defineProperty(navigator, "clipboard", {
+    Object.defineProperty(navigator, 'clipboard', {
       configurable: true,
       value: { writeText: undefined },
       writable: true,
@@ -347,18 +347,18 @@ describe("stackTraceCopyButton", () => {
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceCopyButton onError={onError} />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    await user.click(screen.getByRole("button"));
+    await user.click(screen.getByRole('button'));
 
     expect(onError).toHaveBeenCalledWith(
       expect.objectContaining({
-        message: "Clipboard API not available",
-      })
+        message: 'Clipboard API not available',
+      }),
     );
 
-    Object.defineProperty(navigator, "clipboard", {
+    Object.defineProperty(navigator, 'clipboard', {
       configurable: true,
       value: originalClipboard,
       writable: true,
@@ -366,136 +366,136 @@ describe("stackTraceCopyButton", () => {
   });
 });
 
-describe("stackTraceExpandButton", () => {
-  it("renders chevron icon", () => {
+describe('stackTraceExpandButton', () => {
+  it('renders chevron icon', () => {
     const { container } = render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceExpandButton />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(container.querySelector("svg")).toBeInTheDocument();
+    expect(container.querySelector('svg')).toBeInTheDocument();
   });
 
-  it("rotates when open", () => {
+  it('rotates when open', () => {
     const { container } = render(
       <StackTrace defaultOpen trace={sampleStackTrace}>
         <StackTraceExpandButton />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    const svg = container.querySelector("svg");
-    expect(svg).toHaveClass("rotate-180");
+    const svg = container.querySelector('svg');
+    expect(svg).toHaveClass('rotate-180');
   });
 
-  it("does not rotate when closed", () => {
+  it('does not rotate when closed', () => {
     const { container } = render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceExpandButton />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    const svg = container.querySelector("svg");
-    expect(svg).toHaveClass("rotate-0");
+    const svg = container.querySelector('svg');
+    expect(svg).toHaveClass('rotate-0');
   });
 });
 
-describe("stackTraceContent", () => {
-  it("renders content when open", () => {
+describe('stackTraceContent', () => {
+  it('renders content when open', () => {
     render(
       <StackTrace defaultOpen trace={sampleStackTrace}>
         <StackTraceContent>Content text</StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("Content text")).toBeInTheDocument();
+    expect(screen.getByText('Content text')).toBeInTheDocument();
   });
 
-  it("hides content when closed", () => {
+  it('hides content when closed', () => {
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceContent>Hidden content</StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.queryByText("Hidden content")).not.toBeInTheDocument();
+    expect(screen.queryByText('Hidden content')).not.toBeInTheDocument();
   });
 
-  it("applies maxHeight style", () => {
+  it('applies maxHeight style', () => {
     const { container } = render(
       <StackTrace defaultOpen trace={sampleStackTrace}>
         <StackTraceContent maxHeight={200}>Content</StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
     const content = container.querySelector(
-      "[data-slot='collapsible-content']"
+      "[data-slot='collapsible-content']",
     );
     expect(content).toHaveAttribute(
-      "style",
-      expect.stringContaining("max-height: 200px")
+      'style',
+      expect.stringContaining('max-height: 200px'),
     );
   });
 });
 
-describe("stackTraceFrames", () => {
-  it("renders stack frames", () => {
+describe('stackTraceFrames', () => {
+  it('renders stack frames', () => {
     const { container } = render(
       <StackTrace defaultOpen trace={simpleStackTrace}>
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
     // Check frames are rendered
-    const frames = container.querySelectorAll(".text-xs");
+    const frames = container.querySelectorAll('.text-xs');
     expect(frames).toHaveLength(2);
   });
 
-  it("renders file paths with line numbers", () => {
+  it('renders file paths with line numbers', () => {
     render(
       <StackTrace defaultOpen trace={simpleStackTrace}>
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("/src/index.ts:10:5")).toBeInTheDocument();
+    expect(screen.getByText('/src/index.ts:10:5')).toBeInTheDocument();
   });
 
-  it("dims internal frames", () => {
+  it('dims internal frames', () => {
     const { container } = render(
       <StackTrace defaultOpen trace={sampleStackTrace}>
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
     // Find the user frame (UserList) and internal frame (renderWithHooks)
-    const frames = container.querySelectorAll(".text-xs");
+    const frames = container.querySelectorAll('.text-xs');
     expect(frames.length).toBeGreaterThan(0);
   });
 
-  it("hides internal frames when showInternalFrames is false", () => {
+  it('hides internal frames when showInternalFrames is false', () => {
     const { container } = render(
       <StackTrace defaultOpen trace={sampleStackTrace}>
         <StackTraceContent>
           <StackTraceFrames showInternalFrames={false} />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
     // Should only have 1 frame (UserList), not the node_modules frames
-    const frames = container.querySelectorAll(".text-xs");
+    const frames = container.querySelectorAll('.text-xs');
     expect(frames).toHaveLength(1);
     expect(screen.queryByText(RENDER_WITH_HOOKS_REGEX)).not.toBeInTheDocument();
     expect(screen.queryByText(BEGIN_WORK_REGEX)).not.toBeInTheDocument();
   });
 
-  it("calls onFilePathClick when file path is clicked", async () => {
+  it('calls onFilePathClick when file path is clicked', async () => {
     const onFilePathClick = vi.fn();
     const user = userEvent.setup();
 
@@ -508,36 +508,36 @@ describe("stackTraceFrames", () => {
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    const filePathButton = screen.getByText("/src/index.ts:10:5");
+    const filePathButton = screen.getByText('/src/index.ts:10:5');
     await user.click(filePathButton);
 
-    expect(onFilePathClick).toHaveBeenCalledWith("/src/index.ts", 10, 5);
+    expect(onFilePathClick).toHaveBeenCalledWith('/src/index.ts', 10, 5);
   });
 
-  it("shows no frames message when empty", () => {
-    const emptyTrace = "Error: test";
+  it('shows no frames message when empty', () => {
+    const emptyTrace = 'Error: test';
 
     render(
       <StackTrace defaultOpen trace={emptyTrace}>
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("No stack frames")).toBeInTheDocument();
+    expect(screen.getByText('No stack frames')).toBeInTheDocument();
   });
 
-  it("handles node: internal paths", () => {
+  it('handles node: internal paths', () => {
     render(
       <StackTrace defaultOpen trace={nodeInternalTrace}>
         <StackTraceContent>
           <StackTraceFrames showInternalFrames={false} />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
     // node: paths should be hidden
@@ -545,34 +545,34 @@ describe("stackTraceFrames", () => {
   });
 });
 
-describe("stack trace parsing", () => {
-  it("parses TypeError correctly", () => {
+describe('stack trace parsing', () => {
+  it('parses TypeError correctly', () => {
     render(
       <StackTrace trace={sampleStackTrace}>
         <StackTraceErrorType />
         <StackTraceErrorMessage />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("TypeError")).toBeInTheDocument();
+    expect(screen.getByText('TypeError')).toBeInTheDocument();
     expect(
-      screen.getByText("Cannot read properties of undefined (reading 'map')")
+      screen.getByText("Cannot read properties of undefined (reading 'map')"),
     ).toBeInTheDocument();
   });
 
-  it("parses simple Error correctly", () => {
+  it('parses simple Error correctly', () => {
     render(
       <StackTrace trace={simpleStackTrace}>
         <StackTraceErrorType />
         <StackTraceErrorMessage />
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("Error")).toBeInTheDocument();
-    expect(screen.getByText("Something went wrong")).toBeInTheDocument();
+    expect(screen.getByText('Error')).toBeInTheDocument();
+    expect(screen.getByText('Something went wrong')).toBeInTheDocument();
   });
 
-  it("handles frames without function names", () => {
+  it('handles frames without function names', () => {
     const traceWithoutFn = `Error: test
     at /src/index.ts:10:5`;
 
@@ -581,13 +581,13 @@ describe("stack trace parsing", () => {
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
-    expect(screen.getByText("/src/index.ts:10:5")).toBeInTheDocument();
+    expect(screen.getByText('/src/index.ts:10:5')).toBeInTheDocument();
   });
 
-  it("handles async function names", () => {
+  it('handles async function names', () => {
     const asyncTrace = `Error: test
     at async fetchData (/src/api.ts:20:10)`;
 
@@ -596,7 +596,7 @@ describe("stack trace parsing", () => {
         <StackTraceContent>
           <StackTraceFrames />
         </StackTraceContent>
-      </StackTrace>
+      </StackTrace>,
     );
 
     expect(screen.getByText(ASYNC_FETCH_DATA_REGEX)).toBeInTheDocument();

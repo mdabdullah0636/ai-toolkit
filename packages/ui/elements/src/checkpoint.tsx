@@ -1,9 +1,16 @@
-"use client";
+'use client';
 
-import { Button, Separator, Tooltip, TooltipContent, TooltipTrigger, cn } from '@ai-toolkit/shadcn-ui';
-import type { LucideProps } from "lucide-react";
-import { BookmarkIcon } from "lucide-react";
-import type { ComponentProps, HTMLAttributes } from "react";
+import {
+  Button,
+  Separator,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  cn,
+} from '@ai-toolkit/shadcn-ui';
+import type { LucideProps } from 'lucide-react';
+import { BookmarkIcon } from 'lucide-react';
+import type { ComponentProps, HTMLAttributes } from 'react';
 
 export type CheckpointProps = HTMLAttributes<HTMLDivElement>;
 
@@ -14,8 +21,8 @@ export const Checkpoint = ({
 }: CheckpointProps) => (
   <div
     className={cn(
-      "flex items-center gap-0.5 overflow-hidden text-muted-foreground",
-      className
+      'flex items-center gap-0.5 overflow-hidden text-muted-foreground',
+      className,
     )}
     {...props}
   >
@@ -32,7 +39,7 @@ export const CheckpointIcon = ({
   ...props
 }: CheckpointIconProps) =>
   children ?? (
-    <BookmarkIcon className={cn("size-4 shrink-0", className)} {...props} />
+    <BookmarkIcon className={cn('size-4 shrink-0', className)} {...props} />
   );
 
 export type CheckpointTriggerProps = ComponentProps<typeof Button> & {
@@ -41,8 +48,8 @@ export type CheckpointTriggerProps = ComponentProps<typeof Button> & {
 
 export const CheckpointTrigger = ({
   children,
-  variant = "ghost",
-  size = "sm",
+  variant = 'ghost',
+  size = 'sm',
   tooltip,
   ...props
 }: CheckpointTriggerProps) =>

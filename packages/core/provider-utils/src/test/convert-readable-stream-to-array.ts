@@ -1,4 +1,6 @@
-export async function convertReadableStreamToArray<T>(stream: ReadableStream<T>): Promise<T[]> {
+export async function convertReadableStreamToArray<T>(
+  stream: ReadableStream<T>,
+): Promise<T[]> {
   const reader = stream.getReader();
   const result: T[] = [];
 

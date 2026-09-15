@@ -6,7 +6,8 @@ import { BedrockImageModel } from './bedrock-image-model';
 import { anthropicTools } from '@ai-toolkit/anthropic/internal';
 
 // Add type assertions for the mocked classes
-const BedrockChatLanguageModelMock = BedrockChatLanguageModel as unknown as Mock;
+const BedrockChatLanguageModelMock =
+  BedrockChatLanguageModel as unknown as Mock;
 const BedrockEmbeddingModelMock = BedrockEmbeddingModel as unknown as Mock;
 const BedrockImageModelMock = BedrockImageModel as unknown as Mock;
 
@@ -28,7 +29,8 @@ vi.mock('./bedrock-sigv4-fetch', () => ({
 }));
 
 vi.mock('@ai-toolkit/anthropic', async importOriginal => {
-  const original = await importOriginal<typeof import('@ai-toolkit/anthropic')>();
+  const original =
+    await importOriginal<typeof import('@ai-toolkit/anthropic')>();
   return {
     ...original,
     anthropicTools: { mock: 'tools' },
@@ -37,11 +39,16 @@ vi.mock('@ai-toolkit/anthropic', async importOriginal => {
 });
 
 vi.mock('@ai-toolkit/provider-utils', async importOriginal => {
-  const original = await importOriginal<typeof import('@ai-toolkit/provider-utils')>();
+  const original =
+    await importOriginal<typeof import('@ai-toolkit/provider-utils')>();
   return {
     ...original,
-    loadSetting: vi.fn().mockImplementation(({ settingValue }) => settingValue || 'us-east-1'),
-    loadOptionalSetting: vi.fn().mockImplementation(({ settingValue }) => settingValue),
+    loadSetting: vi
+      .fn()
+      .mockImplementation(({ settingValue }) => settingValue || 'us-east-1'),
+    loadOptionalSetting: vi
+      .fn()
+      .mockImplementation(({ settingValue }) => settingValue),
     withoutTrailingSlash: vi.fn(url => url),
     generateId: vi.fn().mockReturnValue('mock-id'),
     createJsonErrorResponseHandler: vi.fn(),
@@ -59,7 +66,10 @@ vi.mock('./version', () => ({
 }));
 
 // Import mocked modules to get references
-import { createSigV4FetchFunction, createApiKeyFetchFunction } from './bedrock-sigv4-fetch';
+import {
+  createSigV4FetchFunction,
+  createApiKeyFetchFunction,
+} from './bedrock-sigv4-fetch';
 import { loadOptionalSetting } from '@ai-toolkit/provider-utils';
 
 const mockCreateSigV4FetchFunction = vi.mocked(createSigV4FetchFunction);
@@ -72,7 +82,9 @@ describe('AmazonBedrockProvider', () => {
     // Reset mock implementations
     mockCreateSigV4FetchFunction.mockReturnValue(vi.fn());
     mockCreateApiKeyFetchFunction.mockReturnValue(vi.fn());
-    mockLoadOptionalSetting.mockImplementation(({ settingValue }) => settingValue);
+    mockLoadOptionalSetting.mockImplementation(
+      ({ settingValue }) => settingValue,
+    );
   });
 
   describe('createAmazonBedrock', () => {
@@ -86,7 +98,9 @@ describe('AmazonBedrockProvider', () => {
       expect(constructorCall[1].headers()['user-agent']).toContain(
         'ai-toolkit/amazon-bedrock/0.0.0-test',
       );
-      expect(constructorCall[1].baseUrl()).toBe('https://bedrock-runtime.us-east-1.amazonaws.com');
+      expect(constructorCall[1].baseUrl()).toBe(
+        'https://bedrock-runtime.us-east-1.amazonaws.com',
+      );
     });
 
     it('should create a provider instance with custom options', () => {
@@ -127,7 +141,9 @@ describe('AmazonBedrockProvider', () => {
       expect(constructorCall[1].headers()['user-agent']).toContain(
         'ai-toolkit/amazon-bedrock/0.0.0-test',
       );
-      expect(constructorCall[1].baseUrl()).toBe('https://bedrock-runtime.us-east-1.amazonaws.com');
+      expect(constructorCall[1].baseUrl()).toBe(
+        'https://bedrock-runtime.us-east-1.amazonaws.com',
+      );
     });
 
     it('should prioritize credentialProvider over static credentials', () => {
@@ -168,7 +184,9 @@ describe('AmazonBedrockProvider', () => {
       const provider = createAmazonBedrock();
       expect(() => {
         new (provider as any)();
-      }).toThrow('The Amazon Bedrock model function cannot be called with the new keyword.');
+      }).toThrow(
+        'The Amazon Bedrock model function cannot be called with the new keyword.',
+      );
     });
 
     describe('API Key Authentication', () => {
@@ -190,7 +208,9 @@ describe('AmazonBedrockProvider', () => {
         const constructorCall = BedrockChatLanguageModelMock.mock.calls[0];
         expect(constructorCall[0]).toBe('anthropic.claude-v2');
         expect(constructorCall[1].headers()).toMatchObject({});
-        expect(constructorCall[1].headers()['user-agent']).toContain('ai-toolkit/amazon-bedrock/');
+        expect(constructorCall[1].headers()['user-agent']).toContain(
+          'ai-toolkit/amazon-bedrock/',
+        );
         expect(constructorCall[1].baseUrl()).toBe(
           'https://bedrock-runtime.us-east-1.amazonaws.com',
         );
@@ -198,33 +218,40 @@ describe('AmazonBedrockProvider', () => {
 
       it('should use API key from environment variable', () => {
         // Mock loadOptionalSetting to return environment variable value
-        mockLoadOptionalSetting.mockImplementation(({ settingValue, environmentVariableName }) => {
-          if (environmentVariableName === 'AWS_BEARER_TOKEN_BEDROCK') {
-            return 'env-api-key';
-          }
-          return settingValue;
-        });
+        mockLoadOptionalSetting.mockImplementation(
+          ({ settingValue, environmentVariableName }) => {
+            if (environmentVariableName === 'AWS_BEARER_TOKEN_BEDROCK') {
+              return 'env-api-key';
+            }
+            return settingValue;
+          },
+        );
 
         const provider = createAmazonBedrock({
           region: 'us-east-1',
         });
 
         // Verify that createApiKeyFetchFunction was called with the environment variable value
-        expect(mockCreateApiKeyFetchFunction).toHaveBeenCalledWith('env-api-key', undefined);
+        expect(mockCreateApiKeyFetchFunction).toHaveBeenCalledWith(
+          'env-api-key',
+          undefined,
+        );
         expect(mockCreateSigV4FetchFunction).not.toHaveBeenCalled();
       });
 
       it('should prioritize options.apiKey over environment variable', () => {
         // Mock loadOptionalSetting to return environment variable value when no settingValue
-        mockLoadOptionalSetting.mockImplementation(({ settingValue, environmentVariableName }) => {
-          if (settingValue) {
-            return settingValue;
-          }
-          if (environmentVariableName === 'AWS_BEARER_TOKEN_BEDROCK') {
-            return 'env-api-key';
-          }
-          return undefined;
-        });
+        mockLoadOptionalSetting.mockImplementation(
+          ({ settingValue, environmentVariableName }) => {
+            if (settingValue) {
+              return settingValue;
+            }
+            if (environmentVariableName === 'AWS_BEARER_TOKEN_BEDROCK') {
+              return 'env-api-key';
+            }
+            return undefined;
+          },
+        );
 
         const provider = createAmazonBedrock({
           apiKey: 'options-api-key',
@@ -232,7 +259,10 @@ describe('AmazonBedrockProvider', () => {
         });
 
         // Verify that options.apiKey takes precedence
-        expect(mockCreateApiKeyFetchFunction).toHaveBeenCalledWith('options-api-key', undefined);
+        expect(mockCreateApiKeyFetchFunction).toHaveBeenCalledWith(
+          'options-api-key',
+          undefined,
+        );
         expect(mockCreateSigV4FetchFunction).not.toHaveBeenCalled();
       });
 
@@ -266,7 +296,10 @@ describe('AmazonBedrockProvider', () => {
         });
 
         // Verify that custom fetch function is passed to createApiKeyFetchFunction
-        expect(mockCreateApiKeyFetchFunction).toHaveBeenCalledWith('test-api-key', customFetch);
+        expect(mockCreateApiKeyFetchFunction).toHaveBeenCalledWith(
+          'test-api-key',
+          customFetch,
+        );
       });
 
       it('should pass custom fetch function to SigV4 authentication', () => {
@@ -306,7 +339,10 @@ describe('AmazonBedrockProvider', () => {
         expect(constructorCall[1].headers()['user-agent']).toContain(
           'ai-toolkit/amazon-bedrock/0.0.0-test',
         );
-        expect(mockCreateApiKeyFetchFunction).toHaveBeenCalledWith('test-api-key', undefined);
+        expect(mockCreateApiKeyFetchFunction).toHaveBeenCalledWith(
+          'test-api-key',
+          undefined,
+        );
       });
 
       it('should work with image models when using API key', () => {
@@ -326,7 +362,10 @@ describe('AmazonBedrockProvider', () => {
         expect(constructorCall[1].headers()['user-agent']).toContain(
           'ai-toolkit/amazon-bedrock/0.0.0-test',
         );
-        expect(mockCreateApiKeyFetchFunction).toHaveBeenCalledWith('test-api-key', undefined);
+        expect(mockCreateApiKeyFetchFunction).toHaveBeenCalledWith(
+          'test-api-key',
+          undefined,
+        );
       });
 
       it('should maintain backward compatibility with existing SigV4 authentication', () => {

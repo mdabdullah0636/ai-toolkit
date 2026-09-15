@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 
 import {
   Terminal,
@@ -10,82 +10,82 @@ import {
   TerminalHeader,
   TerminalStatus,
   TerminalTitle,
-} from "./terminal";
+} from './terminal';
 
-describe("terminal", () => {
-  it("renders output text", () => {
+describe('terminal', () => {
+  it('renders output text', () => {
     render(<Terminal output="Hello World" />);
-    expect(screen.getByText("Hello World")).toBeInTheDocument();
+    expect(screen.getByText('Hello World')).toBeInTheDocument();
   });
 
-  it("renders default title", () => {
+  it('renders default title', () => {
     render(<Terminal output="" />);
-    expect(screen.getByText("Terminal")).toBeInTheDocument();
+    expect(screen.getByText('Terminal')).toBeInTheDocument();
   });
 
-  it("applies custom className", () => {
+  it('applies custom className', () => {
     const { container } = render(
-      <Terminal className="custom-class" output="" />
+      <Terminal className="custom-class" output="" />,
     );
-    expect(container.firstChild).toHaveClass("custom-class");
+    expect(container.firstChild).toHaveClass('custom-class');
   });
 
-  it("renders children when provided", () => {
+  it('renders children when provided', () => {
     render(
       <Terminal output="">
         <div>Custom Content</div>
-      </Terminal>
+      </Terminal>,
     );
-    expect(screen.getByText("Custom Content")).toBeInTheDocument();
+    expect(screen.getByText('Custom Content')).toBeInTheDocument();
   });
 });
 
-describe("terminalHeader", () => {
-  it("renders custom title", () => {
+describe('terminalHeader', () => {
+  it('renders custom title', () => {
     render(
       <Terminal output="">
         <TerminalHeader>
           <TerminalTitle>Build Output</TerminalTitle>
         </TerminalHeader>
-      </Terminal>
+      </Terminal>,
     );
-    expect(screen.getByText("Build Output")).toBeInTheDocument();
+    expect(screen.getByText('Build Output')).toBeInTheDocument();
   });
 });
 
-describe("terminalStatus", () => {
-  it("shows shimmer when streaming", () => {
+describe('terminalStatus', () => {
+  it('shows shimmer when streaming', () => {
     const { container } = render(
       <Terminal isStreaming={true} output="">
         <TerminalHeader>
           <TerminalStatus />
         </TerminalHeader>
-      </Terminal>
+      </Terminal>,
     );
     // TerminalStatus should render a div with shimmer-related classes when streaming
-    const statusElement = container.querySelector(".text-zinc-400");
+    const statusElement = container.querySelector('.text-zinc-400');
     expect(statusElement).toBeInTheDocument();
   });
 
-  it("hides when not streaming", () => {
+  it('hides when not streaming', () => {
     const { container } = render(
       <Terminal isStreaming={false} output="">
         <TerminalHeader>
           <TerminalStatus />
         </TerminalHeader>
-      </Terminal>
+      </Terminal>,
     );
     // TerminalStatus should not render when not streaming
-    const statusElement = container.querySelector(".text-zinc-400.text-xs");
+    const statusElement = container.querySelector('.text-zinc-400.text-xs');
     expect(statusElement).not.toBeInTheDocument();
   });
 });
 
-describe("terminalCopyButton", () => {
-  it("copies output to clipboard", async () => {
+describe('terminalCopyButton', () => {
+  it('copies output to clipboard', async () => {
     vi.clearAllMocks();
     const user = userEvent.setup();
-    const writeTextSpy = vi.spyOn(navigator.clipboard, "writeText");
+    const writeTextSpy = vi.spyOn(navigator.clipboard, 'writeText');
 
     render(
       <Terminal output="test output">
@@ -94,16 +94,16 @@ describe("terminalCopyButton", () => {
             <TerminalCopyButton />
           </TerminalActions>
         </TerminalHeader>
-      </Terminal>
+      </Terminal>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
-    expect(writeTextSpy).toHaveBeenCalledWith("test output");
+    expect(writeTextSpy).toHaveBeenCalledWith('test output');
   });
 
-  it("calls onCopy callback", async () => {
+  it('calls onCopy callback', async () => {
     const onCopy = vi.fn();
     const user = userEvent.setup();
 
@@ -114,18 +114,18 @@ describe("terminalCopyButton", () => {
             <TerminalCopyButton onCopy={onCopy} />
           </TerminalActions>
         </TerminalHeader>
-      </Terminal>
+      </Terminal>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
     expect(onCopy).toHaveBeenCalled();
   });
 });
 
-describe("terminalClearButton", () => {
-  it("calls onClear when clicked", async () => {
+describe('terminalClearButton', () => {
+  it('calls onClear when clicked', async () => {
     const onClear = vi.fn();
     const user = userEvent.setup();
 
@@ -136,16 +136,16 @@ describe("terminalClearButton", () => {
             <TerminalClearButton />
           </TerminalActions>
         </TerminalHeader>
-      </Terminal>
+      </Terminal>,
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole('button');
     await user.click(button);
 
     expect(onClear).toHaveBeenCalled();
   });
 
-  it("does not render without onClear", () => {
+  it('does not render without onClear', () => {
     render(
       <Terminal output="test">
         <TerminalHeader>
@@ -153,28 +153,28 @@ describe("terminalClearButton", () => {
             <TerminalClearButton />
           </TerminalActions>
         </TerminalHeader>
-      </Terminal>
+      </Terminal>,
     );
 
-    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 });
 
-describe("terminalContent", () => {
-  it("renders ANSI colored text", () => {
-    const ansiText = "\u001B[32mGreen Text\u001B[0m";
+describe('terminalContent', () => {
+  it('renders ANSI colored text', () => {
+    const ansiText = '\u001B[32mGreen Text\u001B[0m';
     render(<Terminal output={ansiText} />);
-    expect(screen.getByText("Green Text")).toBeInTheDocument();
+    expect(screen.getByText('Green Text')).toBeInTheDocument();
   });
 
-  it("shows cursor when streaming", () => {
+  it('shows cursor when streaming', () => {
     const { container } = render(<Terminal isStreaming={true} output="test" />);
-    expect(container.querySelector(".animate-pulse")).toBeInTheDocument();
+    expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
   });
 });
 
-describe("composability", () => {
-  it("renders with all subcomponents", () => {
+describe('composability', () => {
+  it('renders with all subcomponents', () => {
     const onClear = vi.fn();
     render(
       <Terminal isStreaming={false} onClear={onClear} output="Output text">
@@ -186,11 +186,11 @@ describe("composability", () => {
           </TerminalActions>
         </TerminalHeader>
         <TerminalContent />
-      </Terminal>
+      </Terminal>,
     );
 
-    expect(screen.getByText("My Terminal")).toBeInTheDocument();
-    expect(screen.getByText("Output text")).toBeInTheDocument();
-    expect(screen.getAllByRole("button")).toHaveLength(2);
+    expect(screen.getByText('My Terminal')).toBeInTheDocument();
+    expect(screen.getByText('Output text')).toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(2);
   });
 });

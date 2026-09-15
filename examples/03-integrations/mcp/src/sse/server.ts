@@ -31,7 +31,9 @@ mcpServer.tool(
 // Tool with zero arguments:
 mcpServer.tool('list-products', 'List all products', async () => {
   return {
-    content: [{ type: 'text', text: 'Products: Product 1, Product 2, Product 3' }],
+    content: [
+      { type: 'text', text: 'Products: Product 1, Product 2, Product 3' },
+    ],
   };
 });
 

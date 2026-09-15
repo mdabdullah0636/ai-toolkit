@@ -551,7 +551,12 @@ Update your route handler with the following code:
 
 ```tsx filename="app/api/chat/route.ts" highlight="18-29"
 import { createResource } from '@/lib/actions/resources';
-import { convertToModelMessages, streamText, tool, UIMessage } from 'ai-toolkit';
+import {
+  convertToModelMessages,
+  streamText,
+  tool,
+  UIMessage,
+} from 'ai-toolkit';
 import { z } from 'zod';
 
 // Allow streaming responses up to 30 seconds

@@ -17,7 +17,8 @@ export async function POST(req: Request) {
         }),
       ),
     }),
-    prompt: `Generate 3 notifications for a messages app in this context:` + context,
+    prompt:
+      `Generate 3 notifications for a messages app in this context:` + context,
   });
 
   return result.toTextStreamResponse();

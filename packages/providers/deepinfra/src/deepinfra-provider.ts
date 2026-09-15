@@ -1,4 +1,9 @@
-import { LanguageModelV3, EmbeddingModelV3, ProviderV3, ImageModelV3 } from '@ai-toolkit/provider';
+import {
+  LanguageModelV3,
+  EmbeddingModelV3,
+  ProviderV3,
+  ImageModelV3,
+} from '@ai-toolkit/provider';
 import {
   OpenAICompatibleChatLanguageModel,
   OpenAICompatibleCompletionLanguageModel,
@@ -79,8 +84,12 @@ Creates a embedding model for text generation.
   textEmbeddingModel(modelId: DeepInfraEmbeddingModelId): EmbeddingModelV3;
 }
 
-export function createDeepInfra(options: DeepInfraProviderSettings = {}): DeepInfraProvider {
-  const baseURL = withoutTrailingSlash(options.baseURL ?? 'https://api.deepinfra.com/v1');
+export function createDeepInfra(
+  options: DeepInfraProviderSettings = {},
+): DeepInfraProvider {
+  const baseURL = withoutTrailingSlash(
+    options.baseURL ?? 'https://api.deepinfra.com/v1',
+  );
   const getHeaders = () =>
     withUserAgentSuffix(
       {
@@ -109,19 +118,30 @@ export function createDeepInfra(options: DeepInfraProviderSettings = {}): DeepIn
   });
 
   const createChatModel = (modelId: DeepInfraChatModelId) => {
-    return new OpenAICompatibleChatLanguageModel(modelId, getCommonModelConfig('chat'));
+    return new OpenAICompatibleChatLanguageModel(
+      modelId,
+      getCommonModelConfig('chat'),
+    );
   };
 
   const createCompletionModel = (modelId: DeepInfraCompletionModelId) =>
-    new OpenAICompatibleCompletionLanguageModel(modelId, getCommonModelConfig('completion'));
+    new OpenAICompatibleCompletionLanguageModel(
+      modelId,
+      getCommonModelConfig('completion'),
+    );
 
   const createEmbeddingModel = (modelId: DeepInfraEmbeddingModelId) =>
-    new OpenAICompatibleEmbeddingModel(modelId, getCommonModelConfig('embedding'));
+    new OpenAICompatibleEmbeddingModel(
+      modelId,
+      getCommonModelConfig('embedding'),
+    );
 
   const createImageModel = (modelId: DeepInfraImageModelId) =>
     new DeepInfraImageModel(modelId, {
       ...getCommonModelConfig('image'),
-      baseURL: baseURL ? `${baseURL}/inference` : 'https://api.deepinfra.com/v1/inference',
+      baseURL: baseURL
+        ? `${baseURL}/inference`
+        : 'https://api.deepinfra.com/v1/inference',
     });
 
   const provider = (modelId: DeepInfraChatModelId) => createChatModel(modelId);

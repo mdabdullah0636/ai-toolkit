@@ -65,7 +65,9 @@ describe('languageModel', () => {
     const registry = createProviderRegistry({});
 
     // @ts-expect-error - should not accept arbitrary strings
-    expect(() => registry.languageModel('provider:model:part2')).toThrowError(NoSuchProviderError);
+    expect(() => registry.languageModel('provider:model:part2')).toThrowError(
+      NoSuchProviderError,
+    );
   });
 
   it('should throw NoSuchModelError if provider does not return a model', () => {
@@ -93,14 +95,18 @@ describe('languageModel', () => {
       },
     });
 
-    expect(() => registry.languageModel('provider:model')).toThrowError(NoSuchModelError);
+    expect(() => registry.languageModel('provider:model')).toThrowError(
+      NoSuchModelError,
+    );
   });
 
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
     // @ts-expect-error - should not accept arbitrary strings
-    expect(() => registry.languageModel('model')).toThrowError(NoSuchModelError);
+    expect(() => registry.languageModel('model')).toThrowError(
+      NoSuchModelError,
+    );
   });
 
   it('should support custom separator', () => {
@@ -208,7 +214,9 @@ describe('embeddingModel', () => {
     const registry = createProviderRegistry({});
 
     // @ts-expect-error - should not accept arbitrary strings
-    expect(() => registry.embeddingModel('provider:model')).toThrowError(NoSuchProviderError);
+    expect(() => registry.embeddingModel('provider:model')).toThrowError(
+      NoSuchProviderError,
+    );
   });
 
   it('should throw NoSuchModelError if provider does not return a model', () => {
@@ -230,14 +238,18 @@ describe('embeddingModel', () => {
       },
     });
 
-    expect(() => registry.languageModel('provider:model')).toThrowError(NoSuchModelError);
+    expect(() => registry.languageModel('provider:model')).toThrowError(
+      NoSuchModelError,
+    );
   });
 
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
     // @ts-expect-error - should not accept arbitrary strings
-    expect(() => registry.embeddingModel('model')).toThrowError(NoSuchModelError);
+    expect(() => registry.embeddingModel('model')).toThrowError(
+      NoSuchModelError,
+    );
   });
 
   it('should support custom separator', () => {
@@ -301,7 +313,9 @@ describe('imageModel', () => {
     const registry = createProviderRegistry({});
 
     // @ts-expect-error - should not accept arbitrary strings
-    expect(() => registry.imageModel('provider:model')).toThrowError(NoSuchProviderError);
+    expect(() => registry.imageModel('provider:model')).toThrowError(
+      NoSuchProviderError,
+    );
   });
 
   it('should throw NoSuchModelError if provider does not return a model', () => {
@@ -316,7 +330,9 @@ describe('imageModel', () => {
       },
     });
 
-    expect(() => registry.imageModel('provider:model')).toThrowError(NoSuchModelError);
+    expect(() => registry.imageModel('provider:model')).toThrowError(
+      NoSuchModelError,
+    );
   });
 
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
@@ -374,7 +390,9 @@ describe('transcriptionModel', () => {
     const registry = createProviderRegistry({});
 
     // @ts-expect-error - should not accept arbitrary strings
-    expect(() => registry.transcriptionModel('provider:model')).toThrowError(NoSuchProviderError);
+    expect(() => registry.transcriptionModel('provider:model')).toThrowError(
+      NoSuchProviderError,
+    );
   });
 
   it('should throw NoSuchModelError if provider does not return a model', () => {
@@ -389,14 +407,18 @@ describe('transcriptionModel', () => {
       },
     });
 
-    expect(() => registry.transcriptionModel('provider:model')).toThrowError(NoSuchModelError);
+    expect(() => registry.transcriptionModel('provider:model')).toThrowError(
+      NoSuchModelError,
+    );
   });
 
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
     // @ts-expect-error - should not accept arbitrary strings
-    expect(() => registry.transcriptionModel('model')).toThrowError(NoSuchModelError);
+    expect(() => registry.transcriptionModel('model')).toThrowError(
+      NoSuchModelError,
+    );
   });
 });
 
@@ -425,7 +447,9 @@ describe('speechModel', () => {
     const registry = createProviderRegistry({});
 
     // @ts-expect-error - should not accept arbitrary strings
-    expect(() => registry.speechModel('provider:model')).toThrowError(NoSuchProviderError);
+    expect(() => registry.speechModel('provider:model')).toThrowError(
+      NoSuchProviderError,
+    );
   });
 
   it('should throw NoSuchModelError if provider does not return a model', () => {
@@ -440,7 +464,9 @@ describe('speechModel', () => {
       },
     });
 
-    expect(() => registry.speechModel('provider:model')).toThrowError(NoSuchModelError);
+    expect(() => registry.speechModel('provider:model')).toThrowError(
+      NoSuchModelError,
+    );
   });
 
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
@@ -487,7 +513,9 @@ describe('rerankingModel', () => {
     const registry = createProviderRegistry({});
 
     // @ts-expect-error - should not accept arbitrary strings
-    expect(() => registry.rerankingModel('provider:model')).toThrowError(NoSuchProviderError);
+    expect(() => registry.rerankingModel('provider:model')).toThrowError(
+      NoSuchProviderError,
+    );
   });
 
   it('should throw NoSuchModelError if provider does not return a model', () => {
@@ -509,14 +537,18 @@ describe('rerankingModel', () => {
       },
     });
 
-    expect(() => registry.rerankingModel('provider:model')).toThrowError(NoSuchModelError);
+    expect(() => registry.rerankingModel('provider:model')).toThrowError(
+      NoSuchModelError,
+    );
   });
 
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
     // @ts-expect-error - should not accept arbitrary strings
-    expect(() => registry.rerankingModel('model')).toThrowError(NoSuchModelError);
+    expect(() => registry.rerankingModel('model')).toThrowError(
+      NoSuchModelError,
+    );
   });
 
   it('should support custom separator', () => {
@@ -573,7 +605,9 @@ describe('middleware functionality', () => {
       },
     });
 
-    const overrideModelId = vi.fn().mockImplementation(({ model }) => `override-${model.modelId}`);
+    const overrideModelId = vi
+      .fn()
+      .mockImplementation(({ model }) => `override-${model.modelId}`);
 
     const registry = createProviderRegistry(
       {
@@ -588,9 +622,15 @@ describe('middleware functionality', () => {
       },
     );
 
-    expect(registry.languageModel('provider1:model-1').modelId).toBe('override-model-1');
-    expect(registry.languageModel('provider1:model-2').modelId).toBe('override-model-2');
-    expect(registry.languageModel('provider2:model-3').modelId).toBe('override-model-3');
+    expect(registry.languageModel('provider1:model-1').modelId).toBe(
+      'override-model-1',
+    );
+    expect(registry.languageModel('provider1:model-2').modelId).toBe(
+      'override-model-2',
+    );
+    expect(registry.languageModel('provider2:model-3').modelId).toBe(
+      'override-model-3',
+    );
 
     expect(overrideModelId).toHaveBeenCalledTimes(3);
     expect(overrideModelId).toHaveBeenCalledWith({ model: model1 });
@@ -616,7 +656,9 @@ describe('middleware functionality', () => {
       },
     });
 
-    const overrideModelId = vi.fn().mockImplementation(({ model }) => `override-${model.modelId}`);
+    const overrideModelId = vi
+      .fn()
+      .mockImplementation(({ model }) => `override-${model.modelId}`);
 
     const registry = createProviderRegistry(
       {
@@ -631,9 +673,15 @@ describe('middleware functionality', () => {
       },
     );
 
-    expect(registry.imageModel('provider1:model-1').modelId).toBe('override-model-1');
-    expect(registry.imageModel('provider1:model-2').modelId).toBe('override-model-2');
-    expect(registry.imageModel('provider2:model-3').modelId).toBe('override-model-3');
+    expect(registry.imageModel('provider1:model-1').modelId).toBe(
+      'override-model-1',
+    );
+    expect(registry.imageModel('provider1:model-2').modelId).toBe(
+      'override-model-2',
+    );
+    expect(registry.imageModel('provider2:model-3').modelId).toBe(
+      'override-model-3',
+    );
 
     expect(overrideModelId).toHaveBeenCalledTimes(3);
     expect(overrideModelId).toHaveBeenCalledWith({ model: model1 });

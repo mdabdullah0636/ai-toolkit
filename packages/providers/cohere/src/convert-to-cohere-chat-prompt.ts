@@ -43,7 +43,8 @@ export function convertToCohereChatPrompt(prompt: LanguageModelV3Prompt): {
                     // Check if the media type is supported for text extraction
                     if (
                       !(
-                        part.mediaType?.startsWith('text/') || part.mediaType === 'application/json'
+                        part.mediaType?.startsWith('text/') ||
+                        part.mediaType === 'application/json'
                       )
                     ) {
                       throw new UnsupportedFunctionalityError({

@@ -24,7 +24,12 @@ run(async () => {
   for await (const chunk of result.fullStream) {
     if (chunk.type === 'raw') {
       rawChunkCount++;
-      console.log('Raw chunk', rawChunkCount, ':', JSON.stringify(chunk.rawValue));
+      console.log(
+        'Raw chunk',
+        rawChunkCount,
+        ':',
+        JSON.stringify(chunk.rawValue),
+      );
     } else {
       console.log('Processed chunk:', chunk.type, JSON.stringify(chunk));
     }

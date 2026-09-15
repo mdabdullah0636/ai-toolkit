@@ -1,48 +1,48 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 
-import { Canvas } from "./canvas";
+import { Canvas } from './canvas';
 
-describe("canvas", () => {
-  it("renders with default props", () => {
+describe('canvas', () => {
+  it('renders with default props', () => {
     const { container } = render(
       <Canvas edges={[]} nodes={[]}>
         <div>Test content</div>
-      </Canvas>
+      </Canvas>,
     );
-    expect(container.querySelector(".react-flow")).toBeInTheDocument();
+    expect(container.querySelector('.react-flow')).toBeInTheDocument();
   });
 
-  it("renders children", () => {
+  it('renders children', () => {
     render(
       <Canvas edges={[]} nodes={[]}>
         <div>Test children</div>
-      </Canvas>
+      </Canvas>,
     );
-    expect(screen.getByText("Test children")).toBeInTheDocument();
+    expect(screen.getByText('Test children')).toBeInTheDocument();
   });
 
-  it("applies custom props", () => {
+  it('applies custom props', () => {
     const { container } = render(
       <Canvas className="custom-class" edges={[]} nodes={[]}>
         <div>Content</div>
-      </Canvas>
+      </Canvas>,
     );
-    const reactFlow = container.querySelector(".react-flow");
+    const reactFlow = container.querySelector('.react-flow');
     expect(reactFlow).toBeInTheDocument();
-    expect(reactFlow).toHaveClass("custom-class");
+    expect(reactFlow).toHaveClass('custom-class');
   });
 
-  it("renders with nodes and edges", () => {
+  it('renders with nodes and edges', () => {
     const nodes = [
-      { data: { label: "Node 1" }, id: "1", position: { x: 0, y: 0 } },
+      { data: { label: 'Node 1' }, id: '1', position: { x: 0, y: 0 } },
     ];
-    const edges = [{ id: "e1-2", source: "1", target: "2" }];
+    const edges = [{ id: 'e1-2', source: '1', target: '2' }];
 
     const { container } = render(
       <Canvas edges={edges} nodes={nodes}>
         <div>Content</div>
-      </Canvas>
+      </Canvas>,
     );
-    expect(container.querySelector(".react-flow")).toBeInTheDocument();
+    expect(container.querySelector('.react-flow')).toBeInTheDocument();
   });
 });

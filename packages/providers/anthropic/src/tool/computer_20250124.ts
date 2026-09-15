@@ -1,4 +1,8 @@
-import { createProviderToolFactory, lazySchema, zodSchema } from '@ai-toolkit/provider-utils';
+import {
+  createProviderToolFactory,
+  lazySchema,
+  zodSchema,
+} from '@ai-toolkit/provider-utils';
 import { z } from 'zod/v4';
 
 const computer_20250124InputSchema = lazySchema(() =>
@@ -26,7 +30,9 @@ const computer_20250124InputSchema = lazySchema(() =>
       duration: z.number().optional(),
       scroll_amount: z.number().optional(),
       scroll_direction: z.enum(['up', 'down', 'left', 'right']).optional(),
-      start_coordinate: z.tuple([z.number().int(), z.number().int()]).optional(),
+      start_coordinate: z
+        .tuple([z.number().int(), z.number().int()])
+        .optional(),
       text: z.string().optional(),
     }),
   ),

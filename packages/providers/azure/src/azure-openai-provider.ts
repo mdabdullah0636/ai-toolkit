@@ -141,7 +141,9 @@ Use deployment-based URLs for specific model types. Set to true to use legacy de
 /**
 Create an Azure OpenAI provider instance.
  */
-export function createAzure(options: AzureOpenAIProviderSettings = {}): AzureOpenAIProvider {
+export function createAzure(
+  options: AzureOpenAIProviderSettings = {},
+): AzureOpenAIProvider {
   const getHeaders = () => {
     const baseHeaders = {
       'api-key': loadApiKey({
@@ -165,7 +167,8 @@ export function createAzure(options: AzureOpenAIProviderSettings = {}): AzureOpe
   const apiVersion = options.apiVersion ?? 'v1';
 
   const url = ({ path, modelId }: { path: string; modelId: string }) => {
-    const baseUrlPrefix = options.baseURL ?? `https://${getResourceName()}.openai.azure.com/openai`;
+    const baseUrlPrefix =
+      options.baseURL ?? `https://${getResourceName()}.openai.azure.com/openai`;
 
     let fullUrl: URL;
     if (options.useDeploymentBasedUrls) {
@@ -239,7 +242,9 @@ export function createAzure(options: AzureOpenAIProviderSettings = {}): AzureOpe
 
   const provider = function (deploymentId: string) {
     if (new.target) {
-      throw new Error('The Azure OpenAI model function cannot be called with the new keyword.');
+      throw new Error(
+        'The Azure OpenAI model function cannot be called with the new keyword.',
+      );
     }
 
     return createResponsesModel(deploymentId);

@@ -30,7 +30,9 @@ const deepgramSpeechProviderOptionsSchema = z.object({
   tag: z.union([z.string(), z.array(z.string())]).nullish(),
 });
 
-export type DeepgramSpeechCallOptions = z.infer<typeof deepgramSpeechProviderOptionsSchema>;
+export type DeepgramSpeechCallOptions = z.infer<
+  typeof deepgramSpeechProviderOptionsSchema
+>;
 
 interface DeepgramSpeechModelConfig extends DeepgramConfig {
   _internal?: {
@@ -139,7 +141,17 @@ export class DeepgramSpeechModel implements SpeechModelV3 {
           const sampleRate = parseInt(secondPart, 10);
 
           // Check if first part is an encoding
-          if (['linear16', 'mulaw', 'alaw', 'mp3', 'opus', 'flac', 'aac'].includes(firstPart)) {
+          if (
+            [
+              'linear16',
+              'mulaw',
+              'alaw',
+              'mp3',
+              'opus',
+              'flac',
+              'aac',
+            ].includes(firstPart)
+          ) {
             queryParams.encoding = firstPart;
 
             // Set container based on encoding
@@ -158,9 +170,15 @@ export class DeepgramSpeechModel implements SpeechModelV3 {
                 [8000, 16000, 24000, 32000, 48000].includes(sampleRate)
               ) {
                 queryParams.sample_rate = String(sampleRate);
-              } else if (firstPart === 'mulaw' && [8000, 16000].includes(sampleRate)) {
+              } else if (
+                firstPart === 'mulaw' &&
+                [8000, 16000].includes(sampleRate)
+              ) {
                 queryParams.sample_rate = String(sampleRate);
-              } else if (firstPart === 'alaw' && [8000, 16000].includes(sampleRate)) {
+              } else if (
+                firstPart === 'alaw' &&
+                [8000, 16000].includes(sampleRate)
+              ) {
                 queryParams.sample_rate = String(sampleRate);
               } else if (
                 firstPart === 'flac' &&
@@ -200,7 +218,9 @@ export class DeepgramSpeechModel implements SpeechModelV3 {
         if (deepgramOptions.container) {
           // Validate container is valid for this encoding
           if (['linear16', 'mulaw', 'alaw'].includes(newEncoding)) {
-            if (!['wav', 'none'].includes(deepgramOptions.container.toLowerCase())) {
+            if (
+              !['wav', 'none'].includes(deepgramOptions.container.toLowerCase())
+            ) {
               warnings.push({
                 type: 'unsupported',
                 feature: 'providerOptions',

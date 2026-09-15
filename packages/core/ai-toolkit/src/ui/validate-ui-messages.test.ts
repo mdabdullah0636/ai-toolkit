@@ -1,6 +1,9 @@
 import { z } from 'zod/v4';
 import { InferUITool, UIMessage } from './ui-messages';
-import { safeValidateUIMessages, validateUIMessages } from './validate-ui-messages';
+import {
+  safeValidateUIMessages,
+  validateUIMessages,
+} from './validate-ui-messages';
 import { describe, it, expect, expectTypeOf } from 'vitest';
 
 describe('validateUIMessages', () => {
@@ -727,7 +730,11 @@ describe('validateUIMessages', () => {
       outputSchema: z.object({ result: z.string() }),
     };
 
-    type TestMessage = UIMessage<never, never, { foo: InferUITool<typeof testTool> }>;
+    type TestMessage = UIMessage<
+      never,
+      never,
+      { foo: InferUITool<typeof testTool> }
+    >;
 
     it('should validate an assistant message with a tool part in input-streaming state', async () => {
       const messages = await validateUIMessages({
@@ -1261,7 +1268,10 @@ describe('validateUIMessages', () => {
   });
 });
 
-export function expectToBe<T extends boolean>(value: boolean, expected: T): asserts value is T {
+export function expectToBe<T extends boolean>(
+  value: boolean,
+  expected: T,
+): asserts value is T {
   expect(value).toBe(expected);
 }
 
@@ -1398,7 +1408,9 @@ describe('safeValidateUIMessages', () => {
 
     expectToBe(result.success, false);
     expect(result.error.name).toBe('AI_TypeValidationError');
-    expect(result.error.message).toContain('No data schema found for data part bar');
+    expect(result.error.message).toContain(
+      'No data schema found for data part bar',
+    );
   });
 
   it('should return failure result for invalid message structure', async () => {

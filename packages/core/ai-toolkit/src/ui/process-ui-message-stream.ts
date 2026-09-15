@@ -156,7 +156,9 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
             ),
           ) {
             const part = state.message.parts.find(
-              part => isStaticToolUIPart(part) && part.toolCallId === options.toolCallId,
+              part =>
+                isStaticToolUIPart(part) &&
+                part.toolCallId === options.toolCallId,
             ) as ToolUIPart<InferUIMessageTools<UI_MESSAGE>> | undefined;
 
             const anyOptions = options as any;
@@ -173,7 +175,8 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
                 anyPart.title = options.title;
               }
               // once providerExecuted is set, it stays for streaming
-              anyPart.providerExecuted = anyOptions.providerExecuted ?? part.providerExecuted;
+              anyPart.providerExecuted =
+                anyOptions.providerExecuted ?? part.providerExecuted;
 
               if (anyOptions.providerMetadata != null) {
                 part.callProviderMetadata = anyOptions.providerMetadata;
@@ -229,7 +232,9 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
             ),
           ) {
             const part = state.message.parts.find(
-              part => part.type === 'dynamic-tool' && part.toolCallId === options.toolCallId,
+              part =>
+                part.type === 'dynamic-tool' &&
+                part.toolCallId === options.toolCallId,
             ) as DynamicToolUIPart | undefined;
 
             const anyOptions = options as any;
@@ -247,7 +252,8 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
                 anyPart.title = options.title;
               }
               // once providerExecuted is set, it stays for streaming
-              anyPart.providerExecuted = anyOptions.providerExecuted ?? part.providerExecuted;
+              anyPart.providerExecuted =
+                anyOptions.providerExecuted ?? part.providerExecuted;
 
               if (anyOptions.providerMetadata != null) {
                 part.callProviderMetadata = anyOptions.providerMetadata;
@@ -285,7 +291,8 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
                 });
               }
 
-              state.message.metadata = mergedMetadata as InferUIMessageMetadata<UI_MESSAGE>;
+              state.message.metadata =
+                mergedMetadata as InferUIMessageMetadata<UI_MESSAGE>;
             }
           }
 
@@ -315,7 +322,8 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
                 });
               }
               textPart.text += chunk.delta;
-              textPart.providerMetadata = chunk.providerMetadata ?? textPart.providerMetadata;
+              textPart.providerMetadata =
+                chunk.providerMetadata ?? textPart.providerMetadata;
               write();
               break;
             }
@@ -332,7 +340,8 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
                 });
               }
               textPart.state = 'done';
-              textPart.providerMetadata = chunk.providerMetadata ?? textPart.providerMetadata;
+              textPart.providerMetadata =
+                chunk.providerMetadata ?? textPart.providerMetadata;
               delete state.activeTextParts[chunk.id];
               write();
               break;
@@ -428,7 +437,8 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
             }
 
             case 'tool-input-start': {
-              const toolInvocations = state.message.parts.filter(isStaticToolUIPart);
+              const toolInvocations =
+                state.message.parts.filter(isStaticToolUIPart);
 
               // add the partial tool call to the map
               state.partialToolCalls[chunk.toolCallId] = {
@@ -479,7 +489,9 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
 
               partialToolCall.text += chunk.inputTextDelta;
 
-              const { value: partialArgs } = await parsePartialJson(partialToolCall.text);
+              const { value: partialArgs } = await parsePartialJson(
+                partialToolCall.text,
+              );
 
               if (partialToolCall.dynamic) {
                 updateDynamicToolPart({
@@ -705,7 +717,9 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
                 }
 
                 // cast, validation is done above
-                const dataChunk = chunk as DataUIMessageChunk<InferUIMessageData<UI_MESSAGE>>;
+                const dataChunk = chunk as DataUIMessageChunk<
+                  InferUIMessageData<UI_MESSAGE>
+                >;
 
                 // transient parts are not added to the message state
                 if (dataChunk.transient) {
@@ -717,8 +731,11 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
                   dataChunk.id != null
                     ? (state.message.parts.find(
                         chunkArg =>
-                          dataChunk.type === chunkArg.type && dataChunk.id === chunkArg.id,
-                      ) as DataUIPart<InferUIMessageData<UI_MESSAGE>> | undefined)
+                          dataChunk.type === chunkArg.type &&
+                          dataChunk.id === chunkArg.id,
+                      ) as
+                        | DataUIPart<InferUIMessageData<UI_MESSAGE>>
+                        | undefined)
                     : undefined;
 
                 if (existingUIPart != null) {

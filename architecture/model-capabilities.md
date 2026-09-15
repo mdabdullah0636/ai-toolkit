@@ -6,15 +6,15 @@ Capabilities come from `@ai-toolkit/capabilities` (`ModelCapability`). This matr
 
 The matrix detects capabilities by scanning each provider's `-provider.ts` interface for model factory methods and their return types:
 
-| Model type returned | Capability |
-| ------------------- | ---------- |
-| `LanguageModelV3`   | chat       |
-| `EmbeddingModelV3`  | embedding  |
-| `ImageModelV3`      | image      |
-| `SpeechModelV3`     | speech     |
-| `TranscriptionModelV3` | speech   |
-| `RerankingModelV3`  | reranker   |
-| `VideoModelV3`      | video      |
+| Model type returned    | Capability |
+| ---------------------- | ---------- |
+| `LanguageModelV3`      | chat       |
+| `EmbeddingModelV3`     | embedding  |
+| `ImageModelV3`         | image      |
+| `SpeechModelV3`        | speech     |
+| `TranscriptionModelV3` | speech     |
+| `RerankingModelV3`     | reranker   |
+| `VideoModelV3`         | video      |
 
 ## Source of truth
 

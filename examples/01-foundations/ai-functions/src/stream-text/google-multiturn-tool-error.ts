@@ -6,7 +6,9 @@ import { run } from '../lib/run';
 
 run(async () => {
   console.log('testing multi-turn conversation with tool error\n');
-  console.log('this test verifies that thoughtSignatures from gemini 3 pro are:');
+  console.log(
+    'this test verifies that thoughtSignatures from gemini 3 pro are:',
+  );
   console.log('1. extracted from google api responses (raw chunks)');
   console.log('2. preserved through tool execution (including errors)');
   console.log('3. included in conversation history for multi-turn context\n');
@@ -21,7 +23,10 @@ run(async () => {
           userId: z.string(),
         }),
         execute: async ({ userId }) => {
-          const data = await readFile(`/nonexistent/user-${userId}.json`, 'utf-8');
+          const data = await readFile(
+            `/nonexistent/user-${userId}.json`,
+            'utf-8',
+          );
           return JSON.parse(data);
         },
       }),
@@ -60,7 +65,9 @@ run(async () => {
       rawChunkCount++;
       const raw = chunk.rawValue as any;
       if (raw?.candidates?.[0]?.content?.parts?.[0]?.functionCall) {
-        console.log(`\n[raw chunk ${rawChunkCount}] google response with functionCall:`);
+        console.log(
+          `\n[raw chunk ${rawChunkCount}] google response with functionCall:`,
+        );
         const part = raw.candidates[0].content.parts[0];
         console.log(`  functionCall.name: ${part.functionCall.name}`);
         console.log(
@@ -79,16 +86,20 @@ run(async () => {
   const messagesForTurn2 = [
     {
       role: 'user' as const,
-      content: 'analyze user 123 by reading their data and calculating their metrics',
+      content:
+        'analyze user 123 by reading their data and calculating their metrics',
     },
     ...response1.messages,
     {
       role: 'user' as const,
-      content: 'based on those errors, what is the root cause and what should we investigate next?',
+      content:
+        'based on those errors, what is the root cause and what should we investigate next?',
     },
   ];
 
-  console.log('\nverifying thoughtSignatures in message history sent to turn 2:');
+  console.log(
+    '\nverifying thoughtSignatures in message history sent to turn 2:',
+  );
   messagesForTurn2.forEach((msg, i) => {
     if (msg.role === 'assistant' && typeof msg.content !== 'string') {
       console.log(`message ${i} (assistant):`);
@@ -152,7 +163,8 @@ run(async () => {
     const messagesForTurn3 = [
       {
         role: 'user' as const,
-        content: 'analyze user 123 by reading their data and calculating their metrics',
+        content:
+          'analyze user 123 by reading their data and calculating their metrics',
       },
       ...response1.messages,
       {
@@ -163,7 +175,8 @@ run(async () => {
       ...response2.messages,
       {
         role: 'user' as const,
-        content: 'try calling readuserdata now with userId 456. the system has been fixed.',
+        content:
+          'try calling readuserdata now with userId 456. the system has been fixed.',
       },
     ];
 
@@ -224,8 +237,13 @@ run(async () => {
   } catch (error) {
     console.error('\nFAILED with error:');
     console.error(error);
-    if (error instanceof Error && error.message?.includes('thought_signature')) {
-      console.error('The thoughtSignature was not preserved in tool-result messages.');
+    if (
+      error instanceof Error &&
+      error.message?.includes('thought_signature')
+    ) {
+      console.error(
+        'The thoughtSignature was not preserved in tool-result messages.',
+      );
     }
     process.exit(1);
   }

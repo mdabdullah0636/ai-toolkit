@@ -13,7 +13,9 @@ run(async () => {
       'You must include the date of each article.',
   });
 
-  const metadata = providerMetadata?.google as GoogleGenerativeAIProviderMetadata | undefined;
+  const metadata = providerMetadata?.google as
+    | GoogleGenerativeAIProviderMetadata
+    | undefined;
   const groundingMetadata = metadata?.groundingMetadata;
 
   console.log(text);

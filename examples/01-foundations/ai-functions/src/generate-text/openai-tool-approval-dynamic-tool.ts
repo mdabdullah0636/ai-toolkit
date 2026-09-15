@@ -71,7 +71,8 @@ run(async () => {
         approvals.push({
           type: 'tool-approval-response',
           approvalId: part.approvalId,
-          approved: answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes',
+          approved:
+            answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes',
         });
       }
     }

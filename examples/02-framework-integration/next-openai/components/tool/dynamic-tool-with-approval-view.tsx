@@ -1,4 +1,7 @@
-import type { ChatAddToolApproveResponseFunction, DynamicToolUIPart } from 'ai-toolkit';
+import type {
+  ChatAddToolApproveResponseFunction,
+  DynamicToolUIPart,
+} from 'ai-toolkit';
 
 export default function WeatherWithApprovalView({
   invocation,
@@ -82,7 +85,8 @@ export default function WeatherWithApprovalView({
     case 'output-denied':
       return (
         <div className="text-red-500">
-          Tool {invocation.toolName} with input {JSON.stringify(invocation.input)} execution denied.
+          Tool {invocation.toolName} with input{' '}
+          {JSON.stringify(invocation.input)} execution denied.
         </div>
       );
     case 'output-error':

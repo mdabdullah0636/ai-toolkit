@@ -1,5 +1,11 @@
 import { cohere } from '@ai-toolkit/cohere';
-import { streamText, ModelMessage, ToolCallPart, ToolResultPart, tool } from 'ai-toolkit';
+import {
+  streamText,
+  ModelMessage,
+  ToolCallPart,
+  ToolResultPart,
+  tool,
+} from 'ai-toolkit';
 import { z } from 'zod';
 import { run } from '../lib/run';
 
@@ -40,7 +46,9 @@ run(async () => {
       case 'tool-call': {
         toolCalls.push(delta);
 
-        process.stdout.write(`\nTool call: '${delta.toolName}' ${JSON.stringify(delta.input)}`);
+        process.stdout.write(
+          `\nTool call: '${delta.toolName}' ${JSON.stringify(delta.input)}`,
+        );
         break;
       }
 

@@ -13,7 +13,9 @@ describe('createUIMessageStreamResponse', () => {
       headers: {
         'Custom-Header': 'test',
       },
-      stream: convertArrayToReadableStream([{ type: 'text-delta', id: '1', delta: 'test-data' }]),
+      stream: convertArrayToReadableStream([
+        { type: 'text-delta', id: '1', delta: 'test-data' },
+      ]),
     });
 
     // Verify response properties
@@ -22,7 +24,8 @@ describe('createUIMessageStreamResponse', () => {
     expect(response.statusText).toBe('OK');
 
     // Verify headers
-    expect(Object.fromEntries(response.headers.entries())).toMatchInlineSnapshot(`
+    expect(Object.fromEntries(response.headers.entries()))
+      .toMatchInlineSnapshot(`
         {
           "cache-control": "no-cache",
           "connection": "keep-alive",
@@ -34,7 +37,9 @@ describe('createUIMessageStreamResponse', () => {
       `);
 
     expect(
-      await convertReadableStreamToArray(response.body!.pipeThrough(new TextDecoderStream())),
+      await convertReadableStreamToArray(
+        response.body!.pipeThrough(new TextDecoderStream()),
+      ),
     ).toMatchInlineSnapshot(`
       [
         "data: {"type":"text-delta","id":"1","delta":"test-data"}
@@ -50,11 +55,15 @@ describe('createUIMessageStreamResponse', () => {
   it('should handle errors in the stream', async () => {
     const response = createUIMessageStreamResponse({
       status: 200,
-      stream: convertArrayToReadableStream([{ type: 'error', errorText: 'Custom error message' }]),
+      stream: convertArrayToReadableStream([
+        { type: 'error', errorText: 'Custom error message' },
+      ]),
     });
 
     expect(
-      await convertReadableStreamToArray(response.body!.pipeThrough(new TextDecoderStream())),
+      await convertReadableStreamToArray(
+        response.body!.pipeThrough(new TextDecoderStream()),
+      ),
     ).toMatchInlineSnapshot(`
       [
         "data: {"type":"error","errorText":"Custom error message"}
@@ -69,10 +78,12 @@ describe('createUIMessageStreamResponse', () => {
 
   it('should call consumeSseStream with a teed stream', async () => {
     const consumedData: string[] = [];
-    const consumeSseStream = vi.fn(async ({ stream }: { stream: ReadableStream<string> }) => {
-      const data = await convertReadableStreamToArray(stream);
-      consumedData.push(...data);
-    });
+    const consumeSseStream = vi.fn(
+      async ({ stream }: { stream: ReadableStream<string> }) => {
+        const data = await convertReadableStreamToArray(stream);
+        consumedData.push(...data);
+      },
+    );
 
     const response = createUIMessageStreamResponse({
       status: 200,
@@ -133,15 +144,19 @@ describe('createUIMessageStreamResponse', () => {
       consumeResolve = resolve;
     });
 
-    const consumeSseStream = vi.fn(async ({ stream }: { stream: ReadableStream<string> }) => {
-      // Consume the stream but wait for external resolution
-      await convertReadableStreamToArray(stream);
-      await consumePromise;
-    });
+    const consumeSseStream = vi.fn(
+      async ({ stream }: { stream: ReadableStream<string> }) => {
+        // Consume the stream but wait for external resolution
+        await convertReadableStreamToArray(stream);
+        await consumePromise;
+      },
+    );
 
     const response = createUIMessageStreamResponse({
       status: 200,
-      stream: convertArrayToReadableStream([{ type: 'text-delta', id: '1', delta: 'test-data' }]),
+      stream: convertArrayToReadableStream([
+        { type: 'text-delta', id: '1', delta: 'test-data' },
+      ]),
       consumeSseStream,
     });
 
@@ -174,20 +189,24 @@ describe('createUIMessageStreamResponse', () => {
 
   it('should handle synchronous consumeSseStream', async () => {
     const consumedData: string[] = [];
-    const consumeSseStream = vi.fn(({ stream }: { stream: ReadableStream<string> }) => {
-      // Synchronous consumption (not returning a promise)
-      stream.pipeTo(
-        new WritableStream({
-          write(chunk) {
-            consumedData.push(chunk);
-          },
-        }),
-      );
-    });
+    const consumeSseStream = vi.fn(
+      ({ stream }: { stream: ReadableStream<string> }) => {
+        // Synchronous consumption (not returning a promise)
+        stream.pipeTo(
+          new WritableStream({
+            write(chunk) {
+              consumedData.push(chunk);
+            },
+          }),
+        );
+      },
+    );
 
     const response = createUIMessageStreamResponse({
       status: 200,
-      stream: convertArrayToReadableStream([{ type: 'text-delta', id: '1', delta: 'sync-test' }]),
+      stream: convertArrayToReadableStream([
+        { type: 'text-delta', id: '1', delta: 'sync-test' },
+      ]),
       consumeSseStream,
     });
 
@@ -218,7 +237,9 @@ describe('createUIMessageStreamResponse', () => {
 
     const response = createUIMessageStreamResponse({
       status: 200,
-      stream: convertArrayToReadableStream([{ type: 'text-delta', id: '1', delta: 'error-test' }]),
+      stream: convertArrayToReadableStream([
+        { type: 'text-delta', id: '1', delta: 'error-test' },
+      ]),
       consumeSseStream,
     });
 

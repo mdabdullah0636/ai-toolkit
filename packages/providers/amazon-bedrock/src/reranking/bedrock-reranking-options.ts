@@ -2,7 +2,10 @@ import { lazySchema, zodSchema } from '@ai-toolkit/provider-utils';
 import { z } from 'zod/v4';
 
 // https://docs.aws.amazon.com/bedrock/latest/userguide/rerank-supported.html
-export type BedrockRerankingModelId = 'amazon.rerank-v1:0' | 'cohere.rerank-v3-5:0' | (string & {});
+export type BedrockRerankingModelId =
+  | 'amazon.rerank-v1:0'
+  | 'cohere.rerank-v3-5:0'
+  | (string & {});
 
 export type BedrockRerankingOptions = {
   /**

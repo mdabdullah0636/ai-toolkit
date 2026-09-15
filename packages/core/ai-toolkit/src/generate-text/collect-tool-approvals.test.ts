@@ -298,7 +298,9 @@ describe('collectToolApprovals', () => {
           },
         ],
       }),
-    ).toThrow('Tool approval response references unknown approvalId: "unknown-approval-id"');
+    ).toThrow(
+      'Tool approval response references unknown approvalId: "unknown-approval-id"',
+    );
   });
 
   it('should throw when referenced tool call does not exist', () => {

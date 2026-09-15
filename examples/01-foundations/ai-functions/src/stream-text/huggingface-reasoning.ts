@@ -1,5 +1,9 @@
 import { huggingface } from '@ai-toolkit/huggingface';
-import { extractReasoningMiddleware, streamText, wrapLanguageModel } from 'ai-toolkit';
+import {
+  extractReasoningMiddleware,
+  streamText,
+  wrapLanguageModel,
+} from 'ai-toolkit';
 import { run } from '../lib/run';
 
 run(async () => {

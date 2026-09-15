@@ -91,7 +91,9 @@ Creates a embedding model for text generation.
 // by default, we use the Model APIs
 const defaultBaseURL = 'https://inference.baseten.co/v1';
 
-export function createBaseten(options: BasetenProviderSettings = {}): BasetenProvider {
+export function createBaseten(
+  options: BasetenProviderSettings = {},
+): BasetenProvider {
   const baseURL = withoutTrailingSlash(options.baseURL ?? defaultBaseURL);
   const getHeaders = () =>
     withUserAgentSuffix(
@@ -113,7 +115,10 @@ export function createBaseten(options: BasetenProviderSettings = {}): BasetenPro
     fetch?: FetchFunction;
   }
 
-  const getCommonModelConfig = (modelType: string, customURL?: string): CommonModelConfig => ({
+  const getCommonModelConfig = (
+    modelType: string,
+    customURL?: string,
+  ): CommonModelConfig => ({
     provider: `baseten.${modelType}`,
     url: ({ path }) => {
       // For embeddings with /sync URLs (but not /sync/v1), we need to add /v1
@@ -145,7 +150,9 @@ export function createBaseten(options: BasetenProviderSettings = {}): BasetenPro
           errorStructure: basetenErrorStructure,
         });
       } else if (customURL.includes('/predict')) {
-        throw new Error('Not supported. You must use a /sync/v1 endpoint for chat models.');
+        throw new Error(
+          'Not supported. You must use a /sync/v1 endpoint for chat models.',
+        );
       }
     }
 
@@ -171,10 +178,13 @@ export function createBaseten(options: BasetenProviderSettings = {}): BasetenPro
 
     if (isOpenAICompatible) {
       // Create the model using OpenAICompatibleEmbeddingModel and override doEmbed
-      const model = new OpenAICompatibleEmbeddingModel(modelId ?? 'embeddings', {
-        ...getCommonModelConfig('embedding', customURL),
-        errorStructure: basetenErrorStructure,
-      });
+      const model = new OpenAICompatibleEmbeddingModel(
+        modelId ?? 'embeddings',
+        {
+          ...getCommonModelConfig('embedding', customURL),
+          errorStructure: basetenErrorStructure,
+        },
+      );
 
       // Strip /v1 from URL if present before passing to Performance Client to avoid double /v1
       const performanceClientURL = customURL.replace('/sync/v1', '/sync');
@@ -205,7 +215,9 @@ export function createBaseten(options: BasetenProviderSettings = {}): BasetenPro
 
         return {
           embeddings,
-          usage: response.usage ? { tokens: response.usage.total_tokens } : undefined,
+          usage: response.usage
+            ? { tokens: response.usage.total_tokens }
+            : undefined,
           response: { headers: {}, body: response },
           warnings: [],
         };
@@ -213,7 +225,9 @@ export function createBaseten(options: BasetenProviderSettings = {}): BasetenPro
 
       return model;
     } else {
-      throw new Error('Not supported. You must use a /sync or /sync/v1 endpoint for embeddings.');
+      throw new Error(
+        'Not supported. You must use a /sync or /sync/v1 endpoint for embeddings.',
+      );
     }
   };
 

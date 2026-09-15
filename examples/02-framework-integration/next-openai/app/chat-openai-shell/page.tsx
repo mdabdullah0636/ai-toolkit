@@ -1,24 +1,30 @@
 'use client';
 
 import { useChat } from '@ai-toolkit/react';
-import { DefaultChatTransport, lastAssistantMessageIsCompleteWithApprovalResponses } from 'ai-toolkit';
+import {
+  DefaultChatTransport,
+  lastAssistantMessageIsCompleteWithApprovalResponses,
+} from 'ai-toolkit';
 import ChatInput from '@/components/chat-input';
 import { OpenAIShellMessage } from '@/agent/openai-shell-agent';
 import ShellView from '@/components/tool/openai-shell-view';
 
 export default function ChatOpenAIShell() {
-  const { status, sendMessage, messages, addToolApprovalResponse } = useChat<OpenAIShellMessage>({
-    transport: new DefaultChatTransport({
-      api: '/api/chat-openai-shell',
-    }),
-    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
-  });
+  const { status, sendMessage, messages, addToolApprovalResponse } =
+    useChat<OpenAIShellMessage>({
+      transport: new DefaultChatTransport({
+        api: '/api/chat-openai-shell',
+      }),
+      sendAutomaticallyWhen:
+        lastAssistantMessageIsCompleteWithApprovalResponses,
+    });
 
   return (
     <div className="flex flex-col py-24 mx-auto w-full max-w-4xl stretch">
       <h1 className="mb-2 text-xl font-bold text-black">OpenAI Shell Tool</h1>
       <h2 className="pb-2 mb-4 border-b text-black">
-        Note: This example requires a Vercel OIDC Token to run commands with Vercel Sandbox
+        Note: This example requires a Vercel OIDC Token to run commands with
+        Vercel Sandbox
       </h2>
 
       {messages.map(message => (

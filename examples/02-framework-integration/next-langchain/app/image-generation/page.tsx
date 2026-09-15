@@ -20,8 +20,8 @@ export default function ImageGenerationPage() {
       description={
         <>
           Uses <strong>ChatOpenAI</strong> with the Responses API and{' '}
-          <code>tools.imageGeneration()</code> to generate images as multimodal output. Ask the AI
-          to create, draw, or visualize anything!
+          <code>tools.imageGeneration()</code> to generate images as multimodal
+          output. Ask the AI to create, draw, or visualize anything!
         </>
       }
       messages={messages}

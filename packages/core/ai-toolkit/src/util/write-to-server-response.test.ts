@@ -259,6 +259,8 @@ class BackpressureMockResponse extends EventEmitter {
   }
 }
 
-function createBackpressureMockResponse(): ServerResponse & BackpressureMockResponse {
-  return new BackpressureMockResponse() as ServerResponse & BackpressureMockResponse;
+function createBackpressureMockResponse(): ServerResponse &
+  BackpressureMockResponse {
+  return new BackpressureMockResponse() as ServerResponse &
+    BackpressureMockResponse;
 }

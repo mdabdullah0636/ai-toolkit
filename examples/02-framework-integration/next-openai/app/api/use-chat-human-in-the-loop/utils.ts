@@ -35,7 +35,9 @@ function isValidToolName<K extends PropertyKey, T extends object>(
 export async function processToolCalls<
   Tools extends ToolSet,
   ExecutableTools extends {
-    [Tool in keyof Tools as Tools[Tool] extends { execute: Function } ? never : Tool]: Tools[Tool];
+    [Tool in keyof Tools as Tools[Tool] extends { execute: Function }
+      ? never
+      : Tool]: Tools[Tool];
   },
 >(
   {
@@ -65,13 +67,17 @@ export async function processToolCalls<
       const toolName = getStaticToolName(part);
 
       // Only continue if we have an execute function for the tool (meaning it requires confirmation) and it's in a 'result' state
-      if (!(toolName in executeFunctions) || part.state !== 'output-available') return part;
+      if (!(toolName in executeFunctions) || part.state !== 'output-available')
+        return part;
 
       let result;
 
       if (part.output === APPROVAL.YES) {
         // Get the tool and check if the tool has an execute function.
-        if (!isValidToolName(toolName, executeFunctions) || part.state !== 'output-available') {
+        if (
+          !isValidToolName(toolName, executeFunctions) ||
+          part.state !== 'output-available'
+        ) {
           return part;
         }
 

@@ -15,7 +15,8 @@ const model = provider.transcription('best');
 
 const server = createTestServer({
   'https://api.assemblyai.com/v2/transcript': {},
-  'https://api.assemblyai.com/v2/transcript/9ea68fd3-f953-42c1-9742-976c447fb463': {},
+  'https://api.assemblyai.com/v2/transcript/9ea68fd3-f953-42c1-9742-976c447fb463':
+    {},
   'https://api.assemblyai.com/v2/upload': {
     response: {
       type: 'json-value',
@@ -28,7 +29,9 @@ const server = createTestServer({
 });
 
 describe('doGenerate', () => {
-  function prepareJsonResponse({ headers }: { headers?: Record<string, string> } = {}) {
+  function prepareJsonResponse({
+    headers,
+  }: { headers?: Record<string, string> } = {}) {
     server.urls['https://api.assemblyai.com/v2/transcript'].response = {
       type: 'json-value',
       body: {
@@ -135,7 +138,10 @@ describe('doGenerate', () => {
         filter_profanity: true,
         redact_pii_audio: true,
         redact_pii_audio_quality: 'mp3',
-        redact_pii_policies: ['us_social_security_number', 'credit_card_number'],
+        redact_pii_policies: [
+          'us_social_security_number',
+          'credit_card_number',
+        ],
         redact_pii_sub: 'hash',
         speaker_labels: true,
         speakers_expected: 2,
@@ -286,7 +292,9 @@ describe('doGenerate', () => {
       'custom-provider-header': 'provider-header-value',
       'custom-request-header': 'request-header-value',
     });
-    expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/assemblyai/0.0.0-test`);
+    expect(server.calls[0].requestUserAgent).toContain(
+      `ai-toolkit/assemblyai/0.0.0-test`,
+    );
   });
 
   it('should extract the transcription text', async () => {

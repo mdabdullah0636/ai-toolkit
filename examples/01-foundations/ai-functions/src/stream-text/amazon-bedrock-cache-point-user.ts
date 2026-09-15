@@ -37,7 +37,10 @@ run(async () => {
 
   console.log();
   console.log('Token usage:', await result.usage);
-  console.log('Cache token usage:', (await result.providerMetadata)?.bedrock?.usage);
+  console.log(
+    'Cache token usage:',
+    (await result.providerMetadata)?.bedrock?.usage,
+  );
   console.log('Finish reason:', await result.finishReason);
   console.log('Response headers:', (await result.response).headers);
 });

@@ -31,7 +31,8 @@ export function lastAssistantMessageIsCompleteWithApprovalResponses({
 
   return (
     // has at least one tool approval response
-    lastStepToolInvocations.filter(part => part.state === 'approval-responded').length > 0 &&
+    lastStepToolInvocations.filter(part => part.state === 'approval-responded')
+      .length > 0 &&
     // all tool approvals must have a response
     lastStepToolInvocations.every(
       part =>

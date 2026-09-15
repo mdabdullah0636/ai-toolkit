@@ -35,7 +35,9 @@ run(async () => {
         console.log('Step started');
         break;
       case 'tool-call':
-        console.log(`Tool call: ${part.toolName}(${JSON.stringify(part.input)})`);
+        console.log(
+          `Tool call: ${part.toolName}(${JSON.stringify(part.input)})`,
+        );
         break;
       case 'tool-result':
         console.log(`Tool result: ${JSON.stringify(part.output)}`);

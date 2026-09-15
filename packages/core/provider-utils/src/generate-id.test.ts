@@ -15,7 +15,9 @@ describe('createIdGenerator', () => {
   });
 
   it('should throw an error if the separator is part of the alphabet', () => {
-    expect(() => createIdGenerator({ separator: 'a', prefix: 'b' })).toThrow(InvalidArgumentError);
+    expect(() => createIdGenerator({ separator: 'a', prefix: 'b' })).toThrow(
+      InvalidArgumentError,
+    );
   });
 });
 

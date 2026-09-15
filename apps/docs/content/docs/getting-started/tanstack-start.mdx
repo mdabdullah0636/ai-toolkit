@@ -3,7 +3,6 @@ title: TanStack Start
 description: Learn how to build your first agent with the AI TOOLKIT and TanStack Start.
 ---
 
-
 The AI TOOLKIT is a powerful TypeScript library designed to help developers build AI-powered applications.
 
 In this quickstart tutorial, you'll build a simple agent with a streaming chat user interface. Along the way, you'll learn key concepts and techniques that are fundamental to using the AI TOOLKIT in your own projects.
@@ -254,7 +253,12 @@ Let's enhance your chatbot by adding a simple weather tool.
 Modify your `src/routes/api/chat.ts` file to include the new weather tool:
 
 ```tsx title="src/routes/api/chat.ts" {2,13-27}
-import { streamText, UIMessage, convertToModelMessages, tool } from 'ai-toolkit';
+import {
+  streamText,
+  UIMessage,
+  convertToModelMessages,
+  tool,
+} from 'ai-toolkit';
 __PROVIDER_IMPORT__;
 import { createFileRoute } from '@tanstack/react-router';
 import { z } from 'zod';
