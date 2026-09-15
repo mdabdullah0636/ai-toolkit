@@ -27,7 +27,9 @@ export const codeExecution = createProviderToolFactoryWithOutputSchema<
     code: z.string().describe('The code to be executed.'),
   }),
   outputSchema: z.object({
-    outcome: z.string().describe('The outcome of the execution (e.g., "OUTCOME_OK").'),
+    outcome: z
+      .string()
+      .describe('The outcome of the execution (e.g., "OUTCOME_OK").'),
     output: z.string().describe('The output from the code execution.'),
   }),
 });

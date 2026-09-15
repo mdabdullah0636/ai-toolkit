@@ -23,7 +23,10 @@ import {
 } from '@ai-toolkit/provider-utils';
 import { openaiFailedResponseHandler } from '../openai-error';
 import { getOpenAILanguageModelCapabilities } from '../openai-language-model-capabilities';
-import { OpenAIChatUsage, convertOpenAIChatUsage } from './convert-openai-chat-usage';
+import {
+  OpenAIChatUsage,
+  convertOpenAIChatUsage,
+} from './convert-openai-chat-usage';
 import { convertToOpenAIChatMessages } from './convert-to-openai-chat-messages';
 import { getResponseMetadata } from './get-response-metadata';
 import { mapOpenAIFinishReason } from './map-openai-finish-reason';
@@ -32,7 +35,10 @@ import {
   openaiChatChunkSchema,
   openaiChatResponseSchema,
 } from './openai-chat-api';
-import { OpenAIChatModelId, openaiChatLanguageModelOptions } from './openai-chat-options';
+import {
+  OpenAIChatModelId,
+  openaiChatLanguageModelOptions,
+} from './openai-chat-options';
 import { prepareChatTools } from './openai-chat-prepare-tools';
 
 type OpenAIChatConfig = {
@@ -88,18 +94,23 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
       })) ?? {};
 
     const modelCapabilities = getOpenAILanguageModelCapabilities(this.modelId);
-    const isReasoningModel = openaiOptions.forceReasoning ?? modelCapabilities.isReasoningModel;
+    const isReasoningModel =
+      openaiOptions.forceReasoning ?? modelCapabilities.isReasoningModel;
 
     if (topK != null) {
       warnings.push({ type: 'unsupported', feature: 'topK' });
     }
 
-    const { messages, warnings: messageWarnings } = convertToOpenAIChatMessages({
-      prompt,
-      systemMessageMode:
-        openaiOptions.systemMessageMode ??
-        (isReasoningModel ? 'developer' : modelCapabilities.systemMessageMode),
-    });
+    const { messages, warnings: messageWarnings } = convertToOpenAIChatMessages(
+      {
+        prompt,
+        systemMessageMode:
+          openaiOptions.systemMessageMode ??
+          (isReasoningModel
+            ? 'developer'
+            : modelCapabilities.systemMessageMode),
+      },
+    );
 
     warnings.push(...messageWarnings);
 
@@ -112,7 +123,8 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
       // model specific settings:
       logit_bias: openaiOptions.logitBias,
       logprobs:
-        openaiOptions.logprobs === true || typeof openaiOptions.logprobs === 'number'
+        openaiOptions.logprobs === true ||
+        typeof openaiOptions.logprobs === 'number'
           ? true
           : undefined,
       top_logprobs:
@@ -255,17 +267,24 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
     }
 
     // Validate flex processing support
-    if (openaiOptions.serviceTier === 'flex' && !modelCapabilities.supportsFlexProcessing) {
+    if (
+      openaiOptions.serviceTier === 'flex' &&
+      !modelCapabilities.supportsFlexProcessing
+    ) {
       warnings.push({
         type: 'unsupported',
         feature: 'serviceTier',
-        details: 'flex processing is only available for o3, o4-mini, and gpt-5 models',
+        details:
+          'flex processing is only available for o3, o4-mini, and gpt-5 models',
       });
       baseArgs.service_tier = undefined;
     }
 
     // Validate priority processing support
-    if (openaiOptions.serviceTier === 'priority' && !modelCapabilities.supportsPriorityProcessing) {
+    if (
+      openaiOptions.serviceTier === 'priority' &&
+      !modelCapabilities.supportsPriorityProcessing
+    ) {
       warnings.push({
         type: 'unsupported',
         feature: 'serviceTier',
@@ -294,7 +313,9 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doGenerate(options: LanguageModelV3CallOptions): Promise<LanguageModelV3GenerateResult> {
+  async doGenerate(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3GenerateResult> {
     const { args: body, warnings } = await this.getArgs(options);
 
     const {
@@ -309,7 +330,9 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body,
       failedResponseHandler: openaiFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(openaiChatResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        openaiChatResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -378,7 +401,9 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doStream(options: LanguageModelV3CallOptions): Promise<LanguageModelV3StreamResult> {
+  async doStream(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3StreamResult> {
     const { args, warnings } = await this.getArgs(options);
 
     const body = {
@@ -397,7 +422,9 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body,
       failedResponseHandler: openaiFailedResponseHandler,
-      successfulResponseHandler: createEventSourceResponseHandler(openaiChatChunkSchema),
+      successfulResponseHandler: createEventSourceResponseHandler(
+        openaiChatChunkSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -424,7 +451,10 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
 
     return {
       stream: response.pipeThrough(
-        new TransformStream<ParseResult<OpenAIChatChunk>, LanguageModelV3StreamPart>({
+        new TransformStream<
+          ParseResult<OpenAIChatChunk>,
+          LanguageModelV3StreamPart
+        >({
           start(controller) {
             controller.enqueue({ type: 'stream-start', warnings });
           },
@@ -467,11 +497,17 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
             if (value.usage != null) {
               usage = value.usage;
 
-              if (value.usage.completion_tokens_details?.accepted_prediction_tokens != null) {
+              if (
+                value.usage.completion_tokens_details
+                  ?.accepted_prediction_tokens != null
+              ) {
                 providerMetadata.openai.acceptedPredictionTokens =
                   value.usage.completion_tokens_details?.accepted_prediction_tokens;
               }
-              if (value.usage.completion_tokens_details?.rejected_prediction_tokens != null) {
+              if (
+                value.usage.completion_tokens_details
+                  ?.rejected_prediction_tokens != null
+              ) {
                 providerMetadata.openai.rejectedPredictionTokens =
                   value.usage.completion_tokens_details?.rejected_prediction_tokens;
               }
@@ -554,7 +590,10 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
 
                   const toolCall = toolCalls[index];
 
-                  if (toolCall.function?.name != null && toolCall.function?.arguments != null) {
+                  if (
+                    toolCall.function?.name != null &&
+                    toolCall.function?.arguments != null
+                  ) {
                     // send delta if the argument text has already started:
                     if (toolCall.function.arguments.length > 0) {
                       controller.enqueue({
@@ -593,7 +632,8 @@ export class OpenAIChatLanguageModel implements LanguageModelV3 {
                 }
 
                 if (toolCallDelta.function?.arguments != null) {
-                  toolCall.function!.arguments += toolCallDelta.function?.arguments ?? '';
+                  toolCall.function!.arguments +=
+                    toolCallDelta.function?.arguments ?? '';
                 }
 
                 // send delta

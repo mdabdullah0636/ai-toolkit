@@ -1,5 +1,9 @@
 import { GoogleGenerativeAILanguageModel } from '@ai-toolkit/google/internal';
-import { ImageModelV3, LanguageModelV3, ProviderV3 } from '@ai-toolkit/provider';
+import {
+  ImageModelV3,
+  LanguageModelV3,
+  ProviderV3,
+} from '@ai-toolkit/provider';
 import {
   FetchFunction,
   generateId,
@@ -20,10 +24,14 @@ import { GoogleVertexImageModelId } from './google-vertex-image-settings';
 import { GoogleVertexModelId } from './google-vertex-options';
 import { googleVertexTools } from './google-vertex-tools';
 
-const EXPRESS_MODE_BASE_URL = 'https://aiplatform.googleapis.com/v1/publishers/google';
+const EXPRESS_MODE_BASE_URL =
+  'https://aiplatform.googleapis.com/v1/publishers/google';
 
 // set `x-goog-api-key` header to API key for express mode
-function createExpressModeFetch(apiKey: string, customFetch?: FetchFunction): FetchFunction {
+function createExpressModeFetch(
+  apiKey: string,
+  customFetch?: FetchFunction,
+): FetchFunction {
   return async (url, init) => {
     const modifiedInit: RequestInit = {
       ...init,
@@ -59,7 +67,9 @@ Creates a model for image generation.
   /**
    * @deprecated Use `embeddingModel` instead.
    */
-  textEmbeddingModel(modelId: GoogleVertexEmbeddingModelId): GoogleVertexEmbeddingModel;
+  textEmbeddingModel(
+    modelId: GoogleVertexEmbeddingModelId,
+  ): GoogleVertexEmbeddingModel;
 }
 
 export interface GoogleVertexProviderSettings {
@@ -107,7 +117,9 @@ Base URL for the Google Vertex API calls.
 /**
 Create a Google Vertex AI provider instance.
  */
-export function createVertex(options: GoogleVertexProviderSettings = {}): GoogleVertexProvider {
+export function createVertex(
+  options: GoogleVertexProviderSettings = {},
+): GoogleVertexProvider {
   const apiKey = loadOptionalSetting({
     settingValue: options.apiKey,
     environmentVariableName: 'GOOGLE_VERTEX_API_KEY',
@@ -150,13 +162,18 @@ export function createVertex(options: GoogleVertexProviderSettings = {}): Google
   const createConfig = (name: string): GoogleVertexConfig => {
     const getHeaders = async () => {
       const originalHeaders = await resolve(options.headers ?? {});
-      return withUserAgentSuffix(originalHeaders, `ai-toolkit/google-vertex/${VERSION}`);
+      return withUserAgentSuffix(
+        originalHeaders,
+        `ai-toolkit/google-vertex/${VERSION}`,
+      );
     };
 
     return {
       provider: `google.vertex.${name}`,
       headers: getHeaders,
-      fetch: apiKey ? createExpressModeFetch(apiKey, options.fetch) : options.fetch,
+      fetch: apiKey
+        ? createExpressModeFetch(apiKey, options.fetch)
+        : options.fetch,
       baseURL: loadBaseURL(),
     };
   };
@@ -184,7 +201,9 @@ export function createVertex(options: GoogleVertexProviderSettings = {}): Google
 
   const provider = function (modelId: GoogleVertexModelId) {
     if (new.target) {
-      throw new Error('The Google Vertex AI model function cannot be called with the new keyword.');
+      throw new Error(
+        'The Google Vertex AI model function cannot be called with the new keyword.',
+      );
     }
 
     return createChatModel(modelId);

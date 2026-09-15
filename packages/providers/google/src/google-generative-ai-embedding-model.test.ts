@@ -157,7 +157,9 @@ describe('GoogleGenerativeAIEmbeddingModel', () => {
       'custom-provider-header': 'provider-header-value',
       'custom-request-header': 'request-header-value',
     });
-    expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/google/0.0.0-test`);
+    expect(server.calls[0].requestUserAgent).toContain(
+      `ai-toolkit/google/0.0.0-test`,
+    );
   });
 
   it('should throw an error if too many values are provided', async () => {

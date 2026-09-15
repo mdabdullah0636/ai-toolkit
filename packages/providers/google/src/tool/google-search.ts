@@ -1,4 +1,8 @@
-import { createProviderToolFactory, lazySchema, zodSchema } from '@ai-toolkit/provider-utils';
+import {
+  createProviderToolFactory,
+  lazySchema,
+  zodSchema,
+} from '@ai-toolkit/provider-utils';
 import { z } from 'zod/v4';
 
 // https://ai.google.dev/gemini-api/docs/google-search
@@ -26,7 +30,9 @@ export const googleSearch = createProviderToolFactory<
   inputSchema: lazySchema(() =>
     zodSchema(
       z.object({
-        mode: z.enum(['MODE_DYNAMIC', 'MODE_UNSPECIFIED']).default('MODE_UNSPECIFIED'),
+        mode: z
+          .enum(['MODE_DYNAMIC', 'MODE_UNSPECIFIED'])
+          .default('MODE_UNSPECIFIED'),
         dynamicThreshold: z.number().default(1),
       }),
     ),

@@ -71,7 +71,8 @@ or to provide a custom fetch implementation for e.g. testing.
 Create an Groq provider instance.
  */
 export function createGroq(options: GroqProviderSettings = {}): GroqProvider {
-  const baseURL = withoutTrailingSlash(options.baseURL) ?? 'https://api.groq.com/openai/v1';
+  const baseURL =
+    withoutTrailingSlash(options.baseURL) ?? 'https://api.groq.com/openai/v1';
 
   const getHeaders = () =>
     withUserAgentSuffix(
@@ -96,7 +97,9 @@ export function createGroq(options: GroqProviderSettings = {}): GroqProvider {
 
   const createLanguageModel = (modelId: GroqChatModelId) => {
     if (new.target) {
-      throw new Error('The Groq model function cannot be called with the new keyword.');
+      throw new Error(
+        'The Groq model function cannot be called with the new keyword.',
+      );
     }
 
     return createChatModel(modelId);

@@ -1,7 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
 import { LanguageModelV3Prompt } from '@ai-toolkit/provider';
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
-import { convertReadableStreamToArray, isNodeVersion } from '@ai-toolkit/provider-utils/test';
+import {
+  convertReadableStreamToArray,
+  isNodeVersion,
+} from '@ai-toolkit/provider-utils/test';
 import { createOpenAICompatible } from '../openai-compatible-provider';
 import { OpenAICompatibleChatLanguageModel } from './openai-compatible-chat-language-model';
 
@@ -1954,7 +1957,9 @@ describe('doStream', () => {
     const result = await convertReadableStreamToArray(stream);
 
     // Find the tool-call event and verify it has the thought signature in providerMetadata
-    const toolCallEvent = result.find((event: { type: string }) => event.type === 'tool-call');
+    const toolCallEvent = result.find(
+      (event: { type: string }) => event.type === 'tool-call',
+    );
     expect(toolCallEvent).toMatchObject({
       type: 'tool-call',
       toolCallId: 'function-call-1',
@@ -2016,7 +2021,9 @@ describe('doStream', () => {
 
     const result = await convertReadableStreamToArray(stream);
 
-    const toolCallEvents = result.filter((event: { type: string }) => event.type === 'tool-call');
+    const toolCallEvents = result.filter(
+      (event: { type: string }) => event.type === 'tool-call',
+    );
 
     expect(toolCallEvents).toHaveLength(2);
 
@@ -2038,7 +2045,9 @@ describe('doStream', () => {
       toolCallId: 'call-london',
       toolName: 'get_weather',
     });
-    expect((toolCallEvents[1] as { providerMetadata?: unknown }).providerMetadata).toBeUndefined();
+    expect(
+      (toolCallEvents[1] as { providerMetadata?: unknown }).providerMetadata,
+    ).toBeUndefined();
   });
 
   it('should stream tool call deltas when tool call arguments are passed in the first chunk', async () => {
@@ -2582,18 +2591,20 @@ describe('doStream', () => {
     `);
   });
 
-  it.skipIf(isNodeVersion(20))('should handle unparsable stream parts', async () => {
-    server.urls['https://my.api.com/v1/chat/completions'].response = {
-      type: 'stream-chunks',
-      chunks: [`data: {unparsable}\n\n`, 'data: [DONE]\n\n'],
-    };
+  it.skipIf(isNodeVersion(20))(
+    'should handle unparsable stream parts',
+    async () => {
+      server.urls['https://my.api.com/v1/chat/completions'].response = {
+        type: 'stream-chunks',
+        chunks: [`data: {unparsable}\n\n`, 'data: [DONE]\n\n'],
+      };
 
-    const { stream } = await model.doStream({
-      prompt: TEST_PROMPT,
-      includeRawChunks: false,
-    });
+      const { stream } = await model.doStream({
+        prompt: TEST_PROMPT,
+        includeRawChunks: false,
+      });
 
-    expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+      expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
         [
           {
             "type": "stream-start",
@@ -2630,7 +2641,8 @@ describe('doStream', () => {
           },
         ]
       `);
-  });
+    },
+  );
 
   it('should expose the raw response headers', async () => {
     prepareStreamResponse({
@@ -2929,7 +2941,11 @@ describe('doStream', () => {
 describe('metadata extraction', () => {
   const testMetadataExtractor = {
     extractMetadata: async ({ parsedBody }: { parsedBody: unknown }) => {
-      if (typeof parsedBody !== 'object' || !parsedBody || !('test_field' in parsedBody)) {
+      if (
+        typeof parsedBody !== 'object' ||
+        !parsedBody ||
+        !('test_field' in parsedBody)
+      ) {
         return undefined;
       }
       return {

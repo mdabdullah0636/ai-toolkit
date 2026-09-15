@@ -90,11 +90,16 @@ export class GroqChatLanguageModel implements LanguageModelV3 {
       warnings.push({ type: 'unsupported', feature: 'topK' });
     }
 
-    if (responseFormat?.type === 'json' && responseFormat.schema != null && !structuredOutputs) {
+    if (
+      responseFormat?.type === 'json' &&
+      responseFormat.schema != null &&
+      !structuredOutputs
+    ) {
       warnings.push({
         type: 'unsupported',
         feature: 'responseFormat',
-        details: 'JSON response format schema is only supported with structuredOutputs',
+        details:
+          'JSON response format schema is only supported with structuredOutputs',
       });
     }
 
@@ -154,7 +159,9 @@ export class GroqChatLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doGenerate(options: LanguageModelV3CallOptions): Promise<LanguageModelV3GenerateResult> {
+  async doGenerate(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3GenerateResult> {
     const { args, warnings } = await this.getArgs({
       ...options,
       stream: false,
@@ -174,7 +181,9 @@ export class GroqChatLanguageModel implements LanguageModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body: args,
       failedResponseHandler: groqFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(groqChatResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        groqChatResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -226,7 +235,9 @@ export class GroqChatLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doStream(options: LanguageModelV3CallOptions): Promise<LanguageModelV3StreamResult> {
+  async doStream(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3StreamResult> {
     const { args, warnings } = await this.getArgs({ ...options, stream: true });
 
     const body = JSON.stringify({ ...args, stream: true });
@@ -242,7 +253,8 @@ export class GroqChatLanguageModel implements LanguageModelV3 {
         stream: true,
       },
       failedResponseHandler: groqFailedResponseHandler,
-      successfulResponseHandler: createEventSourceResponseHandler(groqChatChunkSchema),
+      successfulResponseHandler:
+        createEventSourceResponseHandler(groqChatChunkSchema),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -441,7 +453,10 @@ export class GroqChatLanguageModel implements LanguageModelV3 {
 
                   const toolCall = toolCalls[index];
 
-                  if (toolCall.function?.name != null && toolCall.function?.arguments != null) {
+                  if (
+                    toolCall.function?.name != null &&
+                    toolCall.function?.arguments != null
+                  ) {
                     // send delta if the argument text has already started:
                     if (toolCall.function.arguments.length > 0) {
                       controller.enqueue({
@@ -480,7 +495,8 @@ export class GroqChatLanguageModel implements LanguageModelV3 {
                 }
 
                 if (toolCallDelta.function?.arguments != null) {
-                  toolCall.function!.arguments += toolCallDelta.function?.arguments ?? '';
+                  toolCall.function!.arguments +=
+                    toolCallDelta.function?.arguments ?? '';
                 }
 
                 // send delta

@@ -1,5 +1,9 @@
 import { SpeechModelV3, ProviderV3 } from '@ai-toolkit/provider';
-import { FetchFunction, loadApiKey, withUserAgentSuffix } from '@ai-toolkit/provider-utils';
+import {
+  FetchFunction,
+  loadApiKey,
+  withUserAgentSuffix,
+} from '@ai-toolkit/provider-utils';
 import { HumeSpeechModel } from './hume-speech-model';
 import { VERSION } from './version';
 

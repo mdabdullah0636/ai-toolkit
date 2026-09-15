@@ -6,7 +6,9 @@ it('should pass through model path for models/*', async () => {
 });
 
 it('should pass through model path for tunedModels/*', async () => {
-  expect(getModelPath('tunedModels/some-model')).toEqual('tunedModels/some-model');
+  expect(getModelPath('tunedModels/some-model')).toEqual(
+    'tunedModels/some-model',
+  );
 });
 
 it('should add model path prefix to models without slash', async () => {

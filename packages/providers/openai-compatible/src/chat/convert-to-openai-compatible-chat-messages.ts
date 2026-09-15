@@ -6,7 +6,9 @@ import {
 import { OpenAICompatibleChatPrompt } from './openai-compatible-api-types';
 import { convertToBase64 } from '@ai-toolkit/provider-utils';
 
-function getOpenAIMetadata(message: { providerOptions?: SharedV3ProviderMetadata }) {
+function getOpenAIMetadata(message: {
+  providerOptions?: SharedV3ProviderMetadata;
+}) {
   return message?.providerOptions?.openaiCompatible ?? {};
 }
 
@@ -54,7 +56,10 @@ export function convertToOpenAICompatibleChatMessages(
               }
               case 'file': {
                 if (part.mediaType.startsWith('image/')) {
-                  const mediaType = part.mediaType === 'image/*' ? 'image/jpeg' : part.mediaType;
+                  const mediaType =
+                    part.mediaType === 'image/*'
+                      ? 'image/jpeg'
+                      : part.mediaType;
 
                   return {
                     type: 'image_url',
@@ -159,7 +164,8 @@ export function convertToOpenAICompatibleChatMessages(
             }
             case 'tool-call': {
               // TODO: thoughtSignature should be abstracted once we add support for other providers
-              const thoughtSignature = part.providerOptions?.google?.thoughtSignature;
+              const thoughtSignature =
+                part.providerOptions?.google?.thoughtSignature;
               toolCalls.push({
                 id: part.toolCallId,
                 type: 'function',

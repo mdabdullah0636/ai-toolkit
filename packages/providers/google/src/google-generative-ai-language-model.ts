@@ -63,7 +63,10 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
   private readonly config: GoogleGenerativeAIConfig;
   private readonly generateId: () => string;
 
-  constructor(modelId: GoogleGenerativeAIModelId, config: GoogleGenerativeAIConfig) {
+  constructor(
+    modelId: GoogleGenerativeAIModelId,
+    config: GoogleGenerativeAIConfig,
+  ) {
     this.modelId = modelId;
     this.config = config;
     this.generateId = config.generateId ?? generateId;
@@ -94,7 +97,9 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
   }: LanguageModelV3CallOptions) {
     const warnings: SharedV3Warning[] = [];
 
-    const providerOptionsName = this.config.provider.includes('vertex') ? 'vertex' : 'google';
+    const providerOptionsName = this.config.provider.includes('vertex')
+      ? 'vertex'
+      : 'google';
     let googleOptions = await parseProviderOptions({
       provider: providerOptionsName,
       providerOptions,
@@ -111,7 +116,10 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
 
     // Add warning if Vertex rag tools are used with a non-Vertex Google provider
     if (
-      tools?.some(tool => tool.type === 'provider' && tool.id === 'google.vertex_rag_store') &&
+      tools?.some(
+        tool =>
+          tool.type === 'provider' && tool.id === 'google.vertex_rag_store',
+      ) &&
       !this.config.provider.startsWith('google.vertex.')
     ) {
       warnings.push({
@@ -125,10 +133,13 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
 
     const isGemmaModel = this.modelId.toLowerCase().startsWith('gemma-');
 
-    const { contents, systemInstruction } = convertToGoogleGenerativeAIMessages(prompt, {
-      isGemmaModel,
-      providerOptionsName,
-    });
+    const { contents, systemInstruction } = convertToGoogleGenerativeAIMessages(
+      prompt,
+      {
+        isGemmaModel,
+        providerOptionsName,
+      },
+    );
 
     const {
       tools: googleTools,
@@ -154,7 +165,8 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
           seed,
 
           // response format:
-          responseMimeType: responseFormat?.type === 'json' ? 'application/json' : undefined,
+          responseMimeType:
+            responseFormat?.type === 'json' ? 'application/json' : undefined,
           responseSchema:
             responseFormat?.type === 'json' &&
             responseFormat.schema != null &&
@@ -196,10 +208,15 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doGenerate(options: LanguageModelV3CallOptions): Promise<LanguageModelV3GenerateResult> {
+  async doGenerate(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3GenerateResult> {
     const { args, warnings, providerOptionsName } = await this.getArgs(options);
 
-    const mergedHeaders = combineHeaders(await resolve(this.config.headers), options.headers);
+    const mergedHeaders = combineHeaders(
+      await resolve(this.config.headers),
+      options.headers,
+    );
 
     const {
       responseHeaders,
@@ -309,7 +326,9 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
         unified: mapGoogleGenerativeAIFinishReason({
           finishReason: candidate.finishReason,
           // Only count client-executed tool calls for finish reason determination.
-          hasToolCalls: content.some(part => part.type === 'tool-call' && !part.providerExecuted),
+          hasToolCalls: content.some(
+            part => part.type === 'tool-call' && !part.providerExecuted,
+          ),
         }),
         raw: candidate.finishReason ?? undefined,
       },
@@ -333,10 +352,15 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doStream(options: LanguageModelV3CallOptions): Promise<LanguageModelV3StreamResult> {
+  async doStream(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3StreamResult> {
     const { args, warnings, providerOptionsName } = await this.getArgs(options);
 
-    const headers = combineHeaders(await resolve(this.config.headers), options.headers);
+    const headers = combineHeaders(
+      await resolve(this.config.headers),
+      options.headers,
+    );
 
     const { responseHeaders, value: response } = await postJsonToApi({
       url: `${this.config.baseURL}/${getModelPath(this.modelId)}:streamGenerateContent?alt=sse`,
@@ -370,7 +394,10 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
 
     return {
       stream: response.pipeThrough(
-        new TransformStream<ParseResult<ChunkSchema>, LanguageModelV3StreamPart>({
+        new TransformStream<
+          ParseResult<ChunkSchema>,
+          LanguageModelV3StreamPart
+        >({
           start(controller) {
             controller.enqueue({ type: 'stream-start', warnings });
           },
@@ -408,7 +435,10 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
             });
             if (sources != null) {
               for (const source of sources) {
-                if (source.sourceType === 'url' && !emittedSourceUrls.has(source.url)) {
+                if (
+                  source.sourceType === 'url' &&
+                  !emittedSourceUrls.has(source.url)
+                ) {
                   emittedSourceUrls.add(source.url);
                   controller.enqueue(source);
                 }
@@ -431,7 +461,10 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
                     input: JSON.stringify(part.executableCode),
                     providerExecuted: true,
                   });
-                } else if ('codeExecutionResult' in part && part.codeExecutionResult) {
+                } else if (
+                  'codeExecutionResult' in part &&
+                  part.codeExecutionResult
+                ) {
                   // Assumes a result directly follows its corresponding call part.
                   const toolCallId = lastCodeExecutionToolCallId;
 
@@ -448,7 +481,11 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
                     // Clear the ID after use.
                     lastCodeExecutionToolCallId = undefined;
                   }
-                } else if ('text' in part && part.text != null && part.text.length > 0) {
+                } else if (
+                  'text' in part &&
+                  part.text != null &&
+                  part.text.length > 0
+                ) {
                   if (part.thought === true) {
                     // End any active text block before starting reasoning
                     if (currentTextBlockId !== null) {
@@ -595,8 +632,12 @@ export class GoogleGenerativeAILanguageModel implements LanguageModelV3 {
                 },
               };
               if (usageMetadata != null) {
-                (providerMetadata[providerOptionsName] as Record<string, unknown>).usageMetadata =
-                  usageMetadata;
+                (
+                  providerMetadata[providerOptionsName] as Record<
+                    string,
+                    unknown
+                  >
+                ).usageMetadata = usageMetadata;
               }
             }
           },
@@ -640,7 +681,9 @@ function getToolCallsFromParts({
   generateId: () => string;
   providerOptionsName: string;
 }) {
-  const functionCallParts = parts?.filter(part => 'functionCall' in part) as Array<
+  const functionCallParts = parts?.filter(
+    part => 'functionCall' in part,
+  ) as Array<
     GoogleGenerativeAIContentPart & {
       functionCall: { name: string; args: unknown };
       thoughtSignature?: string | null;
@@ -714,7 +757,8 @@ function extractSources({
           mediaType = 'text/plain';
           filename = uri.split('/').pop();
         } else if (uri.endsWith('.docx')) {
-          mediaType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+          mediaType =
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
           filename = uri.split('/').pop();
         } else if (uri.endsWith('.doc')) {
           mediaType = 'application/msword';
@@ -770,7 +814,9 @@ export const getGroundingMetadataSchema = () =>
     groundingChunks: z
       .array(
         z.object({
-          web: z.object({ uri: z.string(), title: z.string().nullish() }).nullish(),
+          web: z
+            .object({ uri: z.string(), title: z.string().nullish() })
+            .nullish(),
           retrievedContext: z
             .object({
               uri: z.string().nullish(),
@@ -920,7 +966,9 @@ export type GroundingMetadataSchema = NonNullable<
   InferSchema<typeof responseSchema>['candidates'][number]['groundingMetadata']
 >;
 
-type GroundingChunkSchema = NonNullable<GroundingMetadataSchema['groundingChunks']>[number];
+type GroundingChunkSchema = NonNullable<
+  GroundingMetadataSchema['groundingChunks']
+>[number];
 
 export type UrlContextMetadataSchema = NonNullable<
   InferSchema<typeof responseSchema>['candidates'][number]['urlContextMetadata']

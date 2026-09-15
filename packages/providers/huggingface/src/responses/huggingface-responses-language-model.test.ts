@@ -1,5 +1,8 @@
 import { LanguageModelV3Prompt } from '@ai-toolkit/provider';
-import { convertReadableStreamToArray, mockId } from '@ai-toolkit/provider-utils/test';
+import {
+  convertReadableStreamToArray,
+  mockId,
+} from '@ai-toolkit/provider-utils/test';
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { HuggingFaceResponsesLanguageModel } from './huggingface-responses-language-model';
@@ -67,7 +70,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
       });
 
       it('should generate text', async () => {
-        const result = await createModel('deepseek-ai/DeepSeek-V3-0324').doGenerate({
+        const result = await createModel(
+          'deepseek-ai/DeepSeek-V3-0324',
+        ).doGenerate({
           prompt: TEST_PROMPT,
         });
 
@@ -87,7 +92,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
       });
 
       it('should extract usage', async () => {
-        const result = await createModel('deepseek-ai/DeepSeek-V3-0324').doGenerate({
+        const result = await createModel(
+          'deepseek-ai/DeepSeek-V3-0324',
+        ).doGenerate({
           prompt: TEST_PROMPT,
         });
 
@@ -150,7 +157,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
           },
         };
 
-        const result = await createModel('deepseek-ai/DeepSeek-V3-0324').doGenerate({
+        const result = await createModel(
+          'deepseek-ai/DeepSeek-V3-0324',
+        ).doGenerate({
           prompt: TEST_PROMPT,
         });
 
@@ -193,7 +202,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
           },
         };
 
-        const result = await createModel('deepseek-ai/DeepSeek-V3-0324').doGenerate({
+        const result = await createModel(
+          'deepseek-ai/DeepSeek-V3-0324',
+        ).doGenerate({
           prompt: TEST_PROMPT,
         });
 
@@ -243,7 +254,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
       });
 
       it('should handle unsupported settings with warnings', async () => {
-        const { warnings } = await createModel('deepseek-ai/DeepSeek-V3-0324').doGenerate({
+        const { warnings } = await createModel(
+          'deepseek-ai/DeepSeek-V3-0324',
+        ).doGenerate({
           prompt: TEST_PROMPT,
           topK: 10,
           seed: 123,
@@ -331,7 +344,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
           },
         };
 
-        const result = await createModel('deepseek-ai/DeepSeek-V3-0324').doGenerate({
+        const result = await createModel(
+          'deepseek-ai/DeepSeek-V3-0324',
+        ).doGenerate({
           prompt: TEST_PROMPT,
         });
 
@@ -425,7 +440,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
           },
         };
 
-        const result = await createModel('deepseek-ai/DeepSeek-V3-0324').doGenerate({
+        const result = await createModel(
+          'deepseek-ai/DeepSeek-V3-0324',
+        ).doGenerate({
           prompt: TEST_PROMPT,
         });
 
@@ -488,7 +505,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
         ],
       };
 
-      const { stream } = await createModel('deepseek-ai/DeepSeek-V3-0324').doStream({
+      const { stream } = await createModel(
+        'deepseek-ai/DeepSeek-V3-0324',
+      ).doStream({
         prompt: TEST_PROMPT,
       });
 
@@ -572,7 +591,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
         ],
       };
 
-      const { stream } = await createModel('deepseek-ai/DeepSeek-V3-0324').doStream({
+      const { stream } = await createModel(
+        'deepseek-ai/DeepSeek-V3-0324',
+      ).doStream({
         prompt: TEST_PROMPT,
       });
 
@@ -607,14 +628,19 @@ describe('HuggingFaceResponsesLanguageModel', () => {
         ],
       };
 
-      const { stream } = await createModel('deepseek-ai/DeepSeek-V3-0324').doStream({
+      const { stream } = await createModel(
+        'deepseek-ai/DeepSeek-V3-0324',
+      ).doStream({
         prompt: TEST_PROMPT,
       });
 
       const chunks = await convertReadableStreamToArray(stream);
 
       // Should only have stream-start and finish events (no text events for non-message items)
-      expect(chunks.map(chunk => chunk.type)).toEqual(['stream-start', 'finish']);
+      expect(chunks.map(chunk => chunk.type)).toEqual([
+        'stream-start',
+        'finish',
+      ]);
     });
 
     it('should handle streaming errors', async () => {
@@ -626,7 +652,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
         ],
       };
 
-      const { stream } = await createModel('deepseek-ai/DeepSeek-V3-0324').doStream({
+      const { stream } = await createModel(
+        'deepseek-ai/DeepSeek-V3-0324',
+      ).doStream({
         prompt: TEST_PROMPT,
       });
 
@@ -773,7 +801,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
     });
 
     it('should warn about unsupported assistant content types', async () => {
-      const { warnings } = await createModel('deepseek-ai/DeepSeek-V3-0324').doGenerate({
+      const { warnings } = await createModel(
+        'deepseek-ai/DeepSeek-V3-0324',
+      ).doGenerate({
         prompt: [
           {
             role: 'assistant',
@@ -800,7 +830,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
     });
 
     it('should warn about tool messages', async () => {
-      const { warnings } = await createModel('deepseek-ai/DeepSeek-V3-0324').doGenerate({
+      const { warnings } = await createModel(
+        'deepseek-ai/DeepSeek-V3-0324',
+      ).doGenerate({
         prompt: [
           {
             role: 'tool',
@@ -877,7 +909,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
         },
       };
 
-      const result = await createModel('deepseek-ai/DeepSeek-V3-0324').doGenerate({
+      const result = await createModel(
+        'deepseek-ai/DeepSeek-V3-0324',
+      ).doGenerate({
         prompt: TEST_PROMPT,
       });
 
@@ -921,7 +955,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
         ],
       };
 
-      const { stream } = await createModel('deepseek-ai/DeepSeek-V3-0324').doStream({
+      const { stream } = await createModel(
+        'deepseek-ai/DeepSeek-V3-0324',
+      ).doStream({
         prompt: TEST_PROMPT,
       });
 
@@ -1116,7 +1152,9 @@ describe('HuggingFaceResponsesLanguageModel', () => {
 
       const requestBody = await server.calls[0].requestBodyJson;
       expect(requestBody.text?.format?.name).toBe('person_profile');
-      expect(requestBody.text?.format?.description).toBe('A person profile with basic information');
+      expect(requestBody.text?.format?.description).toBe(
+        'A person profile with basic information',
+      );
     });
   });
 

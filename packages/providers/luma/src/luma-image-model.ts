@@ -78,7 +78,8 @@ export class LumaImageModel implements ImageModelV3 {
       warnings.push({
         type: 'unsupported',
         feature: 'size',
-        details: 'This model does not support the `size` option. Use `aspectRatio` instead.',
+        details:
+          'This model does not support the `size` option. Use `aspectRatio` instead.',
       });
     }
 
@@ -121,13 +122,20 @@ export class LumaImageModel implements ImageModelV3 {
       abortSignal,
       fetch: this.config.fetch,
       failedResponseHandler: this.createLumaErrorHandler(),
-      successfulResponseHandler: createJsonResponseHandler(lumaGenerationResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        lumaGenerationResponseSchema,
+      ),
     });
 
-    const imageUrl = await this.pollForImageUrl(generationResponse.id, fullHeaders, abortSignal, {
-      pollIntervalMillis: pollIntervalMillis ?? undefined,
-      maxPollAttempts: maxPollAttempts ?? undefined,
-    });
+    const imageUrl = await this.pollForImageUrl(
+      generationResponse.id,
+      fullHeaders,
+      abortSignal,
+      {
+        pollIntervalMillis: pollIntervalMillis ?? undefined,
+        maxPollAttempts: maxPollAttempts ?? undefined,
+      },
+    );
 
     const downloadedImage = await this.downloadImage(imageUrl, abortSignal);
 
@@ -149,8 +157,10 @@ export class LumaImageModel implements ImageModelV3 {
     pollSettings?: { pollIntervalMillis?: number; maxPollAttempts?: number },
   ): Promise<string> {
     const url = this.getLumaGenerationsUrl(generationId);
-    const maxPollAttempts = pollSettings?.maxPollAttempts ?? this.maxPollAttempts;
-    const pollIntervalMillis = pollSettings?.pollIntervalMillis ?? this.pollIntervalMillis;
+    const maxPollAttempts =
+      pollSettings?.maxPollAttempts ?? this.maxPollAttempts;
+    const pollIntervalMillis =
+      pollSettings?.pollIntervalMillis ?? this.pollIntervalMillis;
 
     for (let i = 0; i < maxPollAttempts; i++) {
       const { value: statusResponse } = await getFromApi({
@@ -159,7 +169,9 @@ export class LumaImageModel implements ImageModelV3 {
         abortSignal,
         fetch: this.config.fetch,
         failedResponseHandler: this.createLumaErrorHandler(),
-        successfulResponseHandler: createJsonResponseHandler(lumaGenerationResponseSchema),
+        successfulResponseHandler: createJsonResponseHandler(
+          lumaGenerationResponseSchema,
+        ),
       });
 
       switch (statusResponse.state) {
@@ -180,13 +192,16 @@ export class LumaImageModel implements ImageModelV3 {
       await delay(pollIntervalMillis);
     }
 
-    throw new Error(`Image generation timed out after ${this.maxPollAttempts} attempts.`);
+    throw new Error(
+      `Image generation timed out after ${this.maxPollAttempts} attempts.`,
+    );
   }
 
   private createLumaErrorHandler() {
     return createJsonErrorResponseHandler({
       errorSchema: lumaErrorSchema,
-      errorToMessage: (error: LumaErrorData) => error.detail[0].msg ?? 'Unknown error',
+      errorToMessage: (error: LumaErrorData) =>
+        error.detail[0].msg ?? 'Unknown error',
     });
   }
 
@@ -374,7 +389,9 @@ export const lumaImageProviderOptionsSchema = lazySchema(() =>
          * - `character`: Create consistent characters from reference images (up to 4).
          * - `modify_image`: Transform a single input image with prompt guidance.
          */
-        referenceType: z.enum(['image', 'style', 'character', 'modify_image']).nullish(),
+        referenceType: z
+          .enum(['image', 'style', 'character', 'modify_image'])
+          .nullish(),
 
         /**
          * Per-image configuration array. Each entry corresponds to an image in `prompt.images`.
@@ -417,4 +434,6 @@ export const lumaImageProviderOptionsSchema = lazySchema(() =>
   ),
 );
 
-export type LumaImageProviderOptions = InferSchema<typeof lumaImageProviderOptionsSchema>;
+export type LumaImageProviderOptions = InferSchema<
+  typeof lumaImageProviderOptionsSchema
+>;

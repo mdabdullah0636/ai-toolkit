@@ -20,7 +20,8 @@ const testValues = ['test text one', 'test text two'];
 const DEFAULT_URL =
   'https://us-central1-aiplatform.googleapis.com/v1beta1/projects/test-project/locations/us-central1/publishers/google/models/textembedding-gecko@001:predict';
 
-const CUSTOM_URL = 'https://custom-endpoint.com/models/textembedding-gecko@001:predict';
+const CUSTOM_URL =
+  'https://custom-endpoint.com/models/textembedding-gecko@001:predict';
 
 const server = createTestServer({
   [DEFAULT_URL]: {},
@@ -213,7 +214,9 @@ describe('GoogleVertexEmbeddingModel', () => {
       'x-custom-header': 'custom-value',
       'x-request-header': 'request-value',
     });
-    expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/google-vertex/0.0.0-test`);
+    expect(server.calls[0].requestUserAgent).toContain(
+      `ai-toolkit/google-vertex/0.0.0-test`,
+    );
   });
 
   it('should throw TooManyEmbeddingValuesForCallError when too many values provided', async () => {
@@ -240,11 +243,14 @@ describe('GoogleVertexEmbeddingModel', () => {
       },
     };
 
-    const modelWithCustomUrl = new GoogleVertexEmbeddingModel('textembedding-gecko@001', {
-      headers: () => ({}),
-      baseURL: 'https://custom-endpoint.com',
-      provider: 'google-vertex',
-    });
+    const modelWithCustomUrl = new GoogleVertexEmbeddingModel(
+      'textembedding-gecko@001',
+      {
+        headers: () => ({}),
+        baseURL: 'https://custom-endpoint.com',
+        provider: 'google-vertex',
+      },
+    );
 
     const response = await modelWithCustomUrl.doEmbed({
       values: testValues,

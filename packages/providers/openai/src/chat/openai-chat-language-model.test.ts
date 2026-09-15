@@ -2,7 +2,10 @@ import fs from 'node:fs';
 
 import { LanguageModelV3Prompt } from '@ai-toolkit/provider';
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
-import { convertReadableStreamToArray, isNodeVersion } from '@ai-toolkit/provider-utils/test';
+import {
+  convertReadableStreamToArray,
+  isNodeVersion,
+} from '@ai-toolkit/provider-utils/test';
 import { createOpenAI } from '../openai-provider';
 import { describe, it, expect, vi } from 'vitest';
 
@@ -412,7 +415,9 @@ describe('doGenerate', () => {
         },
       },
     });
-    expect(response.providerMetadata?.openai.logprobs).toStrictEqual(TEST_LOGPROBS.content);
+    expect(response.providerMetadata?.openai.logprobs).toStrictEqual(
+      TEST_LOGPROBS.content,
+    );
   });
 
   it('should extract finish reason', async () => {
@@ -679,7 +684,9 @@ describe('doGenerate', () => {
       'openai-organization': 'test-organization',
       'openai-project': 'test-project',
     });
-    expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/openai/0.0.0-test`);
+    expect(server.calls[0].requestUserAgent).toContain(
+      `ai-toolkit/openai/0.0.0-test`,
+    );
   });
 
   it('should parse tool results', async () => {
@@ -2771,18 +2778,20 @@ describe('doStream', () => {
     `);
   });
 
-  it.skipIf(isNodeVersion(20))('should handle unparsable stream parts', async () => {
-    server.urls['https://api.openai.com/v1/chat/completions'].response = {
-      type: 'stream-chunks',
-      chunks: [`data: {unparsable}\n\n`, 'data: [DONE]\n\n'],
-    };
+  it.skipIf(isNodeVersion(20))(
+    'should handle unparsable stream parts',
+    async () => {
+      server.urls['https://api.openai.com/v1/chat/completions'].response = {
+        type: 'stream-chunks',
+        chunks: [`data: {unparsable}\n\n`, 'data: [DONE]\n\n'],
+      };
 
-    const { stream } = await model.doStream({
-      prompt: TEST_PROMPT,
-      includeRawChunks: false,
-    });
+      const { stream } = await model.doStream({
+        prompt: TEST_PROMPT,
+        includeRawChunks: false,
+      });
 
-    expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+      expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
         [
           {
             "type": "stream-start",
@@ -2819,7 +2828,8 @@ describe('doStream', () => {
           },
         ]
       `);
-  });
+    },
+  );
 
   it('should send request body', async () => {
     prepareStreamResponse({ content: [] });
@@ -2965,7 +2975,8 @@ describe('doStream', () => {
       messages: [{ role: 'user', content: 'Hello' }],
     });
 
-    expect((await convertReadableStreamToArray(stream)).at(-1)).toMatchInlineSnapshot(`
+    expect((await convertReadableStreamToArray(stream)).at(-1))
+      .toMatchInlineSnapshot(`
         {
           "finishReason": {
             "raw": "stop",
@@ -3026,7 +3037,8 @@ describe('doStream', () => {
       messages: [{ role: 'user', content: 'Hello' }],
     });
 
-    expect((await convertReadableStreamToArray(stream)).at(-1)).toMatchInlineSnapshot(`
+    expect((await convertReadableStreamToArray(stream)).at(-1))
+      .toMatchInlineSnapshot(`
         {
           "finishReason": {
             "raw": "stop",
@@ -3365,7 +3377,8 @@ describe('doStream', () => {
 
       const chunks = await convertReadableStreamToArray(stream);
 
-      expect(chunks.filter(chunk => chunk.type === 'raw')).toMatchInlineSnapshot(`
+      expect(chunks.filter(chunk => chunk.type === 'raw'))
+        .toMatchInlineSnapshot(`
         [
           {
             "rawValue": {

@@ -11,7 +11,9 @@ const googleVertexErrorDataSchema = z.object({
 
 export type GoogleVertexErrorData = z.infer<typeof googleVertexErrorDataSchema>;
 
-export const googleVertexFailedResponseHandler = createJsonErrorResponseHandler({
-  errorSchema: googleVertexErrorDataSchema,
-  errorToMessage: data => data.error.message,
-});
+export const googleVertexFailedResponseHandler = createJsonErrorResponseHandler(
+  {
+    errorSchema: googleVertexErrorDataSchema,
+    errorToMessage: data => data.error.message,
+  },
+);

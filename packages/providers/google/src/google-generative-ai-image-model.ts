@@ -82,7 +82,8 @@ export class GoogleGenerativeAIImageModel implements ImageModelV3 {
       warnings.push({
         type: 'unsupported',
         feature: 'size',
-        details: 'This model does not support the `size` option. Use `aspectRatio` instead.',
+        details:
+          'This model does not support the `size` option. Use `aspectRatio` instead.',
       });
     }
 
@@ -90,7 +91,8 @@ export class GoogleGenerativeAIImageModel implements ImageModelV3 {
       warnings.push({
         type: 'unsupported',
         feature: 'seed',
-        details: 'This model does not support the `seed` option through this provider.',
+        details:
+          'This model does not support the `seed` option through this provider.',
       });
     }
 
@@ -126,12 +128,16 @@ export class GoogleGenerativeAIImageModel implements ImageModelV3 {
       headers: combineHeaders(await resolve(this.config.headers), headers),
       body,
       failedResponseHandler: googleFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(googleImageResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        googleImageResponseSchema,
+      ),
       abortSignal,
       fetch: this.config.fetch,
     });
     return {
-      images: response.predictions.map((p: { bytesBase64Encoded: string }) => p.bytesBase64Encoded),
+      images: response.predictions.map(
+        (p: { bytesBase64Encoded: string }) => p.bytesBase64Encoded,
+      ),
       warnings: warnings ?? [],
       providerMetadata: {
         google: {
@@ -153,7 +159,9 @@ export class GoogleGenerativeAIImageModel implements ImageModelV3 {
 const googleImageResponseSchema = lazySchema(() =>
   zodSchema(
     z.object({
-      predictions: z.array(z.object({ bytesBase64Encoded: z.string() })).default([]),
+      predictions: z
+        .array(z.object({ bytesBase64Encoded: z.string() }))
+        .default([]),
     }),
   ),
 );
@@ -163,7 +171,9 @@ const googleImageResponseSchema = lazySchema(() =>
 const googleImageProviderOptionsSchema = lazySchema(() =>
   zodSchema(
     z.object({
-      personGeneration: z.enum(['dont_allow', 'allow_adult', 'allow_all']).nullish(),
+      personGeneration: z
+        .enum(['dont_allow', 'allow_adult', 'allow_all'])
+        .nullish(),
       aspectRatio: z.enum(['1:1', '3:4', '4:3', '9:16', '16:9']).nullish(),
     }),
   ),

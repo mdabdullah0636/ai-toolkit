@@ -18,7 +18,9 @@ function formatFileUrl({
     : `data:${mediaType};base64,${convertToBase64(data as Uint8Array)}`;
 }
 
-export function convertToMistralChatMessages(prompt: LanguageModelV3Prompt): MistralPrompt {
+export function convertToMistralChatMessages(
+  prompt: LanguageModelV3Prompt,
+): MistralPrompt {
   const messages: MistralPrompt = [];
 
   for (let i = 0; i < prompt.length; i++) {
@@ -42,7 +44,10 @@ export function convertToMistralChatMessages(prompt: LanguageModelV3Prompt): Mis
 
               case 'file': {
                 if (part.mediaType.startsWith('image/')) {
-                  const mediaType = part.mediaType === 'image/*' ? 'image/jpeg' : part.mediaType;
+                  const mediaType =
+                    part.mediaType === 'image/*'
+                      ? 'image/jpeg'
+                      : part.mediaType;
 
                   return {
                     type: 'image_url',
@@ -58,7 +63,8 @@ export function convertToMistralChatMessages(prompt: LanguageModelV3Prompt): Mis
                   };
                 } else {
                   throw new UnsupportedFunctionalityError({
-                    functionality: 'Only images and PDF file parts are supported',
+                    functionality:
+                      'Only images and PDF file parts are supported',
                   });
                 }
               }
@@ -98,7 +104,9 @@ export function convertToMistralChatMessages(prompt: LanguageModelV3Prompt): Mis
               break;
             }
             default: {
-              throw new Error(`Unsupported content type in assistant message: ${part.type}`);
+              throw new Error(
+                `Unsupported content type in assistant message: ${part.type}`,
+              );
             }
           }
         }

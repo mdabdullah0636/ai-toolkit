@@ -1,8 +1,13 @@
-import { LanguageModelV3Prompt, UnsupportedFunctionalityError } from '@ai-toolkit/provider';
+import {
+  LanguageModelV3Prompt,
+  UnsupportedFunctionalityError,
+} from '@ai-toolkit/provider';
 import { GroqChatPrompt } from './groq-api-types';
 import { convertToBase64 } from '@ai-toolkit/provider-utils';
 
-export function convertToGroqChatMessages(prompt: LanguageModelV3Prompt): GroqChatPrompt {
+export function convertToGroqChatMessages(
+  prompt: LanguageModelV3Prompt,
+): GroqChatPrompt {
   const messages: GroqChatPrompt = [];
 
   for (const { role, content } of prompt) {
@@ -32,7 +37,8 @@ export function convertToGroqChatMessages(prompt: LanguageModelV3Prompt): GroqCh
                   });
                 }
 
-                const mediaType = part.mediaType === 'image/*' ? 'image/jpeg' : part.mediaType;
+                const mediaType =
+                  part.mediaType === 'image/*' ? 'image/jpeg' : part.mediaType;
 
                 return {
                   type: 'image_url',

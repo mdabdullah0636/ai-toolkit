@@ -77,13 +77,19 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
   private readonly failedResponseHandler: ResponseHandler<APICallError>;
   private readonly chunkSchema; // type inferred via constructor
 
-  constructor(modelId: OpenAICompatibleChatModelId, config: OpenAICompatibleChatConfig) {
+  constructor(
+    modelId: OpenAICompatibleChatModelId,
+    config: OpenAICompatibleChatConfig,
+  ) {
     this.modelId = modelId;
     this.config = config;
 
     // initialize error handling:
-    const errorStructure = config.errorStructure ?? defaultOpenAICompatibleErrorStructure;
-    this.chunkSchema = createOpenAICompatibleChatChunkSchema(errorStructure.errorSchema);
+    const errorStructure =
+      config.errorStructure ?? defaultOpenAICompatibleErrorStructure;
+    this.chunkSchema = createOpenAICompatibleChatChunkSchema(
+      errorStructure.errorSchema,
+    );
     this.failedResponseHandler = createJsonErrorResponseHandler(errorStructure);
 
     this.supportsStructuredOutputs = config.supportsStructuredOutputs ?? false;
@@ -164,7 +170,8 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
       warnings.push({
         type: 'unsupported',
         feature: 'responseFormat',
-        details: 'JSON response format schema is only supported with structuredOutputs',
+        details:
+          'JSON response format schema is only supported with structuredOutputs',
       });
     }
 
@@ -193,7 +200,8 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
         presence_penalty: presencePenalty,
         response_format:
           responseFormat?.type === 'json'
-            ? this.supportsStructuredOutputs === true && responseFormat.schema != null
+            ? this.supportsStructuredOutputs === true &&
+              responseFormat.schema != null
               ? {
                   type: 'json_schema',
                   json_schema: {
@@ -209,8 +217,11 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
         stop: stopSequences,
         seed,
         ...Object.fromEntries(
-          Object.entries(providerOptions?.[this.providerOptionsName] ?? {}).filter(
-            ([key]) => !Object.keys(openaiCompatibleProviderOptions.shape).includes(key),
+          Object.entries(
+            providerOptions?.[this.providerOptionsName] ?? {},
+          ).filter(
+            ([key]) =>
+              !Object.keys(openaiCompatibleProviderOptions.shape).includes(key),
           ),
         ),
 
@@ -228,7 +239,9 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doGenerate(options: LanguageModelV3CallOptions): Promise<LanguageModelV3GenerateResult> {
+  async doGenerate(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3GenerateResult> {
     const { args, warnings } = await this.getArgs({ ...options });
 
     const transformedBody = this.transformRequestBody(args);
@@ -246,7 +259,9 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body: transformedBody,
       failedResponseHandler: this.failedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(OpenAICompatibleChatResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        OpenAICompatibleChatResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -261,7 +276,8 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
     }
 
     // reasoning content:
-    const reasoning = choice.message.reasoning_content ?? choice.message.reasoning;
+    const reasoning =
+      choice.message.reasoning_content ?? choice.message.reasoning;
     if (reasoning != null && reasoning.length > 0) {
       content.push({
         type: 'reasoning',
@@ -272,7 +288,8 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
     // tool calls:
     if (choice.message.tool_calls != null) {
       for (const toolCall of choice.message.tool_calls) {
-        const thoughtSignature = toolCall.extra_content?.google?.thought_signature;
+        const thoughtSignature =
+          toolCall.extra_content?.google?.thought_signature;
         content.push({
           type: 'tool-call',
           toolCallId: toolCall.id ?? generateId(),
@@ -296,7 +313,8 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
         parsedBody: rawResponse,
       })),
     };
-    const completionTokenDetails = responseBody.usage?.completion_tokens_details;
+    const completionTokenDetails =
+      responseBody.usage?.completion_tokens_details;
     if (completionTokenDetails?.accepted_prediction_tokens != null) {
       providerMetadata[this.providerOptionsName].acceptedPredictionTokens =
         completionTokenDetails?.accepted_prediction_tokens;
@@ -324,7 +342,9 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doStream(options: LanguageModelV3CallOptions): Promise<LanguageModelV3StreamResult> {
+  async doStream(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3StreamResult> {
     const { args, warnings } = await this.getArgs({ ...options });
 
     const body = this.transformRequestBody({
@@ -332,10 +352,13 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
       stream: true,
 
       // only include stream_options when in strict compatibility mode:
-      stream_options: this.config.includeUsage ? { include_usage: true } : undefined,
+      stream_options: this.config.includeUsage
+        ? { include_usage: true }
+        : undefined,
     });
 
-    const metadataExtractor = this.config.metadataExtractor?.createStreamExtractor();
+    const metadataExtractor =
+      this.config.metadataExtractor?.createStreamExtractor();
 
     const { responseHeaders, value: response } = await postJsonToApi({
       url: this.config.url({
@@ -345,7 +368,9 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body,
       failedResponseHandler: this.failedResponseHandler,
-      successfulResponseHandler: createEventSourceResponseHandler(this.chunkSchema),
+      successfulResponseHandler: createEventSourceResponseHandler(
+        this.chunkSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -365,7 +390,8 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
       unified: 'other',
       raw: undefined,
     };
-    let usage: z.infer<typeof openaiCompatibleTokenUsageSchema> | undefined = undefined;
+    let usage: z.infer<typeof openaiCompatibleTokenUsageSchema> | undefined =
+      undefined;
     let isFirstChunk = true;
     const providerOptionsName = this.providerOptionsName;
     let isActiveReasoning = false;
@@ -521,12 +547,16 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
                     },
                     hasFinished: false,
                     thoughtSignature:
-                      toolCallDelta.extra_content?.google?.thought_signature ?? undefined,
+                      toolCallDelta.extra_content?.google?.thought_signature ??
+                      undefined,
                   };
 
                   const toolCall = toolCalls[index];
 
-                  if (toolCall.function?.name != null && toolCall.function?.arguments != null) {
+                  if (
+                    toolCall.function?.name != null &&
+                    toolCall.function?.arguments != null
+                  ) {
                     // send delta if the argument text has already started:
                     if (toolCall.function.arguments.length > 0) {
                       controller.enqueue({
@@ -574,7 +604,8 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
                 }
 
                 if (toolCallDelta.function?.arguments != null) {
-                  toolCall.function!.arguments += toolCallDelta.function?.arguments ?? '';
+                  toolCall.function!.arguments +=
+                    toolCallDelta.function?.arguments ?? '';
                 }
 
                 // send delta
@@ -626,7 +657,9 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
             }
 
             // go through all tool calls and send the ones that are not finished
-            for (const toolCall of toolCalls.filter(toolCall => !toolCall.hasFinished)) {
+            for (const toolCall of toolCalls.filter(
+              toolCall => !toolCall.hasFinished,
+            )) {
               controller.enqueue({
                 type: 'tool-input-end',
                 id: toolCall.id,
@@ -653,11 +686,17 @@ export class OpenAICompatibleChatLanguageModel implements LanguageModelV3 {
               [providerOptionsName]: {},
               ...metadataExtractor?.buildMetadata(),
             };
-            if (usage?.completion_tokens_details?.accepted_prediction_tokens != null) {
+            if (
+              usage?.completion_tokens_details?.accepted_prediction_tokens !=
+              null
+            ) {
               providerMetadata[providerOptionsName].acceptedPredictionTokens =
                 usage?.completion_tokens_details?.accepted_prediction_tokens;
             }
-            if (usage?.completion_tokens_details?.rejected_prediction_tokens != null) {
+            if (
+              usage?.completion_tokens_details?.rejected_prediction_tokens !=
+              null
+            ) {
               providerMetadata[providerOptionsName].rejectedPredictionTokens =
                 usage?.completion_tokens_details?.rejected_prediction_tokens;
             }
@@ -784,6 +823,8 @@ const chunkBaseSchema = z.looseObject({
 
 // limited version of the schema, focussed on what is needed for the implementation
 // this approach limits breakages when the API changes and increases efficiency
-const createOpenAICompatibleChatChunkSchema = <ERROR_SCHEMA extends z.core.$ZodType>(
+const createOpenAICompatibleChatChunkSchema = <
+  ERROR_SCHEMA extends z.core.$ZodType,
+>(
   errorSchema: ERROR_SCHEMA,
 ) => z.union([chunkBaseSchema, errorSchema]);

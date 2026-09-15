@@ -48,7 +48,9 @@ type OpenAICompatibleCompletionConfig = {
   supportedUrls?: () => LanguageModelV3['supportedUrls'];
 };
 
-export class OpenAICompatibleCompletionLanguageModel implements LanguageModelV3 {
+export class OpenAICompatibleCompletionLanguageModel
+  implements LanguageModelV3
+{
   readonly specificationVersion = 'v3';
 
   readonly modelId: OpenAICompatibleCompletionModelId;
@@ -64,8 +66,11 @@ export class OpenAICompatibleCompletionLanguageModel implements LanguageModelV3 
     this.config = config;
 
     // initialize error handling:
-    const errorStructure = config.errorStructure ?? defaultOpenAICompatibleErrorStructure;
-    this.chunkSchema = createOpenAICompatibleCompletionChunkSchema(errorStructure.errorSchema);
+    const errorStructure =
+      config.errorStructure ?? defaultOpenAICompatibleErrorStructure;
+    this.chunkSchema = createOpenAICompatibleCompletionChunkSchema(
+      errorStructure.errorSchema,
+    );
     this.failedResponseHandler = createJsonErrorResponseHandler(errorStructure);
   }
 
@@ -126,9 +131,10 @@ export class OpenAICompatibleCompletionLanguageModel implements LanguageModelV3 
       });
     }
 
-    const { prompt: completionPrompt, stopSequences } = convertToOpenAICompatibleCompletionPrompt({
-      prompt,
-    });
+    const { prompt: completionPrompt, stopSequences } =
+      convertToOpenAICompatibleCompletionPrompt({
+        prompt,
+      });
 
     const stop = [...(stopSequences ?? []), ...(userStopSequences ?? [])];
 
@@ -162,7 +168,9 @@ export class OpenAICompatibleCompletionLanguageModel implements LanguageModelV3 
     };
   }
 
-  async doGenerate(options: LanguageModelV3CallOptions): Promise<LanguageModelV3GenerateResult> {
+  async doGenerate(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3GenerateResult> {
     const { args, warnings } = await this.getArgs(options);
 
     const {
@@ -209,7 +217,9 @@ export class OpenAICompatibleCompletionLanguageModel implements LanguageModelV3 
     };
   }
 
-  async doStream(options: LanguageModelV3CallOptions): Promise<LanguageModelV3StreamResult> {
+  async doStream(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3StreamResult> {
     const { args, warnings } = await this.getArgs(options);
 
     const body = {
@@ -217,7 +227,9 @@ export class OpenAICompatibleCompletionLanguageModel implements LanguageModelV3 
       stream: true,
 
       // only include stream_options when in strict compatibility mode:
-      stream_options: this.config.includeUsage ? { include_usage: true } : undefined,
+      stream_options: this.config.includeUsage
+        ? { include_usage: true }
+        : undefined,
     };
 
     const { responseHeaders, value: response } = await postJsonToApi({
@@ -228,7 +240,9 @@ export class OpenAICompatibleCompletionLanguageModel implements LanguageModelV3 
       headers: combineHeaders(this.config.headers(), options.headers),
       body,
       failedResponseHandler: this.failedResponseHandler,
-      successfulResponseHandler: createEventSourceResponseHandler(this.chunkSchema),
+      successfulResponseHandler: createEventSourceResponseHandler(
+        this.chunkSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -355,7 +369,9 @@ const openaiCompatibleCompletionResponseSchema = z.object({
 
 // limited version of the schema, focussed on what is needed for the implementation
 // this approach limits breakages when the API changes and increases efficiency
-const createOpenAICompatibleCompletionChunkSchema = <ERROR_SCHEMA extends z.core.$ZodType>(
+const createOpenAICompatibleCompletionChunkSchema = <
+  ERROR_SCHEMA extends z.core.$ZodType,
+>(
   errorSchema: ERROR_SCHEMA,
 ) =>
   z.union([

@@ -6,7 +6,9 @@ export type MistralUsage = {
   total_tokens: number;
 };
 
-export function convertMistralUsage(usage: MistralUsage | undefined | null): LanguageModelV3Usage {
+export function convertMistralUsage(
+  usage: MistralUsage | undefined | null,
+): LanguageModelV3Usage {
   if (usage == null) {
     return {
       inputTokens: {

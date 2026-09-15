@@ -9,7 +9,11 @@ export type LumaImageModelId = 'photon-1' | 'photon-flash-1' | (string & {});
  * - `character`: Create consistent characters from reference images (up to 4).
  * - `modify_image`: Transform a single input image with prompt guidance.
  */
-export type LumaReferenceType = 'image' | 'style' | 'character' | 'modify_image';
+export type LumaReferenceType =
+  | 'image'
+  | 'style'
+  | 'character'
+  | 'modify_image';
 
 /**
  * Per-image configuration for Luma image references.

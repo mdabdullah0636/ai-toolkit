@@ -20,15 +20,22 @@ const model = new GoogleVertexImageModel('imagen-3.0-generate-002', {
 
 const server = createTestServer({
   'https://api.example.com/models/imagen-3.0-generate-002:predict': {},
-  'https://api.example.com/models/imagen-4.0-generate-preview-06-06:predict': {},
-  'https://api.example.com/models/imagen-4.0-fast-generate-preview-06-06:predict': {},
-  'https://api.example.com/models/imagen-4.0-ultra-generate-preview-06-06:predict': {},
+  'https://api.example.com/models/imagen-4.0-generate-preview-06-06:predict':
+    {},
+  'https://api.example.com/models/imagen-4.0-fast-generate-preview-06-06:predict':
+    {},
+  'https://api.example.com/models/imagen-4.0-ultra-generate-preview-06-06:predict':
+    {},
 });
 
 describe('GoogleVertexImageModel', () => {
   describe('doGenerate', () => {
-    function prepareJsonResponse({ headers }: { headers?: Record<string, string> } = {}) {
-      server.urls['https://api.example.com/models/imagen-3.0-generate-002:predict'].response = {
+    function prepareJsonResponse({
+      headers,
+    }: { headers?: Record<string, string> } = {}) {
+      server.urls[
+        'https://api.example.com/models/imagen-3.0-generate-002:predict'
+      ].response = {
         type: 'json-value',
         headers,
         body: {
@@ -77,15 +84,20 @@ describe('GoogleVertexImageModel', () => {
         'custom-provider-header': 'provider-header-value',
         'custom-request-header': 'request-header-value',
       });
-      expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/google-vertex/0.0.0-test`);
+      expect(server.calls[0].requestUserAgent).toContain(
+        `ai-toolkit/google-vertex/0.0.0-test`,
+      );
     });
 
     it('should use default maxImagesPerCall when not specified', () => {
-      const defaultModel = new GoogleVertexImageModel('imagen-3.0-generate-002', {
-        provider: 'google-vertex',
-        baseURL: 'https://api.example.com',
-        headers: { 'api-key': 'test-key' },
-      });
+      const defaultModel = new GoogleVertexImageModel(
+        'imagen-3.0-generate-002',
+        {
+          provider: 'google-vertex',
+          baseURL: 'https://api.example.com',
+          headers: { 'api-key': 'test-key' },
+        },
+      );
 
       expect(defaultModel.maxImagesPerCall).toBe(4);
     });
@@ -264,14 +276,17 @@ describe('GoogleVertexImageModel', () => {
 
       const testDate = new Date('2024-03-15T12:00:00Z');
 
-      const customModel = new GoogleVertexImageModel('imagen-3.0-generate-002', {
-        provider: 'google-vertex',
-        baseURL: 'https://api.example.com',
-        headers: { 'api-key': 'test-key' },
-        _internal: {
-          currentDate: () => testDate,
+      const customModel = new GoogleVertexImageModel(
+        'imagen-3.0-generate-002',
+        {
+          provider: 'google-vertex',
+          baseURL: 'https://api.example.com',
+          headers: { 'api-key': 'test-key' },
+          _internal: {
+            currentDate: () => testDate,
+          },
         },
-      });
+      );
 
       const result = await customModel.doGenerate({
         prompt,
@@ -313,8 +328,12 @@ describe('GoogleVertexImageModel', () => {
 
       const afterDate = new Date();
 
-      expect(result.response.timestamp.getTime()).toBeGreaterThanOrEqual(beforeDate.getTime());
-      expect(result.response.timestamp.getTime()).toBeLessThanOrEqual(afterDate.getTime());
+      expect(result.response.timestamp.getTime()).toBeGreaterThanOrEqual(
+        beforeDate.getTime(),
+      );
+      expect(result.response.timestamp.getTime()).toBeLessThanOrEqual(
+        afterDate.getTime(),
+      );
       expect(result.response.modelId).toBe('imagen-3.0-generate-002');
     });
 
@@ -388,8 +407,12 @@ describe('GoogleVertexImageModel', () => {
   });
 
   describe('Image Editing', () => {
-    function prepareJsonResponse({ headers }: { headers?: Record<string, string> } = {}) {
-      server.urls['https://api.example.com/models/imagen-3.0-generate-002:predict'].response = {
+    function prepareJsonResponse({
+      headers,
+    }: { headers?: Record<string, string> } = {}) {
+      server.urls[
+        'https://api.example.com/models/imagen-3.0-generate-002:predict'
+      ].response = {
         type: 'json-value',
         headers,
         body: {
@@ -495,12 +518,14 @@ describe('GoogleVertexImageModel', () => {
 
       const requestBody = await server.calls[0].requestBodyJson;
       // Check that the data was converted to base64
-      expect(requestBody.instances[0].referenceImages[0].referenceImage.bytesBase64Encoded).toBe(
-        'aGVsbG8=',
-      ); // 'hello' in base64
-      expect(requestBody.instances[0].referenceImages[1].referenceImage.bytesBase64Encoded).toBe(
-        'd29ybGQ=',
-      ); // 'world' in base64
+      expect(
+        requestBody.instances[0].referenceImages[0].referenceImage
+          .bytesBase64Encoded,
+      ).toBe('aGVsbG8='); // 'hello' in base64
+      expect(
+        requestBody.instances[0].referenceImages[1].referenceImage
+          .bytesBase64Encoded,
+      ).toBe('d29ybGQ='); // 'world' in base64
     });
 
     it('should send edit request with custom edit options', async () => {
@@ -652,11 +677,14 @@ describe('GoogleVertexImageModel', () => {
 
   describe('Imagen 4 Models', () => {
     describe('imagen-4.0-generate-preview-06-06', () => {
-      const imagen4Model = new GoogleVertexImageModel('imagen-4.0-generate-preview-06-06', {
-        provider: 'google-vertex',
-        baseURL: 'https://api.example.com',
-        headers: { 'api-key': 'test-key' },
-      });
+      const imagen4Model = new GoogleVertexImageModel(
+        'imagen-4.0-generate-preview-06-06',
+        {
+          provider: 'google-vertex',
+          baseURL: 'https://api.example.com',
+          headers: { 'api-key': 'test-key' },
+        },
+      );
 
       function prepareImagen4Response() {
         server.urls[

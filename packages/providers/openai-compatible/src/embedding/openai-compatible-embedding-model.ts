@@ -57,7 +57,10 @@ export class OpenAICompatibleEmbeddingModel implements EmbeddingModelV3 {
     return this.config.supportsParallelCalls ?? true;
   }
 
-  constructor(modelId: OpenAICompatibleEmbeddingModelId, config: OpenAICompatibleEmbeddingConfig) {
+  constructor(
+    modelId: OpenAICompatibleEmbeddingModelId,
+    config: OpenAICompatibleEmbeddingConfig,
+  ) {
     this.modelId = modelId;
     this.config = config;
   }
@@ -133,7 +136,9 @@ export class OpenAICompatibleEmbeddingModel implements EmbeddingModelV3 {
       failedResponseHandler: createJsonErrorResponseHandler(
         this.config.errorStructure ?? defaultOpenAICompatibleErrorStructure,
       ),
-      successfulResponseHandler: createJsonResponseHandler(openaiTextEmbeddingResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        openaiTextEmbeddingResponseSchema,
+      ),
       abortSignal,
       fetch: this.config.fetch,
     });
@@ -141,7 +146,9 @@ export class OpenAICompatibleEmbeddingModel implements EmbeddingModelV3 {
     return {
       warnings,
       embeddings: response.data.map(item => item.embedding),
-      usage: response.usage ? { tokens: response.usage.prompt_tokens } : undefined,
+      usage: response.usage
+        ? { tokens: response.usage.prompt_tokens }
+        : undefined,
       providerMetadata: response.providerMetadata,
       response: { headers: responseHeaders, body: rawValue },
     };
@@ -153,5 +160,7 @@ export class OpenAICompatibleEmbeddingModel implements EmbeddingModelV3 {
 const openaiTextEmbeddingResponseSchema = z.object({
   data: z.array(z.object({ embedding: z.array(z.number()) })),
   usage: z.object({ prompt_tokens: z.number() }).nullish(),
-  providerMetadata: z.record(z.string(), z.record(z.string(), z.any())).optional(),
+  providerMetadata: z
+    .record(z.string(), z.record(z.string(), z.any()))
+    .optional(),
 });

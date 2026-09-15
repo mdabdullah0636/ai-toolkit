@@ -7,13 +7,18 @@ import { GoogleVertexImageModel } from './google-vertex-image-model';
 // Mock the imported modules
 vi.mock('@ai-toolkit/provider-utils', () => ({
   loadSetting: vi.fn().mockImplementation(({ settingValue }) => settingValue),
-  loadOptionalSetting: vi.fn().mockImplementation(({ settingValue, environmentVariableName }) => {
-    if (settingValue) return settingValue;
-    if (environmentVariableName === 'GOOGLE_VERTEX_API_KEY' && process.env.GOOGLE_VERTEX_API_KEY) {
-      return process.env.GOOGLE_VERTEX_API_KEY;
-    }
-    return undefined;
-  }),
+  loadOptionalSetting: vi
+    .fn()
+    .mockImplementation(({ settingValue, environmentVariableName }) => {
+      if (settingValue) return settingValue;
+      if (
+        environmentVariableName === 'GOOGLE_VERTEX_API_KEY' &&
+        process.env.GOOGLE_VERTEX_API_KEY
+      ) {
+        return process.env.GOOGLE_VERTEX_API_KEY;
+      }
+      return undefined;
+    }),
   generateId: vi.fn().mockReturnValue('mock-id'),
   withoutTrailingSlash: vi.fn().mockImplementation(url => url),
   resolve: vi.fn().mockImplementation(async value => {
@@ -284,7 +289,8 @@ describe('google-vertex-provider', () => {
     });
     provider('test-model-id');
 
-    const calledConfig = vi.mocked(GoogleGenerativeAILanguageModel).mock.calls[0][1];
+    const calledConfig = vi.mocked(GoogleGenerativeAILanguageModel).mock
+      .calls[0][1];
     const customFetch = calledConfig.fetch;
 
     expect(customFetch).toBeDefined();

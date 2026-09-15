@@ -1,7 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { LanguageModelV3Prompt } from '@ai-toolkit/provider';
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
-import { convertReadableStreamToArray, isNodeVersion } from '@ai-toolkit/provider-utils/test';
+import {
+  convertReadableStreamToArray,
+  isNodeVersion,
+} from '@ai-toolkit/provider-utils/test';
 import { createOpenAICompatible } from '../openai-compatible-provider';
 import { OpenAICompatibleCompletionLanguageModel } from './openai-compatible-completion-language-model';
 
@@ -234,9 +237,11 @@ describe('doGenerate', () => {
       finish_reason: 'stop',
     });
 
-    const { finishReason } = await provider.completionModel('gpt-3.5-turbo-instruct').doGenerate({
-      prompt: TEST_PROMPT,
-    });
+    const { finishReason } = await provider
+      .completionModel('gpt-3.5-turbo-instruct')
+      .doGenerate({
+        prompt: TEST_PROMPT,
+      });
 
     expect(finishReason).toMatchInlineSnapshot(`
       {
@@ -251,9 +256,11 @@ describe('doGenerate', () => {
       finish_reason: 'eos',
     });
 
-    const { finishReason } = await provider.completionModel('gpt-3.5-turbo-instruct').doGenerate({
-      prompt: TEST_PROMPT,
-    });
+    const { finishReason } = await provider
+      .completionModel('gpt-3.5-turbo-instruct')
+      .doGenerate({
+        prompt: TEST_PROMPT,
+      });
 
     expect(finishReason).toMatchInlineSnapshot(`
       {
@@ -543,18 +550,20 @@ describe('doStream', () => {
     `);
   });
 
-  it.skipIf(isNodeVersion(20))('should handle unparsable stream parts', async () => {
-    server.urls['https://my.api.com/v1/completions'].response = {
-      type: 'stream-chunks',
-      chunks: [`data: {unparsable}\n\n`, 'data: [DONE]\n\n'],
-    };
+  it.skipIf(isNodeVersion(20))(
+    'should handle unparsable stream parts',
+    async () => {
+      server.urls['https://my.api.com/v1/completions'].response = {
+        type: 'stream-chunks',
+        chunks: [`data: {unparsable}\n\n`, 'data: [DONE]\n\n'],
+      };
 
-    const { stream } = await model.doStream({
-      prompt: TEST_PROMPT,
-      includeRawChunks: false,
-    });
+      const { stream } = await model.doStream({
+        prompt: TEST_PROMPT,
+        includeRawChunks: false,
+      });
 
-    expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+      expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
         [
           {
             "type": "stream-start",
@@ -588,7 +597,8 @@ describe('doStream', () => {
           },
         ]
       `);
-  });
+    },
+  );
 
   it('should send request body', async () => {
     prepareEmptyStreamResponse();

@@ -12,7 +12,9 @@ export const BROWSER_SEARCH_SUPPORTED_MODELS: readonly GroqChatModelId[] = [
 /**
  * Check if a model supports browser search functionality.
  */
-export function isBrowserSearchSupportedModel(modelId: GroqChatModelId): boolean {
+export function isBrowserSearchSupportedModel(
+  modelId: GroqChatModelId,
+): boolean {
   return BROWSER_SEARCH_SUPPORTED_MODELS.includes(modelId);
 }
 

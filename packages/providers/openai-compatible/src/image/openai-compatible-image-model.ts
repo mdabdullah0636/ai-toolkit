@@ -54,7 +54,9 @@ export class OpenAICompatibleImageModel implements ImageModelV3 {
   ) {}
 
   // TODO: deprecate non-camelCase keys and remove in future major version
-  private getArgs(providerOptions: SharedV3ProviderOptions): Record<string, unknown> {
+  private getArgs(
+    providerOptions: SharedV3ProviderOptions,
+  ): Record<string, unknown> {
     return {
       ...providerOptions[this.providerOptionsKey],
       ...providerOptions[toCamelCase(this.providerOptionsKey)],
@@ -81,7 +83,8 @@ export class OpenAICompatibleImageModel implements ImageModelV3 {
       warnings.push({
         type: 'unsupported',
         feature: 'aspectRatio',
-        details: 'This model does not support aspect ratio. Use `size` instead.',
+        details:
+          'This model does not support aspect ratio. Use `size` instead.',
       });
     }
 
@@ -113,7 +116,9 @@ export class OpenAICompatibleImageModel implements ImageModelV3 {
         failedResponseHandler: createJsonErrorResponseHandler(
           this.config.errorStructure ?? defaultOpenAICompatibleErrorStructure,
         ),
-        successfulResponseHandler: createJsonResponseHandler(openaiCompatibleImageResponseSchema),
+        successfulResponseHandler: createJsonResponseHandler(
+          openaiCompatibleImageResponseSchema,
+        ),
         abortSignal,
         fetch: this.config.fetch,
       });
@@ -147,7 +152,9 @@ export class OpenAICompatibleImageModel implements ImageModelV3 {
       failedResponseHandler: createJsonErrorResponseHandler(
         this.config.errorStructure ?? defaultOpenAICompatibleErrorStructure,
       ),
-      successfulResponseHandler: createJsonResponseHandler(openaiCompatibleImageResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        openaiCompatibleImageResponseSchema,
+      ),
       abortSignal,
       fetch: this.config.fetch,
     });
@@ -185,7 +192,10 @@ async function fileToBlob(file: ImageModelV3File): Promise<Blob> {
     return downloadBlob(file.url);
   }
 
-  const data = file.data instanceof Uint8Array ? file.data : convertBase64ToUint8Array(file.data);
+  const data =
+    file.data instanceof Uint8Array
+      ? file.data
+      : convertBase64ToUint8Array(file.data);
 
   return new Blob([data as BlobPart], { type: file.mediaType });
 }

@@ -13,7 +13,9 @@ export const openaiCompatibleErrorDataSchema = z.object({
   }),
 });
 
-export type OpenAICompatibleErrorData = z.infer<typeof openaiCompatibleErrorDataSchema>;
+export type OpenAICompatibleErrorData = z.infer<
+  typeof openaiCompatibleErrorDataSchema
+>;
 
 export type ProviderErrorStructure<T> = {
   errorSchema: ZodType<T>;

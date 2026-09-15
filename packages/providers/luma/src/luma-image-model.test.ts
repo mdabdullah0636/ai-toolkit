@@ -119,7 +119,9 @@ describe('LumaImageModel', () => {
         'https://api.example.com/dream-machine/v1/generations/test-generation-id',
       );
       expect(server.calls[2].requestMethod).toBe('GET');
-      expect(server.calls[2].requestUrl).toBe('https://api.example.com/image.png');
+      expect(server.calls[2].requestUrl).toBe(
+        'https://api.example.com/image.png',
+      );
     });
 
     it('should pass headers', async () => {
@@ -179,7 +181,9 @@ describe('LumaImageModel', () => {
     });
 
     it('should handle API errors', async () => {
-      server.urls['https://api.example.com/dream-machine/v1/generations/image'].response = {
+      server.urls[
+        'https://api.example.com/dream-machine/v1/generations/image'
+      ].response = {
         type: 'error',
         status: 400,
         body: 'Bad Request',
@@ -759,7 +763,9 @@ describe('LumaImageModel', () => {
             },
           },
         }),
-      ).rejects.toThrow('Luma AI modify_image only supports a single input image');
+      ).rejects.toThrow(
+        'Luma AI modify_image only supports a single input image',
+      );
     });
   });
 

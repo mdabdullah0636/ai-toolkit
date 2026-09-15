@@ -1,4 +1,7 @@
-import { generateAuthToken, GoogleCredentials } from './google-vertex-auth-edge';
+import {
+  generateAuthToken,
+  GoogleCredentials,
+} from './google-vertex-auth-edge';
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 
 // Mock provider-utils to control runtime environment detection
@@ -102,8 +105,14 @@ describe('Google Vertex Edge Auth', () => {
     // Payload validation
     const payload = JSON.parse(atob(parts[1]));
     expect(payload).toHaveProperty('iss', mockCredentials.clientEmail);
-    expect(payload).toHaveProperty('scope', 'https://www.googleapis.com/auth/cloud-platform');
-    expect(payload).toHaveProperty('aud', 'https://oauth2.googleapis.com/token');
+    expect(payload).toHaveProperty(
+      'scope',
+      'https://www.googleapis.com/auth/cloud-platform',
+    );
+    expect(payload).toHaveProperty(
+      'aud',
+      'https://oauth2.googleapis.com/token',
+    );
     expect(payload).toHaveProperty('iat');
     expect(payload).toHaveProperty('exp');
 
@@ -207,7 +216,10 @@ describe('Google Vertex Edge Auth', () => {
 
   it('should handle newlines in private key from env vars', async () => {
     process.env.GOOGLE_CLIENT_EMAIL = mockCredentials.clientEmail;
-    process.env.GOOGLE_PRIVATE_KEY = mockCredentials.privateKey.replace(/\n/g, '\\n');
+    process.env.GOOGLE_PRIVATE_KEY = mockCredentials.privateKey.replace(
+      /\n/g,
+      '\\n',
+    );
     process.env.GOOGLE_PRIVATE_KEY_ID = mockCredentials.privateKeyId;
 
     // Mock successful token exchange
@@ -229,7 +241,9 @@ describe('Google Vertex Edge Auth', () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     global.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
 
-    await expect(generateAuthToken(mockCredentials)).rejects.toThrow('Network error');
+    await expect(generateAuthToken(mockCredentials)).rejects.toThrow(
+      'Network error',
+    );
 
     consoleSpy.mockRestore();
   });

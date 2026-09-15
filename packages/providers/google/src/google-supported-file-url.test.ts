@@ -7,7 +7,9 @@ it('should return true for valid Google generative language file URLs', () => {
   );
   expect(isSupportedFileUrl(validUrl)).toBe(true);
 
-  const simpleValidUrl = new URL('https://generativelanguage.googleapis.com/v1beta/files/test123');
+  const simpleValidUrl = new URL(
+    'https://generativelanguage.googleapis.com/v1beta/files/test123',
+  );
   expect(isSupportedFileUrl(simpleValidUrl)).toBe(true);
 });
 

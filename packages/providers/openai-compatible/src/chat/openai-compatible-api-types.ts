@@ -10,14 +10,18 @@ export type OpenAICompatibleMessage =
 
 // Allow for arbitrary additional properties for general purpose
 // provider-metadata-specific extensibility.
-type JsonRecord<T = never> = Record<string, JSONValue | JSONValue[] | T | T[] | undefined>;
+type JsonRecord<T = never> = Record<
+  string,
+  JSONValue | JSONValue[] | T | T[] | undefined
+>;
 
 export interface OpenAICompatibleSystemMessage extends JsonRecord {
   role: 'system';
   content: string;
 }
 
-export interface OpenAICompatibleUserMessage extends JsonRecord<OpenAICompatibleContentPart> {
+export interface OpenAICompatibleUserMessage
+  extends JsonRecord<OpenAICompatibleContentPart> {
   role: 'user';
   content: string | Array<OpenAICompatibleContentPart>;
 }

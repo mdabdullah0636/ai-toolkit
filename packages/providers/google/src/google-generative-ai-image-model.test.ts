@@ -29,8 +29,11 @@ const server = createTestServer({
 });
 describe('GoogleGenerativeAIImageModel', () => {
   describe('doGenerate', () => {
-    function prepareJsonResponse({ headers }: { headers?: Record<string, string> } = {}) {
-      const url = 'https://api.example.com/v1beta/models/imagen-3.0-generate-002:predict';
+    function prepareJsonResponse({
+      headers,
+    }: { headers?: Record<string, string> } = {}) {
+      const url =
+        'https://api.example.com/v1beta/models/imagen-3.0-generate-002:predict';
       server.urls[url].response = {
         type: 'json-value',
         headers,
@@ -309,8 +312,12 @@ describe('GoogleGenerativeAIImageModel', () => {
 
       const afterDate = new Date();
 
-      expect(result.response.timestamp.getTime()).toBeGreaterThanOrEqual(beforeDate.getTime());
-      expect(result.response.timestamp.getTime()).toBeLessThanOrEqual(afterDate.getTime());
+      expect(result.response.timestamp.getTime()).toBeGreaterThanOrEqual(
+        beforeDate.getTime(),
+      );
+      expect(result.response.timestamp.getTime()).toBeLessThanOrEqual(
+        afterDate.getTime(),
+      );
       expect(result.response.modelId).toBe('imagen-3.0-generate-002');
     });
 

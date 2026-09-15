@@ -37,7 +37,8 @@ export function convertOpenAIChatUsage(
   const promptTokens = usage.prompt_tokens ?? 0;
   const completionTokens = usage.completion_tokens ?? 0;
   const cachedTokens = usage.prompt_tokens_details?.cached_tokens ?? 0;
-  const reasoningTokens = usage.completion_tokens_details?.reasoning_tokens ?? 0;
+  const reasoningTokens =
+    usage.completion_tokens_details?.reasoning_tokens ?? 0;
 
   return {
     inputTokens: {

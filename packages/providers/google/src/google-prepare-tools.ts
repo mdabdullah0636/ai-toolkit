@@ -49,9 +49,12 @@ export function prepareTools({
       'gemini-pro-latest',
     ] as const satisfies GoogleGenerativeAIModelId[]
   ).some(id => id === modelId);
-  const isGemini2orNewer = modelId.includes('gemini-2') || modelId.includes('gemini-3') || isLatest;
-  const supportsDynamicRetrieval = modelId.includes('gemini-1.5-flash') && !modelId.includes('-8b');
-  const supportsFileSearch = modelId.includes('gemini-2.5') || modelId.includes('gemini-3');
+  const isGemini2orNewer =
+    modelId.includes('gemini-2') || modelId.includes('gemini-3') || isLatest;
+  const supportsDynamicRetrieval =
+    modelId.includes('gemini-1.5-flash') && !modelId.includes('-8b');
+  const supportsFileSearch =
+    modelId.includes('gemini-2.5') || modelId.includes('gemini-3');
 
   if (tools == null) {
     return { tools: undefined, toolConfig: undefined, toolWarnings };
@@ -82,8 +85,13 @@ export function prepareTools({
             googleTools.push({
               googleSearchRetrieval: {
                 dynamicRetrievalConfig: {
-                  mode: tool.args.mode as 'MODE_DYNAMIC' | 'MODE_UNSPECIFIED' | undefined,
-                  dynamicThreshold: tool.args.dynamicThreshold as number | undefined,
+                  mode: tool.args.mode as
+                    | 'MODE_DYNAMIC'
+                    | 'MODE_UNSPECIFIED'
+                    | undefined,
+                  dynamicThreshold: tool.args.dynamicThreshold as
+                    | number
+                    | undefined,
                 },
               },
             });

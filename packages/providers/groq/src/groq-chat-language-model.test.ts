@@ -1,6 +1,9 @@
 import { LanguageModelV3Prompt } from '@ai-toolkit/provider';
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
-import { convertReadableStreamToArray, isNodeVersion } from '@ai-toolkit/provider-utils/test';
+import {
+  convertReadableStreamToArray,
+  isNodeVersion,
+} from '@ai-toolkit/provider-utils/test';
 import { createGroq } from './groq-provider';
 import { describe, it, expect, vi } from 'vitest';
 
@@ -476,7 +479,9 @@ describe('doGenerate', () => {
       'custom-provider-header': 'provider-header-value',
       'custom-request-header': 'request-header-value',
     });
-    expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/groq/0.0.0-test`);
+    expect(server.calls[0].requestUserAgent).toContain(
+      `ai-toolkit/groq/0.0.0-test`,
+    );
   });
 
   it('should parse tool results', async () => {
@@ -1755,18 +1760,21 @@ describe('doStream', () => {
     `);
   });
 
-  it.skipIf(isNodeVersion(20))('should handle unparsable stream parts', async () => {
-    server.urls['https://api.groq.com/openai/v1/chat/completions'].response = {
-      type: 'stream-chunks',
-      chunks: [`data: {unparsable}\n\n`, 'data: [DONE]\n\n'],
-    };
+  it.skipIf(isNodeVersion(20))(
+    'should handle unparsable stream parts',
+    async () => {
+      server.urls['https://api.groq.com/openai/v1/chat/completions'].response =
+        {
+          type: 'stream-chunks',
+          chunks: [`data: {unparsable}\n\n`, 'data: [DONE]\n\n'],
+        };
 
-    const { stream } = await model.doStream({
-      prompt: TEST_PROMPT,
-      includeRawChunks: false,
-    });
+      const { stream } = await model.doStream({
+        prompt: TEST_PROMPT,
+        includeRawChunks: false,
+      });
 
-    expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+      expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
         [
           {
             "type": "stream-start",
@@ -1800,7 +1808,8 @@ describe('doStream', () => {
           },
         ]
       `);
-  });
+    },
+  );
 
   it('should expose the raw response headers', async () => {
     prepareStreamResponse({

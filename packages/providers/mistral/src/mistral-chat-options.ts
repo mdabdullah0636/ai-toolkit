@@ -58,4 +58,6 @@ Defaults to `false`.
   parallelToolCalls: z.boolean().optional(),
 });
 
-export type MistralLanguageModelOptions = z.infer<typeof mistralLanguageModelOptions>;
+export type MistralLanguageModelOptions = z.infer<
+  typeof mistralLanguageModelOptions
+>;

@@ -42,7 +42,9 @@ describe('HuggingFaceProvider', () => {
     it('should throw for text embedding models', () => {
       const provider = createHuggingFace();
 
-      expect(() => provider.embeddingModel('any-model')).toThrowErrorMatchingInlineSnapshot(
+      expect(() =>
+        provider.embeddingModel('any-model'),
+      ).toThrowErrorMatchingInlineSnapshot(
         `[AI_NoSuchModelError: Hugging Face Responses API does not support text embeddings. Use the Hugging Face Inference API directly for embeddings.]`,
       );
     });
@@ -50,7 +52,9 @@ describe('HuggingFaceProvider', () => {
     it('should throw for image models', () => {
       const provider = createHuggingFace();
 
-      expect(() => provider.imageModel('any-model')).toThrowErrorMatchingInlineSnapshot(
+      expect(() =>
+        provider.imageModel('any-model'),
+      ).toThrowErrorMatchingInlineSnapshot(
         `[AI_NoSuchModelError: Hugging Face Responses API does not support image generation. Use the Hugging Face Inference API directly for image models.]`,
       );
     });

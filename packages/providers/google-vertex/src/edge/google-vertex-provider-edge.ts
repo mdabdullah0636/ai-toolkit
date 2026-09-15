@@ -4,11 +4,15 @@ import {
   GoogleVertexProvider,
   GoogleVertexProviderSettings as GoogleVertexProviderSettingsOriginal,
 } from '../google-vertex-provider';
-import { generateAuthToken, GoogleCredentials } from './google-vertex-auth-edge';
+import {
+  generateAuthToken,
+  GoogleCredentials,
+} from './google-vertex-auth-edge';
 
 export type { GoogleVertexProvider };
 
-export interface GoogleVertexProviderSettings extends GoogleVertexProviderSettingsOriginal {
+export interface GoogleVertexProviderSettings
+  extends GoogleVertexProviderSettingsOriginal {
   /**
    * Optional. The Google credentials for the Google Cloud service account. If
    * not provided, the Google Vertex provider will use environment variables to
@@ -17,7 +21,9 @@ export interface GoogleVertexProviderSettings extends GoogleVertexProviderSettin
   googleCredentials?: GoogleCredentials;
 }
 
-export function createVertex(options: GoogleVertexProviderSettings = {}): GoogleVertexProvider {
+export function createVertex(
+  options: GoogleVertexProviderSettings = {},
+): GoogleVertexProvider {
   const apiKey = loadOptionalSetting({
     settingValue: options.apiKey,
     environmentVariableName: 'GOOGLE_VERTEX_API_KEY',
