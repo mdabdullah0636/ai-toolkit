@@ -48,7 +48,7 @@
     "@ai-toolkit/ai": "workspace:*",
     "@ai-toolkit/provider": "workspace:*",
     "@ai-toolkit/provider-utils": "workspace:*",
-    "jsondiffpatch": "0.7.3"
+    "jsondiffpatch": "0.7.6"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
