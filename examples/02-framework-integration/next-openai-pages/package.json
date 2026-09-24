@@ -11,7 +11,7 @@
   "dependencies": {
     "@ai-toolkit/openai": "workspace:*",
     "@ai-toolkit/react": "workspace:*",
-    "next": "^15.5.9",
+    "next": "^15.5.24",
     "react": "^18",
     "react-dom": "^18",
     "zod": "3.25.76",
