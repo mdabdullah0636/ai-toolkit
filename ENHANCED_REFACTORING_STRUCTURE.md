@@ -144,18 +144,18 @@ Rather than positioning as "AI SDK + more APIs," AI Toolkit provides four distin
 
 | Area                    | AI SDK 7                      | AI Toolkit target              |
 | ----------------------- | ----------------------------- | ------------------------------ |
-| Multi-provider          | ✅                             | ✅                              |
-| Text generation         | ✅                             | ✅                              |
-| Structured output       | ✅                             | ✅                              |
-| Streaming               | ✅                             | ✅                              |
-| Tool calling            | ✅                             | ✅                              |
-| MCP                     | ✅                             | ✅                              |
-| Agents                  | ✅                             | **Advanced**                   |
+| Multi-provider          | ✅                            | ✅                             |
+| Text generation         | ✅                            | ✅                             |
+| Structured output       | ✅                            | ✅                             |
+| Streaming               | ✅                            | ✅                             |
+| Tool calling            | ✅                            | ✅                             |
+| MCP                     | ✅                            | ✅                             |
+| Agents                  | ✅                            | **Advanced**                   |
 | Agent teams             | —                             | **New**                        |
 | Planning engine         | —                             | **New**                        |
 | Workflow engine         | ecosystem                     | **Native**                     |
 | Durable execution       | ecosystem/native integrations | **Native**                     |
-| Human approval          | ✅                             | **Advanced policy engine**     |
+| Human approval          | ✅                            | **Advanced policy engine**     |
 | Memory                  | provider/tool ecosystem       | **Native memory system**       |
 | Context management      | runtime context               | **Context orchestration**      |
 | RAG                     | ecosystem                     | **Native retrieval layer**     |
@@ -163,13 +163,13 @@ Rather than positioning as "AI SDK + more APIs," AI Toolkit provides four distin
 | Agent simulation        | —                             | **New**                        |
 | Agent replay            | telemetry                     | **Full deterministic replay**  |
 | Sandbox                 | ecosystem                     | **Runtime primitive**          |
-| Skills                  | ✅                             | **Skill lifecycle system**     |
+| Skills                  | ✅                            | **Skill lifecycle system**     |
 | Files                   | provider capabilities         | **Unified file platform**      |
 | Connectors              | ecosystem                     | **Connector framework**        |
-| Voice                   | ✅                             | **Multimodal runtime**         |
-| Image                   | ✅                             | **Multimodal runtime**         |
-| Video                   | ✅                             | **Multimodal runtime**         |
-| Observability           | ✅                             | **Full agent observability**   |
+| Voice                   | ✅                            | **Multimodal runtime**         |
+| Image                   | ✅                            | **Multimodal runtime**         |
+| Video                   | ✅                            | **Multimodal runtime**         |
+| Observability           | ✅                            | **Full agent observability**   |
 | Cost management         | usage data                    | **Budget/policy engine**       |
 | Security                | application-level             | **AI security layer**          |
 | RBAC                    | —                             | **Native**                     |
@@ -178,7 +178,7 @@ Rather than positioning as "AI SDK + more APIs," AI Toolkit provides four distin
 | Multi-tenancy           | —                             | **Native**                     |
 | Rate limiting           | application-level             | **Runtime service**            |
 | Model routing           | Gateway                       | **Intelligent routing engine** |
-| Fallback                | ✅                             | **Policy-based routing**       |
+| Fallback                | ✅                            | **Policy-based routing**       |
 | A/B testing             | —                             | **Native**                     |
 | Prompt versioning       | —                             | **Native**                     |
 | Dataset management      | —                             | **Native**                     |
@@ -404,25 +404,25 @@ The current workspace configuration includes domains that are **not yet implemen
 
 ```yaml
 packages:
-  - 'packages/foundation/*'        # ✅ Implemented
-  - 'packages/ai/*'               # ✅ Implemented
-  - 'packages/agents/*'           # ❌ Not implemented (NEW)
-  - 'packages/workflow/*'         # ❌ Not implemented (NEW)
-  - 'packages/gateway/*'          # ✅ Implemented
-  - 'packages/providers/*'        # ✅ Implemented
-  - 'packages/mcp/*'              # ✅ Implemented
-  - 'packages/memory/*'           # ❌ Not implemented (NEW)
-  - 'packages/context/*'          # ❌ Not implemented (NEW)
-  - 'packages/evals/*'            # ❌ Not implemented (NEW)
-  - 'packages/observability/*'    # ❌ Not implemented (NEW)
-  - 'packages/security/*'         # ❌ Not implemented (NEW)
-  - 'packages/sandbox/*'          # ❌ Not implemented (NEW)
-  - 'packages/retrieval/*'        # ❌ Not implemented (NEW)
-  - 'packages/tools/*'            # ❌ Not implemented (NEW)
-  - 'packages/integrations/*'     # ✅ Implemented
-  - 'packages/ui/*'               # ✅ Implemented
-  - 'packages/tooling/*'          # ✅ Implemented
-  - 'packages/testing/*'          # ✅ Implemented
+  - 'packages/foundation/*' # ✅ Implemented
+  - 'packages/ai/*' # ✅ Implemented
+  - 'packages/agents/*' # ❌ Not implemented (NEW)
+  - 'packages/workflow/*' # ❌ Not implemented (NEW)
+  - 'packages/gateway/*' # ✅ Implemented
+  - 'packages/providers/*' # ✅ Implemented
+  - 'packages/mcp/*' # ✅ Implemented
+  - 'packages/memory/*' # ❌ Not implemented (NEW)
+  - 'packages/context/*' # ❌ Not implemented (NEW)
+  - 'packages/evals/*' # ❌ Not implemented (NEW)
+  - 'packages/observability/*' # ❌ Not implemented (NEW)
+  - 'packages/security/*' # ❌ Not implemented (NEW)
+  - 'packages/sandbox/*' # ❌ Not implemented (NEW)
+  - 'packages/retrieval/*' # ❌ Not implemented (NEW)
+  - 'packages/tools/*' # ❌ Not implemented (NEW)
+  - 'packages/integrations/*' # ✅ Implemented
+  - 'packages/ui/*' # ✅ Implemented
+  - 'packages/tooling/*' # ✅ Implemented
+  - 'packages/testing/*' # ✅ Implemented
 ```
 
 ### 4. Documentation Gaps
@@ -449,6 +449,7 @@ packages:
 **Impact**: Confusion for contributors, incorrect dependency rules
 
 The architecture documents reference the old package structure, while the actual codebase has been migrated. This causes:
+
 - Incorrect import paths in documentation
 - Misleading dependency rule enforcement
 - Confusion for new contributors
@@ -459,6 +460,7 @@ The architecture documents reference the old package structure, while the actual
 **Impact**: Workspace validation errors, unclear roadmap
 
 The workspace configuration includes 10 domains that don't exist yet:
+
 - `packages/agents/*` (NEW - Agent Platform)
 - `packages/workflow/*` (NEW - Orchestration)
 - `packages/memory/*` (NEW - Memory System)
@@ -471,6 +473,7 @@ The workspace configuration includes 10 domains that don't exist yet:
 - `packages/tools/*` (NEW - Tool Platform)
 
 These are now **strategic domains** for the 400% platform vision and should be:
+
 - Kept in workspace configuration with clear implementation plans
 - Documented with phased implementation roadmap
 - Prioritized based on platform value
@@ -481,6 +484,7 @@ These are now **strategic domains** for the 400% platform vision and should be:
 **Impact**: Deployment complexity, dependency management
 
 The `apps/` directory restructuring (docs/www/studio → single `@ai-toolkit/apps` package) is planned but not yet executed. The current state has:
+
 - Three separate Next.js applications with different stacks
 - Conflicting dependency versions (Next 15 vs 16, React 18 vs 19, Tailwind v3 vs v4)
 - Duplicated domain logic across apps
@@ -491,11 +495,13 @@ The `apps/` directory restructuring (docs/www/studio → single `@ai-toolkit/app
 **Impact**: Data duplication, inconsistent catalog data
 
 The platform architecture plan (`apps/PLATFORM-ARCHITECTURE-PLAN.md`) proposes:
+
 - Single `@ai-toolkit/platform` package for registry and domain model
 - Unified API boundary for catalog data
 - Elimination of app-local catalog types
 
 This is planned but not yet implemented, leading to:
+
 - Duplicated provider/model parsing logic across apps
 - No single source of truth for catalog data
 - Inconsistent data representations
@@ -506,6 +512,7 @@ This is planned but not yet implemented, leading to:
 **Impact**: Inability to deliver 400% platform vision
 
 The following platform capabilities are not yet implemented:
+
 - Agent platform (teams, planning, delegation)
 - Workflow engine (durable execution, scheduling)
 - Memory system (short-term, long-term, semantic, episodic)
@@ -523,6 +530,7 @@ The following platform capabilities are not yet implemented:
 **Impact**: Unclear path to 400% vision, resource allocation challenges
 
 There is no documented implementation plan for the 10 new domains. This leads to:
+
 - Unclear prioritization
 - No dependency analysis between domains
 - No resource requirements
@@ -539,12 +547,14 @@ There is no documented implementation plan for the 10 new domains. This leads to
 **Tasks**:
 
 1. **Documentation Alignment**
+
    - Update `architecture/domain-mapping.md` with new paths
    - Update `architecture/DEPENDENCY_RULES.md` with new structure
    - Update `ARCHITECTURE_QUICK_REFERENCE.md`
    - Update `AGENTS.md` repository structure section
 
 2. **Workspace Configuration Update**
+
    - Keep all 10 new domains in `pnpm-workspace.yaml` (they are strategic)
    - Add comments indicating implementation status
    - Create `architecture/FUTURE_DOMAINS.md` with implementation plans
@@ -555,11 +565,13 @@ There is no documented implementation plan for the 10 new domains. This leads to
    - Create `tools/scripts/check-architecture-sync.mjs`
 
 **Deliverables**:
+
 - All docs reflect current structure
 - Future domains documented with implementation plans
 - Architecture validation passes
 
 **Success Criteria**:
+
 - `pnpm arch:validate` passes
 - No documentation-implementation mismatches
 
@@ -572,21 +584,25 @@ There is no documented implementation plan for the 10 new domains. This leads to
 **Tasks**:
 
 1. **Update `architecture/domain-mapping.md`**
+
    - Change all old paths to new domain-based paths
    - Add mapping for new structure
    - Verify all package names match actual `package.json` files
 
 2. **Update `architecture/DEPENDENCY_RULES.md`**
+
    - Update directory references to new structure
    - Verify layer mappings are accurate
    - Update any script references
 
 3. **Update `ARCHITECTURE_QUICK_REFERENCE.md`**
+
    - Update directory quick map
    - Update command examples
    - Update file structure templates
 
 4. **Update `AGENTS.md`**
+
    - Update repository structure section
    - Update package directory references
    - Update import path examples
@@ -598,12 +614,14 @@ There is no documented implementation plan for the 10 new domains. This leads to
    - Define success criteria
 
 **Deliverables**:
+
 - All architecture documents reflect current package structure
 - No references to old paths remain
 - Documentation is consistent with implementation
 - Future domains have clear implementation plans
 
 **Success Criteria**:
+
 - `pnpm arch:validate` passes without path-related errors
 - New contributors can follow documentation without confusion
 - Future domains have documented implementation paths
@@ -631,12 +649,14 @@ There is no documented implementation plan for the 10 new domains. This leads to
 - Add performance benchmarks before/after migration
 
 **Deliverables**:
+
 - Single `@ai-toolkit/apps` package
 - Unified Next 16/React 19/Tailwind v4 stack
 - Independent deployability preserved
 - No breaking changes to public APIs
 
 **Success Criteria**:
+
 - All three sites build and run from single package
 - Deployment to Vercel works for each site independently
 - No regression in site performance or functionality
@@ -650,26 +670,31 @@ There is no documented implementation plan for the 10 new domains. This leads to
 **Key Steps** (from existing plan):
 
 1. **P0**: Contract and inventory
+
    - Freeze app-local catalog types
    - Create entity inventory
    - Reserve API host
 
 2. **P1**: Platform package and registry
+
    - Implement `packages/special/platform` (already exists)
    - Add schemas and validation
    - Generate registry snapshot
 
 3. **P2**: Query and contract hardening
+
    - Define typed queries
    - Add DTO mappers
    - Implement contract tests
 
 4. **P3**: API boundary
+
    - Implement `/api/platform/v1` routes
    - Add OpenAPI spec
    - Implement metrics API
 
 5. **P4**: Experience migration
+
    - Migrate Studio readers
    - Migrate WWW readers
    - Migrate Docs adapters
@@ -687,12 +712,14 @@ There is no documented implementation plan for the 10 new domains. This leads to
 - Add monitoring and alerting for platform API
 
 **Deliverables**:
+
 - Single `@ai-toolkit/platform` package with registry and queries
 - Versioned platform API at `api.ai-toolkit.dev`
 - Elimination of app-local catalog types
 - Unified content source
 
 **Success Criteria**:
+
 - Single source of truth for all catalog data
 - All three experiences use platform queries
 - API is versioned and documented
@@ -709,12 +736,14 @@ There is no documented implementation plan for the 10 new domains. This leads to
 **Wave 1: Core Intelligence (Month 3-5)**
 
 1. **packages/ai/expansion** (Month 3)
+
    - `packages/ai/generation` - Text generation primitives
    - `packages/ai/multimodal` - Vision/Audio/Image/Video runtime
    - `packages/ai/reasoning` - Reasoning engine
    - `packages/ai/structured` - Structured output
 
 2. **packages/context/** (Month 4)
+
    - `packages/context/core` - Context primitives
    - `packages/context/window` - Context window management
    - `packages/context/compression` - Context compression
@@ -733,6 +762,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
 **Wave 2: Agent Platform (Month 5-7)**
 
 4. **packages/agents/** (Month 5-6)
+
    - `packages/agents/core` - Agent runtime
    - `packages/agents/loop` - Agent execution loop
    - `packages/agents/planner` - Planning engine
@@ -742,6 +772,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
    - `packages/agents/harness` - Harness integration
 
 5. **packages/tools/** (Month 6)
+
    - `packages/tools/core` - Tool primitives
    - `packages/tools/registry` - Tool registry
    - `packages/tools/execution` - Tool execution
@@ -759,6 +790,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
 **Wave 3: Orchestration & Execution (Month 7-9)**
 
 7. **packages/workflow/** (Month 7-8)
+
    - `packages/workflow/core` - Workflow definitions
    - `packages/workflow/engine` - Workflow execution engine
    - `packages/workflow/durable` - Durable execution
@@ -767,6 +799,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
    - `packages/workflow/queue` - Queue management
 
 8. **packages/sandbox/** (Month 8)
+
    - `packages/sandbox/core` - Sandbox primitives
    - `packages/sandbox/execution` - Code execution
    - `packages/sandbox/filesystem` - Filesystem isolation
@@ -784,6 +817,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
 **Wave 4: Operations & Security (Month 9-12)**
 
 10. **packages/evals/** (Month 9-10)
+
     - `packages/evals/core` - Eval primitives
     - `packages/evals/datasets` - Dataset management
     - `packages/evals/scorers` - Evaluation metrics
@@ -792,6 +826,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
     - `packages/evals/regression` - Regression testing
 
 11. **packages/observability/** (Month 10-11)
+
     - `packages/observability/telemetry` - Telemetry collection
     - `packages/observability/tracing` - Distributed tracing
     - `packages/observability/metrics` - Metrics aggregation
@@ -800,6 +835,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
     - `packages/observability/replay` - Execution replay
 
 12. **packages/security/** (Month 11-12)
+
     - `packages/security/auth` - Authentication
     - `packages/security/rbac` - Role-based access
     - `packages/security/policy` - Policy engine
@@ -817,6 +853,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
 **Wave 5: Experience Layer (Month 12-14)**
 
 14. **packages/ui/expansion** (Month 12-13)
+
     - `packages/ui/studio` - Agent Studio UI
 
 15. **packages/tooling/expansion** (Month 13-14)
@@ -824,12 +861,14 @@ There is no documented implementation plan for the 10 new domains. This leads to
     - `packages/tooling/codegen` - Code generation
 
 **Deliverables**:
+
 - All 10 new domains implemented
 - Comprehensive test coverage
 - Documentation for each domain
 - Integration examples
 
 **Success Criteria**:
+
 - All capability matrix items marked as "New" or "Native" are implemented
 - Integration tests pass for all domains
 - Documentation is complete
@@ -844,6 +883,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
 **Tasks**:
 
 1. **Cross-domain integration**
+
    - Integrate agents with workflow
    - Integrate memory with context
    - Integrate retrieval with agents
@@ -851,6 +891,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
    - Integrate observability across platform
 
 2. **Platform polish**
+
    - Performance optimization
    - Security hardening
    - Documentation completion
@@ -858,6 +899,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
    - Migration guides
 
 3. **Developer experience**
+
    - CLI completion
    - Studio UI polish
    - Debugging tools
@@ -870,12 +912,14 @@ There is no documented implementation plan for the 10 new domains. This leads to
    - Support documentation
 
 **Deliverables**:
+
 - Fully integrated platform
 - Comprehensive documentation
 - Example applications
 - Launch-ready
 
 **Success Criteria**:
+
 - All domains work together seamlessly
 - Documentation is complete
 - Examples demonstrate full platform
@@ -885,14 +929,14 @@ There is no documented implementation plan for the 10 new domains. This leads to
 
 ## Timeline Summary
 
-| Phase | Duration | Focus | Deliverables |
-|-------|----------|-------|--------------|
-| Phase 0 | Week 1-2 | Foundation Stabilization | Docs updated, future domains planned |
-| Phase 1 | Week 1-2 | Documentation Alignment | All docs reflect current structure |
-| Phase 2 | Month 1-2 | Apps Restructuring | Single apps package, unified stack |
-| Phase 3 | Month 2-3 | Platform Architecture | Unified registry and API |
-| Phase 4 | Month 3-12 | New Domain Implementation | 10 new domains across 5 waves |
-| Phase 5 | Month 14-16 | Integration & Polish | GA-ready platform |
+| Phase   | Duration    | Focus                     | Deliverables                         |
+| ------- | ----------- | ------------------------- | ------------------------------------ |
+| Phase 0 | Week 1-2    | Foundation Stabilization  | Docs updated, future domains planned |
+| Phase 1 | Week 1-2    | Documentation Alignment   | All docs reflect current structure   |
+| Phase 2 | Month 1-2   | Apps Restructuring        | Single apps package, unified stack   |
+| Phase 3 | Month 2-3   | Platform Architecture     | Unified registry and API             |
+| Phase 4 | Month 3-12  | New Domain Implementation | 10 new domains across 5 waves        |
+| Phase 5 | Month 14-16 | Integration & Polish      | GA-ready platform                    |
 
 **Total Timeline**: 16 months
 
@@ -903,6 +947,7 @@ There is no documented implementation plan for the 10 new domains. This leads to
 ### Current State
 
 The project has dependency rules defined in `architecture/DEPENDENCY_RULES.md` and enforced via:
+
 - `tools/scripts/check-dependency-direction.mjs`
 - `tools/scripts/validate-structure.mjs`
 - CI check: `pnpm arch:validate`
@@ -932,19 +977,19 @@ Create `tools/scripts/check-architecture-sync.mjs`:
 
 Define dependency rules for the 10 new domains:
 
-| Domain              | May Depend On                                                                 |
-| ------------------- | ----------------------------------------------------------------------------- |
-| `packages/ai/*`     | Foundation, Providers, Gateway                                              |
-| `packages/agents/*` | Foundation, AI Core, Tools, MCP, Memory, Context, Workflow                   |
-| `packages/workflow/*` | Foundation, Agents, Tools, Observability, Sandbox                           |
-| `packages/context/*` | Foundation, AI Core, Memory                                                 |
-| `packages/memory/*` | Foundation, AI Core, Context                                                 |
-| `packages/retrieval/*` | Foundation, AI Core, Memory, Context                                       |
-| `packages/tools/*`  | Foundation, AI Core, MCP, Security                                           |
-| `packages/sandbox/*` | Foundation, Security                                                         |
-| `packages/evals/*`  | Foundation, AI Core, Agents, Workflow, Observability                          |
-| `packages/observability/*` | Foundation (must be dependency-free for instrumentation)              |
-| `packages/security/*` | Foundation (must be dependency-free for security primitives)                 |
+| Domain                     | May Depend On                                                |
+| -------------------------- | ------------------------------------------------------------ |
+| `packages/ai/*`            | Foundation, Providers, Gateway                               |
+| `packages/agents/*`        | Foundation, AI Core, Tools, MCP, Memory, Context, Workflow   |
+| `packages/workflow/*`      | Foundation, Agents, Tools, Observability, Sandbox            |
+| `packages/context/*`       | Foundation, AI Core, Memory                                  |
+| `packages/memory/*`        | Foundation, AI Core, Context                                 |
+| `packages/retrieval/*`     | Foundation, AI Core, Memory, Context                         |
+| `packages/tools/*`         | Foundation, AI Core, MCP, Security                           |
+| `packages/sandbox/*`       | Foundation, Security                                         |
+| `packages/evals/*`         | Foundation, AI Core, Agents, Workflow, Observability         |
+| `packages/observability/*` | Foundation (must be dependency-free for instrumentation)     |
+| `packages/security/*`      | Foundation (must be dependency-free for security primitives) |
 
 ---
 
@@ -953,11 +998,13 @@ Define dependency rules for the 10 new domains:
 ### Architecture Validation Tests
 
 1. **Package Structure Tests**
+
    - Verify all packages have required metadata
    - Verify package.json exports match directory structure
    - Verify workspace configuration is complete
 
 2. **Dependency Direction Tests**
+
    - Test cross-layer dependencies
    - Test intra-layer dependencies
    - Test circular dependencies
@@ -970,6 +1017,7 @@ Define dependency rules for the 10 new domains:
 ### Integration Tests
 
 1. **Build Tests**
+
    - Test building each domain independently
    - Test building entire monorepo
    - Test incremental builds
@@ -986,24 +1034,29 @@ Define dependency rules for the 10 new domains:
 ### For Each Phase
 
 **Phase 1 (Documentation)**:
+
 - Git revert is sufficient
 - No code changes
 
 **Phase 2 (Workspace Config)**:
+
 - Git revert workspace.yaml
 - Regenerate lockfile
 
 **Phase 3 (Apps Restructuring)**:
+
 - Documented in existing plan
 - Restore individual package.json files
 - Revert workspace configuration
 
 **Phase 4 (Platform Architecture)**:
+
 - Feature flags for gradual rollout
 - Keep old readers as fallback
 - Database/registry rollback procedures
 
 **Phase 5 (Future Domains)**:
+
 - No rollback needed (planning only)
 
 ---
@@ -1029,18 +1082,22 @@ Define dependency rules for the 10 new domains:
 ## Timeline
 
 ### Immediate (Week 1-2)
+
 - Phase 1: Documentation alignment
 - Phase 2: Workspace configuration cleanup
 
 ### Short-term (Month 1-2)
+
 - Phase 3: Apps restructuring execution
 - Enhanced testing strategy
 
 ### Medium-term (Month 3-4)
+
 - Phase 4: Platform architecture implementation
 - Dependency rules enhancements
 
 ### Long-term (Month 5-6)
+
 - Phase 5: Future domain planning
 - Comprehensive architecture documentation
 
@@ -1051,6 +1108,7 @@ Define dependency rules for the 10 new domains:
 The enhanced refactoring is complete when:
 
 ### Foundation (Phases 0-1)
+
 1. ✅ All architecture documents reflect the current package structure
 2. ✅ Future domains have clear implementation plans in `architecture/FUTURE_DOMAINS.md`
 3. ✅ Workspace configuration includes all strategic domains with status comments
@@ -1058,12 +1116,14 @@ The enhanced refactoring is complete when:
 5. ✅ Architecture validation passes for current structure
 
 ### Platform Stabilization (Phases 2-3)
+
 6. ✅ Apps are consolidated into single package with unified Next 16/React 19/Tailwind v4 stack
 7. ✅ Platform architecture is implemented with unified registry and API
 8. ✅ Single source of truth for catalog data across docs/www/studio
 9. ✅ Platform API is versioned and documented
 
 ### 400% Platform Delivery (Phase 4)
+
 10. ✅ All 10 new domains are implemented:
     - `packages/ai/*` expansion (generation, multimodal, reasoning, structured)
     - `packages/agents/*` (core, loop, planner, teams, delegation, skills, harness)
@@ -1080,6 +1140,7 @@ The enhanced refactoring is complete when:
 12. ✅ Cross-domain integration is complete (agents↔workflow, memory↔context, retrieval↔agents, etc.)
 
 ### Integration & Polish (Phase 5)
+
 13. ✅ Platform is fully integrated and tested
 14. ✅ Documentation is complete for all domains
 15. ✅ Example applications demonstrate full platform capabilities
@@ -1087,6 +1148,7 @@ The enhanced refactoring is complete when:
 17. ✅ Platform is launch-ready (GA)
 
 ### Quality & Governance
+
 18. ✅ Architecture validation tests are comprehensive
 19. ✅ Rollback procedures are documented
 20. ✅ Success metrics are tracked and met
@@ -1102,7 +1164,7 @@ The enhanced refactoring is complete when:
 2. **Approve 400% platform vision** and capability matrix
 3. **Prioritize phases** based on team capacity and business needs
 4. **Create tracking tickets** for each phase and task
-5. **Assign owners** to each phase**
+5. **Assign owners** to each phase\*\*
 6. **Begin Phase 0** (Foundation Stabilization)
 7. **Create `architecture/FUTURE_DOMAINS.md`** with detailed implementation plans for all 10 new domains
 
@@ -1112,37 +1174,37 @@ The enhanced refactoring is complete when:
 
 ### File Changes Summary
 
-| File | Action | Phase |
-|------|--------|-------|
-| `architecture/domain-mapping.md` | Update paths to new structure | Phase 0 |
-| `architecture/DEPENDENCY_RULES.md` | Update paths + add new domain rules | Phase 0 |
-| `ARCHITECTURE_QUICK_REFERENCE.md` | Update directory map | Phase 1 |
-| `AGENTS.md` | Update repository structure section | Phase 1 |
-| `architecture/FUTURE_DOMAINS.md` | Create new file with domain plans | Phase 0 |
-| `pnpm-workspace.yaml` | Add status comments for new domains | Phase 0 |
-| `apps/package.json` | Create unified manifest | Phase 2 |
-| `apps/scripts/*.mjs` | Create build scripts | Phase 2 |
-| `packages/special/platform/` | Implement registry and API | Phase 3 |
-| `packages/ai/generation/` | Create new package | Phase 4 Wave 1 |
-| `packages/ai/multimodal/` | Create new package | Phase 4 Wave 1 |
-| `packages/ai/reasoning/` | Create new package | Phase 4 Wave 1 |
-| `packages/ai/structured/` | Create new package | Phase 4 Wave 1 |
-| `packages/context/*` | Create 6 packages | Phase 4 Wave 1 |
-| `packages/memory/*` | Create 6 packages | Phase 4 Wave 1 |
-| `packages/agents/*` | Create 7 packages | Phase 4 Wave 2 |
-| `packages/tools/*` | Create 6 packages | Phase 4 Wave 2 |
-| `packages/mcp/*` expansion | Create 5 packages | Phase 4 Wave 2 |
-| `packages/workflow/*` | Create 6 packages | Phase 4 Wave 3 |
-| `packages/sandbox/*` | Create 5 packages | Phase 4 Wave 3 |
-| `packages/retrieval/*` | Create 6 packages | Phase 4 Wave 3 |
-| `packages/evals/*` | Create 6 packages | Phase 4 Wave 4 |
-| `packages/observability/*` | Create 6 packages | Phase 4 Wave 4 |
-| `packages/security/*` | Create 6 packages | Phase 4 Wave 4 |
-| `packages/gateway/*` expansion | Create 5 packages | Phase 4 Wave 4 |
-| `packages/ui/studio/` | Create new package | Phase 4 Wave 5 |
-| `packages/tooling/cli/` | Create new package | Phase 4 Wave 5 |
-| `packages/tooling/codegen/` | Create new package | Phase 4 Wave 5 |
-| `tools/scripts/check-architecture-sync.mjs` | Create new script | Phase 0 |
+| File                                        | Action                              | Phase          |
+| ------------------------------------------- | ----------------------------------- | -------------- |
+| `architecture/domain-mapping.md`            | Update paths to new structure       | Phase 0        |
+| `architecture/DEPENDENCY_RULES.md`          | Update paths + add new domain rules | Phase 0        |
+| `ARCHITECTURE_QUICK_REFERENCE.md`           | Update directory map                | Phase 1        |
+| `AGENTS.md`                                 | Update repository structure section | Phase 1        |
+| `architecture/FUTURE_DOMAINS.md`            | Create new file with domain plans   | Phase 0        |
+| `pnpm-workspace.yaml`                       | Add status comments for new domains | Phase 0        |
+| `apps/package.json`                         | Create unified manifest             | Phase 2        |
+| `apps/scripts/*.mjs`                        | Create build scripts                | Phase 2        |
+| `packages/special/platform/`                | Implement registry and API          | Phase 3        |
+| `packages/ai/generation/`                   | Create new package                  | Phase 4 Wave 1 |
+| `packages/ai/multimodal/`                   | Create new package                  | Phase 4 Wave 1 |
+| `packages/ai/reasoning/`                    | Create new package                  | Phase 4 Wave 1 |
+| `packages/ai/structured/`                   | Create new package                  | Phase 4 Wave 1 |
+| `packages/context/*`                        | Create 6 packages                   | Phase 4 Wave 1 |
+| `packages/memory/*`                         | Create 6 packages                   | Phase 4 Wave 1 |
+| `packages/agents/*`                         | Create 7 packages                   | Phase 4 Wave 2 |
+| `packages/tools/*`                          | Create 6 packages                   | Phase 4 Wave 2 |
+| `packages/mcp/*` expansion                  | Create 5 packages                   | Phase 4 Wave 2 |
+| `packages/workflow/*`                       | Create 6 packages                   | Phase 4 Wave 3 |
+| `packages/sandbox/*`                        | Create 5 packages                   | Phase 4 Wave 3 |
+| `packages/retrieval/*`                      | Create 6 packages                   | Phase 4 Wave 3 |
+| `packages/evals/*`                          | Create 6 packages                   | Phase 4 Wave 4 |
+| `packages/observability/*`                  | Create 6 packages                   | Phase 4 Wave 4 |
+| `packages/security/*`                       | Create 6 packages                   | Phase 4 Wave 4 |
+| `packages/gateway/*` expansion              | Create 5 packages                   | Phase 4 Wave 4 |
+| `packages/ui/studio/`                       | Create new package                  | Phase 4 Wave 5 |
+| `packages/tooling/cli/`                     | Create new package                  | Phase 4 Wave 5 |
+| `packages/tooling/codegen/`                 | Create new package                  | Phase 4 Wave 5 |
+| `tools/scripts/check-architecture-sync.mjs` | Create new script                   | Phase 0        |
 
 ### Command Reference
 

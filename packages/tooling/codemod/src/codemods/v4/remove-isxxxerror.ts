@@ -14,7 +14,8 @@ const ERROR_METHOD_MAPPINGS: Record<string, string> = {
   isNoSuchModelError: 'NoSuchModelError.isInstance',
   isNoSuchProviderError: 'NoSuchProviderError.isInstance',
   isNoSuchToolError: 'NoSuchToolError.isInstance',
-  isTooManyEmbeddingValuesForCallError: 'TooManyEmbeddingValuesForCallError.isInstance',
+  isTooManyEmbeddingValuesForCallError:
+    'TooManyEmbeddingValuesForCallError.isInstance',
   isTypeValidationError: 'TypeValidationError.isInstance',
   isUnsupportedFunctionalityError: 'UnsupportedFunctionalityError.isInstance',
   isInvalidDataContentError: 'InvalidDataContentError.isInstance',
@@ -64,13 +65,18 @@ export default createTransformer((fileInfo, api, options, context) => {
     })
     .forEach(path => {
       context.hasChanges = true;
-      const property = (path.node.callee as import('jscodeshift').MemberExpression).property;
+      const property = (
+        path.node.callee as import('jscodeshift').MemberExpression
+      ).property;
       const methodName = property.type === 'Identifier' ? property.name : '';
       const newMethodPath = ERROR_METHOD_MAPPINGS[methodName].split('.');
 
       j(path).replaceWith(
         j.callExpression(
-          j.memberExpression(j.identifier(newMethodPath[0]), j.identifier(newMethodPath[1])),
+          j.memberExpression(
+            j.identifier(newMethodPath[0]),
+            j.identifier(newMethodPath[1]),
+          ),
           path.node.arguments,
         ),
       );

@@ -4,6 +4,93 @@
       "path": "packages/ai/core"
     },
     {
+      "path": "packages/ai/generation"
+    },
+    {
+      "path": "packages/agents/core"
+    },
+    {
+      "path": "packages/agents/delegation"
+    },
+    {
+      "path": "packages/agents/harness"
+    },
+    {
+      "path": "packages/agents/loop"
+    },
+    {
+      "path": "packages/agents/planner"
+    },
+    {
+      "path": "packages/agents/skills"
+    },
+    {
+      "path": "packages/agents/teams"
+    },
+    {
+      "path": "packages/tools/approval"
+    },
+    {
+      "path": "packages/tools/core"
+    },
+    {
+      "path": "packages/tools/discovery"
+    },
+    {
+      "path": "packages/tools/execution"
+    },
+    {
+      "path": "packages/tools/permissions"
+    },
+    {
+      "path": "packages/tools/registry"
+    },
+    {
+      "path": "packages/ai/multimodal"
+    },
+    {
+      "path": "packages/ai/reasoning"
+    },
+    {
+      "path": "packages/ai/structured"
+    },
+    {
+      "path": "packages/context/core"
+    },
+    {
+      "path": "packages/context/compression"
+    },
+    {
+      "path": "packages/context/routing"
+    },
+    {
+      "path": "packages/context/runtime"
+    },
+    {
+      "path": "packages/context/summarization"
+    },
+    {
+      "path": "packages/context/window"
+    },
+    {
+      "path": "packages/memory/core"
+    },
+    {
+      "path": "packages/memory/episodic"
+    },
+    {
+      "path": "packages/memory/long-term"
+    },
+    {
+      "path": "packages/memory/semantic"
+    },
+    {
+      "path": "packages/memory/short-term"
+    },
+    {
+      "path": "packages/memory/storage"
+    },
+    {
       "path": "packages/foundation/utils"
     },
     {
@@ -162,8 +249,7 @@
     {
       "path": "packages/tooling/devtools"
     },
-    {
-    },
+    {},
     {
       "path": "packages/foundation/platform"
     },
@@ -195,6 +281,57 @@
       "path": "packages/mcp/core"
     },
     {
+      "path": "packages/retrieval/core"
+    },
+    {
+      "path": "packages/retrieval/reranking"
+    },
+    {
+      "path": "packages/retrieval/vector"
+    },
+    {
+      "path": "packages/retrieval/indexing"
+    },
+    {
+      "path": "packages/retrieval/embeddings"
+    },
+    {
+      "path": "packages/retrieval/rag"
+    },
+    {
+      "path": "packages/workflow/core"
+    },
+    {
+      "path": "packages/workflow/engine"
+    },
+    {
+      "path": "packages/workflow/durable"
+    },
+    {
+      "path": "packages/workflow/scheduler"
+    },
+    {
+      "path": "packages/workflow/events"
+    },
+    {
+      "path": "packages/workflow/queue"
+    },
+    {
+      "path": "packages/sandbox/core"
+    },
+    {
+      "path": "packages/sandbox/execution"
+    },
+    {
+      "path": "packages/sandbox/filesystem"
+    },
+    {
+      "path": "packages/sandbox/network"
+    },
+    {
+      "path": "packages/sandbox/isolation"
+    },
+    {
       "path": "examples/01-foundations/ai-functions"
     },
     {
@@ -205,6 +342,75 @@
     },
     {
       "path": "examples/01-foundations/hono"
+    },
+    {
+      "path": "packages/security/auth"
+    },
+    {
+      "path": "packages/security/rbac"
+    },
+    {
+      "path": "packages/security/policy"
+    },
+    {
+      "path": "packages/security/secrets"
+    },
+    {
+      "path": "packages/security/audit"
+    },
+    {
+      "path": "packages/security/isolation"
+    },
+    {
+      "path": "packages/observability/telemetry"
+    },
+    {
+      "path": "packages/observability/tracing"
+    },
+    {
+      "path": "packages/observability/metrics"
+    },
+    {
+      "path": "packages/observability/logging"
+    },
+    {
+      "path": "packages/observability/cost"
+    },
+    {
+      "path": "packages/observability/replay"
+    },
+    {
+      "path": "packages/evals/core"
+    },
+    {
+      "path": "packages/evals/datasets"
+    },
+    {
+      "path": "packages/evals/scorers"
+    },
+    {
+      "path": "packages/evals/experiments"
+    },
+    {
+      "path": "packages/evals/benchmarks"
+    },
+    {
+      "path": "packages/evals/regression"
+    },
+    {
+      "path": "packages/ui/studio"
+    },
+    {
+      "path": "packages/tooling/cli"
+    },
+    {
+      "path": "packages/tooling/codegen"
+    },
+    {
+      "path": "packages/gateway/router"
+    },
+    {
+      "path": "packages/gateway/load-balancer"
     },
     {
       "path": "examples/01-foundations/node-http-server"

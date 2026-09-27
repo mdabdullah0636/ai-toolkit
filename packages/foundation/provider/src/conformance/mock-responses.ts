@@ -10,17 +10,27 @@ export interface MockResponseConfig {
   headers?: Record<string, string>;
 }
 
-export function chatCompletionResponse(overrides: {
-  text?: string;
-  usage?: { input_tokens?: number; output_tokens?: number; total_tokens?: number };
-  id?: string;
-  model?: string;
-  finish_reason?: string;
-  status?: number;
-  headers?: Record<string, string>;
-} = {}): Response {
+export function chatCompletionResponse(
+  overrides: {
+    text?: string;
+    usage?: {
+      input_tokens?: number;
+      output_tokens?: number;
+      total_tokens?: number;
+    };
+    id?: string;
+    model?: string;
+    finish_reason?: string;
+    status?: number;
+    headers?: Record<string, string>;
+  } = {},
+): Response {
   const text = overrides.text ?? 'Hello, world!';
-  const usage = overrides.usage ?? { input_tokens: 10, output_tokens: 5, total_tokens: 15 };
+  const usage = overrides.usage ?? {
+    input_tokens: 10,
+    output_tokens: 5,
+    total_tokens: 15,
+  };
 
   const body = {
     id: overrides.id ?? 'chatcmpl-123',
@@ -53,27 +63,28 @@ export function chatCompletionResponse(overrides: {
 export function streamingChatResponse(
   chunks: Array<{ content?: string; finish_reason?: string; usage?: any }>,
 ): Response {
-  const body = chunks
-    .map((chunk, i) => {
-      const data: any = {
-        id: `chatcmpl-${i}`,
-        object: 'chat.completion.chunk',
-        created: 1234567890,
-        model: 'gpt-3.5-turbo',
-        choices: [
-          {
-            index: 0,
-            delta: { content: chunk.content },
-            finish_reason: chunk.finish_reason ?? null,
-          },
-        ],
-      };
-      if (chunk.usage) {
-        data.usage = chunk.usage;
-      }
-      return `data: ${JSON.stringify(data)}\n\n`;
-    })
-    .join('') + 'data: [DONE]\n\n';
+  const body =
+    chunks
+      .map((chunk, i) => {
+        const data: any = {
+          id: `chatcmpl-${i}`,
+          object: 'chat.completion.chunk',
+          created: 1234567890,
+          model: 'gpt-3.5-turbo',
+          choices: [
+            {
+              index: 0,
+              delta: { content: chunk.content },
+              finish_reason: chunk.finish_reason ?? null,
+            },
+          ],
+        };
+        if (chunk.usage) {
+          data.usage = chunk.usage;
+        }
+        return `data: ${JSON.stringify(data)}\n\n`;
+      })
+      .join('') + 'data: [DONE]\n\n';
 
   return new Response(body, {
     status: 200,
@@ -104,7 +115,9 @@ export function embeddingResponse(
   );
 }
 
-export function imageGenerationResponse(imageUrl: string = 'https://example.com/image.png'): Response {
+export function imageGenerationResponse(
+  imageUrl: string = 'https://example.com/image.png',
+): Response {
   return new Response(
     JSON.stringify({
       data: [{ url: imageUrl, revised_prompt: 'A beautiful image' }],

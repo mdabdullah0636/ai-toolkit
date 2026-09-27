@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme inline {
   --color-background: hsl(var(--background));
@@ -33,8 +33,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --font-sans:
-    'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter',
-    'Helvetica Neue', Arial, sans-serif;
+    "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", "Helvetica Neue", Arial,
+    sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
@@ -72,8 +72,8 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings:
-      'rlig' 1,
-      'calt' 1;
+      "rlig" 1,
+      "calt" 1;
   }
   ::selection {
     @apply bg-primary/25;

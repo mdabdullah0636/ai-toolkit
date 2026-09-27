@@ -52,7 +52,9 @@ export const openaiCompletionChunkSchema = lazySchema(() =>
               .object({
                 tokens: z.array(z.string()),
                 token_logprobs: z.array(z.number()),
-                top_logprobs: z.array(z.record(z.string(), z.number())).nullish(),
+                top_logprobs: z
+                  .array(z.record(z.string(), z.number()))
+                  .nullish(),
               })
               .nullish(),
           }),
@@ -70,6 +72,10 @@ export const openaiCompletionChunkSchema = lazySchema(() =>
   ),
 );
 
-export type OpenAICompletionChunk = InferSchema<typeof openaiCompletionChunkSchema>;
+export type OpenAICompletionChunk = InferSchema<
+  typeof openaiCompletionChunkSchema
+>;
 
-export type OpenAICompletionResponse = InferSchema<typeof openaiCompletionResponseSchema>;
+export type OpenAICompletionResponse = InferSchema<
+  typeof openaiCompletionResponseSchema
+>;

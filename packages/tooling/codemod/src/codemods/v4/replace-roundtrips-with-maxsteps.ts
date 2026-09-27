@@ -21,7 +21,9 @@ export default createTransformer((fileInfo, api, options, context) => {
         if (
           prop.type === 'ObjectProperty' &&
           prop.key.type === 'Identifier' &&
-          ['maxToolRoundtrips', 'maxAutomaticRoundtrips'].includes(prop.key.name)
+          ['maxToolRoundtrips', 'maxAutomaticRoundtrips'].includes(
+            prop.key.name,
+          )
         ) {
           foundRoundtrips = true;
           if (prop.value.type === 'NumericLiteral') {
@@ -35,7 +37,10 @@ export default createTransformer((fileInfo, api, options, context) => {
       if (foundRoundtrips) {
         context.hasChanges = true;
         optionsArg.properties.push(
-          j.objectProperty(j.identifier('maxSteps'), j.numericLiteral(maxStepsValue)),
+          j.objectProperty(
+            j.identifier('maxSteps'),
+            j.numericLiteral(maxStepsValue),
+          ),
         );
       }
     });
@@ -44,7 +49,9 @@ export default createTransformer((fileInfo, api, options, context) => {
   root
     .find(j.MemberExpression)
     .filter(
-      path => path.node.property.type === 'Identifier' && path.node.property.name === 'roundtrips',
+      path =>
+        path.node.property.type === 'Identifier' &&
+        path.node.property.name === 'roundtrips',
     )
     .forEach(path => {
       if (path.node.property.type === 'Identifier') {

@@ -23,7 +23,9 @@ export const imageGenerationArgsSchema = lazySchema(() =>
         outputFormat: z.enum(['png', 'jpeg', 'webp']).optional(),
         partialImages: z.number().int().min(0).max(3).optional(),
         quality: z.enum(['auto', 'low', 'medium', 'high']).optional(),
-        size: z.enum(['1024x1024', '1024x1536', '1536x1024', 'auto']).optional(),
+        size: z
+          .enum(['1024x1024', '1024x1536', '1536x1024', 'auto'])
+          .optional(),
       })
       .strict(),
   ),

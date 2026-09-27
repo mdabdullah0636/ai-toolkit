@@ -3,7 +3,10 @@ import { z } from 'zod/v4';
 
 const viewImageOutputSchema = z.object({
   description: z.string().describe('description of the image'),
-  objects: z.array(z.string()).optional().describe('objects detected in the image'),
+  objects: z
+    .array(z.string())
+    .optional()
+    .describe('objects detected in the image'),
 });
 
 const viewImageToolFactory = createProviderToolFactoryWithOutputSchema({
@@ -12,5 +15,6 @@ const viewImageToolFactory = createProviderToolFactoryWithOutputSchema({
   outputSchema: viewImageOutputSchema,
 });
 
-export const viewImage = (args: Parameters<typeof viewImageToolFactory>[0] = {}) =>
-  viewImageToolFactory(args);
+export const viewImage = (
+  args: Parameters<typeof viewImageToolFactory>[0] = {},
+) => viewImageToolFactory(args);

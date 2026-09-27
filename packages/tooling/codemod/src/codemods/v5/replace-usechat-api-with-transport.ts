@@ -54,7 +54,10 @@ export default createTransformer((fileInfo, api, options, context) => {
   root
     .find(j.CallExpression)
     .filter(path => {
-      return path.node.callee.type === 'Identifier' && useChatNames.has(path.node.callee.name);
+      return (
+        path.node.callee.type === 'Identifier' &&
+        useChatNames.has(path.node.callee.name)
+      );
     })
     .forEach(path => {
       const args = path.node.arguments;
@@ -75,13 +78,17 @@ export default createTransformer((fileInfo, api, options, context) => {
       needsDefaultChatTransportImport = true;
       context.hasChanges = true;
 
-      const newProperties = firstArg.properties.filter((prop: any) => prop !== apiProperty);
+      const newProperties = firstArg.properties.filter(
+        (prop: any) => prop !== apiProperty,
+      );
 
       const transportProperty = j.property(
         'init',
         j.identifier('transport'),
         j.newExpression(j.identifier('DefaultChatTransport'), [
-          j.objectExpression([j.property('init', j.identifier('api'), (apiProperty as any).value)]),
+          j.objectExpression([
+            j.property('init', j.identifier('api'), (apiProperty as any).value),
+          ]),
         ]),
       );
 
@@ -106,7 +113,9 @@ export default createTransformer((fileInfo, api, options, context) => {
       );
 
       if (!hasDefaultChatTransport) {
-        specifiers.push(j.importSpecifier(j.identifier('DefaultChatTransport')));
+        specifiers.push(
+          j.importSpecifier(j.identifier('DefaultChatTransport')),
+        );
       }
     } else {
       const imports = root.find(j.ImportDeclaration);

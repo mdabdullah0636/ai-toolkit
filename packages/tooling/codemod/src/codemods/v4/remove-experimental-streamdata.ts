@@ -9,7 +9,11 @@ export default createTransformer((fileInfo, api, options, context) => {
   // First pass - collect imports from 'ai-toolkit' package
   root
     .find(j.ImportDeclaration)
-    .filter(path => path.node.source.value === 'ai-toolkit' || path.node.source.value === 'ai-toolkit')
+    .filter(
+      path =>
+        path.node.source.value === 'ai-toolkit' ||
+        path.node.source.value === 'ai-toolkit',
+    )
     .forEach(path => {
       path.node.specifiers?.forEach(spec => {
         if (
@@ -27,7 +31,11 @@ export default createTransformer((fileInfo, api, options, context) => {
   // Second pass - replace imports from 'ai-toolkit' package only
   root
     .find(j.ImportDeclaration)
-    .filter(path => path.node.source.value === 'ai-toolkit' || path.node.source.value === 'ai-toolkit')
+    .filter(
+      path =>
+        path.node.source.value === 'ai-toolkit' ||
+        path.node.source.value === 'ai-toolkit',
+    )
     .forEach(path => {
       const newSpecifiers = path.node.specifiers?.map(spec => {
         if (
@@ -53,7 +61,10 @@ export default createTransformer((fileInfo, api, options, context) => {
       // Only replace if:
       // 1. It's one of our tracked imports from 'ai-toolkit'
       // 2. It's not part of an import declaration (to avoid replacing other imports)
-      return targetImports.has(path.node.name) && !j(path).closest(j.ImportDeclaration).size();
+      return (
+        targetImports.has(path.node.name) &&
+        !j(path).closest(j.ImportDeclaration).size()
+      );
     })
     .forEach(path => {
       path.node.name = 'StreamData';

@@ -2,11 +2,7 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig([
   {
-    entry: [
-      'src/index.ts',
-      'src/components/ui/*.tsx',
-      'src/lib/utils.ts',
-    ],
+    entry: ['src/index.ts', 'src/components/ui/*.tsx', 'src/lib/utils.ts'],
     outDir: 'dist',
     format: ['cjs', 'esm'],
     // Disable code splitting; the CJS build emits an ESM passthrough index

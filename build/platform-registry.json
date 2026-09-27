@@ -5862,14 +5862,7 @@
       "name": "Portkey",
       "description": "A production-ready AI gateway with interoperability across 250+ LLMs, full-stack observability and tracing, 50+ guardrails, semantic caching, and conditional request routing with fallbacks, load balancing, and automatic retries.",
       "status": "active",
-      "tags": [
-        "unified-access",
-        "routing",
-        "observability",
-        "caching",
-        "security",
-        "guardrails"
-      ],
+      "tags": ["unified-access", "routing", "observability", "caching", "security", "guardrails"],
       "links": [
         {
           "label": "docs",
@@ -5910,13 +5903,7 @@
       "name": "LangDB",
       "description": "A high-performance enterprise AI gateway built in Rust that governs, secures, and optimizes AI traffic. OpenAI-compatible APIs, access to 250+ models, dynamic request routing, tracing, and cost optimization. Connect to multiple LLMs by changing just two lines of code.",
       "status": "active",
-      "tags": [
-        "unified-access",
-        "routing",
-        "observability",
-        "enterprise",
-        "self-hosted"
-      ],
+      "tags": ["unified-access", "routing", "observability", "enterprise", "self-hosted"],
       "links": [
         {
           "label": "docs",
@@ -5957,13 +5944,7 @@
       "name": "Requesty",
       "description": "A unified LLM gateway with access to over 300 models. 99.99% uptime SLA with intelligent failover and load balancing, prompt caching that cuts costs by up to 80%, prompt injection detection, and built-in real-time observability.",
       "status": "active",
-      "tags": [
-        "unified-access",
-        "routing",
-        "observability",
-        "enterprise",
-        "security"
-      ],
+      "tags": ["unified-access", "routing", "observability", "enterprise", "security"],
       "links": [
         {
           "label": "docs",
@@ -6402,13 +6383,7 @@
       "name": "Superagent",
       "description": "AI security guardrails for your LLMs. Protect your AI apps from prompt injection, redact PII/PHI (SSNs, emails, phone numbers), and verify claims against source materials. Add security tools to your LLMs in just a few lines of code.",
       "status": "active",
-      "tags": [
-        "security",
-        "guardrails",
-        "pii",
-        "prompt-injection",
-        "verification"
-      ],
+      "tags": ["security", "guardrails", "pii", "prompt-injection", "verification"],
       "links": [
         {
           "label": "docs",

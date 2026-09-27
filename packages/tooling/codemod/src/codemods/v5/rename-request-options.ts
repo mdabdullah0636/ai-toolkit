@@ -10,14 +10,15 @@ export default createTransformer((fileInfo, api, options, context) => {
     .find(j.ImportDeclaration)
     .filter(path => {
       return !!(
-        path.node.source.value === 'ai-toolkit' || path.node.source.value === 'ai-toolkit' &&
-        path.node.specifiers &&
-        path.node.specifiers.some(
-          spec =>
-            spec.type === 'ImportSpecifier' &&
-            spec.imported.type === 'Identifier' &&
-            spec.imported.name === 'RequestOptions',
-        )
+        path.node.source.value === 'ai-toolkit' ||
+        (path.node.source.value === 'ai-toolkit' &&
+          path.node.specifiers &&
+          path.node.specifiers.some(
+            spec =>
+              spec.type === 'ImportSpecifier' &&
+              spec.imported.type === 'Identifier' &&
+              spec.imported.name === 'RequestOptions',
+          ))
       );
     })
     .forEach(path => {

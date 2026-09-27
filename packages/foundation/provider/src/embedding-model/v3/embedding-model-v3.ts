@@ -32,7 +32,10 @@ Limit of how many embeddings can be generated in a single API call.
 
 Use Infinity for models that do not have a limit.
    */
-  readonly maxEmbeddingsPerCall: PromiseLike<number | undefined> | number | undefined;
+  readonly maxEmbeddingsPerCall:
+    | PromiseLike<number | undefined>
+    | number
+    | undefined;
 
   /**
 True if the model can handle multiple embedding calls in parallel.
@@ -45,5 +48,7 @@ Generates a list of embeddings for the given input text.
 Naming: "do" prefix to prevent accidental direct usage of the method
 by the user.
    */
-  doEmbed(options: EmbeddingModelV3CallOptions): PromiseLike<EmbeddingModelV3Result>;
+  doEmbed(
+    options: EmbeddingModelV3CallOptions,
+  ): PromiseLike<EmbeddingModelV3Result>;
 };

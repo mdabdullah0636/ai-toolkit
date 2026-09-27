@@ -42,9 +42,7 @@ const families = ['docs', 'providers', 'cookbook'];
 /** Returns { prefix, clean } for a `NN-name` path segment. */
 const parseSegment = segment => {
   const match = segment.match(/^(\d+)-(.+)$/);
-  return match
-    ? { prefix: Number(match[1]), clean: match[2] }
-    : { prefix: null, clean: segment };
+  return match ? { prefix: Number(match[1]), clean: match[2] } : { prefix: null, clean: segment };
 };
 
 /** Strips the first in-body `# H1` line (frontmatter title is the page H1). */
@@ -63,14 +61,8 @@ const linkReplacements = [
   ['#validating-messages-from-database', '#validating-messages-on-the-server'],
   ['#multi-step-calls', '#multi-step-calls-using-stopwhen'],
   ['#attachments-experimental', '#attachments'],
-  [
-    '#structured-outputs-with-generatetext-and-streamtext',
-    '#generating-structured-outputs',
-  ],
-  [
-    '#simulate-data-stream-protocol-responses',
-    '#simulate-ui-message-stream-responses',
-  ],
+  ['#structured-outputs-with-generatetext-and-streamtext', '#generating-structured-outputs'],
+  ['#simulate-data-stream-protocol-responses', '#simulate-ui-message-stream-responses'],
   ['#tools-generate', '#tools.tool.generate'],
   ['#tooloopagent-class', '#toolloopagent-class'],
 ];
@@ -78,9 +70,7 @@ const linkReplacements = [
 const rewriteLegacyLinks = line =>
   linkReplacements.reduce((rewritten, [from, to]) => {
     if (to.startsWith(from)) {
-      const suffix = to
-        .slice(from.length)
-        .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const suffix = to.slice(from.length).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const pattern = new RegExp(
         `${from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!${suffix})`,
         'g',
@@ -103,10 +93,7 @@ const rewriteLines = mdx => {
           /\b(?:filename|file)=(?:\{)?(["'])([^"']+)\1(?:\})?/g,
           'title=$1$2$1',
         );
-        next = next.replace(
-          /\bhighlight=(?:\{)?(["'])([^"']+)\1(?:\})?/g,
-          '{$2}',
-        );
+        next = next.replace(/\bhighlight=(?:\{)?(["'])([^"']+)\1(?:\})?/g, '{$2}');
         next = next.replace(/^(\s*```)([a-zA-Z-]+)["']+(\s*)$/, '$1$2$3');
         next = next.replace(/^(\s*```)prompt\b/, '$1txt');
         next = next.replace(/^(\s*```)env\b/, '$1dotenv');
@@ -117,11 +104,7 @@ const rewriteLines = mdx => {
         return null;
       }
       const rewrittenLine = !inFence ? rewriteLegacyLinks(line) : line;
-      if (
-        !inFence &&
-        /^#{1,6}\s/.test(rewrittenLine) &&
-        /<[A-Z]/.test(rewrittenLine)
-      ) {
+      if (!inFence && /^#{1,6}\s/.test(rewrittenLine) && /<[A-Z]/.test(rewrittenLine)) {
         return rewrittenLine
           .replace(/<([A-Z][\w.]*)[^>]*>([^<]*)<\/\1>/g, '($2)')
           .replace(/<[A-Z][\w.]*[^>]*\/>/g, '')
@@ -188,16 +171,13 @@ const transformDir = (srcDir, outDir, relPath = '') => {
     })
     .sort(
       (a, b) =>
-        (a.prefix ?? Number.MAX_SAFE_INTEGER) -
-          (b.prefix ?? Number.MAX_SAFE_INTEGER) ||
+        (a.prefix ?? Number.MAX_SAFE_INTEGER) - (b.prefix ?? Number.MAX_SAFE_INTEGER) ||
         a.clean.localeCompare(b.clean),
     );
 
   const hasOverviewPage = entries.some(
     ({ entry, clean }) =>
-      !entry.isDirectory() &&
-      entry.name.endsWith('.mdx') &&
-      clean === 'overview',
+      !entry.isDirectory() && entry.name.endsWith('.mdx') && clean === 'overview',
   );
 
   const seen = new Map();
@@ -243,10 +223,7 @@ const transformDir = (srcDir, outDir, relPath = '') => {
   if (defaultOpen === false) {
     meta.defaultOpen = false;
   }
-  writeFileSync(
-    join(outDir, 'meta.json'),
-    `${JSON.stringify(meta, null, 2)}\n`,
-  );
+  writeFileSync(join(outDir, 'meta.json'), `${JSON.stringify(meta, null, 2)}\n`);
 };
 
 for (const family of families) {

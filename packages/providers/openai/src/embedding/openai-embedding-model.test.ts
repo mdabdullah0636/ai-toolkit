@@ -139,6 +139,8 @@ describe('doEmbed', () => {
       'openai-organization': 'test-organization',
       'openai-project': 'test-project',
     });
-    expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/openai/0.0.0-test`);
+    expect(server.calls[0].requestUserAgent).toContain(
+      `ai-toolkit/openai/0.0.0-test`,
+    );
   });
 });

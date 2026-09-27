@@ -47,13 +47,20 @@ export default createTransformer((fileInfo, api, options, context) => {
   root
     .find(j.CallExpression)
     .filter(path => {
-      return j.Identifier.check(path.node.callee) && generatorVariables.has(path.node.callee.name);
+      return (
+        j.Identifier.check(path.node.callee) &&
+        generatorVariables.has(path.node.callee.name)
+      );
     })
     .forEach(path => {
       const generatorName = (path.node.callee as any).name;
       const args = path.node.arguments;
 
-      if (args.length > 0 && j.Literal.check(args[0]) && typeof args[0].value === 'number') {
+      if (
+        args.length > 0 &&
+        j.Literal.check(args[0]) &&
+        typeof args[0].value === 'number'
+      ) {
         const size = args[0].value as number;
         // Store the size for this generator (assuming all calls use same size)
         if (!generatorSizes.has(generatorName)) {
@@ -75,12 +82,17 @@ export default createTransformer((fileInfo, api, options, context) => {
       if (args.length === 0) {
         // createIdGenerator() -> createIdGenerator({ size: X })
         callExpression.arguments = [
-          j.objectExpression([j.objectProperty(j.identifier('size'), j.literal(size))]),
+          j.objectExpression([
+            j.objectProperty(j.identifier('size'), j.literal(size)),
+          ]),
         ];
       } else if (args.length === 1 && j.ObjectExpression.check(args[0])) {
         // createIdGenerator({ prefix: 'msg' }) -> createIdGenerator({ prefix: 'msg', size: X })
         const existingProps = args[0].properties;
-        const sizeProperty = j.objectProperty(j.identifier('size'), j.literal(size));
+        const sizeProperty = j.objectProperty(
+          j.identifier('size'),
+          j.literal(size),
+        );
         args[0].properties = [...existingProps, sizeProperty];
       }
 
@@ -92,7 +104,10 @@ export default createTransformer((fileInfo, api, options, context) => {
   root
     .find(j.CallExpression)
     .filter(path => {
-      return j.Identifier.check(path.node.callee) && generatorVariables.has(path.node.callee.name);
+      return (
+        j.Identifier.check(path.node.callee) &&
+        generatorVariables.has(path.node.callee.name)
+      );
     })
     .forEach(path => {
       if (path.node.arguments.length > 0) {

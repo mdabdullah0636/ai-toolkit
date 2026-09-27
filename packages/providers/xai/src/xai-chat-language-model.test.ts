@@ -378,7 +378,9 @@ describe('XaiChatLanguageModel', () => {
         headers: { 'Custom-Request-Header': 'request-header-value' },
       });
 
-      expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/xai/0.0.0-test`);
+      expect(server.calls[0].requestUserAgent).toContain(
+        `ai-toolkit/xai/0.0.0-test`,
+      );
     });
 
     it('should send request body', async () => {
@@ -570,7 +572,10 @@ describe('XaiChatLanguageModel', () => {
             },
           ],
           usage: { prompt_tokens: 4, total_tokens: 34, completion_tokens: 30 },
-          citations: ['https://example.com/article1', 'https://example.com/article2'],
+          citations: [
+            'https://example.com/article1',
+            'https://example.com/article2',
+          ],
         },
       };
 

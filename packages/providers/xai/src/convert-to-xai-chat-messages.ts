@@ -35,7 +35,10 @@ export function convertToXaiChatMessages(prompt: LanguageModelV3Prompt): {
               }
               case 'file': {
                 if (part.mediaType.startsWith('image/')) {
-                  const mediaType = part.mediaType === 'image/*' ? 'image/jpeg' : part.mediaType;
+                  const mediaType =
+                    part.mediaType === 'image/*'
+                      ? 'image/jpeg'
+                      : part.mediaType;
 
                   return {
                     type: 'image_url',

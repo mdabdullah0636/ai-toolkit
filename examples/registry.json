@@ -6,13 +6,7 @@
       "order": 1,
       "title": "Foundations",
       "description": "Core SDK concepts and basic server integrations without a specific framework.",
-      "examples": [
-        "ai-functions",
-        "express",
-        "fastify",
-        "hono",
-        "node-http-server"
-      ]
+      "examples": ["ai-functions", "express", "fastify", "hono", "node-http-server"]
     },
     {
       "id": "02-framework-integration",

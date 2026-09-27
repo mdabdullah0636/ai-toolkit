@@ -12,7 +12,11 @@ export default createTransformer((fileInfo, api, options, context) => {
   const leadingComments: string[] = [];
   for (const line of originalLines) {
     const trimmedLine = line.trim();
-    if (trimmedLine.startsWith('//') || trimmedLine.startsWith('/*') || trimmedLine === '') {
+    if (
+      trimmedLine.startsWith('//') ||
+      trimmedLine.startsWith('/*') ||
+      trimmedLine === ''
+    ) {
       leadingComments.push(line);
     } else {
       break; // Stop at the first non-comment, non-empty line
@@ -23,7 +27,11 @@ export default createTransformer((fileInfo, api, options, context) => {
   root
     .find(j.ImportDeclaration)
     .filter(path => {
-      return path.node.source.type === 'StringLiteral' && (path.node.source.value === 'ai-toolkit' || path.node.source.value === 'ai-toolkit');
+      return (
+        path.node.source.type === 'StringLiteral' &&
+        (path.node.source.value === 'ai-toolkit' ||
+          path.node.source.value === 'ai-toolkit')
+      );
     })
     .forEach(path => {
       if (path.node.specifiers) {
@@ -80,7 +88,10 @@ export default createTransformer((fileInfo, api, options, context) => {
               j.conditionalExpression(
                 j.binaryExpression(
                   '===',
-                  j.memberExpression(j.identifier('part'), j.identifier('type')),
+                  j.memberExpression(
+                    j.identifier('part'),
+                    j.identifier('type'),
+                  ),
                   j.stringLiteral('text'),
                 ),
                 j.memberExpression(j.identifier('part'), j.identifier('text')),
@@ -106,7 +117,10 @@ export default createTransformer((fileInfo, api, options, context) => {
     // Check if the transformed source starts with the same comments
     let needsCommentRestoration = false;
     for (let i = 0; i < leadingComments.length; i++) {
-      if (i >= transformedLines.length || leadingComments[i] !== transformedLines[i]) {
+      if (
+        i >= transformedLines.length ||
+        leadingComments[i] !== transformedLines[i]
+      ) {
         needsCommentRestoration = true;
         break;
       }
@@ -117,7 +131,11 @@ export default createTransformer((fileInfo, api, options, context) => {
       let firstCodeLineIndex = 0;
       for (let i = 0; i < transformedLines.length; i++) {
         const trimmedLine = transformedLines[i].trim();
-        if (trimmedLine !== '' && !trimmedLine.startsWith('//') && !trimmedLine.startsWith('/*')) {
+        if (
+          trimmedLine !== '' &&
+          !trimmedLine.startsWith('//') &&
+          !trimmedLine.startsWith('/*')
+        ) {
           firstCodeLineIndex = i;
           break;
         }
@@ -125,12 +143,17 @@ export default createTransformer((fileInfo, api, options, context) => {
 
       // Rebuild the source with preserved comments
       const preservedComments = leadingComments.join('\n');
-      const codeWithoutLeadingComments = transformedLines.slice(firstCodeLineIndex).join('\n');
+      const codeWithoutLeadingComments = transformedLines
+        .slice(firstCodeLineIndex)
+        .join('\n');
 
       // Determine spacing between comments and code
       let spacingAfterComments = '';
       const lastCommentIndex = leadingComments.length - 1;
-      if (lastCommentIndex >= 0 && leadingComments[lastCommentIndex].trim() === '') {
+      if (
+        lastCommentIndex >= 0 &&
+        leadingComments[lastCommentIndex].trim() === ''
+      ) {
         // If the last leading comment line is empty, preserve that spacing
         spacingAfterComments = '\n';
       } else {
@@ -144,7 +167,9 @@ export default createTransformer((fileInfo, api, options, context) => {
       // We need to manually handle the return since createTransformer expects us to modify context.hasChanges
       // but we want to return a custom result. We'll modify the root to contain our preserved content.
       const preservedAST = j(preservedResult);
-      context.root.find(j.Program).replaceWith(preservedAST.find(j.Program).get().node);
+      context.root
+        .find(j.Program)
+        .replaceWith(preservedAST.find(j.Program).get().node);
     }
   }
 });

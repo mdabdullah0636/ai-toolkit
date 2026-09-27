@@ -16,10 +16,15 @@ export default createTransformer((fileInfo, api, options, context) => {
     const node = importPath.node;
 
     // Check if the source is 'ai-toolkit'
-    if ((node.source.value !== 'ai-toolkit' && node.source.value !== 'ai-toolkit')) return;
+    if (
+      node.source.value !== 'ai-toolkit' &&
+      node.source.value !== 'ai-toolkit'
+    )
+      return;
 
     // Check named imports and rename them
-    const specifiers = node.specifiers?.filter(s => j.ImportSpecifier.check(s)) ?? [];
+    const specifiers =
+      node.specifiers?.filter(s => j.ImportSpecifier.check(s)) ?? [];
 
     for (const specifier of specifiers) {
       if (
@@ -69,7 +74,11 @@ export default createTransformer((fileInfo, api, options, context) => {
         }
 
         // Skip if this is a property name in an object (e.g., { Message: something })
-        if (parent && j.Property.check(parent.node) && parent.node.key === node) {
+        if (
+          parent &&
+          j.Property.check(parent.node) &&
+          parent.node.key === node
+        ) {
           return;
         }
 
@@ -85,10 +94,14 @@ export default createTransformer((fileInfo, api, options, context) => {
       if (!node || typeof node !== 'object') return;
 
       // Handle TSTypeReference nodes (for generics like Array<Message>)
-      if (node.type === 'TSTypeReference' && node.typeName?.type === 'Identifier') {
+      if (
+        node.type === 'TSTypeReference' &&
+        node.typeName?.type === 'Identifier'
+      ) {
         const typeName = node.typeName.name;
         if (importedFromAi.has(typeName)) {
-          node.typeName.name = renameMappings[typeName as keyof typeof renameMappings];
+          node.typeName.name =
+            renameMappings[typeName as keyof typeof renameMappings];
           context.hasChanges = true;
         }
       }

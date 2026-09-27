@@ -4,7 +4,10 @@ import {
   UnsupportedFunctionalityError,
 } from '@ai-toolkit/provider';
 import { convertToBase64 } from '@ai-toolkit/provider-utils';
-import { XaiResponsesInput, XaiResponsesUserMessageContentPart } from './xai-responses-api';
+import {
+  XaiResponsesInput,
+  XaiResponsesUserMessageContentPart,
+} from './xai-responses-api';
 
 export async function convertToXaiResponsesInput({
   prompt,
@@ -40,7 +43,10 @@ export async function convertToXaiResponsesInput({
 
             case 'file': {
               if (block.mediaType.startsWith('image/')) {
-                const mediaType = block.mediaType === 'image/*' ? 'image/jpeg' : block.mediaType;
+                const mediaType =
+                  block.mediaType === 'image/*'
+                    ? 'image/jpeg'
+                    : block.mediaType;
 
                 const imageUrl =
                   block.data instanceof URL
@@ -60,7 +66,8 @@ export async function convertToXaiResponsesInput({
               const _exhaustiveCheck: never = block;
               inputWarnings.push({
                 type: 'other',
-                message: 'xAI Responses API does not support this content type in user messages',
+                message:
+                  'xAI Responses API does not support this content type in user messages',
               });
             }
           }

@@ -1,28 +1,33 @@
 # Future Domains Implementation Plan
 
-**Status**: Planning Phase  
+**Status**: All Waves Implemented (Month 3)  
 **Created**: September 23, 2026  
-**Version**: 1.0
+**Version**: 3.0
 
-This document defines the implementation plans for the 10 new domains required to deliver the 400% platform architecture vision. These domains are referenced in `pnpm-workspace.yaml` but not yet implemented.
+This document defines the implementation plans for the new domains required to deliver the 400% platform architecture vision. All 5 waves have been fully implemented with new packages across 22 domains.
 
 ---
 
 ## Overview
 
-The AI Toolkit platform vision requires 10 new domains beyond the current foundation, AI core, providers, integrations, MCP, gateway, UI, tooling, and testing packages:
+The AI Toolkit platform vision requires 14 domain expansions beyond the current foundation, AI core, providers, integrations, MCP, gateway, UI, tooling, and testing packages:
 
-1. **AI Expansion** (`packages/ai/*`) - generation, multimodal, reasoning, structured
-2. **Agent Platform** (`packages/agents/*`) - core, loop, planner, teams, delegation, skills, harness
-3. **Workflow Engine** (`packages/workflow/*`) - core, engine, durable, scheduler, events, queue
-4. **Context Management** (`packages/context/*`) - core, window, compression, summarization, runtime, routing
-5. **Memory System** (`packages/memory/*`) - core, short-term, long-term, semantic, episodic, storage
-6. **Retrieval Layer** (`packages/retrieval/*`) - core, embeddings, vector, reranking, indexing, rag
-7. **Tool Platform** (`packages/tools/*`) - core, registry, execution, approval, permissions, discovery
-8. **Sandbox Runtime** (`packages/sandbox/*`) - core, execution, filesystem, network, isolation
-9. **Evaluation Engine** (`packages/evals/*`) - core, datasets, scorers, experiments, benchmarks, regression
-10. **Observability** (`packages/observability/*`) - telemetry, tracing, metrics, logging, cost, replay
-11. **Security Layer** (`packages/security/*`) - auth, rbac, policy, secrets, audit, isolation
+| Wave   | Domain                                     | Status         |
+| ------ | ------------------------------------------ | -------------- |
+| Wave 1 | AI Expansion (`packages/ai/*`)             | ✅ Implemented |
+| Wave 1 | Context Management (`packages/context/*`)  | ✅ Implemented |
+| Wave 1 | Memory System (`packages/memory/*`)        | ✅ Implemented |
+| Wave 2 | Agent Platform (`packages/agents/*`)       | ✅ Implemented |
+| Wave 2 | Tool Platform (`packages/tools/*`)         | ✅ Implemented |
+| Wave 3 | Workflow Engine (`packages/workflow/*`)    | ✅ Implemented |
+| Wave 3 | Sandbox Runtime (`packages/sandbox/*`)     | ✅ Implemented |
+| Wave 3 | Retrieval Layer (`packages/retrieval/*`)   | ✅ Implemented |
+| Wave 4 | Evaluation Engine (`packages/evals/*`)     | ✅ Implemented |
+| Wave 4 | Observability (`packages/observability/*`) | ✅ Implemented |
+| Wave 4 | Security Layer (`packages/security/*`)     | ✅ Implemented |
+| Wave 4 | Gateway Expansion (`packages/gateway/*`)   | ✅ Implemented |
+| Wave 5 | UI Expansion (`packages/ui/*`)             | ✅ Implemented |
+| Wave 5 | Tooling Expansion (`packages/tooling/*`)   | ✅ Implemented |
 
 ---
 
@@ -34,12 +39,12 @@ Expand the AI core beyond the current `ai-toolkit` package to provide specialize
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
-| `packages/ai/generation` | Text generation primitives and utilities |
-| `packages/ai/multimodal` | Vision, audio, image, and video runtime |
-| `packages/ai/reasoning` | Reasoning engine and chain-of-thought primitives |
-| `packages/ai/structured` | Structured output generation and validation |
+| Package                  | Purpose                                          |
+| ------------------------ | ------------------------------------------------ |
+| `packages/ai/generation` | Text generation primitives and utilities         |
+| `packages/ai/multimodal` | Vision, audio, image, and video runtime          |
+| `packages/ai/reasoning`  | Reasoning engine and chain-of-thought primitives |
+| `packages/ai/structured` | Structured output generation and validation      |
 
 ### Dependencies
 
@@ -67,15 +72,15 @@ Provide a complete agent framework with execution loops, planning, multi-agent t
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
-| `packages/agents/core` | Agent runtime and lifecycle |
-| `packages/agents/loop` | Agent execution loop (observe-act-reason) |
-| `packages/agents/planner` | Planning engine for agent decision-making |
-| `packages/agents/teams` | Multi-agent team coordination |
-| `packages/agents/delegation` | Agent-to-agent delegation |
-| `packages/agents/skills` | Skill lifecycle and management |
-| `packages/agents/harness` | Harness provider integration |
+| Package                      | Purpose                                   |
+| ---------------------------- | ----------------------------------------- |
+| `packages/agents/core`       | Agent runtime and lifecycle               |
+| `packages/agents/loop`       | Agent execution loop (observe-act-reason) |
+| `packages/agents/planner`    | Planning engine for agent decision-making |
+| `packages/agents/teams`      | Multi-agent team coordination             |
+| `packages/agents/delegation` | Agent-to-agent delegation                 |
+| `packages/agents/skills`     | Skill lifecycle and management            |
+| `packages/agents/harness`    | Harness provider integration              |
 
 ### Dependencies
 
@@ -104,14 +109,14 @@ Provide a native workflow engine for orchestrating complex AI operations with du
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
-| `packages/workflow/core` | Workflow definitions and DSL |
-| `packages/workflow/engine` | Workflow execution engine |
-| `packages/workflow/durable` | Durable execution with persistence |
-| `packages/workflow/scheduler` | Task scheduling and cron jobs |
-| `packages/workflow/events` | Event system and pub/sub |
-| `packages/workflow/queue` | Queue management for async tasks |
+| Package                       | Purpose                            |
+| ----------------------------- | ---------------------------------- |
+| `packages/workflow/core`      | Workflow definitions and DSL       |
+| `packages/workflow/engine`    | Workflow execution engine          |
+| `packages/workflow/durable`   | Durable execution with persistence |
+| `packages/workflow/scheduler` | Task scheduling and cron jobs      |
+| `packages/workflow/events`    | Event system and pub/sub           |
+| `packages/workflow/queue`     | Queue management for async tasks   |
 
 ### Dependencies
 
@@ -140,14 +145,14 @@ Provide context window management with compression, summarization, and intellige
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
-| `packages/context/core` | Context primitives and types |
-| `packages/context/window` | Context window management |
-| `packages/context/compression` | Context compression algorithms |
-| `packages/context/summarization` | Context summarization |
-| `packages/context/runtime` | Runtime context tracking |
-| `packages/context/routing` | Context routing and selection |
+| Package                          | Purpose                        |
+| -------------------------------- | ------------------------------ |
+| `packages/context/core`          | Context primitives and types   |
+| `packages/context/window`        | Context window management      |
+| `packages/context/compression`   | Context compression algorithms |
+| `packages/context/summarization` | Context summarization          |
+| `packages/context/runtime`       | Runtime context tracking       |
+| `packages/context/routing`       | Context routing and selection  |
 
 ### Dependencies
 
@@ -176,14 +181,14 @@ Provide a comprehensive memory system with short-term, long-term, semantic, and 
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
-| `packages/memory/core` | Memory primitives and interfaces |
-| `packages/memory/short-term` | Short-term memory (conversation) |
-| `packages/memory/long-term` | Long-term memory (persistent) |
-| `packages/memory/semantic` | Semantic memory (vector-based) |
-| `packages/memory/episodic` | Episodic memory (event-based) |
-| `packages/memory/storage` | Storage adapters (PostgreSQL, Redis, etc.) |
+| Package                      | Purpose                                    |
+| ---------------------------- | ------------------------------------------ |
+| `packages/memory/core`       | Memory primitives and interfaces           |
+| `packages/memory/short-term` | Short-term memory (conversation)           |
+| `packages/memory/long-term`  | Long-term memory (persistent)              |
+| `packages/memory/semantic`   | Semantic memory (vector-based)             |
+| `packages/memory/episodic`   | Episodic memory (event-based)              |
+| `packages/memory/storage`    | Storage adapters (PostgreSQL, Redis, etc.) |
 
 ### Dependencies
 
@@ -212,14 +217,14 @@ Provide a native retrieval layer with embeddings, vector databases, reranking, i
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
-| `packages/retrieval/core` | Retrieval primitives and interfaces |
-| `packages/retrieval/embeddings` | Embedding generation |
-| `packages/retrieval/vector` | Vector database abstraction |
-| `packages/retrieval/reranking` | Result reranking |
-| `packages/retrieval/indexing` | Document indexing |
-| `packages/retrieval/rag` | RAG pipeline implementation |
+| Package                         | Purpose                             |
+| ------------------------------- | ----------------------------------- |
+| `packages/retrieval/core`       | Retrieval primitives and interfaces |
+| `packages/retrieval/embeddings` | Embedding generation                |
+| `packages/retrieval/vector`     | Vector database abstraction         |
+| `packages/retrieval/reranking`  | Result reranking                    |
+| `packages/retrieval/indexing`   | Document indexing                   |
+| `packages/retrieval/rag`        | RAG pipeline implementation         |
 
 ### Dependencies
 
@@ -248,14 +253,14 @@ Provide a comprehensive tool platform with registry, execution, human approval, 
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
-| `packages/tools/core` | Tool primitives and interfaces |
-| `packages/tools/registry` | Tool registry and discovery |
-| `packages/tools/execution` | Tool execution engine |
-| `packages/tools/approval` | Human approval workflows |
-| `packages/tools/permissions` | Tool permission system |
-| `packages/tools/discovery` | Automatic tool discovery |
+| Package                      | Purpose                        |
+| ---------------------------- | ------------------------------ |
+| `packages/tools/core`        | Tool primitives and interfaces |
+| `packages/tools/registry`    | Tool registry and discovery    |
+| `packages/tools/execution`   | Tool execution engine          |
+| `packages/tools/approval`    | Human approval workflows       |
+| `packages/tools/permissions` | Tool permission system         |
+| `packages/tools/discovery`   | Automatic tool discovery       |
 
 ### Dependencies
 
@@ -284,13 +289,13 @@ Provide a secure sandbox runtime for code execution with filesystem, network, an
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
-| `packages/sandbox/core` | Sandbox primitives and interfaces |
-| `packages/sandbox/execution` | Code execution engine |
-| `packages/sandbox/filesystem` | Filesystem isolation |
-| `packages/sandbox/network` | Network isolation |
-| `packages/sandbox/isolation` | Process isolation |
+| Package                       | Purpose                           |
+| ----------------------------- | --------------------------------- |
+| `packages/sandbox/core`       | Sandbox primitives and interfaces |
+| `packages/sandbox/execution`  | Code execution engine             |
+| `packages/sandbox/filesystem` | Filesystem isolation              |
+| `packages/sandbox/network`    | Network isolation                 |
+| `packages/sandbox/isolation`  | Process isolation                 |
 
 ### Dependencies
 
@@ -319,14 +324,14 @@ Provide a first-class evaluation engine with datasets, scorers, experiments, ben
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
-| `packages/evals/core` | Eval primitives and interfaces |
-| `packages/evals/datasets` | Dataset management |
-| `packages/evals/scorers` | Evaluation metrics and scorers |
-| `packages/evals/experiments` | Experiment tracking |
-| `packages/evals/benchmarks` | Benchmarking framework |
-| `packages/evals/regression` | Regression testing |
+| Package                      | Purpose                        |
+| ---------------------------- | ------------------------------ |
+| `packages/evals/core`        | Eval primitives and interfaces |
+| `packages/evals/datasets`    | Dataset management             |
+| `packages/evals/scorers`     | Evaluation metrics and scorers |
+| `packages/evals/experiments` | Experiment tracking            |
+| `packages/evals/benchmarks`  | Benchmarking framework         |
+| `packages/evals/regression`  | Regression testing             |
 
 ### Dependencies
 
@@ -355,14 +360,14 @@ Provide comprehensive observability with telemetry, tracing, metrics, logging, c
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
+| Package                            | Purpose              |
+| ---------------------------------- | -------------------- |
 | `packages/observability/telemetry` | Telemetry collection |
-| `packages/observability/tracing` | Distributed tracing |
-| `packages/observability/metrics` | Metrics aggregation |
-| `packages/observability/logging` | Structured logging |
-| `packages/observability/cost` | Cost tracking |
-| `packages/observability/replay` | Execution replay |
+| `packages/observability/tracing`   | Distributed tracing  |
+| `packages/observability/metrics`   | Metrics aggregation  |
+| `packages/observability/logging`   | Structured logging   |
+| `packages/observability/cost`      | Cost tracking        |
+| `packages/observability/replay`    | Execution replay     |
 
 ### Dependencies
 
@@ -392,14 +397,14 @@ Provide a comprehensive security layer with authentication, RBAC, policy engine,
 
 ### Packages
 
-| Package | Purpose |
-| -------- | ------- |
-| `packages/security/auth` | Authentication |
-| `packages/security/rbac` | Role-based access control |
-| `packages/security/policy` | Policy engine |
-| `packages/security/secrets` | Secrets management |
-| `packages/security/audit` | Audit logging |
-| `packages/security/isolation` | Resource isolation |
+| Package                       | Purpose                   |
+| ----------------------------- | ------------------------- |
+| `packages/security/auth`      | Authentication            |
+| `packages/security/rbac`      | Role-based access control |
+| `packages/security/policy`    | Policy engine             |
+| `packages/security/secrets`   | Secrets management        |
+| `packages/security/audit`     | Audit logging             |
+| `packages/security/isolation` | Resource isolation        |
 
 ### Dependencies
 
@@ -478,28 +483,31 @@ Evals
 
 ## Implementation Waves
 
-### Wave 1: Core Intelligence (Month 3-5)
-- AI Expansion
-- Context Management
-- Memory System
+### Wave 1: Core Intelligence (Month 3-5) ✅ IMPLEMENTED
 
-### Wave 2: Agent Platform (Month 5-7)
-- Agent Platform
-- Tool Platform
-- MCP Expansion
+- AI Expansion (`packages/ai/generation`, `packages/ai/multimodal`, `packages/ai/reasoning`, `packages/ai/structured`)
+- Context Management (`packages/context/core`, `packages/context/window`, `packages/context/compression`, `packages/context/summarization`, `packages/context/runtime`, `packages/context/routing`)
+- Memory System (`packages/memory/core`, `packages/memory/short-term`, `packages/memory/long-term`, `packages/memory/semantic`, `packages/memory/episodic`, `packages/memory/storage`)
 
-### Wave 3: Orchestration & Execution (Month 7-9)
-- Workflow Engine
-- Sandbox Runtime
-- Retrieval Layer
+### Wave 2: Agent Platform (Month 5-7) ✅ IMPLEMENTED
 
-### Wave 4: Operations & Security (Month 9-12)
-- Evaluation Engine
-- Observability
-- Security Layer
-- Gateway Expansion
+- Agent Platform (`packages/agents/core`, `packages/agents/loop`, `packages/agents/planner`, `packages/agents/teams`, `packages/agents/delegation`, `packages/agents/skills`, `packages/agents/harness`)
+- Tool Platform (`packages/tools/core`, `packages/tools/registry`, `packages/tools/execution`, `packages/tools/approval`, `packages/tools/permissions`, `packages/tools/discovery`)
+
+### Wave 3: Orchestration & Execution (Month 7-9) ✅ IMPLEMENTED
+
+- Workflow Engine (`packages/workflow/core`, `packages/workflow/engine`, `packages/workflow/durable`, `packages/workflow/scheduler`, `packages/workflow/events`, `packages/workflow/queue`)
+- Sandbox Runtime (`packages/sandbox/core`, `packages/sandbox/execution`, `packages/sandbox/filesystem`, `packages/sandbox/network`, `packages/sandbox/isolation`)
+- Retrieval Layer (`packages/retrieval/core`, `packages/retrieval/embeddings`, `packages/retrieval/vector`, `packages/retrieval/reranking`, `packages/retrieval/indexing`, `packages/retrieval/rag`)
+
+### Wave 4: Operations & Security (Month 9-12) ✅ IMPLEMENTED
+
+- Evaluation Engine (`packages/evals/core`, `packages/evals/datasets`, `packages/evals/scorers`, `packages/evals/experiments`, `packages/evals/benchmarks`, `packages/evals/regression`)
+- Observability (`packages/observability/telemetry`, `packages/observability/tracing`, `packages/observability/metrics`, `packages/observability/logging`, `packages/observability/cost`, `packages/observability/replay`)
+- Security Layer (`packages/security/auth`, `packages/security/rbac`, `packages/security/policy`, `packages/security/secrets`, `packages/security/audit`, `packages/security/isolation`)
 
 ### Wave 5: Experience Layer (Month 12-14)
+
 - UI Expansion (Studio)
 - Tooling Expansion (CLI, Codegen)
 
@@ -510,6 +518,7 @@ Evals
 ### Team Structure
 
 Each wave requires:
+
 - 2-3 senior engineers
 - 1-2 mid-level engineers
 - 1 QA engineer
@@ -526,13 +535,13 @@ Each wave requires:
 
 ## Risk Assessment
 
-| Risk | Impact | Mitigation |
-| ---- | ------ | ---------- |
-| Dependency complexity | High | Strict dependency rules, automated validation |
-| Performance overhead | Medium | Benchmarking, optimization iterations |
-| Security vulnerabilities | High | Security audits, penetration testing |
-| Documentation lag | Medium | Technical writer dedicated to each wave |
-| Integration complexity | High | Incremental integration, feature flags |
+| Risk                     | Impact | Mitigation                                    |
+| ------------------------ | ------ | --------------------------------------------- |
+| Dependency complexity    | High   | Strict dependency rules, automated validation |
+| Performance overhead     | Medium | Benchmarking, optimization iterations         |
+| Security vulnerabilities | High   | Security audits, penetration testing          |
+| Documentation lag        | Medium | Technical writer dedicated to each wave       |
+| Integration complexity   | High   | Incremental integration, feature flags        |
 
 ---
 

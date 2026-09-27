@@ -41,7 +41,10 @@ function aggregateByMinor(
 async function main() {
   const response = await fetch(`https://api.npmjs.org/versions/ai/last-week`);
   const { downloads } = await response.json();
-  const totalDownloads = Object.values(downloads).reduce((acc, curr) => acc + curr, 0);
+  const totalDownloads = Object.values(downloads).reduce(
+    (acc, curr) => acc + curr,
+    0,
+  );
   console.log(`Total weekly downloads: ${totalDownloads.toLocaleString()}`);
   console.log(
     `For simplicity, we remove versions < 1.0 and non-beta channels from the table below.`,

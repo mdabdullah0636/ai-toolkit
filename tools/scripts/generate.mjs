@@ -40,11 +40,9 @@ const generators = {
     // This branch forwards so `pnpm generate provider` keeps working.
     const { spawn } = await import('child_process');
     const createScript = path.join(ROOT, 'tools', 'create-ai-provider', 'src', 'index.js');
-    const child = spawn(
-      process.execPath,
-      [createScript, name, '--no-install'],
-      { stdio: 'inherit' },
-    );
+    const child = spawn(process.execPath, [createScript, name, '--no-install'], {
+      stdio: 'inherit',
+    });
     child.on('exit', code => process.exit(code ?? 1));
   },
 

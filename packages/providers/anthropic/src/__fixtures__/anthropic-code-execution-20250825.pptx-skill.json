@@ -1780,9 +1780,7 @@
   "container": {
     "id": "container_011CUJKA7aVjWm5XJL9ozHGS",
     "expires_at": "2025-10-20T11:48:47.798310Z",
-    "skills": [
-      { "type": "anthropic", "skill_id": "pptx", "version": "20251013" }
-    ]
+    "skills": [{ "type": "anthropic", "skill_id": "pptx", "version": "20251013" }]
   },
   "stop_reason": "end_turn",
   "stop_sequence": null,

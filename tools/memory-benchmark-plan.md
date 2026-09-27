@@ -74,7 +74,11 @@ tools/memory-benchmark/
 ### Core API
 
 ```typescript
-import { measureMemory, measureStream, resetPeak } from '@tools/memory-benchmark';
+import {
+  measureMemory,
+  measureStream,
+  resetPeak,
+} from '@tools/memory-benchmark';
 
 // Simple measurement
 const result = await measureMemory(async () => {
@@ -86,7 +90,7 @@ const result = await measureMemory(async () => {
 // Stream measurement
 const streamResult = await measureStream(
   aiStream,
-  (chunk) => processChunk(chunk),
+  chunk => processChunk(chunk),
   { sampleEvery: 5 },
 );
 // streamResult: { samples: [...], growthRate: 1024, peakHeap: 8388608, ... }
@@ -101,11 +105,11 @@ resetPeak();
 interface MemoryResult<T> {
   result: T;
   metrics: {
-    heapBefore: number;       // bytes
-    heapAfter: number;        // bytes
-    heapDelta: number;        // bytes
-    heapGrowthRate: number;   // bytes/ms
-    peakRSS: number;          // bytes
+    heapBefore: number; // bytes
+    heapAfter: number; // bytes
+    heapDelta: number; // bytes
+    heapGrowthRate: number; // bytes/ms
+    peakRSS: number; // bytes
     durationMs: number;
   };
 }
@@ -116,7 +120,7 @@ interface StreamMemoryResult {
     peakHeap: number;
     totalGrowth: number;
     growthPerChunk: number;
-    growthRate: number;        // bytes/ms
+    growthRate: number; // bytes/ms
     chunkCount: number;
     durationMs: number;
   };
@@ -141,13 +145,13 @@ interface MemoryWarning {
 
 ## Dependencies
 
-| Type | Package | Reason |
-|------|---------|--------|
-| Runtime | none | Uses native `process.memoryUsage()` |
-| Dev | `@ai-toolkit/test` | For test infrastructure |
-| Dev | `typescript` | Already in repo |
-| Dev | `tsup` | Already in repo |
-| Peer | none | Zero external deps |
+| Type    | Package            | Reason                              |
+| ------- | ------------------ | ----------------------------------- |
+| Runtime | none               | Uses native `process.memoryUsage()` |
+| Dev     | `@ai-toolkit/test` | For test infrastructure             |
+| Dev     | `typescript`       | Already in repo                     |
+| Dev     | `tsup`             | Already in repo                     |
+| Peer    | none               | Zero external deps                  |
 
 **No new runtime dependencies.** The tool uses Node.js built-in `process.memoryUsage()` and `performance.now()`.
 
@@ -181,6 +185,7 @@ interface MemoryWarning {
 ### Existing Benchmark Infrastructure
 
 The repo already has benchmarks in:
+
 - `examples/01-foundations/ai-functions/src/benchmark/stream-text-benchmark.ts` — throughput/perf
 - `examples/01-foundations/ai-functions/src/benchmark/load-time.ts` — import cost
 
@@ -199,7 +204,9 @@ run(async () => {
     await output.textStream.consume();
     return output;
   });
-  console.log(`Heap delta: ${(result.metrics.heapDelta / 1024 / 1024).toFixed(2)} MB`);
+  console.log(
+    `Heap delta: ${(result.metrics.heapDelta / 1024 / 1024).toFixed(2)} MB`,
+  );
 });
 ```
 
@@ -253,13 +260,13 @@ memory-check:
 
 ## Risks & Considerations
 
-| Risk | Mitigation |
-|------|-----------|
+| Risk                                            | Mitigation                                                                         |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------- |
 | `process.memoryUsage()` is Node-only (not Edge) | Document as Node-only tool; Edge runtime uses `performance.memory` where available |
-| Garbage collection timing affects measurements | Run multiple iterations, report median; add `warmup` option |
-| Memory overhead of measurement itself | Measure tracker overhead in baseline; subtract from results |
-| V8 heap limits differ across Node versions | Normalize by percentage of `memoryUsage().heapLimit` |
-| CI noise in shared environments | Configure threshold buffers (e.g., 110% of baseline) |
+| Garbage collection timing affects measurements  | Run multiple iterations, report median; add `warmup` option                        |
+| Memory overhead of measurement itself           | Measure tracker overhead in baseline; subtract from results                        |
+| V8 heap limits differ across Node versions      | Normalize by percentage of `memoryUsage().heapLimit`                               |
+| CI noise in shared environments                 | Configure threshold buffers (e.g., 110% of baseline)                               |
 
 ## Success Metrics
 

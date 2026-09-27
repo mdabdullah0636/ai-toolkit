@@ -3,7 +3,8 @@ import { XaiChatUsage } from './xai-chat-language-model';
 
 export function convertXaiChatUsage(usage: XaiChatUsage): LanguageModelV3Usage {
   const cacheReadTokens = usage.prompt_tokens_details?.cached_tokens ?? 0;
-  const reasoningTokens = usage.completion_tokens_details?.reasoning_tokens ?? 0;
+  const reasoningTokens =
+    usage.completion_tokens_details?.reasoning_tokens ?? 0;
 
   return {
     inputTokens: {

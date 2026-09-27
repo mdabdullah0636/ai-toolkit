@@ -24,16 +24,11 @@ const HARNESS_BASE = '@ai-toolkit/harness';
 const HARNESS_ADAPTER = '@ai-toolkit/harness-acp';
 const HARNESS_REQUIRED_DEPS = ['@ai-toolkit/provider', '@ai-toolkit/provider-utils'];
 const HARNESS_BASE_REQUIRED_DEPS = ['@ai-toolkit/provider'];
-const HARNESS_ADAPTER_REQUIRED_DEPS = [
-  '@ai-toolkit/provider',
-  '@ai-toolkit/provider-utils',
-];
+const HARNESS_ADAPTER_REQUIRED_DEPS = ['@ai-toolkit/provider', '@ai-toolkit/provider-utils'];
 // Per-agent harness profile packages (e.g. harness-claude-code, harness-pi, …)
 // Excludes base (@ai-toolkit/harness) and adapter (@ai-toolkit/harness-acp).
 const isHarnessProfile = name =>
-  name.startsWith('@ai-toolkit/harness-') &&
-  name !== HARNESS_BASE &&
-  name !== HARNESS_ADAPTER;
+  name.startsWith('@ai-toolkit/harness-') && name !== HARNESS_BASE && name !== HARNESS_ADAPTER;
 
 const errors = [];
 const warnings = [];
@@ -83,9 +78,7 @@ function validate(packages) {
       }
       for (const dep of HARNESS_BASE_REQUIRED_DEPS) {
         if (!hasDependency(pkg, dep)) {
-          errors.push(
-            `${HARNESS_BASE} must depend on ${dep}`,
-          );
+          errors.push(`${HARNESS_BASE} must depend on ${dep}`);
         }
       }
       const agentDeps = Object.keys(pkg.dependencies).filter(isHarnessProfile);
@@ -99,9 +92,7 @@ function validate(packages) {
     if (pkg.name === HARNESS_ADAPTER) {
       for (const dep of HARNESS_ADAPTER_REQUIRED_DEPS) {
         if (!hasDependency(pkg, dep)) {
-          errors.push(
-            `${HARNESS_ADAPTER} must depend on ${dep}`,
-          );
+          errors.push(`${HARNESS_ADAPTER} must depend on ${dep}`);
         }
       }
       const agentDeps = Object.keys(pkg.dependencies).filter(isHarnessProfile);
@@ -125,9 +116,7 @@ function validate(packages) {
       }
       for (const dep of HARNESS_REQUIRED_DEPS) {
         if (!hasDependency(pkg, dep)) {
-          errors.push(
-            `${pkg.name} must depend on ${dep}`,
-          );
+          errors.push(`${pkg.name} must depend on ${dep}`);
         }
       }
       const otherProfileDeps = Object.keys(pkg.dependencies).filter(

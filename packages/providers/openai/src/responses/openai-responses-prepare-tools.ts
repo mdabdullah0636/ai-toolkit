@@ -117,7 +117,9 @@ export async function prepareResponsesTools({
             openaiTools.push({
               type: 'web_search',
               filters:
-                args.filters != null ? { allowed_domains: args.filters.allowedDomains } : undefined,
+                args.filters != null
+                  ? { allowed_domains: args.filters.allowedDomains }
+                  : undefined,
               external_web_access: args.externalWebAccess,
               search_context_size: args.searchContextSize,
               user_location: args.userLocation,

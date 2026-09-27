@@ -1,5 +1,8 @@
 import { createTransformer } from '../../lib/create-transformer';
-import { AI_TOOLKIT_CODEMOD_ERROR_PREFIX, insertCommentOnce } from '../../lib/add-comment';
+import {
+  AI_TOOLKIT_CODEMOD_ERROR_PREFIX,
+  insertCommentOnce,
+} from '../../lib/add-comment';
 import type { ASTPath, Identifier, MemberExpression } from 'jscodeshift';
 
 const patterns: {
@@ -108,7 +111,10 @@ export default createTransformer((fileInfo, api, options, context) => {
     });
   });
 
-  function isKeywordImportedFromPackage(keyword: string, packageName: string): string | null {
+  function isKeywordImportedFromPackage(
+    keyword: string,
+    packageName: string,
+  ): string | null {
     const packageImports = importMap.get(packageName);
     if (!packageImports) return null;
 
@@ -174,8 +180,14 @@ export default createTransformer((fileInfo, api, options, context) => {
       statementPath = statementPath.parent;
     }
     const targetNode =
-      statementPath && isStatementOrVarDecl(statementPath.node) ? statementPath.node : path.node;
-    insertCommentOnce(targetNode, j, `${AI_TOOLKIT_CODEMOD_ERROR_PREFIX}${message}`);
+      statementPath && isStatementOrVarDecl(statementPath.node)
+        ? statementPath.node
+        : path.node;
+    insertCommentOnce(
+      targetNode,
+      j,
+      `${AI_TOOLKIT_CODEMOD_ERROR_PREFIX}${message}`,
+    );
     context.hasChanges = true;
   }
 

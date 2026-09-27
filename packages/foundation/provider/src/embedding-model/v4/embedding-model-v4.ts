@@ -32,7 +32,10 @@ export type EmbeddingModelV4 = {
    *
    * Use Infinity for models that do not have a limit.
    */
-  readonly maxEmbeddingsPerCall: PromiseLike<number | undefined> | number | undefined;
+  readonly maxEmbeddingsPerCall:
+    | PromiseLike<number | undefined>
+    | number
+    | undefined;
 
   /**
    * True if the model can handle multiple embedding calls in parallel.
@@ -45,5 +48,7 @@ export type EmbeddingModelV4 = {
    * Naming: "do" prefix to prevent accidental direct usage of the method
    * by the user.
    */
-  doEmbed(options: EmbeddingModelV4CallOptions): PromiseLike<EmbeddingModelV4Result>;
+  doEmbed(
+    options: EmbeddingModelV4CallOptions,
+  ): PromiseLike<EmbeddingModelV4Result>;
 };

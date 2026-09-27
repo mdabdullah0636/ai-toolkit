@@ -1,4 +1,8 @@
-import { ImageModelV3, ImageModelV3File, SharedV3Warning } from '@ai-toolkit/provider';
+import {
+  ImageModelV3,
+  ImageModelV3File,
+  SharedV3Warning,
+} from '@ai-toolkit/provider';
 import {
   combineHeaders,
   convertBase64ToUint8Array,
@@ -59,7 +63,8 @@ export class OpenAIImageModel implements ImageModelV3 {
       warnings.push({
         type: 'unsupported',
         feature: 'aspectRatio',
-        details: 'This model does not support aspect ratio. Use `size` instead.',
+        details:
+          'This model does not support aspect ratio. Use `size` instead.',
       });
     }
 
@@ -103,7 +108,9 @@ export class OpenAIImageModel implements ImageModelV3 {
           ...(providerOptions.openai ?? {}),
         }),
         failedResponseHandler: openaiFailedResponseHandler,
-        successfulResponseHandler: createJsonResponseHandler(openaiImageResponseSchema),
+        successfulResponseHandler: createJsonResponseHandler(
+          openaiImageResponseSchema,
+        ),
         abortSignal,
         fetch: this.config.fetch,
       });
@@ -127,7 +134,9 @@ export class OpenAIImageModel implements ImageModelV3 {
         providerMetadata: {
           openai: {
             images: response.data.map(item => ({
-              ...(item.revised_prompt ? { revisedPrompt: item.revised_prompt } : {}),
+              ...(item.revised_prompt
+                ? { revisedPrompt: item.revised_prompt }
+                : {}),
               created: response.created ?? undefined,
               size: response.size ?? undefined,
               quality: response.quality ?? undefined,
@@ -151,10 +160,14 @@ export class OpenAIImageModel implements ImageModelV3 {
         n,
         size,
         ...(providerOptions.openai ?? {}),
-        ...(!hasDefaultResponseFormat(this.modelId) ? { response_format: 'b64_json' } : {}),
+        ...(!hasDefaultResponseFormat(this.modelId)
+          ? { response_format: 'b64_json' }
+          : {}),
       },
       failedResponseHandler: openaiFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(openaiImageResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        openaiImageResponseSchema,
+      ),
       abortSignal,
       fetch: this.config.fetch,
     });
@@ -178,7 +191,9 @@ export class OpenAIImageModel implements ImageModelV3 {
       providerMetadata: {
         openai: {
           images: response.data.map(item => ({
-            ...(item.revised_prompt ? { revisedPrompt: item.revised_prompt } : {}),
+            ...(item.revised_prompt
+              ? { revisedPrompt: item.revised_prompt }
+              : {}),
             created: response.created ?? undefined,
             size: response.size ?? undefined,
             quality: response.quality ?? undefined,
@@ -272,14 +287,19 @@ type OpenAIImageEditInput = {
   user?: string;
 };
 
-async function fileToBlob(file: ImageModelV3File | undefined): Promise<Blob | undefined> {
+async function fileToBlob(
+  file: ImageModelV3File | undefined,
+): Promise<Blob | undefined> {
   if (!file) return undefined;
 
   if (file.type === 'url') {
     return downloadBlob(file.url);
   }
 
-  const data = file.data instanceof Uint8Array ? file.data : convertBase64ToUint8Array(file.data);
+  const data =
+    file.data instanceof Uint8Array
+      ? file.data
+      : convertBase64ToUint8Array(file.data);
 
   return new Blob([data as BlobPart], { type: file.mediaType });
 }

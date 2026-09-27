@@ -182,15 +182,11 @@ function scanSourceImports(dir, out = new Set()) {
       content = content.replace(/import\s+type\s+[^;]*;/g, '');
       // Strip comments to avoid false positives from example imports in JSDoc
       content = stripComments(content);
-      for (const m of content.matchAll(
-        /from\s+['"]([^'"]+)['"]/g,
-      )) {
+      for (const m of content.matchAll(/from\s+['"]([^'"]+)['"]/g)) {
         out.add(m[1]);
       }
       // Also capture dynamic imports: import('...')
-      for (const m of content.matchAll(
-        /import\s*\(\s*['"]([^'"]+)['"]\s*\)/g,
-      )) {
+      for (const m of content.matchAll(/import\s*\(\s*['"]([^'"]+)['"]\s*\)/g)) {
         out.add(m[1]);
       }
     }
@@ -283,9 +279,7 @@ function printReport() {
     if (!byLayer[pkg.layer]) byLayer[pkg.layer] = [];
     byLayer[pkg.layer].push(pkg.name);
   }
-  for (const layer of Object.keys(LAYER_ORDER).sort(
-    (a, b) => LAYER_ORDER[a] - LAYER_ORDER[b],
-  )) {
+  for (const layer of Object.keys(LAYER_ORDER).sort((a, b) => LAYER_ORDER[a] - LAYER_ORDER[b])) {
     if (byLayer[layer]) {
       console.log(`${layer} (${byLayer[layer].length}):`);
       for (const name of byLayer[layer].sort()) console.log(`  - ${name}`);

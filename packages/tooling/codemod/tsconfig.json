@@ -5,16 +5,8 @@
     "rootDir": "src",
     "outDir": "dist"
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "dist",
-    "scripts",
-    "build",
-    "node_modules",
-    "tsup.config.ts"
-  ],
+  "include": ["src/**/*.ts"],
+  "exclude": ["dist", "scripts", "build", "node_modules", "tsup.config.ts"],
   "references": [
     {
       "path": "../../ai/core"

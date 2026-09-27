@@ -41,7 +41,11 @@ export default createTransformer((fileInfo, api, options, context) => {
   }
 
   // Helper function to rename identifiers in scope
-  function renameIdentifiersInScope(body: any, oldName: string, newName: string) {
+  function renameIdentifiersInScope(
+    body: any,
+    oldName: string,
+    newName: string,
+  ) {
     j(body)
       .find(j.Identifier, { name: oldName })
       .filter((idPath: any) => {
@@ -100,7 +104,9 @@ export default createTransformer((fileInfo, api, options, context) => {
       context.hasChanges = true;
       return true;
     } else if (firstParam.type === 'ObjectPattern') {
-      const newParam = j.objectPattern([j.objectProperty(j.identifier('output'), firstParam)]);
+      const newParam = j.objectPattern([
+        j.objectProperty(j.identifier('output'), firstParam),
+      ]);
 
       params[0] = newParam;
       transformedNodes.add(node);
@@ -140,7 +146,10 @@ export default createTransformer((fileInfo, api, options, context) => {
       if (!isToolContext(path)) return;
 
       const value = path.node.value;
-      if (value.type !== 'ArrowFunctionExpression' && value.type !== 'FunctionExpression') {
+      if (
+        value.type !== 'ArrowFunctionExpression' &&
+        value.type !== 'FunctionExpression'
+      ) {
         return;
       }
 
@@ -161,7 +170,10 @@ export default createTransformer((fileInfo, api, options, context) => {
       if (!isToolContext(path)) return;
 
       const value = path.node.value;
-      if (value.type !== 'ArrowFunctionExpression' && value.type !== 'FunctionExpression') {
+      if (
+        value.type !== 'ArrowFunctionExpression' &&
+        value.type !== 'FunctionExpression'
+      ) {
         return;
       }
 

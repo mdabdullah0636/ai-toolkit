@@ -1,8 +1,12 @@
 import type { API, ASTPath } from 'jscodeshift';
 
-export const AI_TOOLKIT_CODEMOD_ERROR_PREFIX = 'FIXME(@ai-toolkit-upgrade-v5): ';
+export const AI_TOOLKIT_CODEMOD_ERROR_PREFIX =
+  'FIXME(@ai-toolkit-upgrade-v5): ';
 
-function existsComment(comments: ASTPath<any>['node']['comments'], comment: string): boolean {
+function existsComment(
+  comments: ASTPath<any>['node']['comments'],
+  comment: string,
+): boolean {
   let hasComment = false;
 
   if (comments) {
@@ -26,7 +30,10 @@ export function insertCommentOnce(
   comment: string,
 ): boolean {
   const hasCommentInInlineComments = existsComment(node.comments, comment);
-  const hasCommentInLeadingComments = existsComment(node.leadingComments, comment);
+  const hasCommentInLeadingComments = existsComment(
+    node.leadingComments,
+    comment,
+  );
 
   if (!hasCommentInInlineComments && !hasCommentInLeadingComments) {
     node.comments = [...(node.comments || []), j.commentBlock(` ${comment} `)];

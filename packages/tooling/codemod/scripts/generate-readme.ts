@@ -18,7 +18,11 @@ function scanCodemodsRecursively(dir: string, prefix: string = ''): string[] {
 
     if (stat.isDirectory() && item !== 'not-implemented' && item !== 'lib') {
       files.push(...scanCodemodsRecursively(itemPath, prefix + item + '/'));
-    } else if (stat.isFile() && item.endsWith('.ts') && !item.includes('lib/')) {
+    } else if (
+      stat.isFile() &&
+      item.endsWith('.ts') &&
+      !item.includes('lib/')
+    ) {
       files.push(prefix + item.replace('.ts', ''));
     }
   }
@@ -70,7 +74,10 @@ function categorizeCodemod(name: string): string {
   return 'General Codemods';
 }
 
-const categories: Record<string, Array<{ name: string; description: string }>> = {};
+const categories: Record<
+  string,
+  Array<{ name: string; description: string }>
+> = {};
 
 codemodFiles.forEach(codemod => {
   const category = categorizeCodemod(codemod);
@@ -110,7 +117,9 @@ const availableCodemodsSection = `## Available Codemods
 
 ${categoryOrder
   .filter(categoryName => categories[categoryName])
-  .map(categoryName => generateCategoryTable(categoryName, categories[categoryName]))
+  .map(categoryName =>
+    generateCategoryTable(categoryName, categories[categoryName]),
+  )
   .join('\n\n')}`;
 
 const readmePath = path.join(process.cwd(), 'README.md');
@@ -123,7 +132,9 @@ const startIndex = readmeContent.indexOf(startMarker);
 const endIndex = readmeContent.indexOf(endMarker);
 
 if (startIndex === -1 || endIndex === -1) {
-  throw new Error('Could not find Available Codemods section markers in README.md');
+  throw new Error(
+    'Could not find Available Codemods section markers in README.md',
+  );
 }
 
 const newReadmeContent =

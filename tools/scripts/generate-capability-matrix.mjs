@@ -31,8 +31,18 @@ const MODEL_TYPE_TO_CAPABILITY = {
 };
 
 const ALL_CAPABILITIES = [
-  'chat', 'vision', 'embedding', 'speech', 'audio',
-  'reasoning', 'image', 'video', 'reranker', 'moderation', 'ocr', 'translation',
+  'chat',
+  'vision',
+  'embedding',
+  'speech',
+  'audio',
+  'reasoning',
+  'image',
+  'video',
+  'reranker',
+  'moderation',
+  'ocr',
+  'translation',
 ];
 
 const GATEWAY_MODEL_ID_FILES = [
@@ -151,10 +161,13 @@ function extractGatewayModels() {
 
     // Extract model ID strings
     const idMatches = [...typeMatch[0].matchAll(/'([^']+)'/g)];
-    const modality = file.includes('language') ? 'language'
-      : file.includes('embedding') ? 'embedding'
-      : file.includes('image') ? 'image'
-      : 'unknown';
+    const modality = file.includes('language')
+      ? 'language'
+      : file.includes('embedding')
+        ? 'embedding'
+        : file.includes('image')
+          ? 'image'
+          : 'unknown';
 
     for (const m of idMatches) {
       const [providerSlug, modelSlug] = m[1].split('/');
@@ -248,10 +261,14 @@ function main() {
       JSON.stringify(committed.capabilities) === JSON.stringify(matrix.capabilities) &&
       JSON.stringify(committed.gatewayModels) === JSON.stringify(matrix.gatewayModels);
     if (!same) {
-      console.error(`Stale capability matrix: ${path.relative(ROOT, OUT_FILE)} is out of date. Run \`pnpm arch:capabilities\` and commit.`);
+      console.error(
+        `Stale capability matrix: ${path.relative(ROOT, OUT_FILE)} is out of date. Run \`pnpm arch:capabilities\` and commit.`,
+      );
       process.exit(1);
     }
-    console.log(`Capability matrix is fresh (${matrix.providers.length} providers, ${Object.values(matrix.capabilities).flat().length} capability entries).`);
+    console.log(
+      `Capability matrix is fresh (${matrix.providers.length} providers, ${Object.values(matrix.capabilities).flat().length} capability entries).`,
+    );
     return;
   }
 

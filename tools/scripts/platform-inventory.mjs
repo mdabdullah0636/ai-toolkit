@@ -9,10 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../..',
-);
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT_FILE = path.join(ROOT, 'build/platform-inventory.json');
 const APPS = ['docs', 'www', 'studio'];
 
@@ -87,8 +84,7 @@ function countModelSettings(relativePath) {
   let count = 0;
   walk(path.join(ROOT, relativePath), file => {
     if (!file.endsWith('-model-settings.ts')) return;
-    count += (read(path.relative(ROOT, file)).match(/^\s*\|\s*'[^']+'/gm) ?? [])
-      .length;
+    count += (read(path.relative(ROOT, file)).match(/^\s*\|\s*'[^']+'/gm) ?? []).length;
   });
   return count;
 }
@@ -105,11 +101,7 @@ function findAppReaders() {
   for (const app of APPS) {
     const appRoot = path.join(ROOT, 'apps', app);
     walk(appRoot, file => {
-      if (
-        !/\.(ts|tsx)$/.test(file) ||
-        file.includes(`${path.sep}.next${path.sep}`)
-      )
-        return;
+      if (!/\.(ts|tsx)$/.test(file) || file.includes(`${path.sep}.next${path.sep}`)) return;
       const source = fs.readFileSync(file, 'utf8');
       const imports = [
         ...source.matchAll(
@@ -154,19 +146,12 @@ fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
 
 if (process.argv.includes('--check')) {
   if (!fs.existsSync(OUT_FILE)) {
-    console.error(
-      `Missing ${path.relative(ROOT, OUT_FILE)}; run pnpm platform-inventory`,
-    );
+    console.error(`Missing ${path.relative(ROOT, OUT_FILE)}; run pnpm platform-inventory`);
     process.exit(1);
   }
   const committed = JSON.parse(fs.readFileSync(OUT_FILE, 'utf8'));
-  if (
-    JSON.stringify(withoutTimestamp(committed)) !==
-    JSON.stringify(withoutTimestamp(inventory))
-  ) {
-    console.error(
-      `${path.relative(ROOT, OUT_FILE)} is stale; run pnpm platform-inventory`,
-    );
+  if (JSON.stringify(withoutTimestamp(committed)) !== JSON.stringify(withoutTimestamp(inventory))) {
+    console.error(`${path.relative(ROOT, OUT_FILE)} is stale; run pnpm platform-inventory`);
     process.exit(1);
   }
   console.log(`${path.relative(ROOT, OUT_FILE)} is current`);

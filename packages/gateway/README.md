@@ -17,11 +17,13 @@ The Gateway layer (Layer 3) provides routing, orchestration, and policy enforcem
 ## Dependencies
 
 Gateway may depend on:
+
 - Foundation layer (types, runtime, provider)
 - Runtime layer (AI Core, provider-utils)
 - Protocol layer (provider interfaces)
 
 Gateway must not depend on:
+
 - Integration layer (framework-specific code)
 - Experience/Tooling layer (UI or tooling)
 

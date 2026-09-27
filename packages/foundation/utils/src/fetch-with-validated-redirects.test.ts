@@ -129,7 +129,10 @@ describe('fetchWithValidatedRedirects', () => {
     expect(fetchMock).toHaveBeenNthCalledWith(
       2,
       'https://example.com/internal',
-      { signal: undefined, redirect: 'manual' },
+      {
+        signal: undefined,
+        redirect: 'manual',
+      },
     );
   });
 

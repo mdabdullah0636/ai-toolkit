@@ -35,14 +35,14 @@ A one-page cheat sheet for the AI Toolkit enterprise architecture.
 
 ## Finding Code
 
-| Goal               | Command                                       |
-| ------------------ | --------------------------------------------- |
-| List all providers | `ls packages/providers/`                      |
-| List all integrations | `ls packages/integrations/`                 |
-| Find React code    | `find packages/integrations/react -name "*.ts"` |
-| Find OpenAI code   | `find packages/providers/openai -name "*.ts"` |
-| Find examples      | `find examples -type d -maxdepth 2`           |
-| Find who owns X    | `grep "path/to/X" CODEOWNERS`                 |
+| Goal                  | Command                                         |
+| --------------------- | ----------------------------------------------- |
+| List all providers    | `ls packages/providers/`                        |
+| List all integrations | `ls packages/integrations/`                     |
+| Find React code       | `find packages/integrations/react -name "*.ts"` |
+| Find OpenAI code      | `find packages/providers/openai -name "*.ts"`   |
+| Find examples         | `find examples -type d -maxdepth 2`             |
+| Find who owns X       | `grep "path/to/X" CODEOWNERS`                   |
 
 ---
 
@@ -89,10 +89,10 @@ pnpm generate example --level=01-foundations --name=my-example
 
 | Area                             | Owner                              | Review              |
 | -------------------------------- | ---------------------------------- | ------------------- |
-| `packages/foundation/`            | @khulnasoft/ai-toolkit-core        | 2 approvals         |
+| `packages/foundation/`           | @khulnasoft/ai-toolkit-core        | 2 approvals         |
 | `packages/ai/`                   | @khulnasoft/ai-toolkit-core        | 2 approvals         |
 | `packages/providers/{provider}/` | Provider team                      | 1 approval + 1 core |
-| `packages/integrations/`          | Framework teams                    | 1 approval          |
+| `packages/integrations/`         | Framework teams                    | 1 approval          |
 | `packages/gateway/`              | @khulnasoft/ai-toolkit-core        | 2 approvals         |
 | `examples/`                      | @khulnasoft/ai-toolkit-developers  | 1 approval          |
 | `.github/`                       | @khulnasoft/devops-team            | 1 approval          |
@@ -240,13 +240,13 @@ Once approved and CI passes, auto-merge happens
 
 ## Testing by Layer
 
-| Layer     | Location                | Command                           |
-| --------- | ----------------------- | --------------------------------- |
-| Foundation| `packages/foundation/*/`| `pnpm test:core`                  |
-| AI Core   | `packages/ai/*/`        | `pnpm test:core`                  |
-| Providers | `packages/providers/*/` | `pnpm test:providers`             |
-| Integrations| `packages/integrations/*/`| `pnpm test:adapters`              |
-| Examples  | `examples/*/*/`         | `pnpm test --filter="@example/*"` |
+| Layer        | Location                   | Command                           |
+| ------------ | -------------------------- | --------------------------------- |
+| Foundation   | `packages/foundation/*/`   | `pnpm test:core`                  |
+| AI Core      | `packages/ai/*/`           | `pnpm test:core`                  |
+| Providers    | `packages/providers/*/`    | `pnpm test:providers`             |
+| Integrations | `packages/integrations/*/` | `pnpm test:adapters`              |
+| Examples     | `examples/*/*/`            | `pnpm test --filter="@example/*"` |
 
 ---
 
@@ -377,19 +377,19 @@ cat CODEOWNERS
 
 ## Useful Files
 
-| File                          | Purpose                                 |
-| ----------------------------- | --------------------------------------- |
-| `AGENTS.md` + `architecture/` | Architecture overview + domain docs     |
-| `architecture/domain-mapping.md` | Canonical package-to-domain mapping     |
-| `architecture/DEPENDENCY_RULES.md` | Layer dependency rules                  |
-| `architecture/FUTURE_DOMAINS.md` | Future domain implementation plans      |
-| `CONTRIBUTOR_ONBOARDING.md`   | New contributor guide                   |
-| `ENHANCED_REFACTORING_STRUCTURE.md` | 400% platform architecture plan       |
-| `CODEOWNERS`                  | Package ownership & review requirements |
-| `ADR/`                        | Architecture decisions                  |
-| `turbo.json`                  | Monorepo task configuration             |
-| `pnpm-workspace.yaml`         | Workspace definition                    |
-| `tsconfig.json`               | TypeScript project references           |
+| File                                | Purpose                                 |
+| ----------------------------------- | --------------------------------------- |
+| `AGENTS.md` + `architecture/`       | Architecture overview + domain docs     |
+| `architecture/domain-mapping.md`    | Canonical package-to-domain mapping     |
+| `architecture/DEPENDENCY_RULES.md`  | Layer dependency rules                  |
+| `architecture/FUTURE_DOMAINS.md`    | Future domain implementation plans      |
+| `CONTRIBUTOR_ONBOARDING.md`         | New contributor guide                   |
+| `ENHANCED_REFACTORING_STRUCTURE.md` | 400% platform architecture plan         |
+| `CODEOWNERS`                        | Package ownership & review requirements |
+| `ADR/`                              | Architecture decisions                  |
+| `turbo.json`                        | Monorepo task configuration             |
+| `pnpm-workspace.yaml`               | Workspace definition                    |
+| `tsconfig.json`                     | TypeScript project references           |
 
 ---
 

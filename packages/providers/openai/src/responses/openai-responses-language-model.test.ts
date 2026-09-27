@@ -5,7 +5,10 @@ import {
   LanguageModelV3Prompt,
   LanguageModelV3StreamPart,
 } from '@ai-toolkit/provider';
-import { convertReadableStreamToArray, mockId } from '@ai-toolkit/provider-utils/test';
+import {
+  convertReadableStreamToArray,
+  mockId,
+} from '@ai-toolkit/provider-utils/test';
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
 import fs from 'node:fs';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -68,7 +71,9 @@ describe('OpenAIResponsesLanguageModel', () => {
   function prepareJsonFixtureResponse(filename: string) {
     server.urls['https://api.openai.com/v1/responses'].response = {
       type: 'json-value',
-      body: JSON.parse(fs.readFileSync(`src/responses/__fixtures__/${filename}.json`, 'utf8')),
+      body: JSON.parse(
+        fs.readFileSync(`src/responses/__fixtures__/${filename}.json`, 'utf8'),
+      ),
     };
     return;
   }
@@ -635,7 +640,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-4o',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           conversation: 'conv_123',
         });
 
@@ -655,7 +662,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-4o',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           conversation: 'conv_123',
           previous_response_id: 'resp_123',
         });
@@ -664,7 +673,8 @@ describe('OpenAIResponsesLanguageModel', () => {
           {
             type: 'unsupported',
             feature: 'conversation',
-            details: 'conversation and previousResponseId cannot be used together',
+            details:
+              'conversation and previousResponseId cannot be used together',
           },
         ]);
       });
@@ -681,7 +691,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-4o',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           previous_response_id: 'resp_123',
         });
 
@@ -700,7 +712,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-4o',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           user: 'user_123',
         });
 
@@ -739,7 +753,9 @@ describe('OpenAIResponsesLanguageModel', () => {
       );
 
       it('should allow forcing reasoning mode for unrecognized model IDs via providerOptions', async () => {
-        const { warnings } = await createModel('stealth-reasoning-model').doGenerate({
+        const { warnings } = await createModel(
+          'stealth-reasoning-model',
+        ).doGenerate({
           prompt: TEST_PROMPT,
           providerOptions: {
             openai: {
@@ -819,7 +835,8 @@ describe('OpenAIResponsesLanguageModel', () => {
             {
               type: 'unsupported',
               feature: 'reasoningEffort',
-              details: 'reasoningEffort is not supported for non-reasoning models',
+              details:
+                'reasoningEffort is not supported for non-reasoning models',
             },
           ]);
         },
@@ -837,7 +854,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-4o',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           instructions: 'You are a friendly assistant.',
         });
 
@@ -856,7 +875,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'o3-mini',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           include: ['reasoning.encrypted_content'],
         });
 
@@ -868,14 +889,19 @@ describe('OpenAIResponsesLanguageModel', () => {
           prompt: TEST_PROMPT,
           providerOptions: {
             openai: {
-              include: ['reasoning.encrypted_content', 'file_search_call.results'],
+              include: [
+                'reasoning.encrypted_content',
+                'file_search_call.results',
+              ],
             },
           },
         });
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'o3-mini',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           include: ['reasoning.encrypted_content', 'file_search_call.results'],
         });
 
@@ -993,7 +1019,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-5',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           prompt_cache_key: 'test-cache-key-123',
         });
 
@@ -1012,7 +1040,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-5',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           prompt_cache_retention: '24h',
         });
 
@@ -1031,7 +1061,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-5',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           safety_identifier: 'test-safety-identifier-123',
         });
 
@@ -1050,7 +1082,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-5',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           truncation: 'auto',
         });
 
@@ -1069,7 +1103,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-5',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           truncation: 'disabled',
         });
 
@@ -1083,7 +1119,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-5',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
         });
 
         expect(warnings).toStrictEqual([]);
@@ -1101,7 +1139,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-5',
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
           top_logprobs: 5,
           include: ['message.output_text.logprobs'],
         });
@@ -1118,7 +1158,9 @@ describe('OpenAIResponsesLanguageModel', () => {
         expect(await server.calls[0].requestBodyJson).toStrictEqual({
           model: 'gpt-4o',
           text: { format: { type: 'json_object' } },
-          input: [{ role: 'user', content: [{ type: 'input_text', text: 'Hello' }] }],
+          input: [
+            { role: 'user', content: [{ type: 'input_text', text: 'Hello' }] },
+          ],
         });
 
         expect(warnings).toStrictEqual([]);
@@ -2309,7 +2351,8 @@ describe('OpenAIResponsesLanguageModel', () => {
             providerMetadata: {
               openai: expect.objectContaining({
                 fileId: 'cfile_6903bf45e3288191af3d56e6d23c3a4d',
-                containerId: 'cntr_6903bf2c0470819090b2b1e63e0b66800c139a5d654a42ec',
+                containerId:
+                  'cntr_6903bf2c0470819090b2b1e63e0b66800c139a5d654a42ec',
               }),
             },
           }),
@@ -2722,14 +2765,17 @@ describe('OpenAIResponsesLanguageModel', () => {
           prompt: [
             {
               role: 'user',
-              content: [{ type: 'text', text: 'shorten studio.khulnasoft.com' }],
+              content: [
+                { type: 'text', text: 'shorten studio.khulnasoft.com' },
+              ],
             },
             {
               role: 'assistant',
               content: [
                 {
                   type: 'tool-call',
-                  toolCallId: 'mcpr_04f6b17429cf2b02006949a6712b1081968b3c7a72dec695d8',
+                  toolCallId:
+                    'mcpr_04f6b17429cf2b02006949a6712b1081968b3c7a72dec695d8',
                   toolName: 'mcp.create_short_url',
                   input: { url: 'https://studio.khulnasoft.com/' },
                   providerExecuted: true,
@@ -2741,7 +2787,8 @@ describe('OpenAIResponsesLanguageModel', () => {
               content: [
                 {
                   type: 'tool-approval-response',
-                  approvalId: 'mcpr_04f6b17429cf2b02006949a6712b1081968b3c7a72dec695d8',
+                  approvalId:
+                    'mcpr_04f6b17429cf2b02006949a6712b1081968b3c7a72dec695d8',
                   approved: false,
                 },
               ],
@@ -2767,14 +2814,17 @@ describe('OpenAIResponsesLanguageModel', () => {
           prompt: [
             {
               role: 'user',
-              content: [{ type: 'text', text: 'shorten studio.khulnasoft.com' }],
+              content: [
+                { type: 'text', text: 'shorten studio.khulnasoft.com' },
+              ],
             },
             {
               role: 'assistant',
               content: [
                 {
                   type: 'tool-call',
-                  toolCallId: 'mcpr_04f6b17429cf2b02006949a6712b1081968b3c7a72dec695d8',
+                  toolCallId:
+                    'mcpr_04f6b17429cf2b02006949a6712b1081968b3c7a72dec695d8',
                   toolName: 'mcp.create_short_url',
                   input: { url: 'https://studio.khulnasoft.com/' },
                   providerExecuted: true,
@@ -2786,7 +2836,8 @@ describe('OpenAIResponsesLanguageModel', () => {
               content: [
                 {
                   type: 'tool-approval-response',
-                  approvalId: 'mcpr_04f6b17429cf2b02006949a6712b1081968b3c7a72dec695d8',
+                  approvalId:
+                    'mcpr_04f6b17429cf2b02006949a6712b1081968b3c7a72dec695d8',
                   approved: false,
                 },
               ],
@@ -2817,14 +2868,17 @@ describe('OpenAIResponsesLanguageModel', () => {
           prompt: [
             {
               role: 'user',
-              content: [{ type: 'text', text: 'shorten studio.khulnasoft.com' }],
+              content: [
+                { type: 'text', text: 'shorten studio.khulnasoft.com' },
+              ],
             },
             {
               role: 'assistant',
               content: [
                 {
                   type: 'tool-call',
-                  toolCallId: 'mcpr_04f6b17429cf2b02006949a68bf5808196b6f2008a315c9aa4',
+                  toolCallId:
+                    'mcpr_04f6b17429cf2b02006949a68bf5808196b6f2008a315c9aa4',
                   toolName: 'mcp.create_short_url',
                   input: { url: 'https://studio.khulnasoft.com/' },
                   providerExecuted: true,
@@ -2836,7 +2890,8 @@ describe('OpenAIResponsesLanguageModel', () => {
               content: [
                 {
                   type: 'tool-approval-response',
-                  approvalId: 'mcpr_04f6b17429cf2b02006949a68bf5808196b6f2008a315c9aa4',
+                  approvalId:
+                    'mcpr_04f6b17429cf2b02006949a68bf5808196b6f2008a315c9aa4',
                   approved: true,
                 },
               ],
@@ -3822,7 +3877,9 @@ describe('OpenAIResponsesLanguageModel', () => {
         });
 
         const toolCallPart = result.content.find(
-          (part): part is Extract<LanguageModelV3Content, { type: 'tool-call' }> =>
+          (
+            part,
+          ): part is Extract<LanguageModelV3Content, { type: 'tool-call' }> =>
             part.type === 'tool-call',
         );
 
@@ -4034,7 +4091,9 @@ describe('OpenAIResponsesLanguageModel', () => {
 
         const events = await convertReadableStreamToArray(stream);
 
-        const reasoningStart = events.find(event => event.type === 'reasoning-start');
+        const reasoningStart = events.find(
+          event => event.type === 'reasoning-start',
+        );
         expect(reasoningStart?.type === 'reasoning-start').toBe(true);
         if (reasoningStart?.type === 'reasoning-start') {
           expect(reasoningStart.providerMetadata).toHaveProperty('azure');
@@ -4045,7 +4104,9 @@ describe('OpenAIResponsesLanguageModel', () => {
           });
         }
 
-        const reasoningDelta = events.find(event => event.type === 'reasoning-delta');
+        const reasoningDelta = events.find(
+          event => event.type === 'reasoning-delta',
+        );
         expect(reasoningDelta?.type === 'reasoning-delta').toBe(true);
         if (reasoningDelta?.type === 'reasoning-delta') {
           expect(reasoningDelta.providerMetadata).toHaveProperty('azure');
@@ -4627,7 +4688,9 @@ describe('OpenAIResponsesLanguageModel', () => {
           ],
         });
 
-        expect(await convertReadableStreamToArray(result.stream)).toMatchSnapshot();
+        expect(
+          await convertReadableStreamToArray(result.stream),
+        ).toMatchSnapshot();
       });
 
       it('should stream file search results with results include', async () => {
@@ -4652,7 +4715,9 @@ describe('OpenAIResponsesLanguageModel', () => {
           },
         });
 
-        expect(await convertReadableStreamToArray(result.stream)).toMatchSnapshot();
+        expect(
+          await convertReadableStreamToArray(result.stream),
+        ).toMatchSnapshot();
       });
     });
 
@@ -4672,12 +4737,16 @@ describe('OpenAIResponsesLanguageModel', () => {
           ],
         });
 
-        const streamParts = await convertReadableStreamToArray(streamResult.stream);
+        const streamParts = await convertReadableStreamToArray(
+          streamResult.stream,
+        );
 
         expect(streamParts).toMatchSnapshot();
 
         const sourceParts = streamParts.filter(
-          (part): part is Extract<LanguageModelV3StreamPart, { type: 'source' }> =>
+          (
+            part,
+          ): part is Extract<LanguageModelV3StreamPart, { type: 'source' }> =>
             part.type === 'source',
         );
 
@@ -4691,7 +4760,8 @@ describe('OpenAIResponsesLanguageModel', () => {
             providerMetadata: {
               openai: expect.objectContaining({
                 fileId: 'cfile_68c2e7084ab48191a67824aa1f4c90f1',
-                containerId: 'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
+                containerId:
+                  'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
               }),
             },
           }),
@@ -4715,7 +4785,9 @@ describe('OpenAIResponsesLanguageModel', () => {
           ],
         });
 
-        expect(await convertReadableStreamToArray(result.stream)).toMatchSnapshot();
+        expect(
+          await convertReadableStreamToArray(result.stream),
+        ).toMatchSnapshot();
       });
     });
 
@@ -4735,7 +4807,9 @@ describe('OpenAIResponsesLanguageModel', () => {
           ],
         });
 
-        expect(await convertReadableStreamToArray(result.stream)).toMatchSnapshot();
+        expect(
+          await convertReadableStreamToArray(result.stream),
+        ).toMatchSnapshot();
       });
     });
 
@@ -4755,7 +4829,9 @@ describe('OpenAIResponsesLanguageModel', () => {
           ],
         });
 
-        expect(await convertReadableStreamToArray(result.stream)).toMatchSnapshot();
+        expect(
+          await convertReadableStreamToArray(result.stream),
+        ).toMatchSnapshot();
       });
     });
 
@@ -4814,14 +4890,17 @@ describe('OpenAIResponsesLanguageModel', () => {
           prompt: [
             {
               role: 'user',
-              content: [{ type: 'text', text: 'shorten studio.khulnasoft.com' }],
+              content: [
+                { type: 'text', text: 'shorten studio.khulnasoft.com' },
+              ],
             },
             {
               role: 'assistant',
               content: [
                 {
                   type: 'tool-call',
-                  toolCallId: 'mcpr_04a97b4fce127879006949a83ac9308195a7f7b69ea82e91fe',
+                  toolCallId:
+                    'mcpr_04a97b4fce127879006949a83ac9308195a7f7b69ea82e91fe',
                   toolName: 'mcp.create_short_url',
                   input: { url: 'https://studio.khulnasoft.com/' },
                   providerExecuted: true,
@@ -4833,7 +4912,8 @@ describe('OpenAIResponsesLanguageModel', () => {
               content: [
                 {
                   type: 'tool-approval-response',
-                  approvalId: 'mcpr_04a97b4fce127879006949a83ac9308195a7f7b69ea82e91fe',
+                  approvalId:
+                    'mcpr_04a97b4fce127879006949a83ac9308195a7f7b69ea82e91fe',
                   approved: false,
                 },
               ],
@@ -4852,14 +4932,17 @@ describe('OpenAIResponsesLanguageModel', () => {
           prompt: [
             {
               role: 'user',
-              content: [{ type: 'text', text: 'shorten studio.khulnasoft.com' }],
+              content: [
+                { type: 'text', text: 'shorten studio.khulnasoft.com' },
+              ],
             },
             {
               role: 'assistant',
               content: [
                 {
                   type: 'tool-call',
-                  toolCallId: 'mcpr_04a97b4fce127879006949a83ac9308195a7f7b69ea82e91fe',
+                  toolCallId:
+                    'mcpr_04a97b4fce127879006949a83ac9308195a7f7b69ea82e91fe',
                   toolName: 'mcp.create_short_url',
                   input: { url: 'https://studio.khulnasoft.com/' },
                   providerExecuted: true,
@@ -4871,7 +4954,8 @@ describe('OpenAIResponsesLanguageModel', () => {
               content: [
                 {
                   type: 'tool-approval-response',
-                  approvalId: 'mcpr_04a97b4fce127879006949a83ac9308195a7f7b69ea82e91fe',
+                  approvalId:
+                    'mcpr_04a97b4fce127879006949a83ac9308195a7f7b69ea82e91fe',
                   approved: false,
                 },
               ],
@@ -4895,14 +4979,17 @@ describe('OpenAIResponsesLanguageModel', () => {
           prompt: [
             {
               role: 'user',
-              content: [{ type: 'text', text: 'shorten studio.khulnasoft.com' }],
+              content: [
+                { type: 'text', text: 'shorten studio.khulnasoft.com' },
+              ],
             },
             {
               role: 'assistant',
               content: [
                 {
                   type: 'tool-call',
-                  toolCallId: 'mcpr_04a97b4fce127879006949a8672ac081959f95aa8ceedb7cd9',
+                  toolCallId:
+                    'mcpr_04a97b4fce127879006949a8672ac081959f95aa8ceedb7cd9',
                   toolName: 'mcp.create_short_url',
                   input: { url: 'https://studio.khulnasoft.com/' },
                   providerExecuted: true,
@@ -4914,7 +5001,8 @@ describe('OpenAIResponsesLanguageModel', () => {
               content: [
                 {
                   type: 'tool-approval-response',
-                  approvalId: 'mcpr_04a97b4fce127879006949a8672ac081959f95aa8ceedb7cd9',
+                  approvalId:
+                    'mcpr_04a97b4fce127879006949a8672ac081959f95aa8ceedb7cd9',
                   approved: true,
                 },
               ],
@@ -4936,7 +5024,8 @@ describe('OpenAIResponsesLanguageModel', () => {
           includeRawChunks: false,
         });
 
-        expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+        expect(await convertReadableStreamToArray(stream))
+          .toMatchInlineSnapshot(`
             [
               {
                 "type": "stream-start",
@@ -5027,7 +5116,8 @@ describe('OpenAIResponsesLanguageModel', () => {
           includeRawChunks: false,
         });
 
-        expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+        expect(await convertReadableStreamToArray(stream))
+          .toMatchInlineSnapshot(`
             [
               {
                 "type": "stream-start",
@@ -5224,7 +5314,8 @@ describe('OpenAIResponsesLanguageModel', () => {
           includeRawChunks: false,
         });
 
-        expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+        expect(await convertReadableStreamToArray(stream))
+          .toMatchInlineSnapshot(`
             [
               {
                 "type": "stream-start",
@@ -5366,7 +5457,8 @@ describe('OpenAIResponsesLanguageModel', () => {
           includeRawChunks: false,
         });
 
-        expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+        expect(await convertReadableStreamToArray(stream))
+          .toMatchInlineSnapshot(`
             [
               {
                 "type": "stream-start",
@@ -5600,7 +5692,8 @@ describe('OpenAIResponsesLanguageModel', () => {
           includeRawChunks: false,
         });
 
-        expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+        expect(await convertReadableStreamToArray(stream))
+          .toMatchInlineSnapshot(`
             [
               {
                 "type": "stream-start",
@@ -5756,7 +5849,8 @@ describe('OpenAIResponsesLanguageModel', () => {
           includeRawChunks: false,
         });
 
-        expect(await convertReadableStreamToArray(stream)).toMatchInlineSnapshot(`
+        expect(await convertReadableStreamToArray(stream))
+          .toMatchInlineSnapshot(`
             [
               {
                 "type": "stream-start",
@@ -6444,7 +6538,8 @@ describe('OpenAIResponsesLanguageModel', () => {
                   type: 'code_interpreter_call',
                   status: 'completed',
                   code: 'import random, math\nN=10000\nsums=[]\ns=0\nfor _ in range(N):\n    a=random.randint(1,6)\n    b=random.randint(1,6)\n    sm=a+b\n    sums.append(sm)\n    s+=sm\nmin(sums), max(sums), sum(sums), sum(sums)/N\n',
-                  container_id: 'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
+                  container_id:
+                    'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
                   outputs: [{ type: 'logs', logs: '(2, 12, 69868, 6.9868)' }],
                 },
                 {
@@ -6457,7 +6552,8 @@ describe('OpenAIResponsesLanguageModel', () => {
                   type: 'code_interpreter_call',
                   status: 'completed',
                   code: "import csv, pathlib\npath = pathlib.Path('/mnt/data/roll2dice_sums_10000.csv')\nwith open(path, 'w', newline='') as f:\n    writer = csv.writer(f)\n    writer.writerow(['sum'])\n    for val in sums:\n        writer.writerow([val])\npath, path.exists(), len(sums)\n",
-                  container_id: 'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
+                  container_id:
+                    'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
                   outputs: [
                     {
                       type: 'logs',
@@ -6475,7 +6571,8 @@ describe('OpenAIResponsesLanguageModel', () => {
                   type: 'code_interpreter_call',
                   status: 'completed',
                   code: 'sums[:20]\n',
-                  container_id: 'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
+                  container_id:
+                    'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
                   outputs: [
                     {
                       type: 'logs',
@@ -6498,7 +6595,8 @@ describe('OpenAIResponsesLanguageModel', () => {
                       annotations: [
                         {
                           type: 'container_file_citation',
-                          container_id: 'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
+                          container_id:
+                            'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
                           end_index: 465,
                           file_id: 'cfile_68c2e7084ab48191a67824aa1f4c90f1',
                           filename: 'roll2dice_sums_10000.csv',
@@ -6521,7 +6619,9 @@ describe('OpenAIResponsesLanguageModel', () => {
               temperature: 1,
               text: { format: { type: 'text' }, verbosity: 'medium' },
               tool_choice: 'auto',
-              tools: [{ type: 'code_interpreter', container: { type: 'auto' } }],
+              tools: [
+                { type: 'code_interpreter', container: { type: 'auto' } },
+              ],
               top_logprobs: 0,
               top_p: 1,
               truncation: 'disabled',
@@ -6656,7 +6756,8 @@ describe('OpenAIResponsesLanguageModel', () => {
                   type: 'code_interpreter_call',
                   status: 'completed',
                   code: 'import random, math\nN=10000\nsums=[]\ns=0\nfor _ in range(N):\n    a=random.randint(1,6)\n    b=random.randint(1,6)\n    sm=a+b\n    sums.append(sm)\n    s+=sm\nmin(sums), max(sums), sum(sums), sum(sums)/N\n',
-                  container_id: 'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
+                  container_id:
+                    'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
                   outputs: [{ type: 'logs', logs: '(2, 12, 69868, 6.9868)' }],
                 },
                 {
@@ -6669,7 +6770,8 @@ describe('OpenAIResponsesLanguageModel', () => {
                   type: 'code_interpreter_call',
                   status: 'completed',
                   code: "import csv, pathlib\npath = pathlib.Path('/mnt/data/roll2dice_sums_10000.csv')\nwith open(path, 'w', newline='') as f:\n    writer = csv.writer(f)\n    writer.writerow(['sum'])\n    for val in sums:\n        writer.writerow([val])\npath, path.exists(), len(sums)\n",
-                  container_id: 'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
+                  container_id:
+                    'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
                   outputs: [
                     {
                       type: 'logs',
@@ -6687,7 +6789,8 @@ describe('OpenAIResponsesLanguageModel', () => {
                   type: 'code_interpreter_call',
                   status: 'completed',
                   code: 'sums[:20]\n',
-                  container_id: 'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
+                  container_id:
+                    'cntr_68c2e6f380d881908a57a82d394434ff02f484f5344062e9',
                   outputs: [
                     {
                       type: 'logs',
@@ -6730,7 +6833,9 @@ describe('OpenAIResponsesLanguageModel', () => {
               temperature: 1,
               text: { format: { type: 'text' }, verbosity: 'medium' },
               tool_choice: 'auto',
-              tools: [{ type: 'code_interpreter', container: { type: 'auto' } }],
+              tools: [
+                { type: 'code_interpreter', container: { type: 'auto' } },
+              ],
               top_logprobs: 0,
               top_p: 1,
               truncation: 'disabled',

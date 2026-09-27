@@ -38,7 +38,10 @@ export type LanguageModelV3Message =
       }
     | {
         role: 'tool';
-        content: Array<LanguageModelV3ToolResultPart | LanguageModelV3ToolApprovalResponsePart>;
+        content: Array<
+          | LanguageModelV3ToolResultPart
+          | LanguageModelV3ToolApprovalResponsePart
+        >;
       }
   ) & {
     /**

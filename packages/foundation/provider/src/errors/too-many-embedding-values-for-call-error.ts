@@ -32,7 +32,9 @@ export class TooManyEmbeddingValuesForCallError extends AITOOLKITError {
     this.values = options.values;
   }
 
-  static isInstance(error: unknown): error is TooManyEmbeddingValuesForCallError {
+  static isInstance(
+    error: unknown,
+  ): error is TooManyEmbeddingValuesForCallError {
     return AITOOLKITError.hasMarker(error, marker);
   }
 }

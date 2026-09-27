@@ -6,7 +6,13 @@ import { streamSSE } from 'hono/streaming';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { getRuns, getRunWithSteps, getStepsForRun, clearDatabase, reloadDb } from '../db.js';
+import {
+  getRuns,
+  getRunWithSteps,
+  getStepsForRun,
+  clearDatabase,
+  reloadDb,
+} from '../db.js';
 
 // SSE client management
 type SSEClient = {
@@ -31,8 +37,11 @@ const broadcastToClients = (event: string, data: Record<string, unknown>) => {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Determine if we're running from source (tsx) or built (dist)
-const isDevMode = __dirname.includes('/src/') || process.env.NODE_ENV === 'development';
-const projectRoot = isDevMode ? path.resolve(__dirname, '../..') : path.resolve(__dirname, '../..');
+const isDevMode =
+  __dirname.includes('/src/') || process.env.NODE_ENV === 'development';
+const projectRoot = isDevMode
+  ? path.resolve(__dirname, '../..')
+  : path.resolve(__dirname, '../..');
 
 // Client directory: dist/client in both cases
 const clientDir = path.join(projectRoot, 'dist/client');
@@ -58,13 +67,16 @@ app.get('/api/runs', async c => {
       if (firstStep) {
         try {
           const input = JSON.parse(firstStep.input);
-          const userMsg = input?.prompt?.findLast((m: any) => m.role === 'user');
+          const userMsg = input?.prompt?.findLast(
+            (m: any) => m.role === 'user',
+          );
           if (userMsg) {
             const content =
               typeof userMsg.content === 'string'
                 ? userMsg.content
                 : userMsg.content?.[0]?.text || '';
-            firstMessage = content.slice(0, 60) + (content.length > 60 ? '...' : '');
+            firstMessage =
+              content.slice(0, 60) + (content.length > 60 ? '...' : '');
           }
         } catch {
           // Ignore JSON parse errors
@@ -225,7 +237,9 @@ app.get('*', async c => {
 });
 
 export const startViewer = (port = 4983) => {
-  const isDev = process.env.NODE_ENV === 'development' || process.argv[1]?.includes('/src/');
+  const isDev =
+    process.env.NODE_ENV === 'development' ||
+    process.argv[1]?.includes('/src/');
 
   const server = serve(
     {
@@ -237,7 +251,9 @@ export const startViewer = (port = 4983) => {
         console.log(`🔍 AI TOOLKIT DevTools API running on port ${port}`);
         console.log(`   Open http://localhost:5173 for the dev UI`);
       } else {
-        console.log(`🔍 AI TOOLKIT DevTools running at http://localhost:${port}`);
+        console.log(
+          `🔍 AI TOOLKIT DevTools running at http://localhost:${port}`,
+        );
       }
     },
   );
@@ -245,10 +261,16 @@ export const startViewer = (port = 4983) => {
   server.on('error', (err: NodeJS.ErrnoException) => {
     if (err.code === 'EADDRINUSE') {
       console.error(`\n❌ Port ${port} is already in use.`);
-      console.error(`\n   This likely means AI TOOLKIT DevTools is already running.`);
+      console.error(
+        `\n   This likely means AI TOOLKIT DevTools is already running.`,
+      );
       console.error(`   Open http://localhost:${port} in your browser.\n`);
-      console.error(`   To use a different port, set AI_TOOLKIT_DEVTOOLS_PORT:\n`);
-      console.error(`   AI_TOOLKIT_DEVTOOLS_PORT=4984 npx ai-toolkit-devtools\n`);
+      console.error(
+        `   To use a different port, set AI_TOOLKIT_DEVTOOLS_PORT:\n`,
+      );
+      console.error(
+        `   AI_TOOLKIT_DEVTOOLS_PORT=4984 npx ai-toolkit-devtools\n`,
+      );
       process.exit(1);
     }
     throw err;

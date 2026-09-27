@@ -1,5 +1,8 @@
 import { LanguageModelV3Prompt } from '@ai-toolkit/provider';
-import { convertReadableStreamToArray, mockId } from '@ai-toolkit/provider-utils/test';
+import {
+  convertReadableStreamToArray,
+  mockId,
+} from '@ai-toolkit/provider-utils/test';
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
 import { beforeEach, describe, expect, it } from 'vitest';
 import fs from 'node:fs';
@@ -27,7 +30,9 @@ describe('XaiResponsesLanguageModel', () => {
   function prepareJsonFixtureResponse(filename: string) {
     server.urls['https://api.x.ai/v1/responses'].response = {
       type: 'json-value',
-      body: JSON.parse(fs.readFileSync(`src/responses/__fixtures__/${filename}.json`, 'utf8')),
+      body: JSON.parse(
+        fs.readFileSync(`src/responses/__fixtures__/${filename}.json`, 'utf8'),
+      ),
     };
   }
 
@@ -54,7 +59,9 @@ describe('XaiResponsesLanguageModel', () => {
   function prepareStreamChunks(chunks: string[]) {
     server.urls['https://api.x.ai/v1/responses'].response = {
       type: 'stream-chunks',
-      chunks: chunks.map(chunk => `data: ${chunk}\n\n`).concat('data: [DONE]\n\n'),
+      chunks: chunks
+        .map(chunk => `data: ${chunk}\n\n`)
+        .concat('data: [DONE]\n\n'),
     };
   }
 
@@ -416,7 +423,9 @@ describe('XaiResponsesLanguageModel', () => {
 
           const requestBody = await server.calls[0].requestBodyJson;
           expect(requestBody.store).toBe(false);
-          expect(requestBody.include).toStrictEqual(['reasoning.encrypted_content']);
+          expect(requestBody.include).toStrictEqual([
+            'reasoning.encrypted_content',
+          ]);
         });
 
         it('previousResponseId', async () => {
@@ -610,7 +619,9 @@ describe('XaiResponsesLanguageModel', () => {
     });
 
     describe('web_search tool', () => {
-      let result: Awaited<ReturnType<(typeof createModel)['prototype']['doGenerate']>>;
+      let result: Awaited<
+        ReturnType<(typeof createModel)['prototype']['doGenerate']>
+      >;
 
       beforeEach(async () => {
         prepareJsonFixtureResponse('xai-web-search-tool.1');
@@ -1144,7 +1155,9 @@ describe('XaiResponsesLanguageModel', () => {
       });
 
       it('should stream text deltas with encrypted reasoning', async () => {
-        prepareChunksFixtureResponse('xai-text-with-reasoning-streaming-store-false.1');
+        prepareChunksFixtureResponse(
+          'xai-text-with-reasoning-streaming-store-false.1',
+        );
 
         const { stream } = await createModel().doStream({
           prompt: TEST_PROMPT,

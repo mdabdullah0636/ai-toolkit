@@ -122,7 +122,11 @@ describe('detectToolDrift', () => {
     // Object.prototype.constructor (a function) instead of the pinned digest.
     expect(
       detectToolDrift({ constructor: 'h1' }, { constructor: 'h2' }),
-    ).toEqual({ added: [], removed: [], changed: ['constructor'] });
+    ).toEqual({
+      added: [],
+      removed: [],
+      changed: ['constructor'],
+    });
 
     expect(detectToolDrift({ toString: 'h1' }, {})).toEqual({
       added: ['toString'],

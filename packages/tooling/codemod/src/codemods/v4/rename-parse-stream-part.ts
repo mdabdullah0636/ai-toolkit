@@ -9,7 +9,11 @@ export default createTransformer((fileInfo, api, options, context) => {
   // Find and update imports from 'ai-toolkit'
   root
     .find(j.ImportDeclaration)
-    .filter(path => path.node.source.value === 'ai-toolkit' || path.node.source.value === 'ai-toolkit')
+    .filter(
+      path =>
+        path.node.source.value === 'ai-toolkit' ||
+        path.node.source.value === 'ai-toolkit',
+    )
     .forEach(path => {
       path.node.specifiers?.forEach(specifier => {
         if (
@@ -34,7 +38,9 @@ export default createTransformer((fileInfo, api, options, context) => {
   root
     .find(j.CallExpression)
     .filter(
-      path => path.node.callee.type === 'Identifier' && targetImports.has(path.node.callee.name),
+      path =>
+        path.node.callee.type === 'Identifier' &&
+        targetImports.has(path.node.callee.name),
     )
     .forEach(path => {
       if (path.node.callee.type === 'Identifier') {

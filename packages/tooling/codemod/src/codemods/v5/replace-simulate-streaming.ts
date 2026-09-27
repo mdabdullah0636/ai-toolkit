@@ -25,7 +25,8 @@ export default createTransformer((fileInfo, api, options, context) => {
             prop.key.name === 'simulateStreaming' &&
             // jscodeshift parses true/false as Literal
             // the typescript parser parses true/false as BooleanLiteral
-            (prop.value.type === 'Literal' || prop.value.type === 'BooleanLiteral') &&
+            (prop.value.type === 'Literal' ||
+              prop.value.type === 'BooleanLiteral') &&
             prop.value.value === true
           );
         });
@@ -49,23 +50,32 @@ export default createTransformer((fileInfo, api, options, context) => {
           let modelCall;
           if (filteredProperties.length > 0) {
             // Keep remaining properties
-            modelCall = j.callExpression(callee, [args[0], j.objectExpression(filteredProperties)]);
+            modelCall = j.callExpression(callee, [
+              args[0],
+              j.objectExpression(filteredProperties),
+            ]);
           } else {
             // No other properties, just use the first argument
             modelCall = j.callExpression(callee, [args[0]]);
           }
 
           // Replace with wrapLanguageModel call
-          const wrappedCall = j.callExpression(j.identifier('wrapLanguageModel'), [
-            j.objectExpression([
-              j.property('init', j.identifier('model'), modelCall),
-              j.property(
-                'init',
-                j.identifier('middleware'),
-                j.callExpression(j.identifier('simulateStreamingMiddleware'), []),
-              ),
-            ]),
-          ]);
+          const wrappedCall = j.callExpression(
+            j.identifier('wrapLanguageModel'),
+            [
+              j.objectExpression([
+                j.property('init', j.identifier('model'), modelCall),
+                j.property(
+                  'init',
+                  j.identifier('middleware'),
+                  j.callExpression(
+                    j.identifier('simulateStreamingMiddleware'),
+                    [],
+                  ),
+                ),
+              ]),
+            ],
+          );
 
           // Replace the original call
           path.replace(wrappedCall);
@@ -89,8 +99,13 @@ export default createTransformer((fileInfo, api, options, context) => {
         );
 
         const newImports = [];
-        if (needsSimulateStreamingMiddleware && !importNames.has('simulateStreamingMiddleware')) {
-          newImports.push(j.importSpecifier(j.identifier('simulateStreamingMiddleware')));
+        if (
+          needsSimulateStreamingMiddleware &&
+          !importNames.has('simulateStreamingMiddleware')
+        ) {
+          newImports.push(
+            j.importSpecifier(j.identifier('simulateStreamingMiddleware')),
+          );
         }
         if (needsWrapLanguageModel && !importNames.has('wrapLanguageModel')) {
           newImports.push(j.importSpecifier(j.identifier('wrapLanguageModel')));

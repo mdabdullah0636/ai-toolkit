@@ -269,9 +269,7 @@ export class RealtimeEventReducer {
       return { state, messageId: this.currentAssistantMessageId };
     }
 
-    const messageId = `assistant-${Date.now()}-${Math.random()
-      .toString(36)
-      .slice(2, 6)}`;
+    const messageId = `assistant-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
     this.currentAssistantMessageId = messageId;
 
     return {
@@ -362,7 +360,11 @@ export class RealtimeEventReducer {
         stateWithMessage,
         location.messageId,
         location.partIndex,
-        { type: 'text', text, state: 'streaming' } as TextUIPart,
+        {
+          type: 'text',
+          text,
+          state: 'streaming',
+        } as TextUIPart,
       );
     }
 
@@ -402,7 +404,11 @@ export class RealtimeEventReducer {
       state,
       location.messageId,
       location.partIndex,
-      { type: 'text', text, state: 'done' } as TextUIPart,
+      {
+        type: 'text',
+        text,
+        state: 'done',
+      } as TextUIPart,
     );
   }
 

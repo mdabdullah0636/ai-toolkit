@@ -11,11 +11,11 @@ const ports = { docs: 3000, www: 3001, studio: 3002 };
 const children = [];
 
 for (const site of Object.keys(ports)) {
-  const child = spawn(
-    join(binDir, binName),
-    ['dev', '-p', String(ports[site])],
-    { cwd: join(appsDir, site), stdio: 'inherit', env: process.env },
-  );
+  const child = spawn(join(binDir, binName), ['dev', '-p', String(ports[site])], {
+    cwd: join(appsDir, site),
+    stdio: 'inherit',
+    env: process.env,
+  });
   children.push(child);
 }
 

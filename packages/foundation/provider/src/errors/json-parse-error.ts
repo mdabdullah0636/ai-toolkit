@@ -14,7 +14,9 @@ export class JSONParseError extends AITOOLKITError {
     super({
       name,
       message:
-        `JSON parsing failed: ` + `Text: ${text}.\n` + `Error message: ${getErrorMessage(cause)}`,
+        `JSON parsing failed: ` +
+        `Text: ${text}.\n` +
+        `Error message: ${getErrorMessage(cause)}`,
       cause,
     });
 

@@ -101,7 +101,8 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
     }
 
     // convert ai toolkit messages to xai format
-    const { messages, warnings: messageWarnings } = convertToXaiChatMessages(prompt);
+    const { messages, warnings: messageWarnings } =
+      convertToXaiChatMessages(prompt);
     warnings.push(...messageWarnings);
 
     // prepare tools for xai
@@ -192,7 +193,9 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doGenerate(options: LanguageModelV3CallOptions): Promise<LanguageModelV3GenerateResult> {
+  async doGenerate(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3GenerateResult> {
     const { args: body, warnings } = await this.getArgs(options);
 
     const url = `${this.config.baseURL ?? 'https://api.x.ai/v1'}/chat/completions`;
@@ -206,7 +209,9 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body,
       failedResponseHandler: xaiFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(xaiChatResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        xaiChatResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -242,7 +247,10 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
     }
 
     // extract reasoning content
-    if (choice.message.reasoning_content != null && choice.message.reasoning_content.length > 0) {
+    if (
+      choice.message.reasoning_content != null &&
+      choice.message.reasoning_content.length > 0
+    ) {
       content.push({
         type: 'reasoning',
         text: choice.message.reasoning_content,
@@ -290,7 +298,9 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doStream(options: LanguageModelV3CallOptions): Promise<LanguageModelV3StreamResult> {
+  async doStream(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3StreamResult> {
     const { args, warnings } = await this.getArgs(options);
     const body = {
       ...args,
@@ -326,7 +336,9 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
               statusCode: 200,
               responseHeaders,
               responseBody,
-              isRetryable: parsedError.value.code === 'The service is currently unavailable',
+              isRetryable:
+                parsedError.value.code ===
+                'The service is currently unavailable',
             });
           }
 
@@ -356,7 +368,10 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
     };
     let usage: LanguageModelV3Usage | undefined = undefined;
     let isFirstChunk = true;
-    const contentBlocks: Record<string, { type: 'text' | 'reasoning'; ended: boolean }> = {};
+    const contentBlocks: Record<
+      string,
+      { type: 'text' | 'reasoning'; ended: boolean }
+    > = {};
     const lastReasoningDeltas: Record<string, string> = {};
     let activeReasoningBlockId: string | undefined = undefined;
 
@@ -434,7 +449,10 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
               const textContent = delta.content;
 
               // end active reasoning block when text content arrives
-              if (activeReasoningBlockId != null && !contentBlocks[activeReasoningBlockId].ended) {
+              if (
+                activeReasoningBlockId != null &&
+                !contentBlocks[activeReasoningBlockId].ended
+              ) {
                 controller.enqueue({
                   type: 'reasoning-end',
                   id: activeReasoningBlockId,
@@ -445,7 +463,10 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
 
               // skip if this content duplicates the last assistant message
               const lastMessage = body.messages[body.messages.length - 1];
-              if (lastMessage?.role === 'assistant' && textContent === lastMessage.content) {
+              if (
+                lastMessage?.role === 'assistant' &&
+                textContent === lastMessage.content
+              ) {
                 return;
               }
 
@@ -467,7 +488,10 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
             }
 
             // process reasoning content
-            if (delta.reasoning_content != null && delta.reasoning_content.length > 0) {
+            if (
+              delta.reasoning_content != null &&
+              delta.reasoning_content.length > 0
+            ) {
               const blockId = `reasoning-${value.id || choiceIndex}`;
 
               // skip if this reasoning content duplicates the last delta
@@ -495,7 +519,10 @@ export class XaiChatLanguageModel implements LanguageModelV3 {
             // process tool calls
             if (delta.tool_calls != null) {
               // end active reasoning block before tool calls start
-              if (activeReasoningBlockId != null && !contentBlocks[activeReasoningBlockId].ended) {
+              if (
+                activeReasoningBlockId != null &&
+                !contentBlocks[activeReasoningBlockId].ended
+              ) {
                 controller.enqueue({
                   type: 'reasoning-end',
                   id: activeReasoningBlockId,

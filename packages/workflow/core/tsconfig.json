@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tools/tsconfig/ts-library.json",
+  "compilerOptions": { "composite": true, "rootDir": "src", "outDir": "dist" },
+  "exclude": ["dist", "node_modules", "tsup.config.ts"],
+  "references": [
+    { "path": "../../agents/core" },
+    { "path": "../../tools/core" },
+    { "path": "../../memory/core" }
+  ]
+}

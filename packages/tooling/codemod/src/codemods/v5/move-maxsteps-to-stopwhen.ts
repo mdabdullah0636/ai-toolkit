@@ -1,5 +1,8 @@
 import { createTransformer } from '../lib/create-transformer';
-import { AI_TOOLKIT_CODEMOD_ERROR_PREFIX, insertCommentOnce } from '../lib/add-comment';
+import {
+  AI_TOOLKIT_CODEMOD_ERROR_PREFIX,
+  insertCommentOnce,
+} from '../lib/add-comment';
 
 export default createTransformer((fileInfo, api, options, context) => {
   const { j, root } = context;
@@ -21,7 +24,11 @@ export default createTransformer((fileInfo, api, options, context) => {
   }
 
   function findMaxStepsProperty(objExpr: any) {
-    if (!objExpr || objExpr.type !== 'ObjectExpression' || !Array.isArray(objExpr.properties)) {
+    if (
+      !objExpr ||
+      objExpr.type !== 'ObjectExpression' ||
+      !Array.isArray(objExpr.properties)
+    ) {
       return { index: -1, property: null };
     }
 
@@ -66,7 +73,11 @@ export default createTransformer((fileInfo, api, options, context) => {
       'The maxSteps parameter has been removed from useChat. You should now use server-side `stopWhen` conditions for multi-step tool execution control. https://studio.khulnasoft.com/docs/migration-guides/migration-guide-5-0#maxsteps-removal';
     context.messages.push(`Not Implemented ${fileInfo.path}: ${message}`);
 
-    insertCommentOnce(property, j, `${AI_TOOLKIT_CODEMOD_ERROR_PREFIX}${message}`);
+    insertCommentOnce(
+      property,
+      j,
+      `${AI_TOOLKIT_CODEMOD_ERROR_PREFIX}${message}`,
+    );
     context.hasChanges = true;
   }
 
@@ -99,7 +110,10 @@ export default createTransformer((fileInfo, api, options, context) => {
     let fnName: string | null = null;
     if (j.Identifier.check(callee)) {
       fnName = callee.name;
-    } else if (j.MemberExpression.check(callee) && j.Identifier.check(callee.property)) {
+    } else if (
+      j.MemberExpression.check(callee) &&
+      j.Identifier.check(callee.property)
+    ) {
       fnName = callee.property.name;
     }
     if (!fnName) return;
@@ -121,12 +135,14 @@ export default createTransformer((fileInfo, api, options, context) => {
       const varName = firstArg.name;
       let processed = false;
 
-      root.find(j.VariableDeclarator, { id: { name: varName } }).forEach(varPath => {
-        if (processed) return;
-        if (j.ObjectExpression.check(varPath.node.init)) {
-          processed = processObjectExpression(varPath.node.init, isUseChat);
-        }
-      });
+      root
+        .find(j.VariableDeclarator, { id: { name: varName } })
+        .forEach(varPath => {
+          if (processed) return;
+          if (j.ObjectExpression.check(varPath.node.init)) {
+            processed = processObjectExpression(varPath.node.init, isUseChat);
+          }
+        });
 
       if (processed) return;
 
@@ -144,13 +160,20 @@ export default createTransformer((fileInfo, api, options, context) => {
 
   // Add stepCountIs to existing `ai` or create new import if needed
   if (shouldAddStepCountIsImport && !hasStepCountIsImport) {
-    const aiImport = root.find(j.ImportDeclaration).filter(path => path.node.source.value === 'ai-toolkit' || path.node.source.value === 'ai-toolkit');
+    const aiImport = root
+      .find(j.ImportDeclaration)
+      .filter(
+        path =>
+          path.node.source.value === 'ai-toolkit' ||
+          path.node.source.value === 'ai-toolkit',
+      );
 
     if (aiImport.size()) {
       const path = aiImport.get();
       const specifiers = path.node.specifiers;
       const alreadyImported = specifiers?.some(
-        (s: any) => s.type === 'ImportSpecifier' && s.imported.name === 'stepCountIs',
+        (s: any) =>
+          s.type === 'ImportSpecifier' && s.imported.name === 'stepCountIs',
       );
       if (!alreadyImported) {
         specifiers.push(j.importSpecifier(j.identifier('stepCountIs')));

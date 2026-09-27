@@ -46,7 +46,8 @@ describe('doGenerate', () => {
         status: 'processing',
         created_at: '2025-01-08T13:24:38.692Z',
         urls: {
-          cancel: 'https://api.replicate.com/v1/predictions/s7x1e3dcmhrmc0cm8rbatcneec/cancel',
+          cancel:
+            'https://api.replicate.com/v1/predictions/s7x1e3dcmhrmc0cm8rbatcneec/cancel',
           get: 'https://api.replicate.com/v1/predictions/s7x1e3dcmhrmc0cm8rbatcneec',
           stream:
             'https://stream.replicate.com/v1/files/bcwr-3okdfv3o2wehstv5f2okyftwxy57hhypqsi6osiim5iaq5k7u24a',
@@ -140,7 +141,9 @@ describe('doGenerate', () => {
       prefer: 'wait',
     });
 
-    expect(server.calls[0].requestUserAgent).toContain(`ai-toolkit/replicate/0.0.0-test`);
+    expect(server.calls[0].requestUserAgent).toContain(
+      `ai-toolkit/replicate/0.0.0-test`,
+    );
   });
 
   it('should set custom wait time in prefer header when maxWaitTimeInSeconds is specified', async () => {
@@ -204,7 +207,9 @@ describe('doGenerate', () => {
       providerOptions: {},
     });
 
-    expect(result.images).toStrictEqual([new Uint8Array(Buffer.from('test-binary-content'))]);
+    expect(result.images).toStrictEqual([
+      new Uint8Array(Buffer.from('test-binary-content')),
+    ]);
 
     expect(server.calls[1].requestMethod).toStrictEqual('GET');
     expect(server.calls[1].requestUrl).toStrictEqual(
@@ -228,7 +233,9 @@ describe('doGenerate', () => {
       providerOptions: {},
     });
 
-    expect(result.images).toStrictEqual([new Uint8Array(Buffer.from('test-binary-content'))]);
+    expect(result.images).toStrictEqual([
+      new Uint8Array(Buffer.from('test-binary-content')),
+    ]);
 
     expect(server.calls[1].requestMethod).toStrictEqual('GET');
     expect(server.calls[1].requestUrl).toStrictEqual(
@@ -237,11 +244,14 @@ describe('doGenerate', () => {
   });
 
   it('should return response metadata', async () => {
-    const modelWithTimestamp = new ReplicateImageModel('black-forest-labs/flux-schnell', {
-      provider: 'replicate',
-      baseURL: 'https://api.replicate.com',
-      _internal: { currentDate: () => testDate },
-    });
+    const modelWithTimestamp = new ReplicateImageModel(
+      'black-forest-labs/flux-schnell',
+      {
+        provider: 'replicate',
+        baseURL: 'https://api.replicate.com',
+        _internal: { currentDate: () => testDate },
+      },
+    );
     prepareResponse({
       output: ['https://replicate.delivery/xezq/abc/out-0.webp'],
     });
@@ -265,13 +275,16 @@ describe('doGenerate', () => {
   });
 
   it('should include response headers in metadata', async () => {
-    const modelWithTimestamp = new ReplicateImageModel('black-forest-labs/flux-schnell', {
-      provider: 'replicate',
-      baseURL: 'https://api.replicate.com',
-      _internal: {
-        currentDate: () => testDate,
+    const modelWithTimestamp = new ReplicateImageModel(
+      'black-forest-labs/flux-schnell',
+      {
+        provider: 'replicate',
+        baseURL: 'https://api.replicate.com',
+        _internal: {
+          currentDate: () => testDate,
+        },
       },
-    });
+    );
     server.urls['https://api.replicate.com/*'].response = {
       type: 'json-value',
       headers: {
@@ -292,7 +305,8 @@ describe('doGenerate', () => {
         status: 'processing',
         created_at: '2025-01-08T13:24:38.692Z',
         urls: {
-          cancel: 'https://api.replicate.com/v1/predictions/s7x1e3dcmhrmc0cm8rbatcneec/cancel',
+          cancel:
+            'https://api.replicate.com/v1/predictions/s7x1e3dcmhrmc0cm8rbatcneec/cancel',
           get: 'https://api.replicate.com/v1/predictions/s7x1e3dcmhrmc0cm8rbatcneec',
           stream:
             'https://stream.replicate.com/v1/files/bcwr-3okdfv3o2wehstv5f2okyftwxy57hhypqsi6osiim5iaq5k7u24a',
@@ -341,13 +355,16 @@ describe('doGenerate', () => {
     });
 
     expect(server.calls[0].requestMethod).toStrictEqual('POST');
-    expect(server.calls[0].requestUrl).toStrictEqual('https://api.replicate.com/v1/predictions');
+    expect(server.calls[0].requestUrl).toStrictEqual(
+      'https://api.replicate.com/v1/predictions',
+    );
     expect(await server.calls[0].requestBodyJson).toStrictEqual({
       input: {
         prompt,
         num_outputs: 1,
       },
-      version: '5599ed30703defd1d160a25a63321b4dec97101d98b4674bcc56e41f62f35637',
+      version:
+        '5599ed30703defd1d160a25a63321b4dec97101d98b4674bcc56e41f62f35637',
     });
   });
 
@@ -671,8 +688,12 @@ describe('doGenerate', () => {
 
       // Should only include 8 images
       const requestBody = await server.calls[0].requestBodyJson;
-      expect(requestBody.input.input_image).toBe('https://example.com/img1.jpg');
-      expect(requestBody.input.input_image_8).toBe('https://example.com/img8.jpg');
+      expect(requestBody.input.input_image).toBe(
+        'https://example.com/img1.jpg',
+      );
+      expect(requestBody.input.input_image_8).toBe(
+        'https://example.com/img8.jpg',
+      );
       expect(requestBody.input.input_image_9).toBeUndefined();
     });
 

@@ -92,7 +92,9 @@ const ensureGitignore = (): void => {
   );
 
   if (!alreadyIgnored) {
-    const newContent = content.endsWith('\n') ? `${content}.devtools\n` : `${content}\n.devtools\n`;
+    const newContent = content.endsWith('\n')
+      ? `${content}.devtools\n`
+      : `${content}\n.devtools\n`;
     fs.writeFileSync(gitignorePath, newContent);
   }
 };
@@ -163,7 +165,13 @@ export const createRun = async (id: string): Promise<Run> => {
 export const createStep = async (
   step: Omit<
     Step,
-    'duration_ms' | 'output' | 'usage' | 'error' | 'raw_request' | 'raw_response' | 'raw_chunks'
+    | 'duration_ms'
+    | 'output'
+    | 'usage'
+    | 'error'
+    | 'raw_request'
+    | 'raw_response'
+    | 'raw_chunks'
   >,
 ): Promise<void> => {
   const db = getDb();
@@ -182,7 +190,10 @@ export const createStep = async (
   notifyServer('step');
 };
 
-export const updateStepResult = async (stepId: string, result: StepResult): Promise<void> => {
+export const updateStepResult = async (
+  stepId: string,
+  result: StepResult,
+): Promise<void> => {
   const db = getDb();
   const step = db.steps.find(s => s.id === stepId);
   if (step) {
@@ -202,13 +213,16 @@ export const getRuns = async (): Promise<Run[]> => {
   const db = getDb();
   // Return runs sorted by started_at DESC
   return [...db.runs].sort(
-    (a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime(),
+    (a, b) =>
+      new Date(b.started_at).getTime() - new Date(a.started_at).getTime(),
   );
 };
 
 export const getStepsForRun = async (runId: string): Promise<Step[]> => {
   const db = getDb();
-  return db.steps.filter(s => s.run_id === runId).sort((a, b) => a.step_number - b.step_number);
+  return db.steps
+    .filter(s => s.run_id === runId)
+    .sort((a, b) => a.step_number - b.step_number);
 };
 
 export const getRunWithSteps = async (

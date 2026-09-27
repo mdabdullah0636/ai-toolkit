@@ -38,7 +38,10 @@ export class PerplexityLanguageModel implements LanguageModelV3 {
 
   private readonly config: PerplexityChatConfig;
 
-  constructor(modelId: PerplexityLanguageModelId, config: PerplexityChatConfig) {
+  constructor(
+    modelId: PerplexityLanguageModelId,
+    config: PerplexityChatConfig,
+  ) {
     this.modelId = modelId;
     this.config = config;
   }
@@ -106,7 +109,9 @@ export class PerplexityLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doGenerate(options: LanguageModelV3CallOptions): Promise<LanguageModelV3GenerateResult> {
+  async doGenerate(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3GenerateResult> {
     const { args: body, warnings } = this.getArgs(options);
 
     const {
@@ -121,7 +126,9 @@ export class PerplexityLanguageModel implements LanguageModelV3 {
         errorSchema: perplexityErrorSchema,
         errorToMessage,
       }),
-      successfulResponseHandler: createJsonResponseHandler(perplexityResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        perplexityResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -179,7 +186,9 @@ export class PerplexityLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doStream(options: LanguageModelV3CallOptions): Promise<LanguageModelV3StreamResult> {
+  async doStream(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3StreamResult> {
     const { args, warnings } = this.getArgs(options);
 
     const body = { ...args, stream: true };
@@ -192,7 +201,9 @@ export class PerplexityLanguageModel implements LanguageModelV3 {
         errorSchema: perplexityErrorSchema,
         errorToMessage,
       }),
-      successfulResponseHandler: createEventSourceResponseHandler(perplexityChunkSchema),
+      successfulResponseHandler: createEventSourceResponseHandler(
+        perplexityChunkSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });

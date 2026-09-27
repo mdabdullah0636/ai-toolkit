@@ -22,7 +22,9 @@ export const webSearchPreviewArgsSchema = lazySchema(() =>
   ),
 );
 
-export const webSearchPreviewInputSchema = lazySchema(() => zodSchema(z.object({})));
+export const webSearchPreviewInputSchema = lazySchema(() =>
+  zodSchema(z.object({})),
+);
 
 const webSearchPreviewOutputSchema = lazySchema(() =>
   zodSchema(

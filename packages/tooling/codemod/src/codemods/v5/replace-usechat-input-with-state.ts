@@ -133,7 +133,8 @@ export default createTransformer((fileInfo, api, options, context) => {
             .filter(idPath => {
               const parent = idPath.parent.node;
               return !(
-                ((parent.type === 'Property' || parent.type === 'ObjectProperty') &&
+                ((parent.type === 'Property' ||
+                  parent.type === 'ObjectProperty') &&
                   parent.key === idPath.node) ||
                 (parent.type === 'MemberExpression' &&
                   parent.property === idPath.node &&
@@ -145,7 +146,10 @@ export default createTransformer((fileInfo, api, options, context) => {
                 [j.identifier('e')],
                 j.callExpression(j.identifier(setterName), [
                   j.memberExpression(
-                    j.memberExpression(j.identifier('e'), j.identifier('target')),
+                    j.memberExpression(
+                      j.identifier('e'),
+                      j.identifier('target'),
+                    ),
                     j.identifier('value'),
                   ),
                 ]),
@@ -175,7 +179,8 @@ export default createTransformer((fileInfo, api, options, context) => {
           .filter(idPath => {
             const parent = idPath.parent.node;
             return !(
-              ((parent.type === 'Property' || parent.type === 'ObjectProperty') &&
+              ((parent.type === 'Property' ||
+                parent.type === 'ObjectProperty') &&
                 parent.key === idPath.node) ||
               (parent.type === 'MemberExpression' &&
                 parent.property === idPath.node &&
@@ -233,7 +238,10 @@ export default createTransformer((fileInfo, api, options, context) => {
         imports
           .at(0)
           .insertAfter(
-            j.importDeclaration([j.importSpecifier(j.identifier('useState'))], j.literal('react')),
+            j.importDeclaration(
+              [j.importSpecifier(j.identifier('useState'))],
+              j.literal('react'),
+            ),
           );
       }
     }

@@ -17,20 +17,19 @@ packages:
   - 'packages/tooling/*'
   # Infrastructure - internal test utilities
   - 'packages/testing/*'
-  
-  # Future domains (400% platform vision) - NOT YET IMPLEMENTED
-  # See architecture/FUTURE_DOMAINS.md for implementation plans
-  - 'packages/agents/*'         # Wave 2 (Month 5-6) - Agent Platform
-  - 'packages/workflow/*'       # Wave 3 (Month 7-8) - Workflow Engine
-  - 'packages/memory/*'         # Wave 1 (Month 4-5) - Memory System
-  - 'packages/context/*'        # Wave 1 (Month 4) - Context Management
-  - 'packages/evals/*'          # Wave 4 (Month 9-10) - Evaluation Engine
-  - 'packages/observability/*'  # Wave 4 (Month 10-11) - Observability
-  - 'packages/security/*'       # Wave 4 (Month 11-12) - Security Layer
-  - 'packages/sandbox/*'        # Wave 3 (Month 8) - Sandbox Runtime
-  - 'packages/retrieval/*'      # Wave 3 (Month 8-9) - Retrieval Layer
-  - 'packages/tools/*'          # Wave 2 (Month 6) - Tool Platform
-  
+
+  # Platform layers (implemented waves)
+  - 'packages/agents/*' # Wave 2 (Month 5-6) - Agent Platform
+  - 'packages/workflow/*' # Wave 3 (Month 7-8) - Workflow Engine
+  - 'packages/memory/*' # Wave 1 (Month 4-5) - Memory System
+  - 'packages/context/*' # Wave 1 (Month 4) - Context Management
+  - 'packages/evals/*' # Wave 4 (Month 9-10) - Evaluation Engine
+  - 'packages/observability/*' # Wave 4 (Month 10-11) - Observability
+  - 'packages/security/*' # Wave 4 (Month 11-12) - Security Layer
+  - 'packages/sandbox/*' # Wave 3 (Month 8) - Sandbox Runtime
+  - 'packages/retrieval/*' # Wave 3 (Month 8-9) - Retrieval Layer
+  - 'packages/tools/*' # Wave 2 (Month 6) - Tool Platform
+
   # Other workspaces
   - 'tools/*'
   # Application workspaces (single package hosting the docs/www/studio sites)

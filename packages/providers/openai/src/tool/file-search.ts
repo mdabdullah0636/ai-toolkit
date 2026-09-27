@@ -17,7 +17,9 @@ const comparisonFilterSchema = z.object({
 
 const compoundFilterSchema: z.ZodType<any> = z.object({
   type: z.enum(['and', 'or']),
-  filters: z.array(z.union([comparisonFilterSchema, z.lazy(() => compoundFilterSchema)])),
+  filters: z.array(
+    z.union([comparisonFilterSchema, z.lazy(() => compoundFilterSchema)]),
+  ),
 });
 
 export const fileSearchArgsSchema = lazySchema(() =>
@@ -31,7 +33,9 @@ export const fileSearchArgsSchema = lazySchema(() =>
           scoreThreshold: z.number().optional(),
         })
         .optional(),
-      filters: z.union([comparisonFilterSchema, compoundFilterSchema]).optional(),
+      filters: z
+        .union([comparisonFilterSchema, compoundFilterSchema])
+        .optional(),
     }),
   ),
 );

@@ -22,24 +22,20 @@ const CURRENT_DOMAINS = [
   'mcp',
   'tooling',
   'testing',
-];
-const FUTURE_DOMAINS = [
   'agents',
+  'tools',
   'workflow',
   'memory',
   'context',
+  'sandbox',
+  'retrieval',
   'evals',
   'observability',
   'security',
-  'sandbox',
-  'retrieval',
-  'tools',
 ];
+const FUTURE_DOMAINS = [];
 const EXPECTED_DOMAINS = [...CURRENT_DOMAINS, ...FUTURE_DOMAINS];
-const NODE_BUILTINS = new Set([
-  ...builtinModules,
-  ...builtinModules.map(name => `node:${name}`),
-]);
+const NODE_BUILTINS = new Set([...builtinModules, ...builtinModules.map(name => `node:${name}`)]);
 const PRUNE = new Set(['node_modules', 'dist', '.git', '.next', '.turbo']);
 // Test files, dev scripts, and tooling configs execute under Node by design and
 // never ship; the runtime-neutral rule (ADR-004) governs shipped source, so they
@@ -120,12 +116,9 @@ function scanNodeImports(dir, out = new Set()) {
       // `import type` statements are erased at compile time and carry no
       // runtime dependency, so they never violate runtime-neutrality.
       content = content.replace(/import\s+type\s+[^;]+;/g, '');
-      for (const m of content.matchAll(
-        /from\s+['"]((?:node:)?[a-zA-Z0-9_@/-]+)['"]/g,
-      )) {
+      for (const m of content.matchAll(/from\s+['"]((?:node:)?[a-zA-Z0-9_@/-]+)['"]/g)) {
         const spec = m[1];
-        if (spec.startsWith('node:') || builtinModules.includes(spec))
-          out.add(spec);
+        if (spec.startsWith('node:') || builtinModules.includes(spec)) out.add(spec);
       }
     }
   }
@@ -137,8 +130,7 @@ function collectPackageNames(root, category) {
   const rootManifestPath = path.join(root, 'package.json');
   if (fs.existsSync(rootManifestPath)) {
     const manifest = readJson(rootManifestPath);
-    if (manifest?.name)
-      discoveredNames.set(manifest.name, { category, dir: root });
+    if (manifest?.name) discoveredNames.set(manifest.name, { category, dir: root });
   }
   const walk = dir => {
     let entries;
@@ -154,8 +146,7 @@ function collectPackageNames(root, category) {
       const manifestPath = path.join(full, 'package.json');
       if (fs.existsSync(manifestPath)) {
         const manifest = readJson(manifestPath);
-        if (manifest?.name)
-          discoveredNames.set(manifest.name, { category, dir: full });
+        if (manifest?.name) discoveredNames.set(manifest.name, { category, dir: full });
       }
       walk(full);
     }
@@ -170,9 +161,7 @@ function readJson(file) {
   try {
     return JSON.parse(fs.readFileSync(file, 'utf8'));
   } catch (error) {
-    reportError(
-      `Invalid JSON: ${path.relative(ROOT, file)} (${error.message})`,
-    );
+    reportError(`Invalid JSON: ${path.relative(ROOT, file)} (${error.message})`);
     return undefined;
   }
 }
@@ -183,21 +172,15 @@ function collectPackages(dir, domain) {
   const rootManifestPath = path.join(dir, 'package.json');
   if (fs.existsSync(rootManifestPath)) {
     const manifest = readJson(rootManifestPath);
-    if (manifest)
-      packages.push({ dir, domain, manifest, manifestPath: rootManifestPath });
+    if (manifest) packages.push({ dir, domain, manifest, manifestPath: rootManifestPath });
   }
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (entry.name.startsWith('.') || entry.name === 'node_modules') continue;
     const packageDir = path.join(dir, entry.name);
-    if (
-      !entry.isDirectory() ||
-      !fs.existsSync(path.join(packageDir, 'package.json'))
-    )
-      continue;
+    if (!entry.isDirectory() || !fs.existsSync(path.join(packageDir, 'package.json'))) continue;
     const manifestPath = path.join(packageDir, 'package.json');
     const manifest = readJson(manifestPath);
-    if (manifest)
-      packages.push({ dir: packageDir, domain, manifest, manifestPath });
+    if (manifest) packages.push({ dir: packageDir, domain, manifest, manifestPath });
   }
 }
 
@@ -206,7 +189,9 @@ for (const domain of EXPECTED_DOMAINS) {
   if (!fs.existsSync(domainDir)) {
     // Future domains are not yet implemented - warn instead of error
     if (FUTURE_DOMAINS.includes(domain)) {
-      reportWarning(`Future domain not yet implemented: packages/${domain} (see architecture/FUTURE_DOMAINS.md)`);
+      reportWarning(
+        `Future domain not yet implemented: packages/${domain} (see architecture/FUTURE_DOMAINS.md)`,
+      );
     } else {
       reportError(`Missing domain directory: packages/${domain}`);
     }
@@ -223,12 +208,8 @@ else if (!fs.statSync(PACKAGES).isDirectory())
   reportError(`Expected directory but found file: packages/`);
 else {
   for (const entry of fs.readdirSync(PACKAGES, { withFileTypes: true })) {
-    if (entry.name.startsWith('.') || EXPECTED_DOMAINS.includes(entry.name))
-      continue;
-    if (
-      entry.isDirectory() &&
-      fs.existsSync(path.join(PACKAGES, entry.name, 'package.json'))
-    ) {
+    if (entry.name.startsWith('.') || EXPECTED_DOMAINS.includes(entry.name)) continue;
+    if (entry.isDirectory() && fs.existsSync(path.join(PACKAGES, entry.name, 'package.json'))) {
       const packageDir = path.join(PACKAGES, entry.name);
       const manifestPath = path.join(packageDir, 'package.json');
       const manifest = readJson(manifestPath);
@@ -246,9 +227,7 @@ else {
 const names = new Map();
 for (const pkg of packages) {
   if (!pkg.manifest.name)
-    reportError(
-      `Package is missing a name: ${path.relative(ROOT, pkg.manifestPath)}`,
-    );
+    reportError(`Package is missing a name: ${path.relative(ROOT, pkg.manifestPath)}`);
   else if (names.has(pkg.manifest.name))
     reportError(
       `Duplicate package name \"${pkg.manifest.name}\": ${path.relative(ROOT, names.get(pkg.manifest.name))} and ${path.relative(ROOT, pkg.manifestPath)}`,
@@ -258,25 +237,16 @@ for (const pkg of packages) {
   if (!pkg.manifest.exports)
     reportError(`Package has no exports map: ${path.relative(ROOT, pkg.dir)}`);
   if (!pkg.manifest.source)
-    reportWarning(
-      `Package has no source entry: ${path.relative(ROOT, pkg.dir)}`,
-    );
+    reportWarning(`Package has no source entry: ${path.relative(ROOT, pkg.dir)}`);
 
   if (!pkg.manifest.stability)
-    reportError(
-      `Package missing stability label: ${path.relative(ROOT, pkg.dir)}`,
-    );
+    reportError(`Package missing stability label: ${path.relative(ROOT, pkg.dir)}`);
   if (!pkg.manifest.owners)
-    reportError(
-      `Package missing owners metadata: ${path.relative(ROOT, pkg.dir)}`,
-    );
+    reportError(`Package missing owners metadata: ${path.relative(ROOT, pkg.dir)}`);
 
   const relDir = path.relative(ROOT, pkg.dir).split(path.sep).join('/');
   const inWorkspace = WORKSPACE_REGEXES.some(({ regex }) => regex.test(relDir));
-  if (!inWorkspace)
-    reportError(
-      `Package dir not matched by any pnpm-workspace glob: ${relDir}`,
-    );
+  if (!inWorkspace) reportError(`Package dir not matched by any pnpm-workspace glob: ${relDir}`);
 
   const dependencies = {
     ...pkg.manifest.dependencies,
@@ -322,23 +292,15 @@ for (const pkg of packages) {
             `Exports "." missing "require" condition (ESM-only by design): ${path.relative(ROOT, pkg.dir)}`,
           );
         else
-          reportError(
-            `Exports "." missing condition "require": ${path.relative(ROOT, pkg.dir)}`,
-          );
+          reportError(`Exports "." missing condition "require": ${path.relative(ROOT, pkg.dir)}`);
       }
     }
   }
 }
 
-const configs = [
-  'pnpm-workspace.yaml',
-  'turbo.json',
-  'tsconfig.json',
-  'CODEOWNERS',
-];
+const configs = ['pnpm-workspace.yaml', 'turbo.json', 'tsconfig.json', 'CODEOWNERS'];
 for (const config of configs)
-  if (!fs.existsSync(path.join(ROOT, config)))
-    reportError(`Missing root config: ${config}`);
+  if (!fs.existsSync(path.join(ROOT, config))) reportError(`Missing root config: ${config}`);
 
 // Docs are mirrored: root content/ is canonical (shipped by package prepack
 // scripts) and apps/docs/content/ is the derived Geistdocs site tree
@@ -408,11 +370,7 @@ function normalizeDocsContent(text) {
 
 // Site-only files with no canonical counterpart (explicit allowlist).
 function isSiteOnlyFile(rel) {
-  return (
-    rel.endsWith('/meta.json') ||
-    rel === 'meta.json' ||
-    rel.startsWith('docs/elements/')
-  );
+  return rel.endsWith('/meta.json') || rel === 'meta.json' || rel.startsWith('docs/elements/');
 }
 
 function collectFiles(dir, base = dir, out = new Map()) {
@@ -428,10 +386,7 @@ function collectFiles(dir, base = dir, out = new Map()) {
       if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue;
       collectFiles(full, base, out);
     } else {
-      out.set(
-        path.relative(base, full).split(path.sep).join('/'),
-        fs.readFileSync(full),
-      );
+      out.set(path.relative(base, full).split(path.sep).join('/'), fs.readFileSync(full));
     }
   }
   return out;
@@ -443,25 +398,17 @@ const siteContentFiles = collectFiles(path.join(ROOT, 'apps/docs/content'));
 const siteByStripped = new Map();
 for (const rel of siteContentFiles.keys()) siteByStripped.set(rel, rel);
 const contentToSite = new Map();
-for (const rel of contentFiles.keys())
-  contentToSite.set(rel, stripNumericPrefix(rel));
+for (const rel of contentFiles.keys()) contentToSite.set(rel, stripNumericPrefix(rel));
 for (const [rel, siteRel] of contentToSite) {
   if (!siteContentFiles.has(siteRel)) {
     if (path.basename(rel) === 'index.mdx')
-      reportWarning(
-        `Docs index page has no site counterpart (nav uses meta.json): ${rel}`,
-      );
-    else
-      reportError(
-        `Docs page missing in apps/docs/content: ${rel} (expected ${siteRel})`,
-      );
+      reportWarning(`Docs index page has no site counterpart (nav uses meta.json): ${rel}`);
+    else reportError(`Docs page missing in apps/docs/content: ${rel} (expected ${siteRel})`);
   } else if (
     normalizeDocsContent(contentFiles.get(rel).toString('utf8')) !==
     normalizeDocsContent(siteContentFiles.get(siteRel).toString('utf8'))
   ) {
-    reportError(
-      `Docs mirror content drift (beyond site transform): ${rel} <-> ${siteRel}`,
-    );
+    reportError(`Docs mirror content drift (beyond site transform): ${rel} <-> ${siteRel}`);
   }
 }
 for (const rel of siteContentFiles.keys()) {
@@ -474,9 +421,7 @@ for (const rel of siteContentFiles.keys()) {
     }
   }
   if (!covered)
-    reportError(
-      `File only in apps/docs/content, missing in canonical content/: ${rel}`,
-    );
+    reportError(`File only in apps/docs/content, missing in canonical content/: ${rel}`);
 }
 
 // Example metadata (ADR-009): every examples/<category>/<name>/ dir carries an
@@ -496,20 +441,11 @@ const examplesRoot = path.join(ROOT, 'examples');
 const exampleMetas = new Map();
 if (fs.existsSync(examplesRoot)) {
   for (const entry of fs.readdirSync(examplesRoot, { withFileTypes: true })) {
-    if (
-      !entry.isDirectory() ||
-      entry.name.startsWith('.') ||
-      entry.name === 'node_modules'
-    )
+    if (!entry.isDirectory() || entry.name.startsWith('.') || entry.name === 'node_modules')
       continue;
     const catDir = path.join(examplesRoot, entry.name);
     for (const sub of fs.readdirSync(catDir, { withFileTypes: true })) {
-      if (
-        !sub.isDirectory() ||
-        sub.name.startsWith('.') ||
-        sub.name === 'node_modules'
-      )
-        continue;
+      if (!sub.isDirectory() || sub.name.startsWith('.') || sub.name === 'node_modules') continue;
       const rel = `${entry.name}/${sub.name}`;
       const metaPath = path.join(catDir, sub.name, 'example.json');
       if (!fs.existsSync(metaPath)) {
@@ -524,16 +460,11 @@ if (fs.existsSync(examplesRoot)) {
       }
       exampleMetas.set(rel, meta);
       for (const key of REQUIRED_EXAMPLE_KEYS)
-        if (!(key in meta))
-          reportError(`example.json missing "${key}": examples/${rel}`);
+        if (!(key in meta)) reportError(`example.json missing "${key}": examples/${rel}`);
       if (meta.name !== sub.name)
-        reportError(
-          `example.json name "${meta.name}" mismatches dir: examples/${rel}`,
-        );
+        reportError(`example.json name "${meta.name}" mismatches dir: examples/${rel}`);
       if (meta.category !== entry.name)
-        reportError(
-          `example.json category "${meta.category}" mismatches dir: examples/${rel}`,
-        );
+        reportError(`example.json category "${meta.category}" mismatches dir: examples/${rel}`);
       const order = parseInt(entry.name.split('-')[0], 10);
       if (!Number.isNaN(order) && meta.categoryOrder !== order)
         reportError(
@@ -558,8 +489,7 @@ else {
       }
     }
     for (const rel of exampleMetas.keys())
-      if (!indexed.has(rel))
-        reportError(`Example not indexed in registry.json: examples/${rel}`);
+      if (!indexed.has(rel)) reportError(`Example not indexed in registry.json: examples/${rel}`);
   }
 }
 
@@ -591,9 +521,7 @@ if (fs.existsSync(codeownersPath) && fs.statSync(codeownersPath).isFile()) {
 
 console.log('\nRepository Structure Validation\n');
 console.log(`Packages discovered: ${packages.length}`);
-console.log(
-  `Domain packages: ${packages.filter(pkg => pkg.domain !== 'legacy').length}`,
-);
+console.log(`Domain packages: ${packages.filter(pkg => pkg.domain !== 'legacy').length}`);
 console.log(
   `Legacy packages remaining: ${packages.filter(pkg => pkg.domain === 'legacy').length}\n`,
 );
@@ -606,8 +534,6 @@ if (warnings.length) {
   console.log('Warnings:');
   warnings.forEach(message => console.log(`  - ${message}`));
 }
-if (!errors.length && !warnings.length)
-  console.log('All structure checks passed.');
-else if (!errors.length)
-  console.log('No errors; warnings indicate migration work remaining.');
+if (!errors.length && !warnings.length) console.log('All structure checks passed.');
+else if (!errors.length) console.log('No errors; warnings indicate migration work remaining.');
 else process.exit(1);

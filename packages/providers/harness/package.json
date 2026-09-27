@@ -5,12 +5,18 @@
   "license": "Apache-2.0",
   "sideEffects": false,
   "stability": "alpha",
-  "owners": ["@khulnasoft/ai-toolkit-providers"],
+  "owners": [
+    "@khulnasoft/ai-toolkit-providers"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "source": "./src/index.ts",
-  "files": ["dist/**/*", "CHANGELOG.md", "README.md"],
+  "files": [
+    "dist/**/*",
+    "CHANGELOG.md",
+    "README.md"
+  ],
   "scripts": {
     "build": "pnpm clean && tsup --tsconfig tsconfig.build.json",
     "build:watch": "pnpm clean && tsup --watch",
@@ -61,5 +67,9 @@
   "bugs": {
     "url": "https://github.com/khulnasoft/ai-toolkit/issues"
   },
-  "keywords": ["ai", "harness", "agent"]
+  "keywords": [
+    "ai",
+    "harness",
+    "agent"
+  ]
 }

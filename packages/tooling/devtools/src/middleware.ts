@@ -4,7 +4,12 @@ import {
   type LanguageModelV3Middleware,
   type LanguageModelV3StreamPart,
 } from '@ai-toolkit/provider';
-import { createRun, createStep, updateStepResult, notifyServerAsync } from './db.js';
+import {
+  createRun,
+  createStep,
+  updateStepResult,
+  notifyServerAsync,
+} from './db.js';
 
 const generateId = () => crypto.randomUUID();
 
@@ -29,21 +34,25 @@ const registerSignalHandlers = () => {
   const cleanup = async () => {
     if (activeSteps.size === 0) return;
 
-    const promises = Array.from(activeSteps.entries()).map(async ([stepId, data]) => {
-      const durationMs = Date.now() - data.startTime;
-      await updateStepResult(stepId, {
-        duration_ms: durationMs,
-        output: JSON.stringify(data.collectedOutput),
-        usage: null,
-        error: 'Request aborted',
-        raw_request:
-          data.request && typeof data.request === 'object' && 'body' in data.request
-            ? JSON.stringify((data.request as { body: unknown }).body)
-            : null,
-        raw_response: JSON.stringify(data.fullStreamChunks),
-        raw_chunks: JSON.stringify(data.rawChunks),
-      });
-    });
+    const promises = Array.from(activeSteps.entries()).map(
+      async ([stepId, data]) => {
+        const durationMs = Date.now() - data.startTime;
+        await updateStepResult(stepId, {
+          duration_ms: durationMs,
+          output: JSON.stringify(data.collectedOutput),
+          usage: null,
+          error: 'Request aborted',
+          raw_request:
+            data.request &&
+            typeof data.request === 'object' &&
+            'body' in data.request
+              ? JSON.stringify((data.request as { body: unknown }).body)
+              : null,
+          raw_response: JSON.stringify(data.fullStreamChunks),
+          raw_chunks: JSON.stringify(data.rawChunks),
+        });
+      },
+    );
     await Promise.all(promises);
 
     // Wait for the server notification to complete before process exits
@@ -147,7 +156,9 @@ export const devToolsMiddleware = (): LanguageModelV3Middleware => {
           seed: params.seed,
           responseFormat: params.responseFormat,
         }),
-        provider_options: params.providerOptions ? JSON.stringify(params.providerOptions) : null,
+        provider_options: params.providerOptions
+          ? JSON.stringify(params.providerOptions)
+          : null,
       });
 
       try {
@@ -163,8 +174,12 @@ export const devToolsMiddleware = (): LanguageModelV3Middleware => {
           }),
           usage: result.usage ? JSON.stringify(result.usage) : null,
           error: null,
-          raw_request: result.request?.body ? JSON.stringify(result.request.body) : null,
-          raw_response: result.response?.body ? JSON.stringify(result.response.body) : null,
+          raw_request: result.request?.body
+            ? JSON.stringify(result.request.body)
+            : null,
+          raw_response: result.response?.body
+            ? JSON.stringify(result.response.body)
+            : null,
         });
 
         return result;
@@ -215,7 +230,9 @@ export const devToolsMiddleware = (): LanguageModelV3Middleware => {
           seed: params.seed,
           responseFormat: params.responseFormat,
         }),
-        provider_options: params.providerOptions ? JSON.stringify(params.providerOptions) : null,
+        provider_options: params.providerOptions
+          ? JSON.stringify(params.providerOptions)
+          : null,
       });
 
       try {
@@ -273,7 +290,10 @@ export const devToolsMiddleware = (): LanguageModelV3Middleware => {
                 currentText.set(chunk.id, '');
                 break;
               case 'text-delta':
-                currentText.set(chunk.id, (currentText.get(chunk.id) ?? '') + chunk.delta);
+                currentText.set(
+                  chunk.id,
+                  (currentText.get(chunk.id) ?? '') + chunk.delta,
+                );
                 break;
               case 'text-end':
                 collectedOutput.textParts.push({
@@ -316,7 +336,9 @@ export const devToolsMiddleware = (): LanguageModelV3Middleware => {
             await updateStepResult(stepId, {
               duration_ms: durationMs,
               output: JSON.stringify(collectedOutput),
-              usage: collectedOutput.usage ? JSON.stringify(collectedOutput.usage) : null,
+              usage: collectedOutput.usage
+                ? JSON.stringify(collectedOutput.usage)
+                : null,
               error: null,
               raw_request: request?.body ? JSON.stringify(request.body) : null,
               raw_response: JSON.stringify(fullStreamChunks),
@@ -333,7 +355,9 @@ export const devToolsMiddleware = (): LanguageModelV3Middleware => {
             await updateStepResult(stepId, {
               duration_ms: durationMs,
               output: JSON.stringify(collectedOutput),
-              usage: collectedOutput.usage ? JSON.stringify(collectedOutput.usage) : null,
+              usage: collectedOutput.usage
+                ? JSON.stringify(collectedOutput.usage)
+                : null,
               error: 'Request aborted',
               raw_request: request?.body ? JSON.stringify(request.body) : null,
               raw_response: JSON.stringify(fullStreamChunks),

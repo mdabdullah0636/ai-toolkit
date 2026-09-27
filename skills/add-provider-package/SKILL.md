@@ -227,7 +227,13 @@ See existing implementations like `packages/openai/src/chat/openai-chat-language
     "rootDir": "src",
     "outDir": "dist"
   },
-  "exclude": ["dist", "build", "node_modules", "tsup.config.ts", "internal.d.ts"],
+  "exclude": [
+    "dist",
+    "build",
+    "node_modules",
+    "tsup.config.ts",
+    "internal.d.ts"
+  ],
   "references": [
     {
       "path": "../../core/provider-utils"

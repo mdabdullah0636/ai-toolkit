@@ -40,7 +40,5 @@ for (const file of files) {
   }
 }
 
-console.log(
-  `vercel-ignore: no changes affecting apps/${site}; skipping build.`,
-);
+console.log(`vercel-ignore: no changes affecting apps/${site}; skipping build.`);
 process.exit(0);

@@ -40,7 +40,11 @@ export default createTransformer((fileInfo, api, options, context) => {
     const { callee, arguments: args } = path.node;
 
     // Check if this is an AI method call
-    if (callee.type === 'Identifier' && aiMethods.includes(callee.name) && args.length > 0) {
+    if (
+      callee.type === 'Identifier' &&
+      aiMethods.includes(callee.name) &&
+      args.length > 0
+    ) {
       const firstArg = args[0];
 
       // The first argument should be an object with a model property
@@ -50,7 +54,8 @@ export default createTransformer((fileInfo, api, options, context) => {
 
         // Find the model property and check for existing providerOptions
         firstArg.properties.forEach(prop => {
-          const isPropertyType = prop.type === 'Property' || prop.type === 'ObjectProperty';
+          const isPropertyType =
+            prop.type === 'Property' || prop.type === 'ObjectProperty';
 
           if (isPropertyType && prop.key && prop.key.type === 'Identifier') {
             if (prop.key.name === 'model') {
@@ -61,7 +66,11 @@ export default createTransformer((fileInfo, api, options, context) => {
           }
         });
 
-        if (modelProperty && modelProperty.value && modelProperty.value.type === 'CallExpression') {
+        if (
+          modelProperty &&
+          modelProperty.value &&
+          modelProperty.value.type === 'CallExpression'
+        ) {
           const modelCall = modelProperty.value;
 
           // Check if the model call is a provider function with options (second argument)
@@ -96,14 +105,20 @@ export default createTransformer((fileInfo, api, options, context) => {
         ? `add "${pattern.provider}: { ... }" to existing providerOptions`
         : `move provider options to providerOptions: { ${pattern.provider}: { ... } }`;
 
-      context.messages.push(`  Line ${pattern.line}: ${pattern.method}() - ${action}`);
+      context.messages.push(
+        `  Line ${pattern.line}: ${pattern.method}() - ${action}`,
+      );
     });
 
     context.messages.push('');
     context.messages.push('Migration example:');
-    context.messages.push('  Before: model: openai("gpt-4o", { dimensions: 10 })');
+    context.messages.push(
+      '  Before: model: openai("gpt-4o", { dimensions: 10 })',
+    );
     context.messages.push('  After:  model: openai("gpt-4o"),');
-    context.messages.push('          providerOptions: { openai: { dimensions: 10 } }');
+    context.messages.push(
+      '          providerOptions: { openai: { dimensions: 10 } }',
+    );
     context.messages.push('');
     // TODO: add link to migration guide
     // context.messages.push('See migration guide: https://studio.khulnasoft.com/docs/migration/switch-to-provider-options');

@@ -20,7 +20,9 @@ export const localShellInputSchema = lazySchema(() =>
   ),
 );
 
-export const localShellOutputSchema = lazySchema(() => zodSchema(z.object({ output: z.string() })));
+export const localShellOutputSchema = lazySchema(() =>
+  zodSchema(z.object({ output: z.string() })),
+);
 
 export const localShell = createProviderToolFactoryWithOutputSchema<
   {

@@ -6,30 +6,30 @@ Proposed architecture and executable migration plan.
 
 ### Audit Findings (2026-09-16)
 
-| Issue | Status | Fix |
-|-------|--------|-----|
-| Plan used `@platform/` namespace | **Fixed** | Replaced all `@platform/` with `@ai-toolkit/` to match actual codebase |
-| Source checkpoint referenced non-existent `packages.md` | **Fixed** | Updated Section 1 to reflect actual repo structure |
-| Broken tsconfig references in examples | **Fixed** | See Section 8 below |
-| `packages/ai/core/AGENTS.md` used wrong import `ai-toolkit` | **Fixed** | Changed to `@ai-toolkit/ai` |
-| 1199+ example files imported from `ai-toolkit` instead of `@ai-toolkit/ai` | **Fixed** | Bulk sed replacement across all example source files |
-| 20+ `packages/ui/elements` source files imported from `ai-toolkit` | **Fixed** | Updated to `@ai-toolkit/ai` |
-| `tools/create-ai-sdk` and `tools/create-ai-provider` templates used `ai-toolkit` | **Fixed** | Updated to `@ai-toolkit/ai` |
-| Empty target directories (agents, evals, etc.) | **Pending** | Created but awaiting implementation (Phases 7-16) |
-| `@ai-toolkit/provider-utils` not yet decomposed | **Pending** | Still exists as dependency; plan calls for decomposition into `foundation/*` |
-| Residual empty dirs (`packages/core`, `packages/special`) | **Fixed** | Removed (no package.json, not referenced by any tsconfig) |
+| Issue                                                                            | Status      | Fix                                                                          |
+| -------------------------------------------------------------------------------- | ----------- | ---------------------------------------------------------------------------- |
+| Plan used `@platform/` namespace                                                 | **Fixed**   | Replaced all `@platform/` with `@ai-toolkit/` to match actual codebase       |
+| Source checkpoint referenced non-existent `packages.md`                          | **Fixed**   | Updated Section 1 to reflect actual repo structure                           |
+| Broken tsconfig references in examples                                           | **Fixed**   | See Section 8 below                                                          |
+| `packages/ai/core/AGENTS.md` used wrong import `ai-toolkit`                      | **Fixed**   | Changed to `@ai-toolkit/ai`                                                  |
+| 1199+ example files imported from `ai-toolkit` instead of `@ai-toolkit/ai`       | **Fixed**   | Bulk sed replacement across all example source files                         |
+| 20+ `packages/ui/elements` source files imported from `ai-toolkit`               | **Fixed**   | Updated to `@ai-toolkit/ai`                                                  |
+| `tools/create-ai-sdk` and `tools/create-ai-provider` templates used `ai-toolkit` | **Fixed**   | Updated to `@ai-toolkit/ai`                                                  |
+| Empty target directories (agents, evals, etc.)                                   | **Pending** | Created but awaiting implementation (Phases 7-16)                            |
+| `@ai-toolkit/provider-utils` not yet decomposed                                  | **Pending** | Still exists as dependency; plan calls for decomposition into `foundation/*` |
+| Residual empty dirs (`packages/core`, `packages/special`)                        | **Fixed**   | Removed (no package.json, not referenced by any tsconfig)                    |
 
 ### Broken tsconfig references found and fixed
 
-| File | Broken Reference | Fixed To |
-|------|-----------------|----------|
-| `examples/02-framework-integration/angular/tsconfig.server.json` | `packages/core/ai-toolkit` | `packages/ai/core` |
-| `examples/01-foundations/ai-functions/tsconfig.json` | `packages/special/gateway` | `packages/gateway/core` |
-| `examples/01-foundations/ai-functions/tsconfig.json` | `packages/special/khulnasoft` | `packages/foundation/khulnasoft` |
-| `examples/01-foundations/ai-functions/tsconfig.json` | `packages/foundation/schema/provider` | `packages/foundation/provider` |
-| `examples/01-foundations/ai-functions/tsconfig.json` | `packages/foundation/schema/valibot` | `packages/foundation/valibot` |
-| `examples/04-tools/playground/tsconfig.json` | `packages/foundation/schema/provider` | `packages/foundation/provider` |
-| `examples/02-framework-integration/next-openai/tsconfig.json` | `packages/foundation/schema/valibot` | `packages/foundation/valibot` |
+| File                                                             | Broken Reference                      | Fixed To                         |
+| ---------------------------------------------------------------- | ------------------------------------- | -------------------------------- |
+| `examples/02-framework-integration/angular/tsconfig.server.json` | `packages/core/ai-toolkit`            | `packages/ai/core`               |
+| `examples/01-foundations/ai-functions/tsconfig.json`             | `packages/special/gateway`            | `packages/gateway/core`          |
+| `examples/01-foundations/ai-functions/tsconfig.json`             | `packages/special/khulnasoft`         | `packages/foundation/khulnasoft` |
+| `examples/01-foundations/ai-functions/tsconfig.json`             | `packages/foundation/schema/provider` | `packages/foundation/provider`   |
+| `examples/01-foundations/ai-functions/tsconfig.json`             | `packages/foundation/schema/valibot`  | `packages/foundation/valibot`    |
+| `examples/04-tools/playground/tsconfig.json`                     | `packages/foundation/schema/provider` | `packages/foundation/provider`   |
+| `examples/02-framework-integration/next-openai/tsconfig.json`    | `packages/foundation/schema/valibot`  | `packages/foundation/valibot`    |
 
 ## Purpose
 
@@ -456,10 +456,11 @@ foundation/platform ────┐                        │
 ```
 
 Key actual dependencies:
+
 - `@ai-toolkit/ai` → `@ai-toolkit/gateway`, `@ai-toolkit/provider`, `@ai-toolkit/provider-utils`, `@opentelemetry/api`
 - `@ai-toolkit/gateway` → `@ai-toolkit/provider`, `@ai-toolkit/provider-utils`, `@vercel/oidc`
-- `@ai-toolkit/provider` → foundation/* (internal)
-- `@ai-toolkit/provider-utils` → foundation/* (internal)
+- `@ai-toolkit/provider` → foundation/\* (internal)
+- `@ai-toolkit/provider-utils` → foundation/\* (internal)
 
 ## Forbidden edges
 
@@ -1558,22 +1559,22 @@ The meta-package must remain an export composition layer only.
 
 Most structural migrations are complete. The remaining work is decomposition (splitting large packages into smaller ones) and creation of new capabilities.
 
-| Source | Target | Status |
-|--------|--------|--------|
-| `core/ai-toolkit` | `ai/*` | **Done** — but `ai/core` is still monolithic; decomposition pending |
-| `core/provider-utils` | `foundation/*` + provider utils | **Done** — `foundation/provider` created; `@ai-toolkit/provider-utils` still exists as compatibility |
-| `core/runtime` | `foundation/runtime` | **Done** |
-| `core/gateway` | `gateway/*` | **Done** — `packages/gateway/core/` → `@ai-toolkit/gateway` |
-| `adapters/react` | `integrations/react` | **Done** |
-| `adapters/vue` | `integrations/vue` | **Done** |
-| `adapters/svelte` | `integrations/svelte` | **Done** |
-| `adapters/angular` | `integrations/angular` | **Done** |
-| `adapters/rsc` | `integrations/rsc` | **Done** |
-| `adapters/langchain` | `integrations/langchain` | **Done** |
-| `adapters/llamaindex` | `integrations/llamaindex` | **Done** |
-| `infrastructure/test-server` | `testing/test-server` | **Done** |
-| `special/codemod` | `tooling/codemod` | **Done** |
-| `special/devtools` | `tooling/devtools` | **Done** |
+| Source                       | Target                          | Status                                                                                               |
+| ---------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `core/ai-toolkit`            | `ai/*`                          | **Done** — but `ai/core` is still monolithic; decomposition pending                                  |
+| `core/provider-utils`        | `foundation/*` + provider utils | **Done** — `foundation/provider` created; `@ai-toolkit/provider-utils` still exists as compatibility |
+| `core/runtime`               | `foundation/runtime`            | **Done**                                                                                             |
+| `core/gateway`               | `gateway/*`                     | **Done** — `packages/gateway/core/` → `@ai-toolkit/gateway`                                          |
+| `adapters/react`             | `integrations/react`            | **Done**                                                                                             |
+| `adapters/vue`               | `integrations/vue`              | **Done**                                                                                             |
+| `adapters/svelte`            | `integrations/svelte`           | **Done**                                                                                             |
+| `adapters/angular`           | `integrations/angular`          | **Done**                                                                                             |
+| `adapters/rsc`               | `integrations/rsc`              | **Done**                                                                                             |
+| `adapters/langchain`         | `integrations/langchain`        | **Done**                                                                                             |
+| `adapters/llamaindex`        | `integrations/llamaindex`       | **Done**                                                                                             |
+| `infrastructure/test-server` | `testing/test-server`           | **Done**                                                                                             |
+| `special/codemod`            | `tooling/codemod`               | **Done**                                                                                             |
+| `special/devtools`           | `tooling/devtools`              | **Done**                                                                                             |
 
 ## Core
 
@@ -2005,4 +2006,3 @@ The AI DevKit migration is complete when:
 ```
 
 The key strategic property is that **AI SDK compatibility is only an entry point**. The canonical runtime is the broader AI Development Toolkit.
-

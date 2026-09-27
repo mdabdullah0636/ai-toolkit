@@ -13,7 +13,10 @@ import {
 } from '@ai-toolkit/provider-utils';
 import { z } from 'zod/v4';
 import { applyPatchOutputSchema } from '../tool/apply-patch';
-import { localShellInputSchema, localShellOutputSchema } from '../tool/local-shell';
+import {
+  localShellInputSchema,
+  localShellOutputSchema,
+} from '../tool/local-shell';
 import { shellInputSchema, shellOutputSchema } from '../tool/shell';
 import {
   OpenAIResponsesFunctionCallOutput,
@@ -81,7 +84,9 @@ export async function convertToOpenAIResponsesInput({
           }
           default: {
             const _exhaustiveCheck: never = systemMessageMode;
-            throw new Error(`Unsupported system message mode: ${_exhaustiveCheck}`);
+            throw new Error(
+              `Unsupported system message mode: ${_exhaustiveCheck}`,
+            );
           }
         }
         break;
@@ -97,18 +102,23 @@ export async function convertToOpenAIResponsesInput({
               }
               case 'file': {
                 if (part.mediaType.startsWith('image/')) {
-                  const mediaType = part.mediaType === 'image/*' ? 'image/jpeg' : part.mediaType;
+                  const mediaType =
+                    part.mediaType === 'image/*'
+                      ? 'image/jpeg'
+                      : part.mediaType;
 
                   return {
                     type: 'input_image',
                     ...(part.data instanceof URL
                       ? { image_url: part.data.toString() }
-                      : typeof part.data === 'string' && isFileId(part.data, fileIdPrefixes)
+                      : typeof part.data === 'string' &&
+                          isFileId(part.data, fileIdPrefixes)
                         ? { file_id: part.data }
                         : {
                             image_url: `data:${mediaType};base64,${convertToBase64(part.data)}`,
                           }),
-                    detail: part.providerOptions?.[providerOptionsName]?.imageDetail,
+                    detail:
+                      part.providerOptions?.[providerOptionsName]?.imageDetail,
                   };
                 } else if (part.mediaType === 'application/pdf') {
                   if (part.data instanceof URL) {
@@ -119,7 +129,8 @@ export async function convertToOpenAIResponsesInput({
                   }
                   return {
                     type: 'input_file',
-                    ...(typeof part.data === 'string' && isFileId(part.data, fileIdPrefixes)
+                    ...(typeof part.data === 'string' &&
+                    isFileId(part.data, fileIdPrefixes)
                       ? { file_id: part.data }
                       : {
                           filename: part.filename ?? `part-${index}.pdf`,
@@ -145,7 +156,9 @@ export async function convertToOpenAIResponsesInput({
         for (const part of content) {
           switch (part.type) {
             case 'text': {
-              const id = part.providerOptions?.[providerOptionsName]?.itemId as string | undefined;
+              const id = part.providerOptions?.[providerOptionsName]?.itemId as
+                | string
+                | undefined;
 
               // when using conversation, skip items that already exist in the conversation context to avoid "Duplicate item found" errors
               if (hasConversation && id != null) {
@@ -174,7 +187,9 @@ export async function convertToOpenAIResponsesInput({
                       [providerOptionsName]?: { itemId?: string };
                     };
                   }
-                ).providerMetadata?.[providerOptionsName]?.itemId) as string | undefined;
+                ).providerMetadata?.[providerOptionsName]?.itemId) as
+                | string
+                | undefined;
 
               if (hasConversation && id != null) {
                 break;
@@ -192,7 +207,9 @@ export async function convertToOpenAIResponsesInput({
                 break;
               }
 
-              const resolvedToolName = toolNameMapping.toProviderToolName(part.toolName);
+              const resolvedToolName = toolNameMapping.toProviderToolName(
+                part.toolName,
+              );
 
               if (hasLocalShellTool && resolvedToolName === 'local_shell') {
                 const parsedInput = await validateTypes({
@@ -274,7 +291,8 @@ export async function convertToOpenAIResponsesInput({
                         [providerOptionsName]?: { itemId?: string };
                       };
                     }
-                  ).providerMetadata?.[providerOptionsName]?.itemId ?? part.toolCallId;
+                  ).providerMetadata?.[providerOptionsName]?.itemId ??
+                  part.toolCallId;
                 input.push({ type: 'item_reference', id: itemId });
               } else {
                 warnings.push({
@@ -337,7 +355,8 @@ export async function convertToOpenAIResponsesInput({
                     reasoningMessages[reasoningId] = {
                       type: 'reasoning',
                       id: reasoningId,
-                      encrypted_content: providerOptions?.reasoningEncryptedContent,
+                      encrypted_content:
+                        providerOptions?.reasoningEncryptedContent,
                       summary: summaryParts,
                     };
                     input.push(reasoningMessages[reasoningId]);
@@ -368,7 +387,8 @@ export async function convertToOpenAIResponsesInput({
       case 'tool': {
         for (const part of content) {
           if (part.type === 'tool-approval-response') {
-            const approvalResponse = part as LanguageModelV3ToolApprovalResponsePart;
+            const approvalResponse =
+              part as LanguageModelV3ToolApprovalResponsePart;
 
             if (processedApprovalIds.has(approvalResponse.approvalId)) {
               continue;
@@ -394,17 +414,24 @@ export async function convertToOpenAIResponsesInput({
 
           // Skip execution-denied with approvalId - already handled via tool-approval-response
           if (output.type === 'execution-denied') {
-            const approvalId = (output.providerOptions?.openai as { approvalId?: string })
-              ?.approvalId;
+            const approvalId = (
+              output.providerOptions?.openai as { approvalId?: string }
+            )?.approvalId;
 
             if (approvalId) {
               continue;
             }
           }
 
-          const resolvedToolName = toolNameMapping.toProviderToolName(part.toolName);
+          const resolvedToolName = toolNameMapping.toProviderToolName(
+            part.toolName,
+          );
 
-          if (hasLocalShellTool && resolvedToolName === 'local_shell' && output.type === 'json') {
+          if (
+            hasLocalShellTool &&
+            resolvedToolName === 'local_shell' &&
+            output.type === 'json'
+          ) {
             const parsedOutput = await validateTypes({
               value: output.value,
               schema: localShellOutputSchema,
@@ -418,7 +445,11 @@ export async function convertToOpenAIResponsesInput({
             continue;
           }
 
-          if (hasShellTool && resolvedToolName === 'shell' && output.type === 'json') {
+          if (
+            hasShellTool &&
+            resolvedToolName === 'shell' &&
+            output.type === 'json'
+          ) {
             const parsedOutput = await validateTypes({
               value: output.value,
               schema: shellOutputSchema,
@@ -442,7 +473,11 @@ export async function convertToOpenAIResponsesInput({
             continue;
           }
 
-          if (hasApplyPatchTool && part.toolName === 'apply_patch' && output.type === 'json') {
+          if (
+            hasApplyPatchTool &&
+            part.toolName === 'apply_patch' &&
+            output.type === 'json'
+          ) {
             const parsedOutput = await validateTypes({
               value: output.value,
               schema: applyPatchOutputSchema,

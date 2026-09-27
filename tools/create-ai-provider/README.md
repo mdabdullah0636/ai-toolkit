@@ -10,16 +10,16 @@ node tools/create-ai-provider/src/index.js <provider-name> [options]
 pnpm create-provider <provider-name> [options]
 ```
 
-| Option | Description |
-| --- | --- |
-| `--archetype, -a` | `openai-compatible` (default), `harness-acp`, `full-custom` |
-| `--models, -m` | Comma-separated model ids (`openai-compatible`) |
-| `--executable, -e` | Agent command, e.g. `"my-agent --acp"` (`harness-acp`) |
-| `--with-docs` | Emit docs page stubs (canonical + site mirror + nav) |
-| `--with-example` | Emit example stub under `examples/04-tools` |
-| `--no-install` | Skip `pnpm install` / `update-references` |
-| `-y, --yes` | Skip prompts, use defaults |
-| `-h, --help` | Show help |
+| Option             | Description                                                 |
+| ------------------ | ----------------------------------------------------------- |
+| `--archetype, -a`  | `openai-compatible` (default), `harness-acp`, `full-custom` |
+| `--models, -m`     | Comma-separated model ids (`openai-compatible`)             |
+| `--executable, -e` | Agent command, e.g. `"my-agent --acp"` (`harness-acp`)      |
+| `--with-docs`      | Emit docs page stubs (canonical + site mirror + nav)        |
+| `--with-example`   | Emit example stub under `examples/04-tools`                 |
+| `--no-install`     | Skip `pnpm install` / `update-references`                   |
+| `-y, --yes`        | Skip prompts, use defaults                                  |
+| `-h, --help`       | Show help                                                   |
 
 Examples:
 

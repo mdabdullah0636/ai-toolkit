@@ -59,7 +59,9 @@ describe('Prodia provider', () => {
     const provider = createProdia();
 
     const imageModel = provider.image('inference.flux-fast.schnell.txt2img.v2');
-    const imageModel2 = provider.imageModel('inference.flux.schnell.txt2img.v2');
+    const imageModel2 = provider.imageModel(
+      'inference.flux.schnell.txt2img.v2',
+    );
 
     expect(imageModel.provider).toBe('prodia.image');
     expect(imageModel.modelId).toBe('inference.flux-fast.schnell.txt2img.v2');
@@ -91,9 +93,13 @@ describe('Prodia provider', () => {
 
     expect(server.calls[0].requestUrl).toBe('https://api.example.com/v2/job');
     expect(server.calls[0].requestMethod).toBe('POST');
-    expect(server.calls[0].requestHeaders.authorization).toBe('Bearer test-api-key');
+    expect(server.calls[0].requestHeaders.authorization).toBe(
+      'Bearer test-api-key',
+    );
     expect(server.calls[0].requestHeaders['x-extra-header']).toBe('extra');
-    expect(server.calls[0].requestHeaders.accept).toBe('multipart/form-data; image/png');
+    expect(server.calls[0].requestHeaders.accept).toBe(
+      'multipart/form-data; image/png',
+    );
     expect(await server.calls[0].requestBodyJson).toMatchObject({
       type: 'inference.flux-fast.schnell.txt2img.v2',
       config: {
@@ -107,7 +113,11 @@ describe('Prodia provider', () => {
   it('throws NoSuchModelError for unsupported model types', () => {
     const provider = createProdia();
 
-    expect(() => provider.languageModel('some-id')).toThrowError('No such languageModel');
-    expect(() => provider.embeddingModel('some-id')).toThrowError('No such embeddingModel');
+    expect(() => provider.languageModel('some-id')).toThrowError(
+      'No such languageModel',
+    );
+    expect(() => provider.embeddingModel('some-id')).toThrowError(
+      'No such embeddingModel',
+    );
   });
 });

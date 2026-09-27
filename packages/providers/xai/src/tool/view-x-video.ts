@@ -13,5 +13,6 @@ const viewXVideoToolFactory = createProviderToolFactoryWithOutputSchema({
   outputSchema: viewXVideoOutputSchema,
 });
 
-export const viewXVideo = (args: Parameters<typeof viewXVideoToolFactory>[0] = {}) =>
-  viewXVideoToolFactory(args);
+export const viewXVideo = (
+  args: Parameters<typeof viewXVideoToolFactory>[0] = {},
+) => viewXVideoToolFactory(args);

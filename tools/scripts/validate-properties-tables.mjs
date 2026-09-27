@@ -85,14 +85,23 @@ function findPropertiesTables(mdxText, filePath) {
     } else {
       const endTagIndex = mdxText.indexOf('</PropertiesTable>', openIndex);
       if (endTagIndex === -1) {
-        tables.push({ filePath, line: mdxText.slice(0, openIndex).split('\n').length, error: 'Unclosed PropertiesTable tag' });
+        tables.push({
+          filePath,
+          line: mdxText.slice(0, openIndex).split('\n').length,
+          error: 'Unclosed PropertiesTable tag',
+        });
         break;
       }
       closeIndex = endTagIndex + '</PropertiesTable>'.length;
     }
 
     const block = mdxText.slice(openIndex, closeIndex);
-    tables.push({ filePath, openIndex, block, line: mdxText.slice(0, openIndex).split('\n').length });
+    tables.push({
+      filePath,
+      openIndex,
+      block,
+      line: mdxText.slice(0, openIndex).split('\n').length,
+    });
 
     searchPos = closeIndex;
   }
@@ -119,12 +128,16 @@ function validateParameter(param, path, tableLine, filePath) {
   }
 
   if (param.isOptional !== undefined && typeof param.isOptional !== 'boolean') {
-    errors.push(`${filePath}:${tableLine} Parameter '${param.name ?? path}' at ${path} has non-boolean 'isOptional'`);
+    errors.push(
+      `${filePath}:${tableLine} Parameter '${param.name ?? path}' at ${path} has non-boolean 'isOptional'`,
+    );
   }
 
   if (param.properties !== undefined) {
     if (!Array.isArray(param.properties)) {
-      errors.push(`${filePath}:${tableLine} Parameter '${param.name ?? path}' at ${path} has non-array 'properties'`);
+      errors.push(
+        `${filePath}:${tableLine} Parameter '${param.name ?? path}' at ${path} has non-array 'properties'`,
+      );
     } else {
       for (let i = 0; i < param.properties.length; i++) {
         const prop = param.properties[i];
@@ -134,13 +147,22 @@ function validateParameter(param, path, tableLine, filePath) {
           continue;
         }
         if (typeof prop.type !== 'string' || prop.type.trim() === '') {
-          errors.push(`${filePath}:${tableLine} Property at ${propPath} has missing or empty 'type'`);
+          errors.push(
+            `${filePath}:${tableLine} Property at ${propPath} has missing or empty 'type'`,
+          );
         }
         if (!Array.isArray(prop.parameters)) {
-          errors.push(`${filePath}:${tableLine} Property '${prop.type ?? i}' at ${propPath} has missing or non-array 'parameters'`);
+          errors.push(
+            `${filePath}:${tableLine} Property '${prop.type ?? i}' at ${propPath} has missing or non-array 'parameters'`,
+          );
         } else {
           for (let j = 0; j < prop.parameters.length; j++) {
-            validateParameter(prop.parameters[j], `${propPath}.parameters[${j}]`, tableLine, filePath);
+            validateParameter(
+              prop.parameters[j],
+              `${propPath}.parameters[${j}]`,
+              tableLine,
+              filePath,
+            );
           }
         }
       }
@@ -178,7 +200,9 @@ function validateTable(table) {
 
     if (param.name && typeof param.name === 'string') {
       if (names.has(param.name)) {
-        errors.push(`${table.filePath}:${table.line} Duplicate parameter name '${param.name}' at ${path}`);
+        errors.push(
+          `${table.filePath}:${table.line} Duplicate parameter name '${param.name}' at ${path}`,
+        );
       }
       names.add(param.name);
     }

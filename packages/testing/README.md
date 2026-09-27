@@ -15,6 +15,7 @@ The Testing layer provides internal test utilities and fixtures for testing AI T
 ## Dependencies
 
 Testing may depend on:
+
 - Foundation layer (types, runtime)
 - Runtime layer (AI Core)
 - Provider layer (for testing provider implementations)

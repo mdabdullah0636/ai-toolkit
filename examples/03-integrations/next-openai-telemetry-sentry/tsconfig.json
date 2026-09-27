@@ -24,7 +24,12 @@
     "noEmit": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "instrumentation.ts", "sentry.*.config.js"],
+  "exclude": [
+    "node_modules",
+    "instrumentation.ts",
+    "instrumentation-client.ts",
+    "sentry.*.config.ts"
+  ],
   "references": [
     {
       "path": "../../../packages/integrations/react"

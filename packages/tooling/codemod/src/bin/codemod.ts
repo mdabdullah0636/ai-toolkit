@@ -17,7 +17,10 @@ const addTransformOptions = (command: Command): Command => {
     .option('-d, --dry', 'Dry run (no changes are made to files)')
     .option('-p, --print', 'Print transformed files to stdout')
     .option('--verbose', 'Show more information about the transform process')
-    .option('-j, --jscodeshift <options>', 'Pass options directly to jscodeshift');
+    .option(
+      '-j, --jscodeshift <options>',
+      'Pass options directly to jscodeshift',
+    );
 };
 
 addTransformOptions(
@@ -36,7 +39,9 @@ addTransformOptions(
 });
 
 addTransformOptions(
-  program.command('upgrade').description('Upgrade ai package dependencies and apply all codemods'),
+  program
+    .command('upgrade')
+    .description('Upgrade ai package dependencies and apply all codemods'),
 ).action((options: TransformOptions) => {
   try {
     upgrade(options);

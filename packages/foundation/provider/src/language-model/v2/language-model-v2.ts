@@ -39,7 +39,9 @@ Matched URLs are supported natively by the model and are not downloaded.
 
 @returns A map of supported URL patterns by media type (as a promise or a plain object).
    */
-  supportedUrls: PromiseLike<Record<string, RegExp[]>> | Record<string, RegExp[]>;
+  supportedUrls:
+    | PromiseLike<Record<string, RegExp[]>>
+    | Record<string, RegExp[]>;
 
   /**
 Generates a language model output (non-streaming).

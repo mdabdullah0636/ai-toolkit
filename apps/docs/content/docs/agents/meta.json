@@ -1,10 +1,4 @@
 {
-  "pages": [
-    "overview",
-    "building-agents",
-    "workflows",
-    "loop-control",
-    "configuring-call-options"
-  ],
+  "pages": ["overview", "building-agents", "workflows", "loop-control", "configuring-call-options"],
   "title": "Agents"
 }

@@ -295,7 +295,9 @@ describe('toUIMessageChunk', () => {
 
     expect(
       toUIMessageChunk({ type: 'start-step', request: {}, warnings: [] }),
-    ).toEqual({ type: 'start-step' });
+    ).toEqual({
+      type: 'start-step',
+    });
 
     expect(
       toUIMessageChunk({

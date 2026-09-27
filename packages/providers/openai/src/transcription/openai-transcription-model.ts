@@ -108,7 +108,11 @@ export class OpenAITranscriptionModel implements TranscriptionModelV3 {
     private readonly config: OpenAITranscriptionModelConfig,
   ) {}
 
-  private async getArgs({ audio, mediaType, providerOptions }: OpenAITranscriptionCallOptions) {
+  private async getArgs({
+    audio,
+    mediaType,
+    providerOptions,
+  }: OpenAITranscriptionCallOptions) {
     const warnings: SharedV3Warning[] = [];
 
     // Parse provider options
@@ -141,7 +145,10 @@ export class OpenAITranscriptionModel implements TranscriptionModelV3 {
         prompt: openAIOptions.prompt,
         // https://platform.openai.com/docs/api-reference/audio/createTranscription#audio_createtranscription-response_format
         // prefer verbose_json to get segments for models that support it
-        response_format: ['gpt-4o-transcribe', 'gpt-4o-mini-transcribe'].includes(this.modelId)
+        response_format: [
+          'gpt-4o-transcribe',
+          'gpt-4o-mini-transcribe',
+        ].includes(this.modelId)
           ? 'json'
           : 'verbose_json',
         temperature: openAIOptions.temperature,
@@ -185,7 +192,9 @@ export class OpenAITranscriptionModel implements TranscriptionModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       formData,
       failedResponseHandler: openaiFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(openaiTranscriptionResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        openaiTranscriptionResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });

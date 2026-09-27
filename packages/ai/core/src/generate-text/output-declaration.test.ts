@@ -62,10 +62,7 @@ export const aiUtils = {
     expect(
       diagnostics.map(
         diagnostic =>
-          `TS${diagnostic.code}: ${ts.flattenDiagnosticMessageText(
-            diagnostic.messageText,
-            '\n',
-          )}`,
+          `TS${diagnostic.code}: ${ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`,
       ),
     ).toEqual([]);
     expect(declaration).toContain('export declare const aiUtils');

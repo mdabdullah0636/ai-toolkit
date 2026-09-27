@@ -1,0 +1,63 @@
+{
+  "name": "@ai-toolkit/agents-skills",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "source": "./src/index.ts",
+  "files": [
+    "dist/**/*",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "pnpm clean && tsup --tsconfig tsconfig.build.json",
+    "build:watch": "pnpm clean && tsup --watch",
+    "clean": "del-cli dist *.tsbuildinfo",
+    "lint": "eslint \"./**/*.ts*\"",
+    "type-check": "tsc --build",
+    "prettier-check": "prettier --check \"./**/*.ts*\""
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@ai-toolkit/agents": "workspace:*",
+    "@ai-toolkit/ai": "workspace:*",
+    "@ai-toolkit/context": "workspace:*",
+    "@ai-toolkit/memory": "workspace:*",
+    "@ai-toolkit/mcp": "workspace:*",
+    "@ai-toolkit/provider": "workspace:*",
+    "@ai-toolkit/provider-utils": "workspace:*",
+    "@ai-toolkit/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "20.17.24",
+    "@khulnasoft/ai-tsconfig": "workspace:*",
+    "tsup": "^8",
+    "typescript": "5.8.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "stability": "beta",
+  "owners": [
+    "@khulnasoft/ai-toolkit-core"
+  ],
+  "homepage": "https://studio.khulnasoft.com/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khulnasoft/ai-toolkit.git"
+  }
+}

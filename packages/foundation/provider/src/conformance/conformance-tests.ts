@@ -15,7 +15,12 @@ export function runLanguageModelConformanceTests(
   ctx: ConformanceContext,
 ): void {
   const model = cfg.model();
-  const testPrompt = [{ role: 'user' as const, content: [{ type: 'text' as const, text: 'Say hello' }] }];
+  const testPrompt = [
+    {
+      role: 'user' as const,
+      content: [{ type: 'text' as const, text: 'Say hello' }],
+    },
+  ];
 
   describe(`${model.constructor.name || 'LanguageModel'} conformance`, () => {
     describe('text generation', () => {
@@ -119,12 +124,12 @@ export function runImageModelConformanceTests(
   const model = cfg.model();
 
   describe(`${model.constructor.name || 'ImageModel'} conformance`, () => {
-      it('generates images from a prompt', async () => {
-        const result = await model.doGenerate({
-          prompt: 'A beautiful sunset',
-          n: 1,
-          providerOptions: {},
-        } as any);
+    it('generates images from a prompt', async () => {
+      const result = await model.doGenerate({
+        prompt: 'A beautiful sunset',
+        n: 1,
+        providerOptions: {},
+      } as any);
 
       expect(result).toBeDefined();
       expect(result.images).toBeDefined();
@@ -133,7 +138,10 @@ export function runImageModelConformanceTests(
   });
 }
 
-export function runConformanceTests(config: ConformanceTestSet, ctx: ConformanceContext): void {
+export function runConformanceTests(
+  config: ConformanceTestSet,
+  ctx: ConformanceContext,
+): void {
   if (config.languageModel) {
     runLanguageModelConformanceTests(config.languageModel, ctx);
   }

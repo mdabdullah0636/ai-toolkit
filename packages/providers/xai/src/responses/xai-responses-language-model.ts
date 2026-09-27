@@ -24,8 +24,14 @@ import { xaiFailedResponseHandler } from '../xai-error';
 import { convertToXaiResponsesInput } from './convert-to-xai-responses-input';
 import { convertXaiResponsesUsage } from './convert-xai-responses-usage';
 import { mapXaiResponsesFinishReason } from './map-xai-responses-finish-reason';
-import { xaiResponsesChunkSchema, xaiResponsesResponseSchema } from './xai-responses-api';
-import { XaiResponsesModelId, xaiResponsesProviderOptions } from './xai-responses-options';
+import {
+  xaiResponsesChunkSchema,
+  xaiResponsesResponseSchema,
+} from './xai-responses-api';
+import {
+  XaiResponsesModelId,
+  xaiResponsesProviderOptions,
+} from './xai-responses-options';
 import { prepareResponsesTools } from './xai-responses-prepare-tools';
 
 type XaiResponsesConfig = {
@@ -159,7 +165,9 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doGenerate(options: LanguageModelV3CallOptions): Promise<LanguageModelV3GenerateResult> {
+  async doGenerate(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3GenerateResult> {
     const {
       args: body,
       warnings,
@@ -177,14 +185,20 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body,
       failedResponseHandler: xaiFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(xaiResponsesResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        xaiResponsesResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
 
     const content: Array<LanguageModelV3Content> = [];
 
-    const webSearchSubTools = ['web_search', 'web_search_with_snippets', 'browse_page'];
+    const webSearchSubTools = [
+      'web_search',
+      'web_search_with_snippets',
+      'browse_page',
+    ];
     const xSearchSubTools = [
       'x_user_search',
       'x_keyword_search',
@@ -203,9 +217,15 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
         part.type === 'custom_tool_call'
       ) {
         let toolName = part.name ?? '';
-        if (webSearchSubTools.includes(part.name ?? '') || part.type === 'web_search_call') {
+        if (
+          webSearchSubTools.includes(part.name ?? '') ||
+          part.type === 'web_search_call'
+        ) {
           toolName = webSearchToolName ?? 'web_search';
-        } else if (xSearchSubTools.includes(part.name ?? '') || part.type === 'x_search_call') {
+        } else if (
+          xSearchSubTools.includes(part.name ?? '') ||
+          part.type === 'x_search_call'
+        ) {
           toolName = xSearchToolName ?? 'x_search';
         } else if (
           part.name === 'code_execution' ||
@@ -217,7 +237,9 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
 
         // custom_tool_call uses 'input' field, others use 'arguments'
         const toolInput =
-          part.type === 'custom_tool_call' ? (part.input ?? '') : (part.arguments ?? '');
+          part.type === 'custom_tool_call'
+            ? (part.input ?? '')
+            : (part.arguments ?? '');
 
         content.push({
           type: 'tool-call',
@@ -321,9 +343,16 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
     };
   }
 
-  async doStream(options: LanguageModelV3CallOptions): Promise<LanguageModelV3StreamResult> {
-    const { args, warnings, webSearchToolName, xSearchToolName, codeExecutionToolName } =
-      await this.getArgs(options);
+  async doStream(
+    options: LanguageModelV3CallOptions,
+  ): Promise<LanguageModelV3StreamResult> {
+    const {
+      args,
+      warnings,
+      webSearchToolName,
+      xSearchToolName,
+      codeExecutionToolName,
+    } = await this.getArgs(options);
     const body = {
       ...args,
       stream: true,
@@ -334,7 +363,9 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       body,
       failedResponseHandler: xaiFailedResponseHandler,
-      successfulResponseHandler: createEventSourceResponseHandler(xaiResponsesChunkSchema),
+      successfulResponseHandler: createEventSourceResponseHandler(
+        xaiResponsesChunkSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -348,7 +379,10 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
     const contentBlocks: Record<string, { type: 'text' }> = {};
     const seenToolCalls = new Set<string>();
 
-    const activeReasoning: Record<string, { encryptedContent?: string | null }> = {};
+    const activeReasoning: Record<
+      string,
+      { encryptedContent?: string | null }
+    > = {};
 
     const self = this;
 
@@ -374,7 +408,10 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
 
             const event = chunk.value;
 
-            if (event.type === 'response.created' || event.type === 'response.in_progress') {
+            if (
+              event.type === 'response.created' ||
+              event.type === 'response.in_progress'
+            ) {
               if (isFirstChunk) {
                 controller.enqueue({
                   type: 'response-metadata',
@@ -443,7 +480,10 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
             if (event.type === 'response.output_text.done') {
               if (event.annotations) {
                 for (const annotation of event.annotations) {
-                  if (annotation.type === 'url_citation' && 'url' in annotation) {
+                  if (
+                    annotation.type === 'url_citation' &&
+                    'url' in annotation
+                  ) {
                     controller.enqueue({
                       type: 'source',
                       sourceType: 'url',
@@ -473,7 +513,10 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
               return;
             }
 
-            if (event.type === 'response.done' || event.type === 'response.completed') {
+            if (
+              event.type === 'response.done' ||
+              event.type === 'response.completed'
+            ) {
               const response = event.response;
 
               if (response.usage) {
@@ -523,7 +566,11 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
                 part.type === 'view_x_video_call' ||
                 part.type === 'custom_tool_call'
               ) {
-                const webSearchSubTools = ['web_search', 'web_search_with_snippets', 'browse_page'];
+                const webSearchSubTools = [
+                  'web_search',
+                  'web_search_with_snippets',
+                  'browse_page',
+                ];
                 const xSearchSubTools = [
                   'x_user_search',
                   'x_keyword_search',
@@ -552,7 +599,9 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
 
                 // custom_tool_call uses 'input' field, others use 'arguments'
                 const toolInput =
-                  part.type === 'custom_tool_call' ? (part.input ?? '') : (part.arguments ?? '');
+                  part.type === 'custom_tool_call'
+                    ? (part.input ?? '')
+                    : (part.arguments ?? '');
 
                 // for custom_tool_call, input is only available on 'done' event
                 // for other types, input is available on 'added' event
@@ -615,7 +664,10 @@ export class XaiResponsesLanguageModel implements LanguageModelV3 {
 
                   if (contentPart.annotations) {
                     for (const annotation of contentPart.annotations) {
-                      if (annotation.type === 'url_citation' && 'url' in annotation) {
+                      if (
+                        annotation.type === 'url_citation' &&
+                        'url' in annotation
+                      ) {
                         controller.enqueue({
                           type: 'source',
                           sourceType: 'url',

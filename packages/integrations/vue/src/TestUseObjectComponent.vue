@@ -10,17 +10,16 @@ const onFinishCalls: Array<{
 
 const onErrorResult: Error | undefined = ref(undefined);
 
-const { object, error, submit, isLoading, stop, clear } =
-  experimental_useObject({
-    api: '/api/use-object',
-    schema: z.object({ content: z.string() }),
-    onError(error) {
-      onErrorResult.value = error;
-    },
-    onFinish(event) {
-      onFinishCalls.push(event);
-    },
-  });
+const { object, error, submit, isLoading, stop, clear } = experimental_useObject({
+  api: '/api/use-object',
+  schema: z.object({ content: z.string() }),
+  onError(error) {
+    onErrorResult.value = error;
+  },
+  onFinish(event) {
+    onFinishCalls.push(event);
+  },
+});
 </script>
 
 <template>

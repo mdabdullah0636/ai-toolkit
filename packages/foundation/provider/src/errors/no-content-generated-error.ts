@@ -10,7 +10,9 @@ Thrown when the AI provider fails to generate any content.
 export class NoContentGeneratedError extends AITOOLKITError {
   private readonly [symbol] = true; // used in isInstance
 
-  constructor({ message = 'No content generated.' }: { message?: string } = {}) {
+  constructor({
+    message = 'No content generated.',
+  }: { message?: string } = {}) {
     super({ name, message });
   }
 

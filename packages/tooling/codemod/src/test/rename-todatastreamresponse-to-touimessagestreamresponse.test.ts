@@ -4,6 +4,9 @@ import { testTransform } from './test-utils';
 
 describe('rename-todatastreamresponse-to-touimessagestreamresponse', () => {
   it('transforms correctly', () => {
-    testTransform(transformer, 'rename-todatastreamresponse-to-touimessagestreamresponse');
+    testTransform(
+      transformer,
+      'rename-todatastreamresponse-to-touimessagestreamresponse',
+    );
   });
 });

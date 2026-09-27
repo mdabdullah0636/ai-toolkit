@@ -21,7 +21,10 @@ export default createTransformer((fileInfo, api, options, context) => {
           return spec;
         }) || [];
 
-      const newImport = j.importDeclaration(newSpecifiers, j.stringLiteral('zod/v3'));
+      const newImport = j.importDeclaration(
+        newSpecifiers,
+        j.stringLiteral('zod/v3'),
+      );
 
       newImport.comments = importDeclaration.comments;
 

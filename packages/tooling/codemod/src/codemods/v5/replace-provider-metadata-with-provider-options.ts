@@ -49,8 +49,10 @@ export default createTransformer((fileInfo, api, options, context) => {
     .filter(path => {
       const property = path.node.property;
       return (
-        (property.type === 'Identifier' && property.name === 'providerMetadata') ||
-        (property.type === 'StringLiteral' && property.value === 'providerMetadata')
+        (property.type === 'Identifier' &&
+          property.name === 'providerMetadata') ||
+        (property.type === 'StringLiteral' &&
+          property.value === 'providerMetadata')
       );
     })
     .forEach(path => {

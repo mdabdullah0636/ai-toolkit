@@ -26,7 +26,10 @@ export default createTransformer((fileInfo, api, options, context) => {
       return object.name === 'providerMetadata';
     }
     // Handle chained access like result.providerMetadata or event?.providerMetadata
-    if (object.type === 'MemberExpression' || object.type === 'OptionalMemberExpression') {
+    if (
+      object.type === 'MemberExpression' ||
+      object.type === 'OptionalMemberExpression'
+    ) {
       const prop = object.property;
       return prop.type === 'Identifier' && prop.name === 'providerMetadata';
     }
@@ -41,7 +44,8 @@ export default createTransformer((fileInfo, api, options, context) => {
         const grandparent = current.parent;
         if (
           grandparent &&
-          (grandparent.node.type === 'Property' || grandparent.node.type === 'ObjectProperty')
+          (grandparent.node.type === 'Property' ||
+            grandparent.node.type === 'ObjectProperty')
         ) {
           const key = grandparent.node.key;
           if (key.type === 'Identifier' && key.name === 'providerOptions') {
@@ -88,7 +92,8 @@ export default createTransformer((fileInfo, api, options, context) => {
       if (init.type === 'Identifier' && init.name === 'providerMetadata') {
         isFromProviderMetadata = true;
       } else if (
-        (init.type === 'MemberExpression' || init.type === 'OptionalMemberExpression') &&
+        (init.type === 'MemberExpression' ||
+          init.type === 'OptionalMemberExpression') &&
         init.property.type === 'Identifier' &&
         init.property.name === 'providerMetadata'
       ) {
@@ -116,7 +121,11 @@ export default createTransformer((fileInfo, api, options, context) => {
         if (key.type === 'Identifier' && key.name === 'google') {
           key.name = 'vertex';
           // If shorthand, also rename the value
-          if (prop.shorthand && prop.value.type === 'Identifier' && prop.value.name === 'google') {
+          if (
+            prop.shorthand &&
+            prop.value.type === 'Identifier' &&
+            prop.value.name === 'google'
+          ) {
             prop.value.name = 'vertex';
           }
           context.hasChanges = true;

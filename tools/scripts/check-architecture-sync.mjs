@@ -2,14 +2,14 @@
 
 /**
  * Architecture Sync Validation Script
- * 
+ *
  * Validates that:
  * 1. All packages in workspace actually exist
  * 2. All referenced paths in docs exist
  * 3. Layer mappings are consistent
  * 4. No orphaned packages (exist but not in workspace)
  * 5. Future domains have implementation plans
- * 
+ *
  * Run via: node tools/scripts/check-architecture-sync.mjs
  */
 
@@ -51,7 +51,7 @@ function getWorkspacePackages() {
 
   const content = readFileSync(workspacePath, 'utf-8');
   const packages = [];
-  
+
   // Extract package patterns from YAML
   const lines = content.split('\n');
   for (const line of lines) {
@@ -68,7 +68,7 @@ function getWorkspacePackages() {
 function checkPattern(pattern) {
   const basePath = join(rootDir, pattern.replace('*', ''));
   const globPart = pattern.includes('*') ? pattern.split('*')[1] : '';
-  
+
   // For patterns like 'packages/foundation/*', check if the base directory exists
   const baseDir = join(rootDir, pattern.split('*')[0]);
   if (!existsSync(baseDir)) {
@@ -82,7 +82,11 @@ function checkPattern(pattern) {
       const itemPath = join(baseDir, item);
       return statSync(itemPath).isDirectory();
     });
-    return { exists: true, hasPackages: subdirs.length > 0, count: subdirs.length };
+    return {
+      exists: true,
+      hasPackages: subdirs.length > 0,
+      count: subdirs.length,
+    };
   } catch (e) {
     return { exists: true, hasPackages: false };
   }
@@ -91,7 +95,7 @@ function checkPattern(pattern) {
 // Validate workspace configuration
 function validateWorkspace() {
   info('Validating workspace configuration...');
-  
+
   const patterns = getWorkspacePackages();
   if (patterns.length === 0) {
     error('No package patterns found in pnpm-workspace.yaml');
@@ -103,26 +107,11 @@ function validateWorkspace() {
 
   for (const pattern of patterns) {
     const result = checkPattern(pattern);
-    
+
     if (!result.exists) {
       error(`Pattern ${pattern} does not exist`);
     } else if (!result.hasPackages) {
-      // Check if this is a future domain
-      if (pattern.includes('agents') || 
-          pattern.includes('workflow') || 
-          pattern.includes('memory') || 
-          pattern.includes('context') || 
-          pattern.includes('evals') || 
-          pattern.includes('observability') || 
-          pattern.includes('security') || 
-          pattern.includes('sandbox') || 
-          pattern.includes('retrieval') || 
-          pattern.includes('tools')) {
-        futureCount++;
-        info(`Pattern ${pattern} is a future domain (not yet implemented)`);
-      } else {
-        warn(`Pattern ${pattern} exists but has no packages`);
-      }
+      warn(`Pattern ${pattern} exists but has no packages`);
     } else {
       implementedCount++;
       success(`Pattern ${pattern} has ${result.count} package(s)`);
@@ -135,7 +124,7 @@ function validateWorkspace() {
 // Validate domain mapping document
 function validateDomainMapping() {
   info('Validating domain-mapping.md...');
-  
+
   const domainMappingPath = join(rootDir, 'architecture/domain-mapping.md');
   if (!existsSync(domainMappingPath)) {
     error('architecture/domain-mapping.md not found');
@@ -143,7 +132,7 @@ function validateDomainMapping() {
   }
 
   const content = readFileSync(domainMappingPath, 'utf-8');
-  
+
   // Check for old paths that should be migrated
   const oldPaths = [
     'packages/core/',
@@ -186,7 +175,7 @@ function validateDomainMapping() {
 // Validate future domains document
 function validateFutureDomains() {
   info('Validating FUTURE_DOMAINS.md...');
-  
+
   const futureDomainsPath = join(rootDir, 'architecture/FUTURE_DOMAINS.md');
   if (!existsSync(futureDomainsPath)) {
     error('architecture/FUTURE_DOMAINS.md not found (required for Phase 0)');
@@ -194,7 +183,7 @@ function validateFutureDomains() {
   }
 
   const content = readFileSync(futureDomainsPath, 'utf-8');
-  
+
   // Check for required sections
   const requiredSections = [
     'AI Expansion',
@@ -222,7 +211,7 @@ function validateFutureDomains() {
 // Validate dependency rules
 function validateDependencyRules() {
   info('Validating DEPENDENCY_RULES.md...');
-  
+
   const depRulesPath = join(rootDir, 'architecture/DEPENDENCY_RULES.md');
   if (!existsSync(depRulesPath)) {
     error('architecture/DEPENDENCY_RULES.md not found');
@@ -230,7 +219,7 @@ function validateDependencyRules() {
   }
 
   const content = readFileSync(depRulesPath, 'utf-8');
-  
+
   // Check for new domain dependency rules
   const newDomains = [
     'packages/ai/*',
@@ -258,7 +247,7 @@ function validateDependencyRules() {
 // Main validation
 function main() {
   console.log('🔍 Architecture Sync Validation\n');
-  
+
   validateWorkspace();
   console.log();
   validateDomainMapping();
@@ -266,10 +255,10 @@ function main() {
   validateFutureDomains();
   console.log();
   validateDependencyRules();
-  
+
   console.log('\n' + '='.repeat(50));
   console.log(`Validation complete: ${errors.length} errors, ${warnings.length} warnings`);
-  
+
   if (errors.length > 0) {
     console.log('\n❌ Validation failed');
     process.exit(1);

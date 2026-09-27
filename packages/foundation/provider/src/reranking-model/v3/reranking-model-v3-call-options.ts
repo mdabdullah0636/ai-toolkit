@@ -6,7 +6,9 @@ export type RerankingModelV3CallOptions = {
    * Documents to rerank.
    * Either a list of texts or a list of JSON objects.
    */
-  documents: { type: 'text'; values: string[] } | { type: 'object'; values: JSONObject[] };
+  documents:
+    | { type: 'text'; values: string[] }
+    | { type: 'object'; values: JSONObject[] };
 
   /**
    * The query is a string that represents the query to rerank the documents against.

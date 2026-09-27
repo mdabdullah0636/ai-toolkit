@@ -16,31 +16,91 @@ This is a **monorepo** using pnpm workspaces and Turborepo with domain-based pac
 
 ### Key Directories
 
-| Directory                             | Description                                                                             |
-| ------------------------------------- | --------------------------------------------------------------------------------------- |
-| `packages/ai/core`            | Main SDK package (`ai-toolkit` on npm)                                                  |
-| `packages/foundation/provider`        | Provider interface specifications (`@ai-toolkit/provider`)                              |
-| `packages/foundation/utils`        | Shared utilities for providers and core (`@ai-toolkit/provider-utils`)                  |
-| `packages/foundation/runtime`               | Browser-safe runtime contracts (`@ai-toolkit/runtime`; no Node builtins)                |
-| `packages/foundation/capabilities`    | Model capability declarations (`@ai-toolkit/capabilities`)                              |
-| `packages/foundation/valibot`         | Valibot schema adapter (`@ai-toolkit/valibot`)                                          |
-| `packages/foundation/khulnasoft`       | KhulnaSoft integration (`@ai-toolkit/khulnasoft`)                                      |
-| `packages/foundation/platform`         | Platform registry and domain model (`@ai-toolkit/platform`)                              |
-| `packages/providers/<provider>`       | AI provider implementations (openai, anthropic, google, azure, amazon-bedrock, etc.)    |
-| `packages/integrations/<framework>`   | UI framework integrations (react, vue, svelte, angular, rsc, langchain, llamaindex)      |
-| `packages/gateway/core`              | Gateway and routing (`@ai-toolkit/gateway`)                                             |
-| `packages/mcp/core`                   | Model Context Protocol implementation (`@ai-toolkit/mcp`)                               |
-| `packages/ui/elements`                | React chat components (Conversation, Message, PromptInput)                              |
-| `packages/ui/design`                  | Design tokens and presets (`@ai-toolkit/design`)                                        |
-| `packages/ui/shadcn-ui`               | UI primitives (`@ai-toolkit/shadcn-ui`)                                                |
-| `packages/tooling/codemod`           | Codemod tools (`@ai-toolkit/codemod`)                                                  |
-| `packages/tooling/devtools`          | Developer tools (`@ai-toolkit/devtools`)                                               |
-| `packages/testing/test-server`       | Internal test utilities (not published)                                                 |
-| `examples/`                           | Example applications in `01-foundations` … `04-tools` (indexed by `registry.json`)      |
-| `content/`                            | Documentation source files (MDX), consumed by `apps/docs`                               |
-| `contributing/`                       | Contributor guides and documentation                                                    |
-| `tools/`                              | Internal tooling (`scripts/`, `eslint-config`, `tsconfig`, …)                           |
-| `apps/`                               | Public-facing applications (docs, www, studio)                                         |
+| Directory                           | Description                                                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------ |
+| `packages/ai/core`                  | Main SDK package (`ai-toolkit` on npm)                                               |
+| `packages/ai/generation`            | Text generation primitives (`@ai-toolkit/ai-generation`)                             |
+| `packages/ai/multimodal`            | Multimodal runtime (`@ai-toolkit/ai-multimodal`)                                     |
+| `packages/ai/reasoning`             | Reasoning engine (`@ai-toolkit/ai-reasoning`)                                        |
+| `packages/ai/structured`            | Structured output generation (`@ai-toolkit/ai-structured`)                           |
+| `packages/foundation/provider`      | Provider interface specifications (`@ai-toolkit/provider`)                           |
+| `packages/foundation/utils`         | Shared utilities for providers and core (`@ai-toolkit/provider-utils`)               |
+| `packages/foundation/runtime`       | Browser-safe runtime contracts (`@ai-toolkit/runtime`; no Node builtins)             |
+| `packages/foundation/capabilities`  | Model capability declarations (`@ai-toolkit/capabilities`)                           |
+| `packages/foundation/valibot`       | Valibot schema adapter (`@ai-toolkit/valibot`)                                       |
+| `packages/foundation/khulnasoft`    | KhulnaSoft integration (`@ai-toolkit/khulnasoft`)                                    |
+| `packages/foundation/platform`      | Platform registry and domain model (`@ai-toolkit/platform`)                          |
+| `packages/agents/core`              | Agent runtime (`@ai-toolkit/agents`)                                                 |
+| `packages/agents/loop`              | Agent execution loop (`@ai-toolkit/agents-loop`)                                     |
+| `packages/agents/planner`           | Planning engine (`@ai-toolkit/agents-planner`)                                       |
+| `packages/agents/teams`             | Multi-agent teams (`@ai-toolkit/agents-teams`)                                       |
+| `packages/agents/delegation`        | Agent delegation (`@ai-toolkit/agents-delegation`)                                   |
+| `packages/agents/skills`            | Skill lifecycle (`@ai-toolkit/agents-skills`)                                        |
+| `packages/agents/harness`           | Harness provider (`@ai-toolkit/agents-harness`)                                      |
+| `packages/context/core`             | Context primitives (`@ai-toolkit/context`)                                           |
+| `packages/context/window`           | Context window management (`@ai-toolkit/context-window`)                             |
+| `packages/context/compression`      | Context compression (`@ai-toolkit/context-compression`)                              |
+| `packages/context/summarization`    | Context summarization (`@ai-toolkit/context-summarization`)                          |
+| `packages/context/runtime`          | Runtime context tracking (`@ai-toolkit/context-runtime`)                             |
+| `packages/context/routing`          | Context routing (`@ai-toolkit/context-routing`)                                      |
+| `packages/memory/core`              | Memory primitives (`@ai-toolkit/memory`)                                             |
+| `packages/memory/short-term`        | Short-term memory (`@ai-toolkit/memory-short-term`)                                  |
+| `packages/memory/long-term`         | Long-term memory (`@ai-toolkit/memory-long-term`)                                    |
+| `packages/memory/semantic`          | Semantic memory (`@ai-toolkit/memory-semantic`)                                      |
+| `packages/memory/episodic`          | Episodic memory (`@ai-toolkit/memory-episodic`)                                      |
+| `packages/memory/storage`           | Storage adapters (`@ai-toolkit/memory-storage`)                                      |
+| `packages/tools/core`               | Tool primitives (`@ai-toolkit/tools`)                                                |
+| `packages/tools/registry`           | Tool registry (`@ai-toolkit/tools-registry`)                                         |
+| `packages/tools/execution`          | Tool execution (`@ai-toolkit/tools-execution`)                                       |
+| `packages/tools/approval`           | Human approval (`@ai-toolkit/tools-approval`)                                        |
+| `packages/tools/permissions`        | Permissions (`@ai-toolkit/tools-permissions`)                                        |
+| `packages/tools/discovery`          | Tool discovery (`@ai-toolkit/tools-discovery`)                                       |
+| `packages/workflow/core`            | Workflow definitions (`@ai-toolkit/workflow`)                                        |
+| `packages/workflow/engine`          | Workflow execution engine (`@ai-toolkit/workflow-engine`)                            |
+| `packages/workflow/durable`         | Durable execution (`@ai-toolkit/workflow-durable`)                                   |
+| `packages/workflow/scheduler`       | Task scheduling (`@ai-toolkit/workflow-scheduler`)                                   |
+| `packages/workflow/events`          | Event system (`@ai-toolkit/workflow-events`)                                         |
+| `packages/workflow/queue`           | Queue management (`@ai-toolkit/workflow-queue`)                                      |
+| `packages/sandbox/core`             | Sandbox primitives (`@ai-toolkit/sandbox`)                                           |
+| `packages/sandbox/execution`        | Code execution engine (`@ai-toolkit/sandbox-execution`)                              |
+| `packages/sandbox/filesystem`       | Filesystem isolation (`@ai-toolkit/sandbox-filesystem`)                              |
+| `packages/sandbox/network`          | Network isolation (`@ai-toolkit/sandbox-network`)                                    |
+| `packages/sandbox/isolation`        | Process isolation (`@ai-toolkit/sandbox-isolation`)                                  |
+| `packages/retrieval/core`           | Retrieval primitives (`@ai-toolkit/retrieval`)                                       |
+| `packages/retrieval/embeddings`     | Embedding generation (`@ai-toolkit/retrieval-embeddings`)                            |
+| `packages/retrieval/vector`         | Vector database abstraction (`@ai-toolkit/retrieval-vector`)                         |
+| `packages/retrieval/reranking`      | Result reranking (`@ai-toolkit/retrieval-reranking`)                                 |
+| `packages/retrieval/indexing`       | Document indexing (`@ai-toolkit/retrieval-indexing`)                                 |
+| `packages/retrieval/rag`            | RAG pipeline (`@ai-toolkit/retrieval-rag`)                                           |
+| `packages/providers/<provider>`     | AI provider implementations (openai, anthropic, google, azure, amazon-bedrock, etc.) |
+| `packages/integrations/<framework>` | UI framework integrations (react, vue, svelte, angular, rsc, langchain, llamaindex)  |
+| `packages/gateway/core`             | Gateway and routing (`@ai-toolkit/gateway`)                                          |
+| `packages/gateway/router`           | Gateway router (`@ai-toolkit/gateway-router`)                                        |
+| `packages/gateway/load-balancer`    | Gateway load balancer (`@ai-toolkit/gateway-load-balancer`)                          |
+| `packages/mcp/core`                 | Model Context Protocol implementation (`@ai-toolkit/mcp`)                            |
+| `packages/ui/elements`              | React chat components (Conversation, Message, PromptInput)                           |
+| `packages/ui/design`                | Design tokens and presets (`@ai-toolkit/design`)                                     |
+| `packages/ui/shadcn-ui`             | UI primitives (`@ai-toolkit/shadcn-ui`)                                              |
+| `packages/ui/studio`                | Studio UI components (`@ai-toolkit/ui-studio`)                                       |
+| `packages/tooling/codemod`          | Codemod tools (`@ai-toolkit/codemod`)                                                |
+| `packages/tooling/devtools`         | Developer tools (`@ai-toolkit/devtools`)                                             |
+| `packages/tooling/cli`              | CLI tools (`@ai-toolkit/tooling-cli`)                                                |
+| `packages/tooling/codegen`          | Code generation (`@ai-toolkit/tooling-codegen`)                                      |
+| `packages/observability/logging`    | Structured logging (`@ai-toolkit/observability-logging`)                             |
+| `packages/observability/cost`       | Cost tracking (`@ai-toolkit/observability-cost`)                                     |
+| `packages/observability/replay`     | Execution replay (`@ai-toolkit/observability-replay`)                                |
+| `packages/security/auth`            | Authentication (`@ai-toolkit/security-auth`)                                         |
+| `packages/security/rbac`            | Role-based access control (`@ai-toolkit/security-rbac`)                              |
+| `packages/security/policy`          | Policy engine (`@ai-toolkit/security-policy`)                                        |
+| `packages/security/secrets`         | Secrets management (`@ai-toolkit/security-secrets`)                                  |
+| `packages/security/audit`           | Audit logging (`@ai-toolkit/security-audit`)                                         |
+| `packages/security/isolation`       | Resource isolation (`@ai-toolkit/security-isolation`)                                |
+| `packages/testing/test-server`      | Internal test utilities (not published)                                              |
+| `examples/`                         | Example applications in `01-foundations` … `04-tools` (indexed by `registry.json`)   |
+| `content/`                          | Documentation source files (MDX), consumed by `apps/docs`                            |
+| `contributing/`                     | Contributor guides and documentation                                                 |
+| `tools/`                            | Internal tooling (`scripts/`, `eslint-config`, `tsconfig`, …)                        |
+| `apps/`                             | Public-facing applications (docs, www, studio)                                       |
 
 > See `architecture/domain-mapping.md` for the complete canonical package-to-domain mapping.
 

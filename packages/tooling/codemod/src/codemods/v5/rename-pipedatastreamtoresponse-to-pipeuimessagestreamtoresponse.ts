@@ -27,7 +27,11 @@ export default createTransformer((fileInfo, api, options, context) => {
   root
     .find(j.ImportDeclaration)
     .filter(path => {
-      return path.node.source.type === 'StringLiteral' && (path.node.source.value === 'ai-toolkit' || path.node.source.value === 'ai-toolkit');
+      return (
+        path.node.source.type === 'StringLiteral' &&
+        (path.node.source.value === 'ai-toolkit' ||
+          path.node.source.value === 'ai-toolkit')
+      );
     })
     .forEach(path => {
       path.node.specifiers?.forEach(specifier => {
@@ -51,9 +55,14 @@ export default createTransformer((fileInfo, api, options, context) => {
       return (
         path.node.name === 'pipeDataStreamToResponse' &&
         parent.node.type !== 'ImportSpecifier' &&
-        !(parent.node.type === 'MemberExpression' && parent.node.property === path.node) &&
+        !(
+          parent.node.type === 'MemberExpression' &&
+          parent.node.property === path.node
+        ) &&
         !(parent.node.type === 'Property' && parent.node.key === path.node) &&
-        !(parent.node.type === 'ObjectProperty' && parent.node.key === path.node)
+        !(
+          parent.node.type === 'ObjectProperty' && parent.node.key === path.node
+        )
       );
     })
     .forEach(path => {

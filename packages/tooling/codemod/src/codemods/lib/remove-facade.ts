@@ -37,12 +37,16 @@ export function removeFacade(config: FacadeConfig) {
       .filter(path => path.node.source.value === importPath)
       .forEach(path => {
         const hasClassSpecifier = path.node.specifiers?.some(
-          spec => spec.type === 'ImportSpecifier' && spec.imported.name === config.className,
+          spec =>
+            spec.type === 'ImportSpecifier' &&
+            spec.imported.name === config.className,
         );
 
         if (hasClassSpecifier) {
           context.hasChanges = true;
-          path.node.specifiers = [j.importSpecifier(j.identifier(config.createFnName))];
+          path.node.specifiers = [
+            j.importSpecifier(j.identifier(config.createFnName)),
+          ];
         }
       });
 
@@ -50,12 +54,17 @@ export function removeFacade(config: FacadeConfig) {
     root
       .find(j.NewExpression)
       .filter(
-        path => path.node.callee.type === 'Identifier' && targetImports.has(path.node.callee.name),
+        path =>
+          path.node.callee.type === 'Identifier' &&
+          targetImports.has(path.node.callee.name),
       )
       .forEach(path => {
         context.hasChanges = true;
         j(path).replaceWith(
-          j.callExpression(j.identifier(config.createFnName), path.node.arguments),
+          j.callExpression(
+            j.identifier(config.createFnName),
+            path.node.arguments,
+          ),
         );
       });
   });

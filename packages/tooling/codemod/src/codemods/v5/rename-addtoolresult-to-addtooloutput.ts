@@ -88,8 +88,14 @@ export default createTransformer((fileInfo, api, options, context) => {
         return (
           renamedVariables.has(path.node.name) &&
           // Don't modify the variable declaration itself
-          !(path.parent.node.type === 'Property' && path.parent.node.value === path.node) &&
-          !(path.parent.node.type === 'ObjectProperty' && path.parent.node.value === path.node)
+          !(
+            path.parent.node.type === 'Property' &&
+            path.parent.node.value === path.node
+          ) &&
+          !(
+            path.parent.node.type === 'ObjectProperty' &&
+            path.parent.node.value === path.node
+          )
         );
       })
       .forEach(path => {

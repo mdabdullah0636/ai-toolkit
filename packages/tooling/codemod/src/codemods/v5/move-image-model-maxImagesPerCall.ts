@@ -85,7 +85,10 @@ export default createTransformer((fileInfo, api, options, context) => {
 
           // Extract settings from the model constructor
           settingsObject.properties.forEach((settingProp: any) => {
-            if (settingProp.type === 'Property' || settingProp.type === 'ObjectProperty') {
+            if (
+              settingProp.type === 'Property' ||
+              settingProp.type === 'ObjectProperty'
+            ) {
               const keyName =
                 settingProp.key.type === 'Identifier'
                   ? settingProp.key.name
@@ -123,8 +126,10 @@ export default createTransformer((fileInfo, api, options, context) => {
         configObject.properties.forEach((prop: any) => {
           if (
             (prop.type === 'Property' || prop.type === 'ObjectProperty') &&
-            ((prop.key.type === 'Identifier' && prop.key.name === 'providerOptions') ||
-              (prop.key.type === 'Literal' && prop.key.value === 'providerOptions'))
+            ((prop.key.type === 'Identifier' &&
+              prop.key.name === 'providerOptions') ||
+              (prop.key.type === 'Literal' &&
+                prop.key.value === 'providerOptions'))
           ) {
             providerOptionsProperty = prop;
           }
@@ -132,9 +137,9 @@ export default createTransformer((fileInfo, api, options, context) => {
 
         if (!providerOptionsProperty) {
           // Create new providerOptions property
-          const providerSettingsProperties = Object.entries(providerSettingsFromModel).map(
-            ([key, value]) => j.property('init', j.identifier(key), value),
-          );
+          const providerSettingsProperties = Object.entries(
+            providerSettingsFromModel,
+          ).map(([key, value]) => j.property('init', j.identifier(key), value));
 
           const providerOptionsValue = j.objectExpression([
             j.property(
@@ -159,8 +164,10 @@ export default createTransformer((fileInfo, api, options, context) => {
             providerOptionsProperty.value.properties.forEach((prop: any) => {
               if (
                 (prop.type === 'Property' || prop.type === 'ObjectProperty') &&
-                ((prop.key.type === 'Identifier' && prop.key.name === providerName) ||
-                  (prop.key.type === 'Literal' && prop.key.value === providerName))
+                ((prop.key.type === 'Identifier' &&
+                  prop.key.name === providerName) ||
+                  (prop.key.type === 'Literal' &&
+                    prop.key.value === providerName))
               ) {
                 providerProperty = prop;
               }
@@ -168,8 +175,10 @@ export default createTransformer((fileInfo, api, options, context) => {
 
             if (!providerProperty) {
               // Create new provider property
-              const providerSettingsProperties = Object.entries(providerSettingsFromModel).map(
-                ([key, value]) => j.property('init', j.identifier(key), value),
+              const providerSettingsProperties = Object.entries(
+                providerSettingsFromModel,
+              ).map(([key, value]) =>
+                j.property('init', j.identifier(key), value),
               );
 
               providerProperty = j.property(
@@ -181,10 +190,14 @@ export default createTransformer((fileInfo, api, options, context) => {
             } else {
               // Merge with existing provider property
               if (providerProperty.value.type === 'ObjectExpression') {
-                const newSettingsProperties = Object.entries(providerSettingsFromModel).map(
-                  ([key, value]) => j.property('init', j.identifier(key), value),
+                const newSettingsProperties = Object.entries(
+                  providerSettingsFromModel,
+                ).map(([key, value]) =>
+                  j.property('init', j.identifier(key), value),
                 );
-                providerProperty.value.properties.push(...newSettingsProperties);
+                providerProperty.value.properties.push(
+                  ...newSettingsProperties,
+                );
               }
             }
           }

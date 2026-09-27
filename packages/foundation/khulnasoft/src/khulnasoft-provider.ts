@@ -1,4 +1,8 @@
-import { LanguageModelV3, NoSuchModelError, ProviderV3 } from '@ai-toolkit/provider';
+import {
+  LanguageModelV3,
+  NoSuchModelError,
+  ProviderV3,
+} from '@ai-toolkit/provider';
 import { OpenAICompatibleChatLanguageModel } from '@ai-toolkit/openai-compatible';
 import {
   FetchFunction,
@@ -46,8 +50,12 @@ Creates a language model for text generation.
   textEmbeddingModel(modelId: string): never;
 }
 
-export function createKhulnasoft(options: KhulnasoftProviderSettings = {}): KhulnasoftProvider {
-  const baseURL = withoutTrailingSlash(options.baseURL ?? 'https://api.v0.dev/v1');
+export function createKhulnasoft(
+  options: KhulnasoftProviderSettings = {},
+): KhulnasoftProvider {
+  const baseURL = withoutTrailingSlash(
+    options.baseURL ?? 'https://api.v0.dev/v1',
+  );
   const getHeaders = () =>
     withUserAgentSuffix(
       {

@@ -80,7 +80,9 @@ describe('streamText first chunk timeout', () => {
                 abortSignal?.addEventListener(
                   'abort',
                   () => controller.error(abortSignal.reason),
-                  { once: true },
+                  {
+                    once: true,
+                  },
                 );
               },
             }),
@@ -258,7 +260,9 @@ describe('streamText first chunk timeout', () => {
                 abortSignal?.addEventListener(
                   'abort',
                   () => controller.error(abortSignal.reason),
-                  { once: true },
+                  {
+                    once: true,
+                  },
                 );
               },
             }),
@@ -408,7 +412,9 @@ describe('streamText chunk timeout', () => {
                 abortSignal?.addEventListener(
                   'abort',
                   () => controller.error(abortSignal.reason),
-                  { once: true },
+                  {
+                    once: true,
+                  },
                 );
               },
             }),

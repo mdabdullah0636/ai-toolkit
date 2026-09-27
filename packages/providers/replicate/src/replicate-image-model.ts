@@ -85,7 +85,11 @@ export class ReplicateImageModel implements ImageModelV3 {
     if (files != null && files.length > 0) {
       if (this.isFlux2Model) {
         // Flux-2 models use input_image, input_image_2, input_image_3, etc.
-        for (let i = 0; i < Math.min(files.length, MAX_FLUX_2_INPUT_IMAGES); i++) {
+        for (
+          let i = 0;
+          i < Math.min(files.length, MAX_FLUX_2_INPUT_IMAGES);
+          i++
+        ) {
           const key = i === 0 ? 'input_image' : `input_image_${i + 1}`;
           imageInputs[key] = convertImageModelFileToDataUri(files[i]);
         }
@@ -114,7 +118,8 @@ export class ReplicateImageModel implements ImageModelV3 {
       if (this.isFlux2Model) {
         warnings.push({
           type: 'other',
-          message: 'Flux-2 models do not support mask input. The mask will be ignored.',
+          message:
+            'Flux-2 models do not support mask input. The mask will be ignored.',
         });
       } else {
         maskInput = convertImageModelFileToDataUri(mask);
@@ -142,7 +147,11 @@ export class ReplicateImageModel implements ImageModelV3 {
           ? `${this.config.baseURL}/predictions`
           : `${this.config.baseURL}/models/${modelId}/predictions`,
 
-      headers: combineHeaders(await resolve(this.config.headers), headers, preferHeader),
+      headers: combineHeaders(
+        await resolve(this.config.headers),
+        headers,
+        preferHeader,
+      ),
 
       body: {
         input: {
@@ -159,7 +168,9 @@ export class ReplicateImageModel implements ImageModelV3 {
         ...(version != null ? { version } : {}),
       },
 
-      successfulResponseHandler: createJsonResponseHandler(replicateImageResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        replicateImageResponseSchema,
+      ),
       failedResponseHandler: replicateFailedResponseHandler,
       abortSignal,
       fetch: this.config.fetch,
@@ -252,4 +263,6 @@ export const replicateImageProviderOptionsSchema = lazySchema(() =>
   ),
 );
 
-export type ReplicateImageProviderOptions = InferSchema<typeof replicateImageProviderOptionsSchema>;
+export type ReplicateImageProviderOptions = InferSchema<
+  typeof replicateImageProviderOptionsSchema
+>;

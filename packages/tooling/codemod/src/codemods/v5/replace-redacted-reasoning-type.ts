@@ -18,7 +18,11 @@ export default createTransformer((fileInfo, api, options, context) => {
 
       // Check if this is in a comparison (e.g., part.type === 'redacted-reasoning')
       const parent = path.parent.node;
-      if (parent && parent.type === 'BinaryExpression' && parent.operator === '===') {
+      if (
+        parent &&
+        parent.type === 'BinaryExpression' &&
+        parent.operator === '==='
+      ) {
         const left = parent.left;
         if (
           left.type === 'MemberExpression' &&
@@ -71,7 +75,9 @@ export default createTransformer((fileInfo, api, options, context) => {
 
     context.messages.push('');
     context.messages.push('Migration required:');
-    context.messages.push('  The redacted-reasoning part type has been removed.');
+    context.messages.push(
+      '  The redacted-reasoning part type has been removed.',
+    );
     context.messages.push('  Use provider-specific metadata instead:');
     context.messages.push('');
     context.messages.push('  Before:');
@@ -80,11 +86,17 @@ export default createTransformer((fileInfo, api, options, context) => {
     context.messages.push('    }');
     context.messages.push('');
     context.messages.push('  After:');
-    context.messages.push('    if (part.providerMetadata?.anthropic?.redactedData != null) {');
+    context.messages.push(
+      '    if (part.providerMetadata?.anthropic?.redactedData != null) {',
+    );
     context.messages.push('      console.log("<redacted>");');
     context.messages.push('    }');
     context.messages.push('');
-    context.messages.push('  Note: The exact metadata path depends on your provider.');
-    context.messages.push('  Check your provider documentation for the correct path.');
+    context.messages.push(
+      '  Note: The exact metadata path depends on your provider.',
+    );
+    context.messages.push(
+      '  Check your provider documentation for the correct path.',
+    );
   }
 });

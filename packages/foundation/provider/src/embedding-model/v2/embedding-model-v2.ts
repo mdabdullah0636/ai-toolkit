@@ -1,4 +1,8 @@
-import { SharedV2Headers, SharedV2ProviderOptions, SharedV2ProviderMetadata } from '../../shared';
+import {
+  SharedV2Headers,
+  SharedV2ProviderOptions,
+  SharedV2ProviderMetadata,
+} from '../../shared';
 import { EmbeddingModelV2Embedding } from './embedding-model-v2-embedding';
 
 /**
@@ -34,7 +38,10 @@ Limit of how many embeddings can be generated in a single API call.
 
 Use Infinity for models that do not have a limit.
    */
-  readonly maxEmbeddingsPerCall: PromiseLike<number | undefined> | number | undefined;
+  readonly maxEmbeddingsPerCall:
+    | PromiseLike<number | undefined>
+    | number
+    | undefined;
 
   /**
 True if the model can handle multiple embedding calls in parallel.

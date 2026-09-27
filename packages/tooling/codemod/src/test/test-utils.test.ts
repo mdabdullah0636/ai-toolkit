@@ -87,7 +87,9 @@ describe('test-utils', () => {
 
   describe('readFixture', () => {
     const mockExistsSync = existsSync as unknown as ReturnType<typeof vi.fn>;
-    const mockReadFileSync = readFileSync as unknown as ReturnType<typeof vi.fn>;
+    const mockReadFileSync = readFileSync as unknown as ReturnType<
+      typeof vi.fn
+    >;
     const mockJoin = join as unknown as ReturnType<typeof vi.fn>;
 
     beforeEach(() => {
@@ -111,7 +113,9 @@ describe('test-utils', () => {
     });
 
     it('should read .tsx fixture when .ts does not exist', () => {
-      mockExistsSync.mockImplementation((path: string) => path.endsWith('.tsx'));
+      mockExistsSync.mockImplementation((path: string) =>
+        path.endsWith('.tsx'),
+      );
       mockReadFileSync.mockReturnValue('tsx content');
 
       const result = testUtils.readFixture('test', 'input');
@@ -129,7 +133,9 @@ describe('test-utils', () => {
     it('should throw error when no fixture exists', () => {
       mockExistsSync.mockReturnValue(false);
 
-      expect(() => testUtils.readFixture('test', 'input')).toThrow('Fixture not found: test.input');
+      expect(() => testUtils.readFixture('test', 'input')).toThrow(
+        'Fixture not found: test.input',
+      );
     });
   });
 
@@ -189,7 +195,9 @@ describe('test-utils', () => {
         };
       `;
 
-      expect(() => testUtils.validateSyntax(invalidCode, '.js')).toThrow(/Syntax error/);
+      expect(() => testUtils.validateSyntax(invalidCode, '.js')).toThrow(
+        /Syntax error/,
+      );
     });
 
     it('should catch typescript type errors', () => {
@@ -211,7 +219,9 @@ describe('test-utils', () => {
     it('should compare transform output with fixture and validate syntax', () => {
       const mockTransform = vi.fn().mockReturnValue('const x: number = 42;');
 
-      (existsSync as any).mockImplementation((path: string) => path.endsWith('.ts'));
+      (existsSync as any).mockImplementation((path: string) =>
+        path.endsWith('.ts'),
+      );
       (readFileSync as any)
         .mockReturnValueOnce('const x: number = 1;') // Valid TS input
         .mockReturnValueOnce('const x: number = 42;'); // Valid TS output
@@ -225,8 +235,12 @@ describe('test-utils', () => {
     it('should throw when transform output does not match fixture', () => {
       const mockTransform = vi.fn().mockReturnValue('wrong output');
 
-      (existsSync as any).mockImplementation((path: string) => path.endsWith('.ts'));
-      (readFileSync as any).mockReturnValueOnce('input').mockReturnValueOnce('expected output');
+      (existsSync as any).mockImplementation((path: string) =>
+        path.endsWith('.ts'),
+      );
+      (readFileSync as any)
+        .mockReturnValueOnce('input')
+        .mockReturnValueOnce('expected output');
 
       expect(() => testUtils.testTransform(mockTransform, 'test')).toThrow();
     });

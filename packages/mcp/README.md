@@ -16,10 +16,12 @@ The MCP layer (Layer 2 - Protocol) provides the Model Context Protocol implement
 ## Dependencies
 
 MCP may depend on:
+
 - Foundation layer (types, runtime, provider)
 - Runtime layer (provider-utils for shared utilities)
 
 MCP must not depend on:
+
 - Provider layer (protocol must be provider-agnostic)
 - Higher-level domains (agents, workflow, etc.)
 

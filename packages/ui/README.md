@@ -6,6 +6,6 @@ building blocks that pair with the hooks in `packages/adapters/react/`.
 
 **Owner**: @khulnasoft/ai-react-team
 
-| Package    | npm name              | Purpose                                  |
-| ---------- | --------------------- | ---------------------------------------- |
+| Package    | npm name               | Purpose                                     |
+| ---------- | ---------------------- | ------------------------------------------- |
 | `elements` | `@ai-toolkit/elements` | Conversation, message, and input components |

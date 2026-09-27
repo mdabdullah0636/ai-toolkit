@@ -19,8 +19,7 @@ if (targets.length === 0 || !targets.every(site => SITES.includes(site))) {
 }
 
 for (const site of targets) {
-  const port =
-    targets.length === 1 && requested !== 'all' ? defaultPort : ports[site];
+  const port = targets.length === 1 && requested !== 'all' ? defaultPort : ports[site];
   const child = spawn(join(binDir, binName), ['start', '-p', String(port)], {
     cwd: join(appsDir, site),
     stdio: 'inherit',

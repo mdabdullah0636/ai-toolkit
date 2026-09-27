@@ -72,7 +72,10 @@ describe('convertToLanguageModelV4FilePart', () => {
       const bytes = new Uint8Array([1, 2, 3]);
       expect(
         convertToLanguageModelV4FilePart({ type: 'data', data: bytes }),
-      ).toEqual({ data: { type: 'data', data: bytes }, mediaType: undefined });
+      ).toEqual({
+        data: { type: 'data', data: bytes },
+        mediaType: undefined,
+      });
     });
 
     it('unwraps { type: "data", data: ArrayBuffer }', () => {
@@ -92,7 +95,10 @@ describe('convertToLanguageModelV4FilePart', () => {
       const base64 = 'aGVsbG8=';
       expect(
         convertToLanguageModelV4FilePart({ type: 'data', data: base64 }),
-      ).toEqual({ data: { type: 'data', data: base64 }, mediaType: undefined });
+      ).toEqual({
+        data: { type: 'data', data: base64 },
+        mediaType: undefined,
+      });
     });
 
     it('rejects { type: "data", data: data URL string } — data URLs are not inline data', () => {

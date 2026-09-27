@@ -140,7 +140,9 @@ or to provide a custom fetch implementation for e.g. testing.
 /**
 Create an OpenAI provider instance.
  */
-export function createOpenAI(options: OpenAIProviderSettings = {}): OpenAIProvider {
+export function createOpenAI(
+  options: OpenAIProviderSettings = {},
+): OpenAIProvider {
   const baseURL =
     withoutTrailingSlash(
       loadOptionalSetting({
@@ -216,7 +218,9 @@ export function createOpenAI(options: OpenAIProviderSettings = {}): OpenAIProvid
 
   const createLanguageModel = (modelId: OpenAIResponsesModelId) => {
     if (new.target) {
-      throw new Error('The OpenAI model function cannot be called with the new keyword.');
+      throw new Error(
+        'The OpenAI model function cannot be called with the new keyword.',
+      );
     }
 
     return createResponsesModel(modelId);

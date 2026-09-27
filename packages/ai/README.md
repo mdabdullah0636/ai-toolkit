@@ -5,6 +5,10 @@ The AI Core layer (Layer 1) provides the main SDK package `ai-toolkit` with high
 ## Packages
 
 - `ai-toolkit` (published as `ai-toolkit` on npm) - Main SDK package
+- `@ai-toolkit/ai-generation` - Text generation primitives and utilities
+- `@ai-toolkit/ai-multimodal` - Vision, audio, image, and video runtime
+- `@ai-toolkit/ai-reasoning` - Reasoning engine and chain-of-thought primitives
+- `@ai-toolkit/ai-structured` - Structured output generation and validation
 
 ## Core APIs
 
@@ -18,10 +22,13 @@ The AI Core layer (Layer 1) provides the main SDK package `ai-toolkit` with high
 ## Dependencies
 
 AI Core may depend on:
+
 - Foundation layer (types, runtime, provider-utils)
 - Provider layer (for provider implementations)
+- Gateway (for routing)
 
 AI Core must not depend on:
+
 - Higher-level domains (agents, workflow, etc.)
 
 See `architecture/DEPENDENCY_RULES.md` for complete dependency rules.

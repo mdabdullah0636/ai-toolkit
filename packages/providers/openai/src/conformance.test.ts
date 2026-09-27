@@ -49,10 +49,13 @@ const server = createTestServer({
     response: {
       type: 'json-value',
       body: {
-        data: [{
-          b64_json: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
-          revised_prompt: 'A beautiful image',
-        }],
+        data: [
+          {
+            b64_json:
+              'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+            revised_prompt: 'A beautiful image',
+          },
+        ],
       },
     },
   },

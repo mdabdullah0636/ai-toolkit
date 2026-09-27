@@ -8,7 +8,10 @@ import {
 import { OpenAIConfig } from '../openai-config';
 import { openaiFailedResponseHandler } from '../openai-error';
 import { OpenAISpeechAPITypes } from './openai-speech-api';
-import { openaiSpeechProviderOptionsSchema, OpenAISpeechModelId } from './openai-speech-options';
+import {
+  openaiSpeechProviderOptionsSchema,
+  OpenAISpeechModelId,
+} from './openai-speech-options';
 
 interface OpenAISpeechModelConfig extends OpenAIConfig {
   _internal?: {

@@ -55,7 +55,8 @@ export function createModelCatalog(
       [...models.values()].filter(
         model =>
           (!filter?.provider || model.provider === filter.provider) &&
-          (!filter?.capability || model.capabilities.includes(filter.capability)) &&
+          (!filter?.capability ||
+            model.capabilities.includes(filter.capability)) &&
           (!filter?.runtime || model.runtimes.includes(filter.runtime)),
       ),
     register: model => models.set(model.id, model),

@@ -51,5 +51,6 @@ const webSearchToolFactory = createProviderToolFactoryWithOutputSchema<
   outputSchema: webSearchOutputSchema,
 });
 
-export const webSearch = (args: Parameters<typeof webSearchToolFactory>[0] = {}) =>
-  webSearchToolFactory(args);
+export const webSearch = (
+  args: Parameters<typeof webSearchToolFactory>[0] = {},
+) => webSearchToolFactory(args);

@@ -6,7 +6,11 @@ export default createTransformer((fileInfo, api, options, context) => {
   // Find and replace import specifiers from 'ai-toolkit'
   root
     .find(j.ImportDeclaration)
-    .filter(path => path.node.source.value === 'ai-toolkit' || path.node.source.value === 'ai-toolkit')
+    .filter(
+      path =>
+        path.node.source.value === 'ai-toolkit' ||
+        path.node.source.value === 'ai-toolkit',
+    )
     .forEach(path => {
       j(path)
         .find(j.ImportSpecifier)

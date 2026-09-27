@@ -96,19 +96,30 @@ async function main() {
     }
 
     // Calculate total downloads
-    const pastWeektotalDownloads = results.reduce((sum, item) => sum + item['past week'], 0);
-    const previousTotalDownloads = results.reduce((sum, item) => sum + item['previous'], 0);
+    const pastWeektotalDownloads = results.reduce(
+      (sum, item) => sum + item['past week'],
+      0,
+    );
+    const previousTotalDownloads = results.reduce(
+      (sum, item) => sum + item['previous'],
+      0,
+    );
 
     // Update percentages
     results.forEach(item => {
       const pastWeekPercentage =
-        pastWeektotalDownloads > 0 ? (item['past week'] / pastWeektotalDownloads) * 100 : 0;
+        pastWeektotalDownloads > 0
+          ? (item['past week'] / pastWeektotalDownloads) * 100
+          : 0;
       item['%'] = `${pastWeekPercentage.toFixed(1)}%`;
       const previousPercentage =
-        previousTotalDownloads > 0 ? (item['previous'] / previousTotalDownloads) * 100 : 0;
+        previousTotalDownloads > 0
+          ? (item['previous'] / previousTotalDownloads) * 100
+          : 0;
       item['previous %'] = `${previousPercentage.toFixed(1)}%`;
       const diffPercentage = pastWeekPercentage - previousPercentage;
-      item['diff %'] = `${diffPercentage >= 0 ? '+' : ''}${diffPercentage.toFixed(1)}%`;
+      item['diff %'] =
+        `${diffPercentage >= 0 ? '+' : ''}${diffPercentage.toFixed(1)}%`;
     });
 
     // Sort results by past week in descending order
@@ -139,7 +150,9 @@ function fetchWithRetry(
               );
               setTimeout(() => attemptFetch(n - 1), backoff);
             } else {
-              reject(new Error(`Failed to fetch ${url} after multiple attempts.`));
+              reject(
+                new Error(`Failed to fetch ${url} after multiple attempts.`),
+              );
             }
           } else {
             setTimeout(() => resolve(response), 1000);
@@ -152,7 +165,9 @@ function fetchWithRetry(
             );
             setTimeout(() => attemptFetch(n - 1), backoff);
           } else {
-            reject(new Error(`Failed to fetch ${url} after multiple attempts.`));
+            reject(
+              new Error(`Failed to fetch ${url} after multiple attempts.`),
+            );
           }
         });
     };

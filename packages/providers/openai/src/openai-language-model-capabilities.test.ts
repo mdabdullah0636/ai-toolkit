@@ -60,9 +60,9 @@ describe('getOpenAILanguageModelCapabilities', () => {
       ['ft:gpt-4o-2024-08-06:org:custom:abc123', false],
       ['custom-model', false],
     ])('%s reasoning model: %s', (modelId, expectedCapabilities) => {
-      expect(getOpenAILanguageModelCapabilities(modelId).isReasoningModel).toEqual(
-        expectedCapabilities,
-      );
+      expect(
+        getOpenAILanguageModelCapabilities(modelId).isReasoningModel,
+      ).toEqual(expectedCapabilities);
     });
   });
 
@@ -80,10 +80,14 @@ describe('getOpenAILanguageModelCapabilities', () => {
       ['gpt-5-nano', false],
       ['gpt-5-pro', false],
       ['gpt-5-chat-latest', false],
-    ])('%s supports non-reasoning parameters: %s', (modelId, expectedCapabilities) => {
-      expect(getOpenAILanguageModelCapabilities(modelId).supportsNonReasoningParameters).toEqual(
-        expectedCapabilities,
-      );
-    });
+    ])(
+      '%s supports non-reasoning parameters: %s',
+      (modelId, expectedCapabilities) => {
+        expect(
+          getOpenAILanguageModelCapabilities(modelId)
+            .supportsNonReasoningParameters,
+        ).toEqual(expectedCapabilities);
+      },
+    );
   });
 });

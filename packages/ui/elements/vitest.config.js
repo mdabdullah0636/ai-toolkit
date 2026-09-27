@@ -7,10 +7,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@ai-toolkit/shadcn-ui': path.resolve(
-        __dirname,
-        '../shadcn-ui/src',
-      ),
+      '@ai-toolkit/shadcn-ui': path.resolve(__dirname, '../shadcn-ui/src'),
     },
   },
   test: {

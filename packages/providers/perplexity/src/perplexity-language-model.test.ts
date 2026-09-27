@@ -3,9 +3,15 @@
 import { describe, it, expect } from 'vitest';
 import { LanguageModelV3Prompt } from '@ai-toolkit/provider';
 import { createTestServer } from '@ai-toolkit/test-server/with-vitest';
-import { convertReadableStreamToArray, mockId } from '@ai-toolkit/provider-utils/test';
+import {
+  convertReadableStreamToArray,
+  mockId,
+} from '@ai-toolkit/provider-utils/test';
 import { z } from 'zod/v4';
-import { perplexityImageSchema, PerplexityLanguageModel } from './perplexity-language-model';
+import {
+  perplexityImageSchema,
+  PerplexityLanguageModel,
+} from './perplexity-language-model';
 
 const TEST_PROMPT: LanguageModelV3Prompt = [
   { role: 'user', content: [{ type: 'text', text: 'Hello' }] },
@@ -186,7 +192,8 @@ describe('PerplexityLanguageModel', () => {
       const result = await perplexityModel.doGenerate({ prompt });
 
       // Verify the request contains the correct PDF format
-      const requestBody = await jsonServer.calls[jsonServer.calls.length - 1].requestBodyJson;
+      const requestBody =
+        await jsonServer.calls[jsonServer.calls.length - 1].requestBodyJson;
       expect(requestBody.messages[0].content).toEqual([
         {
           type: 'text',
@@ -234,7 +241,8 @@ describe('PerplexityLanguageModel', () => {
       const result = await perplexityModel.doGenerate({ prompt });
 
       // Verify the request contains the correct PDF URL format
-      const requestBody = await jsonServer.calls[jsonServer.calls.length - 1].requestBodyJson;
+      const requestBody =
+        await jsonServer.calls[jsonServer.calls.length - 1].requestBodyJson;
       expect(requestBody.messages[0].content).toEqual([
         {
           type: 'text',
@@ -461,20 +469,21 @@ describe('PerplexityLanguageModel', () => {
         return `data: ${JSON.stringify(chunkObj)}\n\n`;
       };
 
-      streamServer.urls['https://api.perplexity.ai/chat/completions'].response = {
-        type: 'stream-chunks',
-        headers: {
-          'content-type': 'text/event-stream',
-          'cache-control': 'no-cache',
-          connection: 'keep-alive',
-        },
-        chunks: [
-          ...contents.slice(0, -1).map(text => baseChunk(text)),
-          // Final chunk: include finish_reason and usage.
-          baseChunk(contents[contents.length - 1], 'stop', true),
-          'data: [DONE]\n\n',
-        ],
-      };
+      streamServer.urls['https://api.perplexity.ai/chat/completions'].response =
+        {
+          type: 'stream-chunks',
+          headers: {
+            'content-type': 'text/event-stream',
+            'cache-control': 'no-cache',
+            connection: 'keep-alive',
+          },
+          chunks: [
+            ...contents.slice(0, -1).map(text => baseChunk(text)),
+            // Final chunk: include finish_reason and usage.
+            baseChunk(contents[contents.length - 1], 'stop', true),
+            'data: [DONE]\n\n',
+          ],
+        };
     }
 
     it('should stream text deltas', async () => {
@@ -889,20 +898,21 @@ describe('PerplexityLanguageModel', () => {
     });
 
     it('should stream raw chunks when includeRawChunks is true', async () => {
-      streamServer.urls['https://api.perplexity.ai/chat/completions'].response = {
-        type: 'stream-chunks',
-        headers: {
-          'content-type': 'text/event-stream',
-          'cache-control': 'no-cache',
-          connection: 'keep-alive',
-        },
-        chunks: [
-          `data: {"id":"ppl-123","object":"chat.completion.chunk","created":1234567890,"model":"perplexity-001","choices":[{"index":0,"delta":{"role":"assistant","content":"Hello"},"finish_reason":null}],"citations":["https://example.com"]}\n\n`,
-          `data: {"id":"ppl-456","object":"chat.completion.chunk","created":1234567890,"model":"perplexity-001","choices":[{"index":0,"delta":{"content":" world"},"finish_reason":null}]}\n\n`,
-          `data: {"id":"ppl-789","object":"chat.completion.chunk","created":1234567890,"model":"perplexity-001","choices":[{"index":0,"delta":{},"finish_reason":"stop"}],"usage":{"prompt_tokens":10,"completion_tokens":5,"total_tokens":15,"citation_tokens":2,"num_search_queries":1}}\n\n`,
-          'data: [DONE]\n\n',
-        ],
-      };
+      streamServer.urls['https://api.perplexity.ai/chat/completions'].response =
+        {
+          type: 'stream-chunks',
+          headers: {
+            'content-type': 'text/event-stream',
+            'cache-control': 'no-cache',
+            connection: 'keep-alive',
+          },
+          chunks: [
+            `data: {"id":"ppl-123","object":"chat.completion.chunk","created":1234567890,"model":"perplexity-001","choices":[{"index":0,"delta":{"role":"assistant","content":"Hello"},"finish_reason":null}],"citations":["https://example.com"]}\n\n`,
+            `data: {"id":"ppl-456","object":"chat.completion.chunk","created":1234567890,"model":"perplexity-001","choices":[{"index":0,"delta":{"content":" world"},"finish_reason":null}]}\n\n`,
+            `data: {"id":"ppl-789","object":"chat.completion.chunk","created":1234567890,"model":"perplexity-001","choices":[{"index":0,"delta":{},"finish_reason":"stop"}],"usage":{"prompt_tokens":10,"completion_tokens":5,"total_tokens":15,"citation_tokens":2,"num_search_queries":1}}\n\n`,
+            'data: [DONE]\n\n',
+          ],
+        };
 
       const { stream } = await perplexityLM.doStream({
         prompt: TEST_PROMPT,

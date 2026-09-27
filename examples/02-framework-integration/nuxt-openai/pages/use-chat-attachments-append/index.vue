@@ -12,9 +12,7 @@ const fileInputRef = ref<HTMLInputElement | null>(null);
 const submit = async (e: Event) => {
   e.preventDefault();
 
-  const fileParts = await convertFileListToFileUIParts(
-    files.value ?? undefined,
-  );
+  const fileParts = await convertFileListToFileUIParts(files.value ?? undefined);
 
   chat.sendMessage({
     role: 'user',

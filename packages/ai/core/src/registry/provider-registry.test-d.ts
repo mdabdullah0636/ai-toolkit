@@ -280,7 +280,9 @@ describe('createProviderRegistry autocomplete / literal identifiers', () => {
   it('uses the custom separator in template-literal identifiers', () => {
     const registryWithCustomSeparator = createProviderRegistry(
       registeredProviders,
-      { separator: ' > ' },
+      {
+        separator: ' > ',
+      },
     );
 
     type ExpectedLanguageModelIdentifiersWithSeparator =
@@ -488,7 +490,9 @@ describe('createProviderRegistry negative typing', () => {
   it('rejects the default colon separator when the registry uses a custom separator', () => {
     const registryWithCustomSeparator = createProviderRegistry(
       anthropicOnlyRegisteredProviders,
-      { separator: ' > ' },
+      {
+        separator: ' > ',
+      },
     );
 
     registryWithCustomSeparator.languageModel('anthropic > haiku');

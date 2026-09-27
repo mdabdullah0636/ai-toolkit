@@ -9,7 +9,9 @@ import { getMetricsProvider } from '@/lib/metrics-provider';
 
 const handle = createPlatformApi(
   new PlatformRegistry(snapshot as PlatformRegistrySnapshot),
-  { getMetrics: counts => getMetricsProvider().overview(counts) },
+  {
+    getMetrics: counts => getMetricsProvider().overview(counts),
+  },
 );
 
 export const revalidate = 60;

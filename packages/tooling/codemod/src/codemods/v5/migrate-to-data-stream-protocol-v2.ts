@@ -27,7 +27,11 @@ export default createTransformer((fileInfo, api, options, context) => {
         path.node.arguments = [
           j.objectExpression([
             j.property('init', j.literal('type'), j.literal('data')),
-            j.property('init', j.literal('value'), j.arrayExpression([args[0]])),
+            j.property(
+              'init',
+              j.literal('value'),
+              j.arrayExpression([args[0]]),
+            ),
           ]),
         ];
         context.hasChanges = true;
@@ -49,8 +53,16 @@ export default createTransformer((fileInfo, api, options, context) => {
         path.node.callee.property.name = 'write';
         path.node.arguments = [
           j.objectExpression([
-            j.property('init', j.literal('type'), j.literal('message-annotations')),
-            j.property('init', j.literal('value'), j.arrayExpression([args[0]])),
+            j.property(
+              'init',
+              j.literal('type'),
+              j.literal('message-annotations'),
+            ),
+            j.property(
+              'init',
+              j.literal('value'),
+              j.arrayExpression([args[0]]),
+            ),
           ]),
         ];
         context.hasChanges = true;
@@ -119,16 +131,21 @@ export default createTransformer((fileInfo, api, options, context) => {
   if (formatDataStreamPartUsages.length === 0) {
     root.find(j.ImportDeclaration).forEach((path: any) => {
       if (
-        path.node.source.value === 'ai-toolkit' || path.node.source.value === 'ai-toolkit' &&
-        path.node.specifiers?.some(
-          (spec: any) =>
-            spec.type === 'ImportSpecifier' && spec.imported.name === 'formatDataStreamPart',
-        )
+        path.node.source.value === 'ai-toolkit' ||
+        (path.node.source.value === 'ai-toolkit' &&
+          path.node.specifiers?.some(
+            (spec: any) =>
+              spec.type === 'ImportSpecifier' &&
+              spec.imported.name === 'formatDataStreamPart',
+          ))
       ) {
         // Remove the import
         path.node.specifiers = path.node.specifiers?.filter(
           (spec: any) =>
-            !(spec.type === 'ImportSpecifier' && spec.imported.name === 'formatDataStreamPart'),
+            !(
+              spec.type === 'ImportSpecifier' &&
+              spec.imported.name === 'formatDataStreamPart'
+            ),
         );
 
         // If no specifiers left, remove the entire import

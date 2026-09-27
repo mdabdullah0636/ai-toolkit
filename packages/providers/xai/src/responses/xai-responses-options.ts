@@ -29,4 +29,6 @@ export const xaiResponsesProviderOptions = z.object({
   previousResponseId: z.string().optional(),
 });
 
-export type XaiResponsesProviderOptions = z.infer<typeof xaiResponsesProviderOptions>;
+export type XaiResponsesProviderOptions = z.infer<
+  typeof xaiResponsesProviderOptions
+>;

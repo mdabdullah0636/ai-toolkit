@@ -9,7 +9,9 @@ export const webSearchArgsSchema = lazySchema(() =>
   zodSchema(
     z.object({
       externalWebAccess: z.boolean().optional(),
-      filters: z.object({ allowedDomains: z.array(z.string()).optional() }).optional(),
+      filters: z
+        .object({ allowedDomains: z.array(z.string()).optional() })
+        .optional(),
       searchContextSize: z.enum(['low', 'medium', 'high']).optional(),
       userLocation: z
         .object({
@@ -108,7 +110,9 @@ export const webSearchToolFactory = createProviderToolFactoryWithOutputSchema<
     /**
      * Optional sources cited by the model for the web search call.
      */
-    sources?: Array<{ type: 'url'; url: string } | { type: 'api'; name: string }>;
+    sources?: Array<
+      { type: 'url'; url: string } | { type: 'api'; name: string }
+    >;
   },
   {
     /**

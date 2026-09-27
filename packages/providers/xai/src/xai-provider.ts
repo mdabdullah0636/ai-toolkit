@@ -1,5 +1,13 @@
-import { OpenAICompatibleImageModel, ProviderErrorStructure } from '@ai-toolkit/openai-compatible';
-import { ImageModelV3, LanguageModelV3, NoSuchModelError, ProviderV3 } from '@ai-toolkit/provider';
+import {
+  OpenAICompatibleImageModel,
+  ProviderErrorStructure,
+} from '@ai-toolkit/openai-compatible';
+import {
+  ImageModelV3,
+  LanguageModelV3,
+  NoSuchModelError,
+  ProviderV3,
+} from '@ai-toolkit/provider';
 import {
   FetchFunction,
   generateId,
@@ -87,7 +95,9 @@ or to provide a custom fetch implementation for e.g. testing.
 }
 
 export function createXai(options: XaiProviderSettings = {}): XaiProvider {
-  const baseURL = withoutTrailingSlash(options.baseURL ?? 'https://api.x.ai/v1');
+  const baseURL = withoutTrailingSlash(
+    options.baseURL ?? 'https://api.x.ai/v1',
+  );
   const getHeaders = () =>
     withUserAgentSuffix(
       {
@@ -131,7 +141,8 @@ export function createXai(options: XaiProviderSettings = {}): XaiProvider {
     });
   };
 
-  const provider = (modelId: XaiChatModelId) => createChatLanguageModel(modelId);
+  const provider = (modelId: XaiChatModelId) =>
+    createChatLanguageModel(modelId);
 
   provider.specificationVersion = 'v3' as const;
   provider.languageModel = createChatLanguageModel;

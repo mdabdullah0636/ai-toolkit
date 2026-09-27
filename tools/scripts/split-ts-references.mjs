@@ -35,7 +35,7 @@ const DOMAIN_MAP = {
   'packages/infrastructure': 'infrastructure',
   'packages/ui': 'ui',
   'packages/mcp': 'mcp',
-  'examples': 'examples',
+  examples: 'examples',
 };
 
 function getDomain(refPath) {

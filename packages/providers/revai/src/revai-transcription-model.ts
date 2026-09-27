@@ -1,4 +1,8 @@
-import { AITOOLKITError, TranscriptionModelV3, SharedV3Warning } from '@ai-toolkit/provider';
+import {
+  AITOOLKITError,
+  TranscriptionModelV3,
+  SharedV3Warning,
+} from '@ai-toolkit/provider';
 import {
   combineHeaders,
   convertBase64ToUint8Array,
@@ -121,7 +125,10 @@ const revaiProviderOptionsSchema = z.object({
   /**
    * Type of diarization to use.
    */
-  diarization_type: z.enum(['standard', 'premium']).nullish().default('standard'),
+  diarization_type: z
+    .enum(['standard', 'premium'])
+    .nullish()
+    .default('standard'),
   /**
    * ID of a custom vocabulary to use for the transcription.
    */
@@ -203,7 +210,9 @@ const revaiProviderOptionsSchema = z.object({
   forced_alignment: z.boolean().nullish().default(false),
 });
 
-export type RevaiTranscriptionCallOptions = z.infer<typeof revaiProviderOptionsSchema>;
+export type RevaiTranscriptionCallOptions = z.infer<
+  typeof revaiProviderOptionsSchema
+>;
 
 interface RevaiTranscriptionModelConfig extends RevaiConfig {
   _internal?: {
@@ -263,7 +272,8 @@ export class RevaiTranscriptionModel implements TranscriptionModelV3 {
         verbatim: revaiOptions.verbatim ?? undefined,
         rush: revaiOptions.rush ?? undefined,
         test_mode: revaiOptions.test_mode ?? undefined,
-        segments_to_transcribe: revaiOptions.segments_to_transcribe ?? undefined,
+        segments_to_transcribe:
+          revaiOptions.segments_to_transcribe ?? undefined,
         speaker_names: revaiOptions.speaker_names ?? undefined,
         skip_diarization: revaiOptions.skip_diarization ?? undefined,
         skip_postprocessing: revaiOptions.skip_postprocessing ?? undefined,
@@ -271,12 +281,14 @@ export class RevaiTranscriptionModel implements TranscriptionModelV3 {
         remove_disfluencies: revaiOptions.remove_disfluencies ?? undefined,
         remove_atmospherics: revaiOptions.remove_atmospherics ?? undefined,
         filter_profanity: revaiOptions.filter_profanity ?? undefined,
-        speaker_channels_count: revaiOptions.speaker_channels_count ?? undefined,
+        speaker_channels_count:
+          revaiOptions.speaker_channels_count ?? undefined,
         speakers_count: revaiOptions.speakers_count ?? undefined,
         diarization_type: revaiOptions.diarization_type ?? undefined,
         custom_vocabulary_id: revaiOptions.custom_vocabulary_id ?? undefined,
         custom_vocabularies: revaiOptions.custom_vocabularies ?? undefined,
-        strict_custom_vocabulary: revaiOptions.strict_custom_vocabulary ?? undefined,
+        strict_custom_vocabulary:
+          revaiOptions.strict_custom_vocabulary ?? undefined,
         summarization_config: revaiOptions.summarization_config ?? undefined,
         translation_config: revaiOptions.translation_config ?? undefined,
         language: revaiOptions.language ?? undefined,
@@ -315,7 +327,9 @@ export class RevaiTranscriptionModel implements TranscriptionModelV3 {
       headers: combineHeaders(this.config.headers(), options.headers),
       formData,
       failedResponseHandler: revaiFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(revaiTranscriptionJobResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        revaiTranscriptionJobResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -352,7 +366,9 @@ export class RevaiTranscriptionModel implements TranscriptionModelV3 {
         }),
         headers: combineHeaders(this.config.headers(), options.headers),
         failedResponseHandler: revaiFailedResponseHandler,
-        successfulResponseHandler: createJsonResponseHandler(revaiTranscriptionJobResponseSchema),
+        successfulResponseHandler: createJsonResponseHandler(
+          revaiTranscriptionJobResponseSchema,
+        ),
         abortSignal: options.abortSignal,
         fetch: this.config.fetch,
       });
@@ -384,7 +400,9 @@ export class RevaiTranscriptionModel implements TranscriptionModelV3 {
       }),
       headers: combineHeaders(this.config.headers(), options.headers),
       failedResponseHandler: revaiFailedResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(revaiTranscriptionResponseSchema),
+      successfulResponseHandler: createJsonResponseHandler(
+        revaiTranscriptionResponseSchema,
+      ),
       abortSignal: options.abortSignal,
       fetch: this.config.fetch,
     });
@@ -440,7 +458,9 @@ export class RevaiTranscriptionModel implements TranscriptionModelV3 {
       // Handle any remaining segment text that wasn't added
       if (hasStartedSegment && currentSegmentText.trim()) {
         const endSecond =
-          durationInSeconds > segmentStartSecond ? durationInSeconds : segmentStartSecond + 1;
+          durationInSeconds > segmentStartSecond
+            ? durationInSeconds
+            : segmentStartSecond + 1;
         segments.push({
           text: currentSegmentText.trim(),
           startSecond: segmentStartSecond,
@@ -452,7 +472,9 @@ export class RevaiTranscriptionModel implements TranscriptionModelV3 {
     return {
       text:
         transcriptionResult.monologues
-          ?.map(monologue => monologue?.elements?.map(element => element.value).join(''))
+          ?.map(monologue =>
+            monologue?.elements?.map(element => element.value).join(''),
+          )
           .join(' ') ?? '',
       segments,
       language: submissionResponse.language ?? undefined,

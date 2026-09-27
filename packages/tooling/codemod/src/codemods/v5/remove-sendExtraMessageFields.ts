@@ -36,9 +36,12 @@ export default createTransformer((fileInfo, api, options, context) => {
       configObject.properties = configObject.properties.filter((prop: any) => {
         if (
           (prop.type === 'Property' || prop.type === 'ObjectProperty') &&
-          ((prop.key.type === 'Identifier' && prop.key.name === 'sendExtraMessageFields') ||
-            (prop.key.type === 'Literal' && prop.key.value === 'sendExtraMessageFields') ||
-            (prop.key.type === 'StringLiteral' && prop.key.value === 'sendExtraMessageFields'))
+          ((prop.key.type === 'Identifier' &&
+            prop.key.name === 'sendExtraMessageFields') ||
+            (prop.key.type === 'Literal' &&
+              prop.key.value === 'sendExtraMessageFields') ||
+            (prop.key.type === 'StringLiteral' &&
+              prop.key.value === 'sendExtraMessageFields'))
         ) {
           foundSendExtraMessageFields = true;
           context.hasChanges = true;

@@ -16,7 +16,10 @@ export default createTransformer((fileInfo, api, options, context) => {
       const node = path.node;
 
       // Must be accessing a property called 'textDelta'
-      if (!j.Identifier.check(node.property) || node.property.name !== 'textDelta') {
+      if (
+        !j.Identifier.check(node.property) ||
+        node.property.name !== 'textDelta'
+      ) {
         return false;
       }
 
@@ -58,12 +61,18 @@ export default createTransformer((fileInfo, api, options, context) => {
       // For variable declarations, check if destructuring from delta
       const grandParent = parent.parent;
       if (j.VariableDeclarator.check(grandParent.node)) {
-        return j.Identifier.check(grandParent.node.init) && grandParent.node.init.name === 'delta';
+        return (
+          j.Identifier.check(grandParent.node.init) &&
+          grandParent.node.init.name === 'delta'
+        );
       }
 
       // For function parameters, allow transformation
       // (we can't easily check the source, so we'll transform all textDelta in function params)
-      if (j.Function.check(grandParent.node) || j.ArrowFunctionExpression.check(grandParent.node)) {
+      if (
+        j.Function.check(grandParent.node) ||
+        j.ArrowFunctionExpression.check(grandParent.node)
+      ) {
         return true;
       }
 

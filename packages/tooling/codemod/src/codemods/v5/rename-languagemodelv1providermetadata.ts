@@ -31,7 +31,10 @@ export default createTransformer((fileInfo, api, options, context) => {
 
           // If there's an alias, we don't need to change anything else
           // If there's no alias, we also need to rename all usages in the file
-          if (!spec.local || spec.local.name === 'LanguageModelV1ProviderMetadata') {
+          if (
+            !spec.local ||
+            spec.local.name === 'LanguageModelV1ProviderMetadata'
+          ) {
             if (spec.local) {
               spec.local.name = 'SharedV2ProviderMetadata';
             }
@@ -42,7 +45,8 @@ export default createTransformer((fileInfo, api, options, context) => {
               .filter(typePath => {
                 return (
                   typePath.node.typeName.type === 'Identifier' &&
-                  typePath.node.typeName.name === 'LanguageModelV1ProviderMetadata'
+                  typePath.node.typeName.name ===
+                    'LanguageModelV1ProviderMetadata'
                 );
               })
               .forEach(typePath => {

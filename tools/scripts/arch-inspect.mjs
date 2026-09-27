@@ -43,7 +43,10 @@ const LAYER_BY_DOMAIN = {
 function getPackageLayer(domain, sub) {
   if (domain === 'special' || domain === 'core' || domain === 'validation') {
     const mapping = LAYER_BY_DOMAIN[domain];
-    return mapping[sub] || (domain === 'core' ? 'runtime' : domain === 'validation' ? 'foundation' : 'experience');
+    return (
+      mapping[sub] ||
+      (domain === 'core' ? 'runtime' : domain === 'validation' ? 'foundation' : 'experience')
+    );
   }
   return LAYER_BY_DOMAIN[domain] || 'unknown';
 }
@@ -76,7 +79,16 @@ const EXCEPTIONS = new Set([
 
 function collectPackages() {
   const result = [];
-  const domainDirs = ['core', 'providers', 'adapters', 'mcp', 'special', 'validation', 'infrastructure', 'ui'];
+  const domainDirs = [
+    'core',
+    'providers',
+    'adapters',
+    'mcp',
+    'special',
+    'validation',
+    'infrastructure',
+    'ui',
+  ];
 
   for (const domain of domainDirs) {
     const domainDir = path.join(PACKAGES_DIR, domain);
@@ -96,7 +108,10 @@ function collectPackages() {
           stability: manifest.stability || 'missing',
           owners: manifest.owners || [],
           published: !manifest.private,
-          dependencies: { ...manifest.dependencies, ...manifest.optionalDependencies },
+          dependencies: {
+            ...manifest.dependencies,
+            ...manifest.optionalDependencies,
+          },
         });
       }
     }
@@ -118,7 +133,10 @@ function collectPackages() {
         stability: manifest.stability || 'missing',
         owners: manifest.owners || [],
         published: !manifest.private,
-        dependencies: { ...manifest.dependencies, ...manifest.optionalDependencies },
+        dependencies: {
+          ...manifest.dependencies,
+          ...manifest.optionalDependencies,
+        },
       });
     }
   }
@@ -216,7 +234,9 @@ function main() {
       }
     }
     console.log(`\nGateway models: ${matrix.gatewayModels?.total || 0}`);
-    console.log('Run "pnpm arch:capabilities" to regenerate. Run "pnpm arch:deps" for full dependency direction validation.');
+    console.log(
+      'Run "pnpm arch:capabilities" to regenerate. Run "pnpm arch:deps" for full dependency direction validation.',
+    );
   } else {
     console.log('\nCapability matrix not generated. Run "pnpm arch:capabilities" first.');
   }

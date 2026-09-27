@@ -16,11 +16,13 @@ The Tooling layer (Layer 6 - Experience/Tooling) provides developer tools for bu
 ## Dependencies
 
 Tooling may depend on:
+
 - Foundation layer (types, runtime)
 - Runtime layer (AI Core)
 - Gateway layer (for debugging gateway requests)
 
 Tooling must not depend on:
+
 - Provider internals (use AI Core abstractions)
 
 See `architecture/DEPENDENCY_RULES.md` for complete dependency rules.

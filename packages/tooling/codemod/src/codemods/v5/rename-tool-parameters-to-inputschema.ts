@@ -56,7 +56,10 @@ export default createTransformer((fileInfo, api, options, context) => {
           .map((prop: any) => prop.key.name);
 
         // If we find typical tool properties, assume this is a tool definition
-        if (siblingKeys.includes('description') || siblingKeys.includes('execute')) {
+        if (
+          siblingKeys.includes('description') ||
+          siblingKeys.includes('execute')
+        ) {
           if (path.node.key.type === 'Identifier') {
             path.node.key.name = 'inputSchema';
             context.hasChanges = true;
@@ -88,7 +91,10 @@ export default createTransformer((fileInfo, api, options, context) => {
           )
           .map((prop: any) => prop.key.name);
 
-        if (siblingKeys.includes('description') || siblingKeys.includes('execute')) {
+        if (
+          siblingKeys.includes('description') ||
+          siblingKeys.includes('execute')
+        ) {
           if (path.node.key.type === 'Identifier') {
             path.node.key.name = 'inputSchema';
             context.hasChanges = true;

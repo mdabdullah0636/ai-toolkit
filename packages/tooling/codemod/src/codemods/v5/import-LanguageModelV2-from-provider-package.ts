@@ -19,24 +19,34 @@ export default createTransformer((fileInfo, api, options, context) => {
     const node = importPath.node;
 
     // Check if the source value is exactly 'ai-toolkit' or 'ai-toolkit'
-    if ((node.source.value !== 'ai-toolkit' && node.source.value !== 'ai-toolkit')) return;
+    if (
+      node.source.value !== 'ai-toolkit' &&
+      node.source.value !== 'ai-toolkit'
+    )
+      return;
     const originalSource = node.source.value as string;
 
     // Find specifiers that should be moved to '@ai-toolkit/provider'
     const targetSpecifiers =
       node.specifiers?.filter(
-        s => j.ImportSpecifier.check(s) && Object.keys(ImportMappings).includes(s.imported.name),
+        s =>
+          j.ImportSpecifier.check(s) &&
+          Object.keys(ImportMappings).includes(s.imported.name),
       ) ?? [];
 
     // If no target specifiers found, skip this import
     if (targetSpecifiers.length === 0) return;
 
     // Get remaining specifiers that should stay in 'ai-toolkit'
-    const remainingSpecifiers = node.specifiers?.filter(s => !targetSpecifiers.includes(s)) ?? [];
+    const remainingSpecifiers =
+      node.specifiers?.filter(s => !targetSpecifiers.includes(s)) ?? [];
 
     // Rename LanguageModelV1 to LanguageModelV2 in target specifiers
     for (const specifier of targetSpecifiers) {
-      if (specifier.type === 'ImportSpecifier' && ImportMappings[specifier.imported.name]) {
+      if (
+        specifier.type === 'ImportSpecifier' &&
+        ImportMappings[specifier.imported.name]
+      ) {
         specifier.imported.name = ImportMappings[specifier.imported.name];
       }
     }
@@ -47,7 +57,9 @@ export default createTransformer((fileInfo, api, options, context) => {
     if (remainingSpecifiers.length === 0) {
       // All specifiers should be moved, just change the source
       node.source.value = '@ai-toolkit/provider';
-      context.messages.push(`Updated import from 'ai-toolkit' to '@ai-toolkit/provider'`);
+      context.messages.push(
+        `Updated import from 'ai-toolkit' to '@ai-toolkit/provider'`,
+      );
     } else {
       // Mixed imports: need to split them
       // The current import (with comments) should become the moved import
@@ -67,7 +79,9 @@ export default createTransformer((fileInfo, api, options, context) => {
       // Insert the remaining import after the current one
       importPath.insertAfter(remainingImport);
 
-      context.messages.push(`Split import: moved some imports from 'ai-toolkit' to '@ai-toolkit/provider'`);
+      context.messages.push(
+        `Split import: moved some imports from 'ai-toolkit' to '@ai-toolkit/provider'`,
+      );
     }
   });
 });

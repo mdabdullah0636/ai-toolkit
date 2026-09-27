@@ -25,7 +25,8 @@ const createSuccessfulResponse = () =>
     },
   );
 
-const createFetchMock = () => vi.fn().mockResolvedValue(createSuccessfulResponse());
+const createFetchMock = () =>
+  vi.fn().mockResolvedValue(createSuccessfulResponse());
 
 describe('createOpenAI', () => {
   describe('baseURL configuration', () => {

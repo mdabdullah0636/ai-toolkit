@@ -4,6 +4,9 @@ import { testTransform } from './test-utils';
 
 describe('rename-pipedatastreamtoresponse-to-pipeuimessagestreamtoresponse', () => {
   it('transforms correctly', () => {
-    testTransform(transformer, 'rename-pipedatastreamtoresponse-to-pipeuimessagestreamtoresponse');
+    testTransform(
+      transformer,
+      'rename-pipedatastreamtoresponse-to-pipeuimessagestreamtoresponse',
+    );
   });
 });

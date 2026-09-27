@@ -203,12 +203,7 @@ describe('<harness>Harness', () => {
     "rootDir": "src",
     "outDir": "dist"
   },
-  "exclude": [
-    "dist",
-    "build",
-    "node_modules",
-    "tsup.config.ts"
-  ],
+  "exclude": ["dist", "build", "node_modules", "tsup.config.ts"],
   "references": [
     {
       "path": "../../core/provider-utils"
@@ -363,7 +358,9 @@ export class HarnessCapabilityUnsupportedError extends AITOOLKITError {
     super({ name, message, cause });
   }
 
-  static isInstance(error: unknown): error is HarnessCapabilityUnsupportedError {
+  static isInstance(
+    error: unknown,
+  ): error is HarnessCapabilityUnsupportedError {
     return AITOOLKITError.hasMarker(error, marker);
   }
 }
@@ -386,12 +383,12 @@ The base package only depends on `@ai-toolkit/provider`:
 
 ## Harness Profile Package vs Base Package
 
-| Aspect | Base Harness (`@ai-toolkit/harness`) | Harness Profile (`@ai-toolkit/harness-acp`, `@ai-toolkit/harness-codex`) |
-|--------|-------------------------------------|------------------------------------------------------------------------|
-| Purpose | Shared contracts and types | Concrete harness configurations |
-| Dependencies | `@ai-toolkit/provider` only | `@ai-toolkit/harness-acp`, `@ai-toolkit/provider`, `@ai-toolkit/provider-utils` |
-| Key exports | `Harness` interface, `HarnessPermissionMode`, error classes | Pre-configured harness instance via `createACP()` |
-| `harnessId` | N/A | Required e.g. `acp-codex`, `acp-opencode` |
+| Aspect       | Base Harness (`@ai-toolkit/harness`)                        | Harness Profile (`@ai-toolkit/harness-acp`, `@ai-toolkit/harness-codex`)        |
+| ------------ | ----------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Purpose      | Shared contracts and types                                  | Concrete harness configurations                                                 |
+| Dependencies | `@ai-toolkit/provider` only                                 | `@ai-toolkit/harness-acp`, `@ai-toolkit/provider`, `@ai-toolkit/provider-utils` |
+| Key exports  | `Harness` interface, `HarnessPermissionMode`, error classes | Pre-configured harness instance via `createACP()`                               |
+| `harnessId`  | N/A                                                         | Required e.g. `acp-codex`, `acp-opencode`                                       |
 
 ## Best Practices
 

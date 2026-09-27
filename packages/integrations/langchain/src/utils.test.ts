@@ -752,9 +752,9 @@ describe('processModelChunk', () => {
 
 describe('isPlainMessageObject', () => {
   it('should return true for plain objects', () => {
-    expect(isPlainMessageObject({ type: '@ai-toolkit/ai', content: 'Hello' })).toBe(
-      true,
-    );
+    expect(
+      isPlainMessageObject({ type: '@ai-toolkit/ai', content: 'Hello' }),
+    ).toBe(true);
   });
 
   it('should return false for LangChain class instances', () => {
@@ -820,9 +820,9 @@ describe('isToolMessageType', () => {
   });
 
   it('should return false for other types', () => {
-    expect(isToolMessageType({ type: '@ai-toolkit/ai', content: 'Hello' })).toBe(
-      false,
-    );
+    expect(
+      isToolMessageType({ type: '@ai-toolkit/ai', content: 'Hello' }),
+    ).toBe(false);
     expect(isToolMessageType({ type: 'human', content: 'Hello' })).toBe(false);
   });
 

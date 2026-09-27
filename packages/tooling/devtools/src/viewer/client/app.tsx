@@ -20,7 +20,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import {
   Drawer,
   DrawerContent,
@@ -28,7 +32,11 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface Run {
   id: string;
@@ -123,7 +131,10 @@ interface StepInputSummary {
   toolDetails?: string; // For tooltip on tool results
 }
 
-function getStepInputSummary(input: any, isFirstStep: boolean): StepInputSummary | null {
+function getStepInputSummary(
+  input: any,
+  isFirstStep: boolean,
+): StepInputSummary | null {
   const prompt = input?.prompt;
   if (!Array.isArray(prompt)) return null;
 
@@ -245,11 +256,15 @@ function getStepSummary(output: any, error: string | null): StepSummary {
 
   // finishReason can be a string or an object with {unified, raw} properties
   const finishReason =
-    typeof output?.finishReason === 'string' ? output.finishReason : output?.finishReason?.unified;
+    typeof output?.finishReason === 'string'
+      ? output.finishReason
+      : output?.finishReason?.unified;
 
   if (finishReason === 'tool-calls') {
     const toolCalls =
-      output?.toolCalls || output?.content?.filter((p: any) => p.type === 'tool-call') || [];
+      output?.toolCalls ||
+      output?.content?.filter((p: any) => p.type === 'tool-call') ||
+      [];
     const { label, details } = summarizeToolCalls(toolCalls);
     return {
       type: 'tool-calls',
@@ -383,7 +398,9 @@ function App() {
     const userMsg = input?.prompt?.find((m: any) => m.role === 'user');
     if (userMsg) {
       const content =
-        typeof userMsg.content === 'string' ? userMsg.content : userMsg.content?.[0]?.text || '';
+        typeof userMsg.content === 'string'
+          ? userMsg.content
+          : userMsg.content?.[0]?.text || '';
       return content.slice(0, 50) + (content.length > 50 ? '...' : '');
     }
     return 'No user message';
@@ -411,14 +428,26 @@ function App() {
         };
 
         // Only add breakdown properties if they exist in either accumulator or current breakdown
-        if (acc.input.noCache !== undefined || inputBreakdown.noCache !== undefined) {
-          input.noCache = (acc.input.noCache ?? 0) + (inputBreakdown.noCache ?? 0);
+        if (
+          acc.input.noCache !== undefined ||
+          inputBreakdown.noCache !== undefined
+        ) {
+          input.noCache =
+            (acc.input.noCache ?? 0) + (inputBreakdown.noCache ?? 0);
         }
-        if (acc.input.cacheRead !== undefined || inputBreakdown.cacheRead !== undefined) {
-          input.cacheRead = (acc.input.cacheRead ?? 0) + (inputBreakdown.cacheRead ?? 0);
+        if (
+          acc.input.cacheRead !== undefined ||
+          inputBreakdown.cacheRead !== undefined
+        ) {
+          input.cacheRead =
+            (acc.input.cacheRead ?? 0) + (inputBreakdown.cacheRead ?? 0);
         }
-        if (acc.input.cacheWrite !== undefined || inputBreakdown.cacheWrite !== undefined) {
-          input.cacheWrite = (acc.input.cacheWrite ?? 0) + (inputBreakdown.cacheWrite ?? 0);
+        if (
+          acc.input.cacheWrite !== undefined ||
+          inputBreakdown.cacheWrite !== undefined
+        ) {
+          input.cacheWrite =
+            (acc.input.cacheWrite ?? 0) + (inputBreakdown.cacheWrite ?? 0);
         }
 
         const output: OutputTokenBreakdown = {
@@ -426,11 +455,18 @@ function App() {
         };
 
         // Only add breakdown properties if they exist in either accumulator or current breakdown
-        if (acc.output.text !== undefined || outputBreakdown.text !== undefined) {
+        if (
+          acc.output.text !== undefined ||
+          outputBreakdown.text !== undefined
+        ) {
           output.text = (acc.output.text ?? 0) + (outputBreakdown.text ?? 0);
         }
-        if (acc.output.reasoning !== undefined || outputBreakdown.reasoning !== undefined) {
-          output.reasoning = (acc.output.reasoning ?? 0) + (outputBreakdown.reasoning ?? 0);
+        if (
+          acc.output.reasoning !== undefined ||
+          outputBreakdown.reasoning !== undefined
+        ) {
+          output.reasoning =
+            (acc.output.reasoning ?? 0) + (outputBreakdown.reasoning ?? 0);
         }
 
         return { input, output };
@@ -447,10 +483,17 @@ function App() {
       <header className="flex justify-between items-center px-5 py-3 border-b border-border bg-card">
         <div className="flex items-center gap-2">
           <AITOOLKITLogo />
-          <span className="text-base font-medium text-muted-foreground">DevTools</span>
+          <span className="text-base font-medium text-muted-foreground">
+            DevTools
+          </span>
         </div>
         <div className="flex gap-2">
-          <Button variant="ghost" size="sm" onClick={fetchRuns} className="h-8 px-3 text-xs">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={fetchRuns}
+            className="h-8 px-3 text-xs"
+          >
             <RefreshCw className="size-3.5" />
             Refresh
           </Button>
@@ -512,12 +555,15 @@ function App() {
                                 : 'bg-emerald-500/15 text-emerald-400'
                             }`}
                           >
-                            {run.type === 'stream' && <Zap className="size-2.5" />}
+                            {run.type === 'stream' && (
+                              <Zap className="size-2.5" />
+                            )}
                             {run.type}
                           </span>
                         )}
                         <span>
-                          {run.stepCount} {run.stepCount === 1 ? 'step' : 'steps'}
+                          {run.stepCount}{' '}
+                          {run.stepCount === 1 ? 'step' : 'steps'}
                         </span>
                         <span>·</span>
                         <span className="font-mono">
@@ -575,9 +621,15 @@ function App() {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <span className="font-mono cursor-help">
-                          input: {formatInputTokens(getTotalTokens(selectedRun.steps).input)}{' '}
-                          <span className="text-muted-foreground/50">→</span> output:{' '}
-                          {formatOutputTokens(getTotalTokens(selectedRun.steps).output)}
+                          input:{' '}
+                          {formatInputTokens(
+                            getTotalTokens(selectedRun.steps).input,
+                          )}{' '}
+                          <span className="text-muted-foreground/50">→</span>{' '}
+                          output:{' '}
+                          {formatOutputTokens(
+                            getTotalTokens(selectedRun.steps).output,
+                          )}
                         </span>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -588,7 +640,9 @@ function App() {
                       </TooltipContent>
                     </Tooltip>
                     <span className="px-3 text-muted-foreground/30">·</span>
-                    <span>{new Date(selectedRun.run.started_at).toLocaleString()}</span>
+                    <span>
+                      {new Date(selectedRun.run.started_at).toLocaleString()}
+                    </span>
                   </div>
                 </div>
 
@@ -597,14 +651,17 @@ function App() {
                   {selectedRun.steps.map((step, index) => {
                     const isExpanded = expandedSteps.has(step.id);
                     const isLastStep = index === selectedRun.steps.length - 1;
-                    const isActiveStep = isLastStep && selectedRun.run.isInProgress;
+                    const isActiveStep =
+                      isLastStep && selectedRun.run.isInProgress;
                     const input = parseJson(step.input);
                     const output = parseJson(step.output);
                     const usage = parseJson(step.usage);
 
                     // Get tool results from next step's input
                     const nextStep = selectedRun.steps[index + 1];
-                    const nextInput = nextStep ? parseJson(nextStep.input) : null;
+                    const nextInput = nextStep
+                      ? parseJson(nextStep.input)
+                      : null;
                     const toolResults =
                       nextInput?.prompt
                         ?.filter((msg: any) => msg.role === 'tool')
@@ -612,7 +669,10 @@ function App() {
 
                     const summary = getStepSummary(output, step.error);
                     const isFirstStep = index === 0;
-                    const inputSummary = getStepInputSummary(input, isFirstStep);
+                    const inputSummary = getStepInputSummary(
+                      input,
+                      isFirstStep,
+                    );
 
                     return (
                       <Collapsible
@@ -643,7 +703,8 @@ function App() {
                                       ) : (
                                         <Wrench className="size-3.5 text-muted-foreground" />
                                       )}
-                                      {inputSummary.fullText || inputSummary.toolDetails ? (
+                                      {inputSummary.fullText ||
+                                      inputSummary.toolDetails ? (
                                         <Tooltip>
                                           <TooltipTrigger asChild>
                                             <span
@@ -657,7 +718,8 @@ function App() {
                                             className="max-w-sm max-h-40 overflow-hidden"
                                           >
                                             <span className="line-clamp-6">
-                                              {inputSummary.fullText || inputSummary.toolDetails}
+                                              {inputSummary.fullText ||
+                                                inputSummary.toolDetails}
                                             </span>
                                           </TooltipContent>
                                         </Tooltip>
@@ -668,7 +730,9 @@ function App() {
                                           {inputSummary.label}
                                         </span>
                                       )}
-                                      <span className="text-muted-foreground/50 mx-1">→</span>
+                                      <span className="text-muted-foreground/50 mx-1">
+                                        →
+                                      </span>
                                     </>
                                   )}
 
@@ -690,12 +754,16 @@ function App() {
                                           {summary.label}
                                         </span>
                                       </TooltipTrigger>
-                                      <TooltipContent>{summary.toolDetails}</TooltipContent>
+                                      <TooltipContent>
+                                        {summary.toolDetails}
+                                      </TooltipContent>
                                     </Tooltip>
                                   ) : (
                                     <span
                                       className={`text-sm font-medium ${
-                                        summary.icon === 'wrench' ? 'font-mono' : ''
+                                        summary.icon === 'wrench'
+                                          ? 'font-mono'
+                                          : ''
                                       }`}
                                     >
                                       {summary.label}
@@ -720,18 +788,28 @@ function App() {
                                     <TooltipTrigger asChild>
                                       <span className="text-[11px] font-mono text-muted-foreground cursor-help">
                                         {formatInputTokens(
-                                          getInputTokenBreakdown(usage.inputTokens),
+                                          getInputTokenBreakdown(
+                                            usage.inputTokens,
+                                          ),
                                         )}{' '}
-                                        <span className="text-muted-foreground/50">→</span>{' '}
+                                        <span className="text-muted-foreground/50">
+                                          →
+                                        </span>{' '}
                                         {formatOutputTokens(
-                                          getOutputTokenBreakdown(usage.outputTokens),
+                                          getOutputTokenBreakdown(
+                                            usage.outputTokens,
+                                          ),
                                         )}
                                       </span>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                       <TokenBreakdownTooltip
-                                        input={getInputTokenBreakdown(usage.inputTokens)}
-                                        output={getOutputTokenBreakdown(usage.outputTokens)}
+                                        input={getInputTokenBreakdown(
+                                          usage.inputTokens,
+                                        )}
+                                        output={getOutputTokenBreakdown(
+                                          usage.outputTokens,
+                                        )}
                                         raw={usage.raw}
                                       />
                                     </TooltipContent>
@@ -775,14 +853,19 @@ function App() {
                                     {step.error}
                                   </div>
                                 ) : output ? (
-                                  <OutputDisplay output={output} toolResults={toolResults} />
+                                  <OutputDisplay
+                                    output={output}
+                                    toolResults={toolResults}
+                                  />
                                 ) : isActiveStep ? (
                                   <div className="flex items-center gap-2 text-sm text-blue-400">
                                     <Loader2 className="size-4 animate-spin" />
                                     <span>Waiting for response...</span>
                                   </div>
                                 ) : (
-                                  <p className="text-sm text-muted-foreground">No output</p>
+                                  <p className="text-sm text-muted-foreground">
+                                    No output
+                                  </p>
                                 )}
                               </div>
                             </div>
@@ -826,13 +909,19 @@ function StepConfigBar({
 
   // Collect parameters
   const params: { label: string; value: string }[] = [];
-  if (input?.temperature != null) params.push({ label: 'temp', value: String(input.temperature) });
+  if (input?.temperature != null)
+    params.push({ label: 'temp', value: String(input.temperature) });
   if (input?.maxOutputTokens != null)
     params.push({ label: 'max tokens', value: String(input.maxOutputTokens) });
-  if (input?.topP != null) params.push({ label: 'topP', value: String(input.topP) });
-  if (input?.topK != null) params.push({ label: 'topK', value: String(input.topK) });
+  if (input?.topP != null)
+    params.push({ label: 'topP', value: String(input.topP) });
+  if (input?.topK != null)
+    params.push({ label: 'topK', value: String(input.topK) });
   if (input?.toolChoice != null) {
-    const choice = typeof input.toolChoice === 'string' ? input.toolChoice : input.toolChoice.type;
+    const choice =
+      typeof input.toolChoice === 'string'
+        ? input.toolChoice
+        : input.toolChoice.type;
     params.push({ label: 'tool choice', value: choice });
   }
 
@@ -851,7 +940,9 @@ function StepConfigBar({
           {params.map((p, i) => (
             <span key={i}>
               {p.label}: <span className="text-foreground">{p.value}</span>
-              {i < params.length - 1 && <span className="text-muted-foreground/30 mx-1">·</span>}
+              {i < params.length - 1 && (
+                <span className="text-muted-foreground/30 mx-1">·</span>
+              )}
             </span>
           ))}
         </>
@@ -957,11 +1048,17 @@ function InputPanel({ input }: { input: any }) {
 
             {/* Last two messages displayed inline */}
             {lastTwoMessages.map((msg: any, i: number) => (
-              <InputMessagePreview key={i} message={msg} index={previousMessageCount + i + 1} />
+              <InputMessagePreview
+                key={i}
+                message={msg}
+                index={previousMessageCount + i + 1}
+              />
             ))}
 
             {/* Empty state */}
-            {messageCount === 0 && <p className="text-sm text-muted-foreground">No messages</p>}
+            {messageCount === 0 && (
+              <p className="text-sm text-muted-foreground">No messages</p>
+            )}
           </div>
         </button>
       </DrawerTrigger>
@@ -981,7 +1078,13 @@ function InputPanel({ input }: { input: any }) {
   );
 }
 
-function InputMessagePreview({ message, index }: { message: any; index?: number }) {
+function InputMessagePreview({
+  message,
+  index,
+}: {
+  message: any;
+  index?: number;
+}) {
   const role = message.role;
   const content = message.content;
 
@@ -1038,41 +1141,61 @@ function InputMessagePreview({ message, index }: { message: any; index?: number 
 
   // Count total parts
   const partCount =
-    (textContent ? 1 : 0) + (reasoningContent ? 1 : 0) + toolCalls.length + toolResults.length;
+    (textContent ? 1 : 0) +
+    (reasoningContent ? 1 : 0) +
+    toolCalls.length +
+    toolResults.length;
 
   return (
     <div className="rounded-md border border-border/50 bg-background/50 p-2.5 space-y-2">
       <div className="flex items-center gap-2">
-        {index && <span className="text-[10px] font-mono text-muted-foreground/50">{index}</span>}
+        {index && (
+          <span className="text-[10px] font-mono text-muted-foreground/50">
+            {index}
+          </span>
+        )}
         <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
           {roleLabels[role] || role}
         </span>
         {partCount > 1 && (
-          <span className="text-[10px] text-muted-foreground/60">{partCount} parts</span>
+          <span className="text-[10px] text-muted-foreground/60">
+            {partCount} parts
+          </span>
         )}
       </div>
 
       {/* Reasoning/Thinking content */}
-      {reasoningContent && <div className="text-xs text-amber-500/60">[thinking]</div>}
+      {reasoningContent && (
+        <div className="text-xs text-amber-500/60">[thinking]</div>
+      )}
 
       {/* Text content */}
-      {textContent && <div className="text-xs text-foreground/90 line-clamp-3">{textContent}</div>}
+      {textContent && (
+        <div className="text-xs text-foreground/90 line-clamp-3">
+          {textContent}
+        </div>
+      )}
 
       {/* Tool calls (from assistant) */}
       {toolCalls.length > 0 && (
         <div className="space-y-1">
           {toolCalls.slice(0, 3).map((call: any, i: number) => {
             const args = call.args ?? call.input;
-            const parsedArgs = typeof args === 'string' ? safeParseJson(args) : args;
+            const parsedArgs =
+              typeof args === 'string' ? safeParseJson(args) : args;
             return (
-              <div key={i} className="text-[11px] font-mono text-muted-foreground truncate">
+              <div
+                key={i}
+                className="text-[11px] font-mono text-muted-foreground truncate"
+              >
                 {call.toolName}({formatToolParamsInline(parsedArgs)})
               </div>
             );
           })}
           {toolCalls.length > 3 && (
             <div className="text-[11px] text-muted-foreground/60">
-              +{toolCalls.length - 3} more tool {toolCalls.length - 3 === 1 ? 'call' : 'calls'}
+              +{toolCalls.length - 3} more tool{' '}
+              {toolCalls.length - 3 === 1 ? 'call' : 'calls'}
             </div>
           )}
         </div>
@@ -1085,7 +1208,10 @@ function InputMessagePreview({ message, index }: { message: any; index?: number 
             const resultContent = result.result ?? result.output ?? result;
             const resultPreview = formatResultPreview(resultContent);
             return (
-              <div key={i} className="text-[11px] font-mono text-muted-foreground truncate">
+              <div
+                key={i}
+                className="text-[11px] font-mono text-muted-foreground truncate"
+              >
                 {result.toolName || 'tool'}(…) =&gt; {resultPreview}
               </div>
             );
@@ -1100,9 +1226,14 @@ function InputMessagePreview({ message, index }: { message: any; index?: number 
       )}
 
       {/* Empty content fallback */}
-      {!textContent && !reasoningContent && toolCalls.length === 0 && toolResults.length === 0 && (
-        <div className="text-[11px] text-muted-foreground italic">Empty message</div>
-      )}
+      {!textContent &&
+        !reasoningContent &&
+        toolCalls.length === 0 &&
+        toolResults.length === 0 && (
+          <div className="text-[11px] text-muted-foreground italic">
+            Empty message
+          </div>
+        )}
     </div>
   );
 }
@@ -1128,14 +1259,18 @@ function ToolItem({ tool }: { tool: any }) {
       {expanded && tool.parameters && (
         <div className="px-2.5 pb-2.5 border-t border-border">
           {tool.description && (
-            <p className="text-xs text-muted-foreground mb-2 pt-2">{tool.description}</p>
+            <p className="text-xs text-muted-foreground mb-2 pt-2">
+              {tool.description}
+            </p>
           )}
           <JsonBlock data={tool.parameters} compact />
         </div>
       )}
       {!expanded && tool.description && (
         <div className="px-2.5 pb-2 -mt-1">
-          <p className="text-[11px] text-muted-foreground truncate">{tool.description}</p>
+          <p className="text-[11px] text-muted-foreground truncate">
+            {tool.description}
+          </p>
         </div>
       )}
     </div>
@@ -1166,7 +1301,9 @@ function CollapsibleToolCall({
           }`}
         />
         <Wrench className="size-3 text-purple shrink-0" />
-        <span className="text-xs font-mono font-medium text-purple">{toolName}</span>
+        <span className="text-xs font-mono font-medium text-purple">
+          {toolName}
+        </span>
         {!expanded && parsedData && (
           <span className="text-[11px] font-mono text-purple/70 truncate">
             {formatToolParams(parsedData)}
@@ -1211,7 +1348,9 @@ function CollapsibleToolResult({
         />
         <span className="text-xs font-medium text-success">Result</span>
         {toolName && (
-          <span className="text-[11px] font-mono text-muted-foreground">{toolName}</span>
+          <span className="text-[11px] font-mono text-muted-foreground">
+            {toolName}
+          </span>
         )}
         {toolCallId && (
           <span className="text-[10px] font-mono text-muted-foreground/60 ml-auto shrink-0">
@@ -1281,17 +1420,26 @@ function MessageBubble({ message, index }: { message: any; index?: number }) {
 
   // Count total parts
   const partCount =
-    (textContent ? 1 : 0) + (reasoningContent ? 1 : 0) + toolCalls.length + toolResults.length;
+    (textContent ? 1 : 0) +
+    (reasoningContent ? 1 : 0) +
+    toolCalls.length +
+    toolResults.length;
 
   return (
     <div className="rounded-md border border-border/50 bg-background/50 p-3 space-y-2">
       <div className="flex items-center gap-2">
-        {index && <span className="text-[10px] font-mono text-muted-foreground/50">{index}</span>}
+        {index && (
+          <span className="text-[10px] font-mono text-muted-foreground/50">
+            {index}
+          </span>
+        )}
         <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
           {roleLabels[role] || role}
         </span>
         {partCount > 1 && (
-          <span className="text-[10px] text-muted-foreground/60">{partCount} parts</span>
+          <span className="text-[10px] text-muted-foreground/60">
+            {partCount} parts
+          </span>
         )}
       </div>
 
@@ -1302,7 +1450,11 @@ function MessageBubble({ message, index }: { message: any; index?: number }) {
       {textContent && (
         <TextBlock
           content={textContent}
-          defaultExpanded={!reasoningContent && toolCalls.length === 0 && toolResults.length === 0}
+          defaultExpanded={
+            !reasoningContent &&
+            toolCalls.length === 0 &&
+            toolResults.length === 0
+          }
           isSystem={role === 'system'}
         />
       )}
@@ -1336,28 +1488,45 @@ function MessageBubble({ message, index }: { message: any; index?: number }) {
       )}
 
       {/* Empty content fallback */}
-      {!textContent && !reasoningContent && toolCalls.length === 0 && toolResults.length === 0 && (
-        <div className="text-[11px] text-muted-foreground italic">Empty message</div>
-      )}
+      {!textContent &&
+        !reasoningContent &&
+        toolCalls.length === 0 &&
+        toolResults.length === 0 && (
+          <div className="text-[11px] text-muted-foreground italic">
+            Empty message
+          </div>
+        )}
     </div>
   );
 }
 
-function OutputDisplay({ output, toolResults = [] }: { output: any; toolResults?: any[] }) {
+function OutputDisplay({
+  output,
+  toolResults = [],
+}: {
+  output: any;
+  toolResults?: any[];
+}) {
   const getToolResult = (toolCallId: string) => {
     return toolResults.find((r: any) => r.toolCallId === toolCallId);
   };
 
   const toolCalls =
-    output?.toolCalls || output?.content?.filter((p: any) => p.type === 'tool-call') || [];
+    output?.toolCalls ||
+    output?.content?.filter((p: any) => p.type === 'tool-call') ||
+    [];
 
   const textParts =
-    output?.textParts || output?.content?.filter((p: any) => p.type === 'text') || [];
+    output?.textParts ||
+    output?.content?.filter((p: any) => p.type === 'text') ||
+    [];
 
   // Get reasoning/thinking parts
   const reasoningParts =
     output?.reasoningParts ||
-    output?.content?.filter((p: any) => p.type === 'thinking' || p.type === 'reasoning') ||
+    output?.content?.filter(
+      (p: any) => p.type === 'thinking' || p.type === 'reasoning',
+    ) ||
     [];
 
   const textContent = textParts.map((p: any) => p.text).join('');
@@ -1372,7 +1541,9 @@ function OutputDisplay({ output, toolResults = [] }: { output: any; toolResults?
       {reasoningContent && <ReasoningBlock content={reasoningContent} />}
 
       {/* Text Response */}
-      {textContent && <TextBlock content={textContent} defaultExpanded={isTextOnly} />}
+      {textContent && (
+        <TextBlock content={textContent} defaultExpanded={isTextOnly} />
+      )}
 
       {/* Tool Calls with Results */}
       {toolCalls.map((call: any, i: number) => {
@@ -1390,10 +1561,19 @@ function OutputDisplay({ output, toolResults = [] }: { output: any; toolResults?
   );
 }
 
-function ToolCallCard({ toolName, args, result }: { toolName: string; args: any; result?: any }) {
+function ToolCallCard({
+  toolName,
+  args,
+  result,
+}: {
+  toolName: string;
+  args: any;
+  result?: any;
+}) {
   const [expanded, setExpanded] = useState(false);
   const parsedArgs = typeof args === 'string' ? safeParseJson(args) : args;
-  const parsedResult = typeof result === 'string' ? safeParseJson(result) : result;
+  const parsedResult =
+    typeof result === 'string' ? safeParseJson(result) : result;
 
   return (
     <div className="rounded-md border border-purple/30 overflow-hidden">
@@ -1408,7 +1588,9 @@ function ToolCallCard({ toolName, args, result }: { toolName: string; args: any;
           }`}
         />
         <Wrench className="size-3 text-purple shrink-0" />
-        <span className="text-xs font-mono font-medium text-purple">{toolName}</span>
+        <span className="text-xs font-mono font-medium text-purple">
+          {toolName}
+        </span>
         {!expanded && parsedArgs && (
           <span className="text-[11px] font-mono text-purple/70 truncate">
             {formatToolParams(parsedArgs)}
@@ -1445,7 +1627,8 @@ function ReasoningBlock({ content }: { content: string }) {
   const [expanded, setExpanded] = useState(false);
 
   // Truncate preview to first 200 characters
-  const previewContent = content.length > 200 ? content.slice(0, 200) + '…' : content;
+  const previewContent =
+    content.length > 200 ? content.slice(0, 200) + '…' : content;
 
   return (
     <div className="rounded-md border border-amber-500/30 overflow-hidden">
@@ -1461,7 +1644,9 @@ function ReasoningBlock({ content }: { content: string }) {
         <Brain className="size-3 text-amber-500 shrink-0" />
         <span className="text-xs font-medium text-amber-500">Thinking</span>
         {!expanded && (
-          <span className="text-[11px] text-amber-500/70 truncate ml-1">{previewContent}</span>
+          <span className="text-[11px] text-amber-500/70 truncate ml-1">
+            {previewContent}
+          </span>
         )}
       </button>
 
@@ -1489,7 +1674,8 @@ function TextBlock({
   const [copied, setCopied] = useState(false);
 
   // Truncate preview to first 200 characters
-  const previewContent = content.length > 200 ? content.slice(0, 200) + '…' : content;
+  const previewContent =
+    content.length > 200 ? content.slice(0, 200) + '…' : content;
 
   const borderColor = isSystem ? 'border-blue-500/30' : 'border-border';
   const bgColor = isSystem ? 'bg-blue-500/10' : 'bg-muted/30';
@@ -1527,7 +1713,9 @@ function TextBlock({
       </button>
 
       {expanded && (
-        <div className={`p-3 bg-card/50 border-t ${borderColor} group relative`}>
+        <div
+          className={`p-3 bg-card/50 border-t ${borderColor} group relative`}
+        >
           <button
             onClick={handleCopy}
             className="absolute top-1.5 right-1.5 p-1.5 rounded-md border border-border bg-background opacity-0 group-hover:opacity-100 transition-opacity z-10"
@@ -1560,7 +1748,8 @@ function JsonBlock({
   const [copied, setCopied] = useState(false);
 
   const jsonString = JSON.stringify(data, null, 2);
-  const displayString = compact && jsonString.length > 200 ? JSON.stringify(data) : jsonString;
+  const displayString =
+    compact && jsonString.length > 200 ? JSON.stringify(data) : jsonString;
 
   const sizeClasses = {
     sm: 'text-xs',
@@ -1622,8 +1811,12 @@ function RawDataSection({
         className="w-full flex items-center gap-2 px-4 py-2.5 text-[11px] text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
         onClick={() => setExpanded(!expanded)}
       >
-        <ChevronRight className={`size-3 transition-transform ${expanded ? 'rotate-90' : ''}`} />
-        <span className="font-medium uppercase tracking-wider">Request / Response</span>
+        <ChevronRight
+          className={`size-3 transition-transform ${expanded ? 'rotate-90' : ''}`}
+        />
+        <span className="font-medium uppercase tracking-wider">
+          Request / Response
+        </span>
       </button>
 
       {expanded && (
@@ -1674,7 +1867,9 @@ function RawDataSection({
               <div className="max-h-[400px] overflow-auto rounded-md border border-border">
                 <JsonBlock
                   data={safeParseJson(
-                    hasRawChunks && responseView === 'raw' ? rawChunks : rawResponse,
+                    hasRawChunks && responseView === 'raw'
+                      ? rawChunks
+                      : rawResponse,
                   )}
                 />
               </div>
@@ -1699,7 +1894,8 @@ function UsageDetails({ usage }: { usage: any }) {
             Input Tokens
           </div>
           <div className="text-2xl font-semibold">{inputBreakdown.total}</div>
-          {(inputBreakdown.cacheRead !== undefined || inputBreakdown.cacheWrite !== undefined) && (
+          {(inputBreakdown.cacheRead !== undefined ||
+            inputBreakdown.cacheWrite !== undefined) && (
             <div className="mt-3 space-y-1 text-sm text-muted-foreground">
               {inputBreakdown.cacheRead !== undefined && (
                 <div className="flex justify-between">
@@ -1728,7 +1924,8 @@ function UsageDetails({ usage }: { usage: any }) {
             Output Tokens
           </div>
           <div className="text-2xl font-semibold">{outputBreakdown.total}</div>
-          {(outputBreakdown.text !== undefined || outputBreakdown.reasoning !== undefined) && (
+          {(outputBreakdown.text !== undefined ||
+            outputBreakdown.reasoning !== undefined) && (
             <div className="mt-3 space-y-1 text-sm text-muted-foreground">
               {outputBreakdown.text !== undefined && (
                 <div className="flex justify-between">
@@ -1779,8 +1976,11 @@ function TokenBreakdownTooltip({
 }) {
   // Check if we have any breakdown metadata (even if values are 0)
   const hasInputBreakdown =
-    input.noCache !== undefined || input.cacheRead !== undefined || input.cacheWrite !== undefined;
-  const hasOutputBreakdown = output.text !== undefined || output.reasoning !== undefined;
+    input.noCache !== undefined ||
+    input.cacheRead !== undefined ||
+    input.cacheWrite !== undefined;
+  const hasOutputBreakdown =
+    output.text !== undefined || output.reasoning !== undefined;
   const hasBreakdown = hasInputBreakdown || hasOutputBreakdown;
 
   if (!hasBreakdown) {
@@ -1797,10 +1997,14 @@ function TokenBreakdownTooltip({
       <div>
         <div className="font-medium mb-1">Input: {input.total}</div>
         {input.cacheRead !== undefined && (
-          <div className="text-muted-foreground ml-2">Cache read: {input.cacheRead}</div>
+          <div className="text-muted-foreground ml-2">
+            Cache read: {input.cacheRead}
+          </div>
         )}
         {input.cacheWrite !== undefined && (
-          <div className="text-muted-foreground ml-2">Cache write: {input.cacheWrite}</div>
+          <div className="text-muted-foreground ml-2">
+            Cache write: {input.cacheWrite}
+          </div>
         )}
       </div>
       <div>
@@ -1809,7 +2013,9 @@ function TokenBreakdownTooltip({
           <div className="text-muted-foreground ml-2">Text: {output.text}</div>
         )}
         {output.reasoning !== undefined && (
-          <div className="text-muted-foreground ml-2">Reasoning: {output.reasoning}</div>
+          <div className="text-muted-foreground ml-2">
+            Reasoning: {output.reasoning}
+          </div>
         )}
       </div>
       {raw !== undefined && (
@@ -1860,7 +2066,8 @@ function getInputTokenBreakdown(
   if (typeof tokens === 'number') return { total: tokens };
   if (typeof tokens === 'object') {
     // Handle case where total might be missing or not a number
-    const total = 'total' in tokens && typeof tokens.total === 'number' ? tokens.total : 0;
+    const total =
+      'total' in tokens && typeof tokens.total === 'number' ? tokens.total : 0;
     return {
       total,
       // Only include cache fields if they are actual numbers
@@ -1883,7 +2090,8 @@ function getOutputTokenBreakdown(
   if (typeof tokens === 'number') return { total: tokens };
   if (typeof tokens === 'object') {
     // Handle case where total might be missing or not a number
-    const total = 'total' in tokens && typeof tokens.total === 'number' ? tokens.total : 0;
+    const total =
+      'total' in tokens && typeof tokens.total === 'number' ? tokens.total : 0;
     return {
       total,
       // Only include text/reasoning if they are actual numbers
